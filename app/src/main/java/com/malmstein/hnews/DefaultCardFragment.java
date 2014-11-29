@@ -34,6 +34,7 @@ public class DefaultCardFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_card,container,false);
         ViewCompat.setElevation(rootView, 50);
+        textView = (TextView) rootView.findViewById(R.id.textView);
         textView.setText("CARD "+position);
 		return rootView;
 	}

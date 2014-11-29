@@ -2,27 +2,42 @@ package com.malmstein.hnews;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.astuetz.PagerSlidingTabStrip;
+
 public class MainActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
+    private MainNavigationAdapter adapter;
+    private ViewPager pager;
+    private PagerSlidingTabStrip tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         setToolbar();
+        setTabs();
     }
 
     private void setToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setAppBarColor(getDefaultAppBarColor(getResources()));
+    }
+
+    private void setTabs(){
+        pager = (ViewPager) findViewById(R.id.pager);
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        adapter = new MainNavigationAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        tabs.setViewPager(pager);
     }
 
     private void setAppBarColor(int color) {
