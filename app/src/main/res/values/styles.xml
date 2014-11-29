@@ -1,8 +1,16 @@
 <resources>
 
-  <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    <!-- Customize your theme here. -->
+  <style name="HNews" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="colorPrimary">@color/orange</item>
+    <item name="colorPrimaryDark">@color/dark_orange</item>
+    <item name="colorAccent">@color/black</item>
+  </style>
+
+  <style name="HNews.Actionbar" parent="Widget.AppCompat.Toolbar">
+    <item name="elevation">2dp</item>
+    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
   </style>
 
 </resources>
