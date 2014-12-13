@@ -10,8 +10,9 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.malmstein.hnews.presenters.MainNavigationAdapter;
+import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
-public class MainActivity extends ActionBarActivity {
+public class HNewsActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
     private MainNavigationAdapter adapter;
@@ -25,6 +26,8 @@ public class MainActivity extends ActionBarActivity {
 
         setToolbar();
         setTabs();
+
+        HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 
     private void setToolbar(){
