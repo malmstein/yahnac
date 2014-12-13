@@ -24,6 +24,10 @@ public class MainNavigationAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DefaultCardFragment.newInstance(position);
+        if (position == 0) {
+            return new ItemListFragment();
+        } else {
+            return DefaultCardFragment.newInstance(position);
+        }
     }
 }
