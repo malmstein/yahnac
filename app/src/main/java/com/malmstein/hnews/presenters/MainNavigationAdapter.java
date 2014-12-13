@@ -1,8 +1,11 @@
-package com.malmstein.hnews;
+package com.malmstein.hnews.presenters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.malmstein.hnews.DefaultCardFragment;
+import com.malmstein.hnews.ItemListFragment;
 
 public class MainNavigationAdapter extends FragmentPagerAdapter {
 

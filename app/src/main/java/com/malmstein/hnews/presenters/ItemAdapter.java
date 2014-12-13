@@ -1,10 +1,12 @@
-package com.malmstein.hnews;
+package com.malmstein.hnews.presenters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.malmstein.hnews.R;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private String[] mDataset;
