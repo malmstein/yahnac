@@ -38,4 +38,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.firebase:firebase-client-android:2.0.3+'
+    compile 'io.reactivex:rxjava:1.0.0'
+    compile 'io.reactivex:rxjava-math:0.21.0'
+    compile 'com.squareup.okhttp:okhttp:1.5.4'
 }

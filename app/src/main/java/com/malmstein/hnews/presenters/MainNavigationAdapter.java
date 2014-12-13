@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.malmstein.hnews.DefaultCardFragment;
-import com.malmstein.hnews.ItemListFragment;
 
 public class MainNavigationAdapter extends FragmentPagerAdapter {
 
@@ -27,10 +26,6 @@ public class MainNavigationAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0) {
-            return new ItemListFragment();
-        } else {
-            return DefaultCardFragment.newInstance(position);
-        }
+        return DefaultCardFragment.newInstance(position);
     }
 }

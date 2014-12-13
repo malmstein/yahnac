@@ -26,7 +26,6 @@
     <provider
       android:authorities="com.malmstein.hnews"
       android:name="com.malmstein.hnews.data.HNewsProvider"
-      android:enabled="true"
       android:exported="true"
       android:syncable="true" />
 

@@ -69,6 +69,7 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SyncRequest request = new SyncRequest.Builder().
+                    setExtras(new Bundle()).
                     syncPeriodic(syncInterval, flexTime).
                     setSyncAdapter(account, authority).build();
 

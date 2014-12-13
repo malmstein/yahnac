@@ -20,17 +20,17 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
                 HNewsContract.ItemEntry.COLUMN_DELETED + " BOOLEAN NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_BY + " TEXT NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER ," +
+                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_DEAD + " BOOLEAN," +
-                HNewsContract.ItemEntry.COLUMN_PARENT + " INTEGER NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_KIDS + " TEXT NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_URL + " TEXT NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_PARENT + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_KIDS + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT," +
                 " );";
 
         db.execSQL(SQL_CREATE_ITEM_TABLE);
