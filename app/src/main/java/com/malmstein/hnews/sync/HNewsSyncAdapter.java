@@ -11,20 +11,14 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.feed.FeedProvider;
+import com.malmstein.hnews.feed.NewsProvider;
 import com.malmstein.hnews.inject.Inject;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final int SYNC_INTERVAL = 10;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-
-    private Firebase topStories;
 
     public HNewsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -95,40 +89,8 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Firebase.setAndroidContext(getContext());
-        FeedProvider feedProvider = Inject.feedProvider();
-        feedProvider.refresh();
-
-        topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-        topStories.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                Long itemId = (Long) snapshot.getValue();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-
-        });
-
+        NewsProvider newsProvider = Inject.feedProvider();
+        newsProvider.refresh();
     }
 
 }

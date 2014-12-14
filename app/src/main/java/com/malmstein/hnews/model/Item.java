@@ -2,6 +2,13 @@ package com.malmstein.hnews.model;
 
 public class Item {
 
+    public enum TYPE{
+        story,
+        comment,
+        poll,
+        pollopt
+    }
+
     private final String by;
     private final int id;
     private final String type;
@@ -29,4 +36,5 @@ public class Item {
     public Long getTime() {
         return time;
     }
+
 }

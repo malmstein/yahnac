@@ -19,7 +19,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_ITEM_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_DELETED + " BOOLEAN NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_DELETED + " BOOLEAN," +
                 HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER ," +
@@ -30,7 +30,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT" +
                 " );";
 
         db.execSQL(SQL_CREATE_ITEM_TABLE);

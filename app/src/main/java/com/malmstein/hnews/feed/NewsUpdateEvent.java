@@ -1,6 +1,6 @@
 package com.malmstein.hnews.feed;
 
-public class FeedUpdateEvent {
+public class NewsUpdateEvent {
 
     public enum Type {
         REFRESH_STARTED,
@@ -9,7 +9,7 @@ public class FeedUpdateEvent {
 
     private final Type type;
 
-    public FeedUpdateEvent(Type type) {
+    public NewsUpdateEvent(Type type) {
         this.type = type;
     }
 

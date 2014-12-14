@@ -4,7 +4,7 @@ import com.malmstein.hnews.model.Item;
 
 import rx.Observable;
 
-public interface FeedProvider {
+public interface NewsProvider {
 
     void refresh();
 

@@ -81,7 +81,7 @@ public class HNewsProvider extends ContentProvider {
             case STORY: {
                 long _id = db.insert(HNewsContract.ItemEntry.TABLE_NAME, null, values);
                 if (_id > 0) {
-                    returnUri = HNewsContract.ItemEntry.buildItemsUri(_id);
+                    returnUri = HNewsContract.ItemEntry.buildItemUri(_id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }

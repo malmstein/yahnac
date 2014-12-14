@@ -1,80 +1,69 @@
 package com.malmstein.hnews;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.malmstein.hnews.presenters.ItemAdapter;
+import com.malmstein.hnews.presenters.NewsAdapter;
 
-public class ItemListFragment extends Fragment {
+import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
+import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
+public class ItemListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private Firebase itemsFirebase;
+    private static final int STORY_LOADER = 0;
+
+    private ListView mNewsListView;
+    private NewsAdapter mNewsAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Firebase.setAndroidContext(getActivity());
-        itemsFirebase = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-        // Retrieve new posts as they are added to Firebase
-        itemsFirebase.addChildEventListener(new ChildEventListener() {
-            // Retrieve new posts as they are added to Firebase
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                Long itemId = (Long) snapshot.getValue();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-
-        });
-
+        getLoaderManager().initLoader(STORY_LOADER, null, this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        String[] data = {"text1", "text2"};
-        mAdapter = new ItemAdapter(data);
-        mRecyclerView.setAdapter(mAdapter);
+        mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
+        mNewsAdapter = new NewsAdapter(getActivity(), null, 0);
+        mNewsListView.setAdapter(mNewsAdapter);
 
         return rootView;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        Uri storyNewsUri = ItemEntry.buildNews();
+
+        return new CursorLoader(
+                getActivity(),
+                storyNewsUri,
+                STORY_COLUMNS,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mNewsAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mNewsAdapter.swapCursor(null);
+    }
 }

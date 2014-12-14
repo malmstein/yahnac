@@ -1,16 +1,24 @@
 package com.malmstein.hnews.model;
 
+import android.database.Cursor;
+
+import com.malmstein.hnews.data.HNewsContract;
+
+import java.util.ArrayList;
+
 public class Story extends Item {
 
     private final int score;
     private final String title;
     private final String url;
+    private final ArrayList<String> kids;
 
-    public Story(String by, int id, String type, Long time, int score, String title, String url) {
+    public Story(String by, int id, String type, Long time, int score, String title, String url, ArrayList<String> kids) {
         super(by, id, type, time);
         this.score = score;
         this.title = title;
         this.url = url;
+        this.kids = kids;
     }
 
     public int getScore() {
@@ -23,6 +31,27 @@ public class Story extends Item {
 
     public String getUrl() {
         return url;
+    }
+
+    public static Story from(Cursor cursor) {
+        String by = cursor.getString(HNewsContract.COLUMN_BY);
+        int id = cursor.getInt(HNewsContract.COLUMN_ITEM_ID);
+        int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
+        long time = cursor.getLong(HNewsContract.COLUMN_TIME);
+        String title = cursor.getString(HNewsContract.COLUMN_TITLE);
+        String type = cursor.getString(HNewsContract.COLUMN_TYPE);
+        String url = cursor.getString(HNewsContract.COLUMN_URL);
+
+//        Gson gson = new Gson();
+//        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
+//        String kidsJson;
+//        ArrayList<String> kids = gson.fromJson(kids, jsonType);
+
+        return new Story(by, id, type, time, score, title, url, new ArrayList<String>());
+    }
+
+    public ArrayList<String> getKids() {
+        return kids;
     }
 }
 

@@ -15,7 +15,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public TextView mTextView;
 
         public static ViewHolder newInstance(View parent) {
-            TextView title = (TextView) parent.findViewById(R.id.item_text);
+            TextView title = (TextView) parent.findViewById(R.id.item_title);
             return new ViewHolder(parent, title);
         }
 
@@ -27,10 +27,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public void setTitle(String title) {
             mTextView.setText(title);
         }
-    }
-
-    public ItemAdapter(String[] myDataset) {
-        mDataset = myDataset;
     }
 
     @Override

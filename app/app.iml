@@ -97,8 +97,9 @@
     <orderEntry type="library" exported="" name="firebase-client-android-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="notils-2.2.8" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-1.5.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-1.5.4" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.3" level="project" />
   </component>
 </module>
 

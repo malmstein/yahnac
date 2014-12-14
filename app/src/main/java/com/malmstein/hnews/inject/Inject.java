@@ -1,27 +1,27 @@
 package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.base.DeveloperError;
-import com.malmstein.hnews.feed.FeedPersister;
-import com.malmstein.hnews.feed.FeedProvider;
+import com.malmstein.hnews.feed.NewsPersister;
+import com.malmstein.hnews.feed.NewsProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
 
 public class Inject {
 
     private static Inject INSTANCE;
-    private final FeedProvider feedProvider;
+    private final NewsProvider newsProvider;
     private final ConnectionProvider connectionProvider;
 
-    private Inject(FeedProvider feedProvider, ConnectionProvider connectionProvider) {
-        this.feedProvider = feedProvider;
+    private Inject(NewsProvider newsProvider, ConnectionProvider connectionProvider) {
+        this.newsProvider = newsProvider;
         this.connectionProvider = connectionProvider;
     }
 
     public static void using(DependenciesFactory factory) {
         ConnectionProvider connectionProvider = factory.createConnectionProvider();
-        FeedPersister feedPersister = factory.createFeedPersister();
+        NewsPersister newsPersister = factory.createFeedPersister();
 
-        FeedProvider feedProvider = factory.createFeedProvider(feedPersister, connectionProvider);
-        INSTANCE = new Inject(feedProvider, connectionProvider);
+        NewsProvider newsProvider = factory.createFeedProvider(newsPersister, connectionProvider);
+        INSTANCE = new Inject(newsProvider, connectionProvider);
     }
 
     private static Inject instance() {
@@ -31,8 +31,8 @@ public class Inject {
         return INSTANCE;
     }
 
-    public static FeedProvider feedProvider() {
-        return instance().feedProvider;
+    public static NewsProvider feedProvider() {
+        return instance().newsProvider;
     }
 
     public static ConnectionProvider connectionProvider() {

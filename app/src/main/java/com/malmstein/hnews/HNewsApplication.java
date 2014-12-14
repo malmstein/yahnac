@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.firebase.client.Firebase;
 import com.malmstein.hnews.base.StrictModeManager;
 import com.malmstein.hnews.inject.DefaultDependenciesFactory;
 import com.malmstein.hnews.inject.Inject;
@@ -17,6 +18,7 @@ public class HNewsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Inject.using(new DefaultDependenciesFactory(this));
+        Firebase.setAndroidContext(this);
         startup();
     }
 

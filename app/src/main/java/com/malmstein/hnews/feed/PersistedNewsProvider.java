@@ -8,20 +8,20 @@ import rx.Subscription;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class PersistedFeedProvider implements FeedProvider {
+public class PersistedNewsProvider implements NewsProvider {
 
-    private final Retriever<FeedUpdateEvent> retriever;
-    private final FeedPersister feedPersister;
-    private final ForwardingSubject<FeedUpdateEvent> feedUpdateEventSubject;
-    private final CachedOnSubscribe<FeedUpdateEvent> feedUpdateEventOnSubscribe;
+    private final Retriever<NewsUpdateEvent> retriever;
+    private final NewsPersister newsPersister;
+    private final ForwardingSubject<NewsUpdateEvent> feedUpdateEventSubject;
+    private final CachedOnSubscribe<NewsUpdateEvent> feedUpdateEventOnSubscribe;
 
     private Subscription retrieverSubscription;
 
-    public PersistedFeedProvider(Retriever<FeedUpdateEvent> retriever, FeedPersister feedPersister) {
+    public PersistedNewsProvider(Retriever<NewsUpdateEvent> retriever, NewsPersister newsPersister) {
         this.retriever = retriever;
-        this.feedPersister = feedPersister;
-        this.feedUpdateEventOnSubscribe = new FeedUpdateEventCachedOnSubscribe();
-        this.feedUpdateEventSubject = new ForwardingSubject<FeedUpdateEvent>(feedUpdateEventOnSubscribe);
+        this.newsPersister = newsPersister;
+        this.feedUpdateEventOnSubscribe = new NewsUpdateEventCachedOnSubscribe();
+        this.feedUpdateEventSubject = new ForwardingSubject<NewsUpdateEvent>(feedUpdateEventOnSubscribe);
     }
 
     @Override
@@ -33,15 +33,15 @@ public class PersistedFeedProvider implements FeedProvider {
                 .subscribe(feedUpdateEventSubject);
     }
 
-    private Observable<FeedUpdateEvent> startRemoteFetch() {
+    private Observable<NewsUpdateEvent> startRemoteFetch() {
         return retriever.fetch();
     }
 
-    private Action1<FeedUpdateEvent> onRetrieverFinish() {
-        return new Action1<FeedUpdateEvent>() {
+    private Action1<NewsUpdateEvent> onRetrieverFinish() {
+        return new Action1<NewsUpdateEvent>() {
             @Override
-            public void call(FeedUpdateEvent feedUpdateEvent) {
-                if (!feedUpdateEvent.isRefreshFinished()) {
+            public void call(NewsUpdateEvent newsUpdateEvent) {
+                if (!newsUpdateEvent.isRefreshFinished()) {
                     return;
                 }
                 if (isAlreadySubscribed()) {
