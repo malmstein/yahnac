@@ -1,30 +1,27 @@
 package com.malmstein.hnews.inject;
 
-import android.content.ContentResolver;
-
 import com.malmstein.hnews.base.DeveloperError;
+import com.malmstein.hnews.feed.FeedPersister;
 import com.malmstein.hnews.feed.FeedProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
 
 public class Inject {
 
     private static Inject INSTANCE;
-
-    private final ContentResolver contentResolver;
     private final FeedProvider feedProvider;
     private final ConnectionProvider connectionProvider;
 
-    private Inject(ContentResolver contentResolver, FeedProvider feedProvider, ConnectionProvider connectionProvider) {
-        this.contentResolver = contentResolver;
+    private Inject(FeedProvider feedProvider, ConnectionProvider connectionProvider) {
         this.feedProvider = feedProvider;
         this.connectionProvider = connectionProvider;
     }
 
-    public static void using(DependenciesFactory factory, ContentResolver contentResolver) {
+    public static void using(DependenciesFactory factory) {
         ConnectionProvider connectionProvider = factory.createConnectionProvider();
+        FeedPersister feedPersister = factory.createFeedPersister();
 
-        FeedProvider feedProvider = factory.createFeedProvider(contentResolver, connectionProvider);
-        INSTANCE = new Inject(contentResolver, feedProvider, connectionProvider);
+        FeedProvider feedProvider = factory.createFeedProvider(feedPersister, connectionProvider);
+        INSTANCE = new Inject(feedProvider, connectionProvider);
     }
 
     private static Inject instance() {

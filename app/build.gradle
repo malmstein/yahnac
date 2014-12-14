@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.malmstein.hnews"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.0'
     compile 'io.reactivex:rxjava-math:0.21.0'
     compile 'com.squareup.okhttp:okhttp:1.5.4'
+    compile 'com.novoda:notils:2.2.8'
 }

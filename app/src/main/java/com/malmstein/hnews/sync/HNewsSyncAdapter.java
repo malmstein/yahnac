@@ -16,6 +16,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.feed.FeedProvider;
+import com.malmstein.hnews.inject.Inject;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -94,6 +96,8 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Firebase.setAndroidContext(getContext());
+        FeedProvider feedProvider = Inject.feedProvider();
+        feedProvider.refresh();
 
         topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
         topStories.addChildEventListener(new ChildEventListener() {

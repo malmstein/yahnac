@@ -1,8 +1,8 @@
 package com.malmstein.hnews.inject;
 
-import android.content.ContentResolver;
 import android.content.Context;
 
+import com.malmstein.hnews.feed.FeedPersister;
 import com.malmstein.hnews.feed.FeedProvider;
 import com.malmstein.hnews.feed.FeedUpdateEvent;
 import com.malmstein.hnews.feed.FeedUpdateRetriever;
@@ -23,16 +23,20 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
         this.context = context;
     }
 
-
-    @Override
-    public FeedProvider createFeedProvider(ContentResolver contentResolver, ConnectionProvider connectionProvider) {
-        return new PersistedFeedProvider(createRetriever(contentResolver, connectionProvider), contentResolver);
+    private Retriever<FeedUpdateEvent> createRetriever(FeedPersister feedPersister, ConnectionProvider connectionProvider) {
+        return new FeedUpdateRetriever(
+                feedPersister,
+                connectionProvider);
     }
 
-    private Retriever<FeedUpdateEvent> createRetriever(ContentResolver contentResolver, ConnectionProvider connectionProvider) {
-        return new FeedUpdateRetriever(
-                contentResolver,
-                connectionProvider);
+    @Override
+    public FeedPersister createFeedPersister() {
+        return new FeedPersister(context.getContentResolver());
+    }
+
+    @Override
+    public FeedProvider createFeedProvider(FeedPersister feedPersister, ConnectionProvider connectionProvider) {
+        return new PersistedFeedProvider(createRetriever(feedPersister, connectionProvider), feedPersister);
     }
 
     @Override
