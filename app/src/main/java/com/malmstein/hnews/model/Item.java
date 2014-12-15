@@ -6,7 +6,9 @@ public class Item {
         story,
         comment,
         poll,
-        pollopt
+        pollopt,
+        show,
+        ask
     }
 
     private final String by;

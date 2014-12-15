@@ -1,19 +1,28 @@
 package com.malmstein.hnews.model;
 
+import android.database.Cursor;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.malmstein.hnews.data.HNewsContract;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class Comment extends Item {
 
-    private final int parent;
+    private final Long parent;
     private final String text;
-    private final String[] kids;
+    private final ArrayList<String> kids;
 
-    public Comment(String by, int id, String type, Long time, int parent, String text, String[] kids) {
+    public Comment(String by, int id, String type, Long time, Long parent, String text, ArrayList<String> kids) {
         super(by, id, type, time);
         this.parent = parent;
         this.text = text;
         this.kids = kids;
     }
 
-    public int getParent() {
+    public Long getParent() {
         return parent;
     }
 
@@ -21,8 +30,25 @@ public class Comment extends Item {
         return text;
     }
 
-    public String[] getKids() {
+    public ArrayList<String> getKids() {
         return kids;
+    }
+
+    public static Comment from(Cursor cursor) {
+        int id = cursor.getInt(HNewsContract.COLUMN_ITEM_ID);
+        String by = cursor.getString(HNewsContract.COLUMN_BY);
+        long time = cursor.getLong(HNewsContract.COLUMN_TIME);
+        String type = cursor.getString(HNewsContract.COLUMN_TYPE);
+
+        Long parent = cursor.getLong(HNewsContract.COLUMN_PARENT);
+        String text = cursor.getString(HNewsContract.COLUMN_TEXT);
+        String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
+
+        Gson gson = new Gson();
+        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
+        ArrayList<String> kidsArray = gson.fromJson(kids, jsonType);
+
+        return new Comment(by, id, type, time, parent, text, kidsArray);
     }
 }
 

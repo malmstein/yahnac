@@ -13,17 +13,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsAdapter;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
-public class ItemListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class NewsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String ARG_NEWS_TYPE = BuildConfig.APPLICATION_ID + ".ARG_NEWS_TYPE";
     private static final int STORY_LOADER = 0;
 
     private ListView mNewsListView;
     private NewsAdapter mNewsAdapter;
+
+    public static NewsListFragment from(Item.TYPE type) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_NEWS_TYPE, type);
+        NewsListFragment fragment = new NewsListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -42,10 +52,15 @@ public class ItemListFragment extends Fragment implements LoaderManager.LoaderCa
         return rootView;
     }
 
+    private Item.TYPE getType() {
+        Bundle args = getArguments();
+        return (Item.TYPE) args.getSerializable(ARG_NEWS_TYPE);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri storyNewsUri = ItemEntry.buildNews();
+        Uri storyNewsUri = ItemEntry.buildItemsUri(getType());
 
         return new CursorLoader(
                 getActivity(),
@@ -53,8 +68,8 @@ public class ItemListFragment extends Fragment implements LoaderManager.LoaderCa
                 STORY_COLUMNS,
                 null,
                 null,
-                null
-        );
+                null);
+
     }
 
     @Override
@@ -66,4 +81,5 @@ public class ItemListFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> loader) {
         mNewsAdapter.swapCursor(null);
     }
+
 }

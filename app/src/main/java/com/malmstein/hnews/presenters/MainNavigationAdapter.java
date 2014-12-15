@@ -4,12 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.malmstein.hnews.DefaultCardFragment;
-import com.malmstein.hnews.ItemListFragment;
+import com.malmstein.hnews.NewsListFragment;
+import com.malmstein.hnews.model.Item;
 
 public class MainNavigationAdapter extends FragmentPagerAdapter {
 
-    private final String[] TITLES = {"News", "Comments", "Show", "Ask"};
+    private final String[] TITLES = {"News", "Show", "Ask"};
 
     public MainNavigationAdapter(FragmentManager fm) {
         super(fm);
@@ -27,10 +27,15 @@ public class MainNavigationAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0){
-            return new ItemListFragment();
-        }  else {
-            return DefaultCardFragment.newInstance(position);
+        switch (position){
+            case 0:
+                return NewsListFragment.from(Item.TYPE.story);
+            case 1:
+                return NewsListFragment.from(Item.TYPE.show);
+            case 2:
+                return NewsListFragment.from(Item.TYPE.ask);
+            default:
+                return NewsListFragment.from(Item.TYPE.story);
         }
     }
 }

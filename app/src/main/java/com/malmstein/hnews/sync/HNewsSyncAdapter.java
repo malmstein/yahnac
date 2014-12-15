@@ -17,6 +17,7 @@ import com.malmstein.hnews.inject.Inject;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
+//    public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_INTERVAL = 10;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
