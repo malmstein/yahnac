@@ -4,8 +4,6 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.malmstein.hnews.model.Item;
-
 public class HNewsContract {
 
     public static final String CONTENT_AUTHORITY = "com.malmstein.hnews";
@@ -77,8 +75,9 @@ public class HNewsContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildItemsUri(Item.TYPE itemType) {
-             return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_TYPE, itemType.name()).build();
+        public static Uri buildItemsUri() {
+            return CONTENT_URI.buildUpon().build();
+//            return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_TYPE, itemType.name()).build();
         }
 
     }

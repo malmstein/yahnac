@@ -60,14 +60,14 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri storyNewsUri = ItemEntry.buildItemsUri(getType());
+        Uri storyNewsUri = ItemEntry.buildItemsUri();
 
         return new CursorLoader(
                 getActivity(),
                 storyNewsUri,
                 STORY_COLUMNS,
-                null,
-                null,
+                ItemEntry.COLUMN_TYPE + " = ?",
+                new String[]{getType().name()},
                 null);
 
     }

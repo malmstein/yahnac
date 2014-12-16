@@ -7,6 +7,7 @@ import android.database.Cursor;
 import com.google.gson.Gson;
 import com.malmstein.hnews.data.HNewsContract;
 import com.malmstein.hnews.model.Item;
+import com.novoda.notils.logger.simple.Log;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -103,10 +104,12 @@ public class NewsPersister {
                 null);
 
         if (storyCursor.moveToFirst()) {
+            Log.d(contentValues.get("type").toString() + " item updated");
             contentResolver.update(HNewsContract.ItemEntry.CONTENT_URI, contentValues,
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
         } else {
+            Log.d(contentValues.get("type").toString() + " item inserted");
             contentResolver.insert(HNewsContract.ItemEntry.CONTENT_URI, contentValues);
         }
         storyCursor.close();
@@ -119,7 +122,6 @@ public class NewsPersister {
         if (title.startsWith("Ask HN:")) {
             return Item.TYPE.ask.name();
         }
-
         return Item.TYPE.story.name();
     }
 }

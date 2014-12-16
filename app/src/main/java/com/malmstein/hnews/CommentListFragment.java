@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsCommentsAdapter;
 
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
@@ -46,7 +45,7 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri storyNewsUri = ItemEntry.buildItemsUri(Item.TYPE.comment);
+        Uri storyNewsUri = ItemEntry.buildItemsUri();
 
         return new CursorLoader(
                 getActivity(),
