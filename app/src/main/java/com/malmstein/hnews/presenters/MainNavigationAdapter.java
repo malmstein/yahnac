@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.malmstein.hnews.NewsListFragment;
+import com.malmstein.hnews.stories.NewsListFragment;
 import com.malmstein.hnews.model.Item;
 
 public class MainNavigationAdapter extends FragmentPagerAdapter {

@@ -2,22 +2,16 @@ package com.malmstein.hnews;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.astuetz.PagerSlidingTabStrip;
-import com.malmstein.hnews.presenters.MainNavigationAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
 public class HNewsActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private MainNavigationAdapter adapter;
-    private ViewPager pager;
-    private PagerSlidingTabStrip tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +19,6 @@ public class HNewsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         setToolbar();
-        setTabs();
 
         HNewsSyncAdapter.initializeSyncAdapter(this);
     }
@@ -34,14 +27,6 @@ public class HNewsActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setAppBarColor(getDefaultAppBarColor(getResources()));
-    }
-
-    private void setTabs(){
-        pager = (ViewPager) findViewById(R.id.pager);
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        adapter = new MainNavigationAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
     }
 
     private void setAppBarColor(int color) {

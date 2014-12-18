@@ -1,4 +1,4 @@
-package com.malmstein.hnews;
+package com.malmstein.hnews.stories;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,17 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.malmstein.hnews.presenters.NewsCommentsAdapter;
+import com.malmstein.hnews.R;
+import com.malmstein.hnews.model.Item;
+import com.malmstein.hnews.presenters.NewsAdapter;
 
-import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
+import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
-public class CommentListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TopStoriesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int STORY_LOADER = 0;
 
-    private ListView commentsListView;
-    private NewsCommentsAdapter commentsAdapter;
+    private ListView mNewsListView;
+    private NewsAdapter mNewsAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -35,9 +37,9 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        commentsListView = (ListView) rootView.findViewById(R.id.listview_news);
-        commentsAdapter = new NewsCommentsAdapter(getActivity(), null, 0);
-        commentsListView.setAdapter(commentsAdapter);
+        mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
+        mNewsAdapter = new NewsAdapter(getActivity(), null, 0);
+        mNewsListView.setAdapter(mNewsAdapter);
 
         return rootView;
     }
@@ -50,20 +52,21 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
         return new CursorLoader(
                 getActivity(),
                 storyNewsUri,
-                COMMENT_COLUMNS,
-                null,
-                null,
-                null
-        );
+                STORY_COLUMNS,
+                ItemEntry.COLUMN_TYPE + " = ?",
+                new String[]{Item.TYPE.story.name()},
+                null);
+
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        commentsAdapter.swapCursor(data);
+        mNewsAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        commentsAdapter.swapCursor(null);
+        mNewsAdapter.swapCursor(null);
     }
+
 }

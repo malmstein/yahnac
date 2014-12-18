@@ -1,4 +1,4 @@
-package com.malmstein.hnews;
+package com.malmstein.hnews.stories;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.malmstein.hnews.BuildConfig;
+import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsAdapter;
 

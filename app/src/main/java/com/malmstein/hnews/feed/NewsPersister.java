@@ -44,7 +44,7 @@ public class NewsPersister {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
-//        String type = (String) map.get("type");
+        String type = (String) map.get("type");
         long time = (long) map.get("time");
 
         ArrayList<String> kidsArray = (ArrayList<String>) map.get("kids");
@@ -59,7 +59,7 @@ public class NewsPersister {
 
         storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, id);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, by);
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, buildType(title));
+        storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, score);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_KIDS, kids);
@@ -115,13 +115,7 @@ public class NewsPersister {
         storyCursor.close();
     }
 
-    private String buildType(String title) {
-        if (title.startsWith("Show HN:")) {
-            return Item.TYPE.show.name();
-        }
-        if (title.startsWith("Ask HN:")) {
-            return Item.TYPE.ask.name();
-        }
+    private String buildType() {
         return Item.TYPE.story.name();
     }
 }
