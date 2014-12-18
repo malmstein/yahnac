@@ -1,6 +1,8 @@
 package com.malmstein.hnews.stories;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +30,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int ARTICLE_LOADER = 0;
     private WebView webView;
 
-    public static ArticleFragment from(Long itemId){
+    public static ArticleFragment from(Long itemId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_STORY_ID, itemId);
         ArticleFragment fragment = new ArticleFragment();
@@ -36,8 +38,8 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         return fragment;
     }
 
-    private Long getItemId(){
-        if (getArguments().containsKey(ARG_STORY_ID)){
+    private Long getItemId() {
+        if (getArguments().containsKey(ARG_STORY_ID)) {
             return getArguments().getLong(ARG_STORY_ID);
         } else {
             throw new DeveloperError("Missing argument");
@@ -52,6 +54,8 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         webView = (WebView) rootView.findViewById(R.id.article_webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
         webView.setWebViewClient(new HackerNewsWebClient());
 
         return rootView;
@@ -94,17 +98,35 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private class HackerNewsWebClient extends WebViewClient {
+
+        boolean loadedFinished = false;
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            loadedFinished = true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            if (loadedFinished) {
+                launchExternalBrowser(Uri.parse(url));
+            }
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (loadedFinished) {
+                launchExternalBrowser(Uri.parse(url));
+                return true;
+            }
+
             return false;
-//            if (Uri.parse(url).getHost().equals("www.example.com")) {
-//                // This is my web site, so do not override; let my WebView load the page
-//                return false;
-//            }
-//            // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//            startActivity(intent);
-//            return true;
+        }
+
+        private void launchExternalBrowser(Uri newUri) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, newUri);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 }
