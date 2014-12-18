@@ -4,9 +4,10 @@ import android.database.Cursor;
 
 import com.malmstein.hnews.data.HNewsContract;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Story extends Item {
+public class Story extends Item implements Serializable {
 
     private final int score;
     private final String title;

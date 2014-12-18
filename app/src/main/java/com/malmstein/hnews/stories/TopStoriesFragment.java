@@ -1,5 +1,6 @@
 package com.malmstein.hnews.stories;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.data.HNewsContract;
 import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsAdapter;
 
@@ -26,6 +29,13 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     private ListView mNewsListView;
     private NewsAdapter mNewsAdapter;
+    private Listener listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listener = (Listener) getActivity();
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -40,6 +50,15 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
         mNewsAdapter = new NewsAdapter(getActivity(), null, 0);
         mNewsListView.setAdapter(mNewsAdapter);
+        mNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = mNewsAdapter.getCursor();
+                if (cursor != null && cursor.moveToPosition(position)) {
+                    listener.onArticleSelected(cursor.getLong(HNewsContract.COLUMN_ITEM_ID));
+                }
+            }
+        });
 
         return rootView;
     }
@@ -67,6 +86,10 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mNewsAdapter.swapCursor(null);
+    }
+
+    public interface Listener {
+        void onArticleSelected(Long itemId);
     }
 
 }

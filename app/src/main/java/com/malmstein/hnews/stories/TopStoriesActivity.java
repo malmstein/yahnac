@@ -1,5 +1,6 @@
-package com.malmstein.hnews;
+package com.malmstein.hnews.stories;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,16 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.malmstein.hnews.R;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
-public class HNewsActivity extends ActionBarActivity {
+public class TopStoriesActivity extends ActionBarActivity implements TopStoriesFragment.Listener {
 
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_news);
 
         setToolbar();
 
@@ -54,5 +56,10 @@ public class HNewsActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onArticleSelected(Long itemId) {
+        startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, itemId));
     }
 }
