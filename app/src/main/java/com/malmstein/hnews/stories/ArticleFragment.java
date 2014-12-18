@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
@@ -51,6 +52,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         webView = (WebView) rootView.findViewById(R.id.article_webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new HackerNewsWebClient());
 
         return rootView;
     }
@@ -89,5 +91,20 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    private class HackerNewsWebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return false;
+//            if (Uri.parse(url).getHost().equals("www.example.com")) {
+//                // This is my web site, so do not override; let my WebView load the page
+//                return false;
+//            }
+//            // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            startActivity(intent);
+//            return true;
+        }
     }
 }

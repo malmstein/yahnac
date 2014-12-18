@@ -55,7 +55,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = mNewsAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    listener.onArticleSelected(cursor.getLong(HNewsContract.COLUMN_ITEM_ID));
+                    listener.onArticleSelected(cursor.getLong(HNewsContract.COLUMN_ID));
                 }
             }
         });
