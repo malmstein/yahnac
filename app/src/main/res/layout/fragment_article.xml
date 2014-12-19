@@ -5,7 +5,7 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <com.malmstein.hnews.stories.ArticleHeader
+  <com.malmstein.hnews.stories.ArticleHeaderView
     android:id="@+id/article_header"
     android:layout_width="match_parent"
     android:layout_height="100dp" />

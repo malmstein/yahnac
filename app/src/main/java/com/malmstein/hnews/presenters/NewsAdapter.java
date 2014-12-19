@@ -27,10 +27,10 @@ public class NewsAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
         ViewHolder holder = (ViewHolder) view.getTag();
         Story story = Story.from(cursor);
         holder.title.setText(story.getTitle());
+
     }
 
     public static class ViewHolder {

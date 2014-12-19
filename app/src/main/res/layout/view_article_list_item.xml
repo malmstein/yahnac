@@ -22,7 +22,7 @@
         android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minLines="3"
+        android:minLines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/black"
         tools:text="Card" />

@@ -2,22 +2,18 @@ package com.malmstein.hnews.stories;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
+import com.malmstein.hnews.views.RelativeLayoutWithForeground;
 
-public class ArticleHeader extends FrameLayout {
+public class ArticleHeaderView extends RelativeLayoutWithForeground {
 
-    public ArticleHeader(Context context) {
-        super(context);
-    }
-
-    public ArticleHeader(Context context, AttributeSet attrs) {
+    public ArticleHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ArticleHeader(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ArticleHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -30,5 +26,6 @@ public class ArticleHeader extends FrameLayout {
     public void updateWith(Story story){
 
     }
+
 
 }
