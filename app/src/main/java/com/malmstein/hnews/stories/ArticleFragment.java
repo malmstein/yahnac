@@ -32,6 +32,7 @@ import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
 public class ArticleFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String TAG = "ArticleFragment";
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
     private static final int ARTICLE_LOADER = 0;
 

@@ -1,19 +1,15 @@
 package com.malmstein.hnews.stories;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
-public class TopStoriesActivity extends ActionBarActivity implements TopStoriesFragment.Listener {
-
-    private Toolbar toolbar;
+public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragment.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +19,6 @@ public class TopStoriesActivity extends ActionBarActivity implements TopStoriesF
         setToolbar();
 
         HNewsSyncAdapter.initializeSyncAdapter(this);
-    }
-
-    private void setToolbar(){
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setAppBarColor(getDefaultAppBarColor(getResources()));
-    }
-
-    private void setAppBarColor(int color) {
-        if (toolbar != null) {
-            toolbar.setBackgroundColor(color);
-        }
-    }
-
-    private int getDefaultAppBarColor(Resources resources) {
-        return resources.getColor(R.color.orange);
     }
 
     @Override
