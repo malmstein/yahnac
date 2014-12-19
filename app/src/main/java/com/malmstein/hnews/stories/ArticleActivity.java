@@ -17,7 +17,7 @@ public class ArticleActivity extends HNewsActivity {
         setToolbar();
         setupUpIndicatorOn();
 
-        if (findArticleFragment() != null){
+        if (findArticleFragment() == null){
             Long itemId = getIntent().getExtras().getLong(ArticleFragment.ARG_STORY_ID);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.article_fragment_root, ArticleFragment.from(itemId), ArticleFragment.TAG).commit();

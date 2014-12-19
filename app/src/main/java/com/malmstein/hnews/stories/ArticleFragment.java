@@ -143,8 +143,6 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            Log.d("onPageStarted: New URL " + url);
-            Log.d("onPageStarted: Old URL " + articleUrl);
             if (loadedFinished && (!articleUrl.equals(url))) {
                 launchExternalBrowser(Uri.parse(url));
             }
@@ -152,8 +150,6 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d("shouldOverrideUrlLoading: New URL " + url);
-            Log.d("shouldOverrideUrlLoading: Old URL " + articleUrl);
             if (loadedFinished && (!articleUrl.equals(url))) {
                 launchExternalBrowser(Uri.parse(url));
                 return true;

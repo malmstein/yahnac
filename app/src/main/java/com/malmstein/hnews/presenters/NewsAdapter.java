@@ -19,7 +19,7 @@ public class NewsAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_item_listitem, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_article_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         view.setTag(holder);
         return view;
@@ -33,14 +33,11 @@ public class NewsAdapter extends CursorAdapter {
         holder.title.setText(story.getTitle());
     }
 
-    /**
-     * Cache of the children views for a forecast list item.
-     */
     public static class ViewHolder {
         public final TextView title;
 
         public ViewHolder(View view) {
-            title = (TextView) view.findViewById(R.id.item_title);
+            title = (TextView) view.findViewById(R.id.article_title);
         }
     }
 }
