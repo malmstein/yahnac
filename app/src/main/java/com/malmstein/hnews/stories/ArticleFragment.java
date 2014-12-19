@@ -10,7 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -21,6 +26,7 @@ import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.HNewsContract;
+import com.novoda.notils.logger.simple.Log;
 
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
@@ -28,7 +34,10 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
     private static final int ARTICLE_LOADER = 0;
+
+    private ShareActionProvider mShareActionProvider;
     private WebView webView;
+    private String articleUrl;
 
     public static ArticleFragment from(Long itemId) {
         Bundle args = new Bundle();
@@ -44,6 +53,27 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         } else {
             throw new DeveloperError("Missing argument");
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_article, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    }
+
+    private Intent createShareArticleIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, articleUrl);
+        return shareIntent;
     }
 
     @Override
@@ -87,8 +117,11 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            String url = data.getString(data.getColumnIndex(HNewsContract.ItemEntry.COLUMN_URL));
-            webView.loadUrl(url);
+            articleUrl = data.getString(data.getColumnIndex(HNewsContract.ItemEntry.COLUMN_URL));
+            webView.loadUrl(articleUrl);
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(createShareArticleIntent());
+            }
         }
     }
 
@@ -104,18 +137,23 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public void onPageFinished(WebView view, String url) {
             loadedFinished = true;
+            Log.d("onPageFinished: " + url);
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            if (loadedFinished) {
+            Log.d("onPageStarted: New URL " + url);
+            Log.d("onPageStarted: Old URL " + articleUrl);
+            if (loadedFinished && (!articleUrl.equals(url))) {
                 launchExternalBrowser(Uri.parse(url));
             }
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (loadedFinished) {
+            Log.d("shouldOverrideUrlLoading: New URL " + url);
+            Log.d("shouldOverrideUrlLoading: Old URL " + articleUrl);
+            if (loadedFinished && (!articleUrl.equals(url))) {
                 launchExternalBrowser(Uri.parse(url));
                 return true;
             }
@@ -126,7 +164,6 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         private void launchExternalBrowser(Uri newUri) {
             Intent intent = new Intent(Intent.ACTION_VIEW, newUri);
             startActivity(intent);
-            getActivity().finish();
         }
     }
 }
