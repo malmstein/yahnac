@@ -12,13 +12,14 @@ import android.widget.TextView;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.TimeAgo;
 import com.malmstein.hnews.model.Story;
+import com.malmstein.hnews.stories.TopStoriesFragment;
 
 public class NewsAdapter extends CursorAdapter {
 
-    private final Listener listener;
+    private final TopStoriesFragment.Listener listener;
     private TimeAgo timeAgo;
 
-    public NewsAdapter(Context context, Cursor c, int flags, Listener listener) {
+    public NewsAdapter(Context context, Cursor c, int flags, TopStoriesFragment.Listener listener) {
         super(context, c, flags);
         this.listener = listener;
         timeAgo = new TimeAgo(context.getResources());
@@ -87,11 +88,4 @@ public class NewsAdapter extends CursorAdapter {
         }
     }
 
-    public interface Listener {
-        void onShareClicked(Intent shareIntent);
-
-        void onCommentsClicked();
-
-        void onContentClicked(Long internalId);
-    }
 }

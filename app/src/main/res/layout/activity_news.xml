@@ -7,10 +7,18 @@
 
   <include layout="@layout/toolbar" />
 
-  <fragment
-    android:id="@+id/top_stories_fragment"
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/feed_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="com.malmstein.hnews.stories.TopStoriesFragment"/>
+    android:layout_height="match_parent">
+
+    <fragment
+      android:id="@+id/top_stories_fragment"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:name="com.malmstein.hnews.stories.TopStoriesFragment" />
+
+  </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.malmstein.hnews.stories;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,12 +28,12 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     private ListView mNewsListView;
     private NewsAdapter mNewsAdapter;
-    private NewsAdapter.Listener listener;
+    private Listener listener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        listener = (NewsAdapter.Listener) getActivity();
+        listener = (Listener) getActivity();
     }
 
     @Override
@@ -75,6 +76,16 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mNewsAdapter.swapCursor(null);
+    }
+
+    public interface Listener {
+        void onShareClicked(Intent shareIntent);
+
+        void onCommentsClicked();
+
+        void onContentClicked(Long internalId);
+
+        void onLoadFinished();
     }
 
 }
