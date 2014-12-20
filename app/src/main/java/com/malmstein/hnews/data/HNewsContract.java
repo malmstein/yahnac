@@ -16,6 +16,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
+            ItemEntry.COLUMN_UPDATED,
             ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
@@ -26,8 +27,8 @@ public class HNewsContract {
             ItemEntry._ID,
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
-            ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TIME,
+            ItemEntry.COLUMN_UPDATED,
             ItemEntry.COLUMN_PARENT,
             ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_KIDS,
@@ -37,15 +38,16 @@ public class HNewsContract {
     public static final int COLUMN_ITEM_ID = 1;
     public static final int COLUMN_BY = 2;
     public static final int COLUMN_TIME = 3;
+    public static final int COLUMN_UPDATED = 4;
 
-    public static final int COLUMN_TYPE = 4;
-    public static final int COLUMN_SCORE = 5;
-    public static final int COLUMN_TITLE = 6;
-    public static final int COLUMN_URL = 7;
+    public static final int COLUMN_TYPE = 5;
+    public static final int COLUMN_SCORE = 6;
+    public static final int COLUMN_TITLE = 7;
+    public static final int COLUMN_URL = 8;
 
-    public static final int COLUMN_PARENT = 4;
-    public static final int COLUMN_TEXT = 5;
-    public static final int COLUMN_KIDS = 6;
+    public static final int COLUMN_PARENT = 5;
+    public static final int COLUMN_TEXT = 6;
+    public static final int COLUMN_KIDS = 7;
 
     /* Inner class that defines the table contents of the location table */
     public static final class ItemEntry implements BaseColumns {
@@ -70,6 +72,7 @@ public class HNewsContract {
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_PARTS = "parts";
+        public static final String COLUMN_UPDATED= "timestamp";
 
         public static Uri buildItemUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

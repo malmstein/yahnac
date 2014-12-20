@@ -109,6 +109,7 @@ public class NewsPersister {
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
         } else {
+            contentValues.put(HNewsContract.ItemEntry.COLUMN_UPDATED, System.currentTimeMillis());
             Log.d(contentValues.get("type").toString() + " item inserted");
             contentResolver.insert(HNewsContract.ItemEntry.CONTENT_URI, contentValues);
         }

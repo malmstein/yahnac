@@ -88,7 +88,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Item.TYPE.story.name()},
-                null);
+                ItemEntry.COLUMN_UPDATED + " ASC");
 
     }
 
@@ -126,7 +126,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public boolean isReadyForPull() {
-
         int topRowVerticalPosition =
                 (mNewsListView == null || mNewsListView.getChildCount() == 0) ?
                         0 : mNewsListView.getChildAt(0).getTop();
