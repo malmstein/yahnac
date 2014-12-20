@@ -50,5 +50,4 @@ public class Item {
     public Long getUpdated() {
         return updated;
     }
-
 }

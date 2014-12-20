@@ -23,33 +23,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minLines="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/black"
         tools:text="This is the article title" />
 
-      <TextView
-        android:id="@+id/article_user"
+      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/light_grey"
-        android:text="user" />
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/card_content_padding">
 
-      <TextView
-        android:id="@+id/article_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/light_grey"
-        android:text="1h ago" />
+        <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:id="@+id/article_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/light_grey"
+            android:text="1h ago" />
+
+          <TextView
+            android:id="@+id/article_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/light_grey"
+            android:paddingLeft="@dimen/card_content_padding"
+            android:text="user" />
+
+
+
+        </LinearLayout>
+
+        <TextView
+          android:id="@+id/article_score"
+          android:layout_width="match_parent"
+          android:gravity="right|bottom"
+          android:layout_height="match_parent"
+          android:textAllCaps="true"
+          android:textColor="@color/light_grey"
+          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+          tools:text="123" />
+
+      </LinearLayout>
+
 
     </LinearLayout>
+
 
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="@dimen/button_root_height"
       android:orientation="horizontal"
-      android:padding="@dimen/button_padding"
       android:layout_below="@id/article_text_root">
 
       <TextView
@@ -59,15 +88,18 @@
         android:layout_height="match_parent"
         android:textColor="@color/black"
         android:textAllCaps="true"
-        android:text="@string/action_share"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="@string/action_share" />
 
       <TextView
         android:id="@+id/article_comments_action"
         style="@style/HNewsButton.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_orange"
         android:textAllCaps="true"
+        android:layout_marginLeft="@dimen/card_content_padding"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         tools:text="26 COMMENTS" />
 
     </LinearLayout>

@@ -2,9 +2,12 @@ package com.malmstein.hnews.model;
 
 import android.database.Cursor;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.malmstein.hnews.data.HNewsContract;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Story extends Item implements Serializable {
@@ -34,6 +37,18 @@ public class Story extends Item implements Serializable {
         return url;
     }
 
+    public ArrayList<String> getKids() {
+        return kids;
+    }
+
+    private boolean hasKids(){
+        return kids != null;
+    }
+
+    public int getComments() {
+        return  hasKids() ? getKids().size() : 0;
+    }
+
     public static Story from(Cursor cursor) {
         Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
@@ -46,15 +61,11 @@ public class Story extends Item implements Serializable {
         Long updated = cursor.getLong(HNewsContract.COLUMN_UPDATED);
         String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
 
-//        Gson gson = new Gson();
-//        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
-//        ArrayList<String> kidsList = gson.fromJson(kids, jsonType);
+        Gson gson = new Gson();
+        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
+        ArrayList<String> kidsList = gson.fromJson(kids, jsonType);
 
-        return new Story(internalId, by, id, type, time, score, title, url, new ArrayList<String>(), updated);
-    }
-
-    public ArrayList<String> getKids() {
-        return kids;
+        return new Story(internalId, by, id, type, time, score, title, url, kidsList, updated);
     }
 }
 

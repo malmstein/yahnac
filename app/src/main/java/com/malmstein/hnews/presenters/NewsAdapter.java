@@ -42,6 +42,7 @@ public class NewsAdapter extends CursorAdapter {
         holder.title.setText(story.getTitle());
         holder.user.setText(context.getResources().getString(R.string.story_by, story.getBy()));
         holder.timeAgo.setText(timeAgo.timeAgo(new Date(story.getTime())));
+        holder.score.setText(context.getResources().getString(R.string.story_points, story.getScore()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +56,7 @@ public class NewsAdapter extends CursorAdapter {
             }
         });
 
+        holder.comments_action.setText(context.getResources().getString(R.string.story_comments, story.getComments()));
         holder.comments_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,14 +78,16 @@ public class NewsAdapter extends CursorAdapter {
         public final TextView title;
         public final TextView user;
         public final TextView timeAgo;
-        public View card;
-        public TextView share_action;
-        public TextView comments_action;
+        public final TextView score;
+        public final View card;
+        public final TextView share_action;
+        public final TextView comments_action;
 
         public ViewHolder(View view) {
             title = (TextView) view.findViewById(R.id.article_title);
             user = (TextView) view.findViewById(R.id.article_user);
             timeAgo = (TextView) view.findViewById(R.id.article_time);
+            score = (TextView) view.findViewById(R.id.article_score);
             card = view.findViewById(R.id.article_text_root);
             share_action = (TextView) view.findViewById(R.id.article_share_action);
             comments_action = (TextView) view.findViewById(R.id.article_comments_action);

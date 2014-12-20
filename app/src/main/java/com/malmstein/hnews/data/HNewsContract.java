@@ -21,6 +21,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
             ItemEntry.COLUMN_URL,
+            ItemEntry.COLUMN_KIDS,
     };
 
     public static final String[] COMMENT_COLUMNS = {
@@ -44,10 +45,11 @@ public class HNewsContract {
     public static final int COLUMN_SCORE = 6;
     public static final int COLUMN_TITLE = 7;
     public static final int COLUMN_URL = 8;
+    public static final int COLUMN_KIDS = 9;
 
     public static final int COLUMN_PARENT = 5;
     public static final int COLUMN_TEXT = 6;
-    public static final int COLUMN_KIDS = 7;
+
 
     /* Inner class that defines the table contents of the location table */
     public static final class ItemEntry implements BaseColumns {

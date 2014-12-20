@@ -16,7 +16,7 @@
   <style name="HNews.Item">
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>
-    <item name="cardPreventCornerOverlap">false</item>
+    <item name="cardPreventCornerOverlap">true</item>
     <item name="android:foreground">@drawable/selector_card_clickable</item>
   </style>
 
