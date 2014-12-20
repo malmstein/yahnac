@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/listview_news"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:clipToPadding="true"
-  android:dividerHeight="@dimen/list_padding"
-  android:divider="@android:color/transparent"
-  android:padding="@dimen/list_padding"/>
+  android:layout_height="match_parent">
+
+  <com.malmstein.hnews.views.DelegatedSwipeRefreshLayout
+    android:id="@+id/feed_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+      android:id="@+id/listview_news"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipToPadding="true"
+      android:dividerHeight="@dimen/list_padding"
+      android:divider="@android:color/transparent"
+      android:padding="@dimen/list_padding" />
+
+  </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
+
+</FrameLayout>
+
