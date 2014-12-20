@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,10 +127,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public boolean isReadyForPull() {
-        int topRowVerticalPosition =
-                (mNewsListView == null || mNewsListView.getChildCount() == 0) ?
-                        0 : mNewsListView.getChildAt(0).getTop();
-        return (topRowVerticalPosition >= 0);
+        return ViewCompat.canScrollVertically(mNewsListView, -1);
     }
 
     public interface Listener {

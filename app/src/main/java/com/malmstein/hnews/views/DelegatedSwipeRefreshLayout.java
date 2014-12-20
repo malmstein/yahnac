@@ -23,7 +23,7 @@ public class DelegatedSwipeRefreshLayout extends SwipeRefreshLayout {
     @Override
     public boolean canChildScrollUp() {
         if (delegate != null) {
-            return !delegate.isReadyForPull();
+            return delegate.isReadyForPull();
         }
         return super.canChildScrollUp();
     }
