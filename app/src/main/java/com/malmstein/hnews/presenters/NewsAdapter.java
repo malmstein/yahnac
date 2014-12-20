@@ -38,7 +38,7 @@ public class NewsAdapter extends CursorAdapter {
         ViewHolder holder = (ViewHolder) view.getTag();
         final Story story = Story.from(cursor);
         holder.title.setText(story.getTitle());
-        holder.user.setText(story.getBy());
+        holder.user.setText(context.getResources().getString(R.string.story_by, story.getBy()));
         holder.timeAgo.setText(timeAgo.timeAgo(story.getTime()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override

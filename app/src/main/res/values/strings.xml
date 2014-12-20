@@ -10,4 +10,6 @@
   <string name="sync_account_type">malmstein.hnews.com</string>
   <string name="content_authority">com.malmstein.hnews</string>
 
+  <string name="story_by">by %s</string>
+
 </resources>
