@@ -39,12 +39,12 @@ public class Comment extends Item {
         Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
         Long time = cursor.getLong(HNewsContract.COLUMN_TIME);
-        Long updated = cursor.getLong(HNewsContract.COLUMN_UPDATED);
+        Long updated = cursor.getLong(HNewsContract.COLUMN_INSERTED);
 
         Long parent = cursor.getLong(HNewsContract.COLUMN_PARENT);
         String text = cursor.getString(HNewsContract.COLUMN_TEXT);
-        String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
-        String type = cursor.getString(HNewsContract.COLUMN_TYPE);
+        String kids = cursor.getString(HNewsContract.COLUMN_COMMENT_KIDS);
+        String type = cursor.getString(HNewsContract.COLUMN_COMMENT_TYPE);
 
         Gson gson = new Gson();
         Type jsonType = new TypeToken<ArrayList<String>>() {

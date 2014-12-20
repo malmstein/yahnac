@@ -13,5 +13,6 @@
   <string name="story_by">by %s</string>
   <string name="story_comments">%d comments</string>
   <string name="story_points">%d</string>
+  <string name="comments">Comments</string>
 
 </resources>

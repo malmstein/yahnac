@@ -4,6 +4,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.malmstein.hnews.model.Item;
+
 public class HNewsContract {
 
     public static final String CONTENT_AUTHORITY = "com.malmstein.hnews";
@@ -30,6 +32,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
             ItemEntry.COLUMN_INSERTED,
+            ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_PARENT,
             ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_KIDS,
@@ -39,16 +42,19 @@ public class HNewsContract {
     public static final int COLUMN_ITEM_ID = 1;
     public static final int COLUMN_BY = 2;
     public static final int COLUMN_TIME = 3;
-    public static final int COLUMN_UPDATED = 4;
+    public static final int COLUMN_INSERTED = 4;
 
     public static final int COLUMN_TYPE = 5;
     public static final int COLUMN_SCORE = 6;
     public static final int COLUMN_TITLE = 7;
     public static final int COLUMN_URL = 8;
-    public static final int COLUMN_KIDS = 9;
+    public static final int COLUMN_STORY_KIDS = 9;
 
-    public static final int COLUMN_PARENT = 5;
-    public static final int COLUMN_TEXT = 6;
+    public static final int COLUMN_COMMENT_TYPE = 5;
+    public static final int COLUMN_PARENT = 6;
+    public static final int COLUMN_TEXT = 7;
+    public static final int COLUMN_COMMENT_KIDS = 8;
+
 
 
     /* Inner class that defines the table contents of the location table */
@@ -82,7 +88,10 @@ public class HNewsContract {
 
         public static Uri buildItemsUri() {
             return CONTENT_URI.buildUpon().build();
-//            return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_TYPE, itemType.name()).build();
+        }
+
+        public static Uri buildCommentsUri() {
+            return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_TYPE, Item.TYPE.comment.name()).build();
         }
 
     }

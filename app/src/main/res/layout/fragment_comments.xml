@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.malmstein.hnews.views.DelegatedSwipeRefreshLayout
+    android:id="@+id/feed_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+      style="@style/HNews.List"
+      android:id="@+id/listview_comments"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:dividerHeight="@dimen/comments_padding"
+      android:divider="@android:color/transparent"
+      android:padding="@dimen/comments_padding" />
+
+  </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
+
+</FrameLayout>
+

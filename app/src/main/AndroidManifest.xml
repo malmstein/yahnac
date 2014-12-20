@@ -23,13 +23,21 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".stories.ArticleActivity"
+    <activity android:name="com.malmstein.hnews.stories.ArticleActivity"
       android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value="com.malmstein.hnews.stories.TopStoriesActivity" />
     </activity>
 
+    <activity
+      android:name="com.malmstein.hnews.comments.CommentsActivity"
+      android:label="@string/comments"
+      android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="com.malmstein.hnews.stories.TopStoriesActivity" />
+    </activity>
 
     <provider
       android:authorities="com.malmstein.hnews"

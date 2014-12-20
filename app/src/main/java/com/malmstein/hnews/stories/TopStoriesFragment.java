@@ -133,7 +133,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     public interface Listener {
         void onShareClicked(Intent shareIntent);
 
-        void onCommentsClicked();
+        void onCommentsClicked(Long internalId);
 
         void onContentClicked(Long internalId);
     }

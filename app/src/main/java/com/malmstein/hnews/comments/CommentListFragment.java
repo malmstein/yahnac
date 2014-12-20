@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsCommentsAdapter;
 
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
@@ -21,7 +23,8 @@ import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 
 public class CommentListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int STORY_LOADER = 0;
+    private static final int COMMENTS_LOADER = 0;
+    public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
 
     private ListView commentsListView;
     private NewsCommentsAdapter commentsAdapter;
@@ -29,14 +32,14 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(STORY_LOADER, null, this);
+        getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_top_stories, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
-        commentsListView = (ListView) rootView.findViewById(R.id.listview_news);
+        commentsListView = (ListView) rootView.findViewById(R.id.listview_comments);
         commentsAdapter = new NewsCommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
 
@@ -46,14 +49,14 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri storyNewsUri = ItemEntry.buildItemsUri();
+        Uri commentsUri = ItemEntry.buildCommentsUri();
 
         return new CursorLoader(
                 getActivity(),
-                storyNewsUri,
+                commentsUri,
                 COMMENT_COLUMNS,
-                null,
-                null,
+                ItemEntry.COLUMN_TYPE + " = ?",
+                new String[]{Item.TYPE.comment.name()},
                 null
         );
     }

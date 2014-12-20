@@ -10,6 +10,7 @@
   <dimen name="button_padding">6dp</dimen>
   <dimen name="default_padding">8dp</dimen>
   <dimen name="list_padding">12dp</dimen>
+  <dimen name="comments_padding">4dp</dimen>
 
   <dimen name="feed_refresh_top_padding">64dp</dimen>
 </resources>

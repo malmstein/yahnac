@@ -58,8 +58,8 @@ public class Story extends Item implements Serializable {
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);
         String type = cursor.getString(HNewsContract.COLUMN_TYPE);
         String url = cursor.getString(HNewsContract.COLUMN_URL);
-        Long updated = cursor.getLong(HNewsContract.COLUMN_UPDATED);
-        String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
+        Long updated = cursor.getLong(HNewsContract.COLUMN_INSERTED);
+        String kids = cursor.getString(HNewsContract.COLUMN_STORY_KIDS);
 
         Gson gson = new Gson();
         Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
