@@ -89,4 +89,10 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         refreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onSwipeLayoutUpdated(boolean state) {
+        refreshLayout.setEnabled(state);
+
+    }
+
 }

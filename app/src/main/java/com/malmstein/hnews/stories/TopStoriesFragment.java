@@ -13,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
@@ -49,6 +50,20 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
         mNewsAdapter = new NewsAdapter(getActivity(), null, 0, listener);
         mNewsListView.setAdapter(mNewsAdapter);
+        mNewsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (mNewsListView == null || mNewsListView.getChildCount() == 0) ?
+                                0 : mNewsListView.getChildAt(0).getTop();
+                listener.onSwipeLayoutUpdated(topRowVerticalPosition >= 0);
+            }
+        });
 
         return rootView;
     }
@@ -87,6 +102,8 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         void onContentClicked(Long internalId);
 
         void onLoadFinished();
+
+        void onSwipeLayoutUpdated(boolean state);
     }
 
 }
