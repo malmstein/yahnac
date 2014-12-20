@@ -10,15 +10,18 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.base.TimeAgo;
 import com.malmstein.hnews.model.Story;
 
 public class NewsAdapter extends CursorAdapter {
 
     private final Listener listener;
+    private TimeAgo timeAgo;
 
     public NewsAdapter(Context context, Cursor c, int flags, Listener listener) {
         super(context, c, flags);
         this.listener = listener;
+        timeAgo = new TimeAgo(context.getResources());
     }
 
     @Override
@@ -34,6 +37,8 @@ public class NewsAdapter extends CursorAdapter {
         ViewHolder holder = (ViewHolder) view.getTag();
         final Story story = Story.from(cursor);
         holder.title.setText(story.getTitle());
+        holder.user.setText(story.getBy());
+        holder.timeAgo.setText(timeAgo.timeAgo(story.getTime()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +51,7 @@ public class NewsAdapter extends CursorAdapter {
                 listener.onShareClicked(createShareIntent(story.getUrl()));
             }
         });
+
         holder.comments_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +71,16 @@ public class NewsAdapter extends CursorAdapter {
 
     public static class ViewHolder {
         public final TextView title;
+        public final TextView user;
+        public final TextView timeAgo;
         public View card;
         public TextView share_action;
         public TextView comments_action;
 
         public ViewHolder(View view) {
             title = (TextView) view.findViewById(R.id.article_title);
+            user = (TextView) view.findViewById(R.id.article_user);
+            timeAgo = (TextView) view.findViewById(R.id.article_time);
             card = view.findViewById(R.id.article_text_root);
             share_action = (TextView) view.findViewById(R.id.article_share_action);
             comments_action = (TextView) view.findViewById(R.id.article_comments_action);
