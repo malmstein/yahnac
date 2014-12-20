@@ -3,12 +3,12 @@
 
   <color name="app_background">#FFFFFF</color>
 
-  <color name="orange">#ff9800</color>
-  <color name="dark_orange">#f57c00</color>
+  <color name="orange">#f57c00</color>
+  <color name="dark_orange">#e65100</color>
   <color name="black">#ff000000</color>
   <color name="light_grey">#CCCCC6</color>
 
-  <color name="selectable_pressed">#25F6F6EF</color>
+  <color name="selectable_pressed">#ffe0b2</color>
   <color name="feed_card_background">#F6F6EF</color>
 
 </resources>

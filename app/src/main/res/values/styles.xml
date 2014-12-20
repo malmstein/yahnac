@@ -1,22 +1,59 @@
 <resources>
 
-  <style name="HNews" parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="HNews" parent="Theme.AppCompat.Light">
     <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:textColorPrimary">@color/black</item>
+
+    <item name="android:actionBarStyle">@style/HNews.ActionBar</item>
+    <item name="android:actionBarItemBackground">@color/orange</item>
+    <item name="android:actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
+    <item name="android:colorPrimary">@color/orange</item>
+    <item name="android:colorPrimaryDark">@color/dark_orange</item>
+    <item name="android:colorAccent">@color/black</item>
+
+    <item name="actionBarStyle">@style/HNews.ActionBar</item>
+    <item name="actionBarItemBackground">@color/orange</item>
+    <item name="actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
     <item name="colorPrimary">@color/orange</item>
     <item name="colorPrimaryDark">@color/dark_orange</item>
     <item name="colorAccent">@color/black</item>
   </style>
 
-  <style name="HNews.Actionbar" parent="Widget.AppCompat.Toolbar">
-    <item name="elevation">2dp</item>
-    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+  <style name="HNews.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
+    <item name="android:displayOptions">showTitle</item>
+    <item name="android:background">@color/orange</item>
+
+    <item name="displayOptions">showTitle</item>
+    <item name="background">@color/orange</item>
+  </style>
+
+  <style name="HNews.ActionBar.Widget" parent="Theme.AppCompat">
+    <item name="android:dropDownListViewStyle">@style/HNews.DropDownListView</item>
+    <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
+  </style>
+
+  <style name="HNews.DropDownListView" parent="Widget.AppCompat.ListView.DropDown">
+    <item name="android:listSelector">@drawable/selectable_background</item>
+    <item name="android:divider">@color/light_grey</item>
+    <item name="android:dividerHeight">1dp</item>
+
+    <item name="divider">@color/light_grey</item>
+  </style>
+
+  <style name="HNews.List">
+    <item name="android:paddingTop">?actionBarSize</item>
+    <item name="android:clipToPadding">false</item>
+    <item name="android:descendantFocusability">blocksDescendants</item>
+  </style>
+
+  <style name="HNews.Card">
+    <item name="contentPadding">0dp</item>
+    <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+    <item name="cardPreventCornerOverlap">false</item>
+    <item name="android:foreground">@drawable/selector_card_clickable</item>
   </style>
 
   <style name="HNews.Item">
-    <item name="contentPadding">0dp</item>
-    <item name="cardCornerRadius">@dimen/card_corner_radius</item>
-    <item name="cardPreventCornerOverlap">true</item>
     <item name="android:foreground">@drawable/selector_card_clickable</item>
   </style>
 

@@ -16,8 +16,6 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        setToolbar();
-
         HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 

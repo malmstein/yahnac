@@ -2,7 +2,7 @@
 <resources>
 
   <string name="app_name">HNews</string>
-  <string name="hello_world">Hello world!</string>
+  <string name="app_title">Hacker News</string>
 
   <string name="action_settings">Settings</string>
   <string name="action_share">Share</string>

@@ -67,6 +67,9 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         inflater.inflate(R.menu.menu_article, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareArticleIntent());
+        }
     }
 
     private Intent createShareArticleIntent() {

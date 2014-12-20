@@ -5,8 +5,6 @@
   android:orientation="vertical"
   tools:context=".MainActivity">
 
-  <include layout="@layout/toolbar" />
-
   <FrameLayout
     android:id="@+id/article_fragment_root"
     android:layout_width="match_parent"
