@@ -1,6 +1,5 @@
 package com.malmstein.hnews.feed;
 
-import com.malmstein.hnews.http.ConnectionProvider;
 import com.malmstein.hnews.tasks.FetchTopStoriesTask;
 
 import rx.Observable;
@@ -10,31 +9,27 @@ import rx.schedulers.Schedulers;
 import static com.malmstein.hnews.feed.NewsUpdateEvent.Type.REFRESH_FINISHED;
 import static com.malmstein.hnews.feed.NewsUpdateEvent.Type.REFRESH_STARTED;
 
-public class NewsUpdateRetriever implements Retriever<NewsUpdateEvent> {
+public class ItemsRetriever implements Retriever<NewsUpdateEvent> {
 
-    private final ConnectionProvider connectionProvider;
     private final NewsPersister newsPersister;
 
-    public NewsUpdateRetriever(NewsPersister newsPersister, ConnectionProvider connectionProvider) {
+    public ItemsRetriever(NewsPersister newsPersister) {
         this.newsPersister = newsPersister;
-        this.connectionProvider = connectionProvider;
     }
 
     @Override
     public Observable<NewsUpdateEvent> fetch() {
-        return Observable.create(new FeedUpdateOnSubscribe(newsPersister, connectionProvider))
+        return Observable.create(new FeedUpdateOnSubscribe(newsPersister))
                 .subscribeOn(Schedulers.io());
     }
 
     private static class FeedUpdateOnSubscribe implements Observable.OnSubscribe<NewsUpdateEvent> {
 
         private final NewsPersister newsPersister;
-        private final ConnectionProvider connectionProvider;
         private Subscriber<? super NewsUpdateEvent> subscriber;
 
-        private FeedUpdateOnSubscribe(NewsPersister newsPersister, ConnectionProvider connectionProvider) {
+        private FeedUpdateOnSubscribe(NewsPersister newsPersister) {
             this.newsPersister = newsPersister;
-            this.connectionProvider = connectionProvider;
         }
 
         @Override

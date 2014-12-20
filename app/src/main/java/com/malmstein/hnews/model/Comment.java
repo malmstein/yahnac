@@ -47,8 +47,7 @@ public class Comment extends Item {
         String type = cursor.getString(HNewsContract.COLUMN_COMMENT_TYPE);
 
         Gson gson = new Gson();
-        Type jsonType = new TypeToken<ArrayList<String>>() {
-        }.getType();
+        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
         ArrayList<String> kidsArray = gson.fromJson(kids, jsonType);
 
         return new Comment(internalId, by, id, type, time, parent, text, kidsArray, updated);
