@@ -4,6 +4,7 @@
   android:id="@+id/listview_news"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:dividerHeight="8dp"
+  android:clipToPadding="true"
+  android:dividerHeight="@dimen/list_padding"
   android:divider="@android:color/transparent"
-  android:padding="8dp"/>
+  android:padding="@dimen/list_padding"/>

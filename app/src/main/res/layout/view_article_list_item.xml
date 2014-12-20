@@ -8,15 +8,15 @@
 
   <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/HNews.Item.Article.Common">
+    android:layout_height="match_parent">
 
     <LinearLayout
       android:id="@+id/article_text_root"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      android:padding="4dp">
+      android:padding="@dimen/default_padding"
+      style="@style/HNews.Item.Article.Common">
 
       <TextView
         android:id="@+id/article_title"
@@ -25,7 +25,7 @@
         android:minLines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/black"
-        tools:text="Card" />
+        tools:text="This is the article title" />
 
       <TextView
         android:id="@+id/article_user"
@@ -45,14 +45,33 @@
 
     </LinearLayout>
 
-    <Button
-      android:id="@+id/article_share_action"
-      style="@style/HNewsButton.Borderless"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/article_text_root"
-      android:textColor="@color/black"
-      android:text="SHARE" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/button_root_height"
+      android:orientation="horizontal"
+      android:padding="@dimen/button_padding"
+      android:layout_below="@id/article_text_root">
+
+      <TextView
+        android:id="@+id/article_share_action"
+        style="@style/HNewsButton.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textAllCaps="true"
+        android:text="@string/action_share"/>
+
+      <TextView
+        android:id="@+id/article_comments_action"
+        style="@style/HNewsButton.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textAllCaps="true"
+        tools:text="26 COMMENTS" />
+
+    </LinearLayout>
+
 
   </RelativeLayout>
 

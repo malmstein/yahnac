@@ -14,8 +14,8 @@ public class Story extends Item implements Serializable {
     private final String url;
     private final ArrayList<String> kids;
 
-    public Story(String by, int id, String type, Long time, int score, String title, String url, ArrayList<String> kids) {
-        super(by, id, type, time);
+    public Story(int internalId, String by, int id, String type, Long time, int score, String title, String url, ArrayList<String> kids) {
+        super(internalId, by, id, type, time);
         this.score = score;
         this.title = title;
         this.url = url;
@@ -35,6 +35,7 @@ public class Story extends Item implements Serializable {
     }
 
     public static Story from(Cursor cursor) {
+        int internalId = cursor.getInt(HNewsContract.COLUMN_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
         int id = cursor.getInt(HNewsContract.COLUMN_ITEM_ID);
         int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
@@ -42,13 +43,13 @@ public class Story extends Item implements Serializable {
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);
         String type = cursor.getString(HNewsContract.COLUMN_TYPE);
         String url = cursor.getString(HNewsContract.COLUMN_URL);
+        String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
 
 //        Gson gson = new Gson();
 //        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
-//        String kidsJson;
-//        ArrayList<String> kids = gson.fromJson(kids, jsonType);
+//        ArrayList<String> kidsList = gson.fromJson(kids, jsonType);
 
-        return new Story(by, id, type, time, score, title, url, new ArrayList<String>());
+        return new Story(internalId, by, id, type, time, score, title, url, new ArrayList<String>());
     }
 
     public ArrayList<String> getKids() {

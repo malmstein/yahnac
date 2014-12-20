@@ -7,9 +7,10 @@ import android.view.MenuItem;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.presenters.NewsAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
-public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragment.Listener {
+public class TopStoriesActivity extends HNewsActivity implements NewsAdapter.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,17 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     }
 
     @Override
-    public void onArticleSelected(Long itemId) {
-        startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, itemId));
+    public void onShareClicked(Intent shareIntent) {
+        startActivity(shareIntent);
+    }
+
+    @Override
+    public void onCommentsClicked() {
+
+    }
+
+    @Override
+    public void onContentClicked(int internalId) {
+        startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, internalId));
     }
 }

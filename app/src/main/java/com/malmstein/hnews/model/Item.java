@@ -11,16 +11,22 @@ public class Item {
         ask
     }
 
+    private final int internalId;
     private final String by;
     private final int id;
     private final String type;
     private final Long time;
 
-    public Item(String by, int id, String type, Long time) {
+    public Item(int internalId, String by, int id, String type, Long time) {
+        this.internalId = internalId;
         this.by = by;
         this.id = id;
         this.type = type;
         this.time = time;
+    }
+
+    public int getInternalId() {
+        return internalId;
     }
 
     public String getBy() {
