@@ -50,7 +50,7 @@ public class TopStoriesActivity extends HNewsActivity implements NewsAdapter.Lis
     }
 
     @Override
-    public void onContentClicked(int internalId) {
+    public void onContentClicked(Long internalId) {
         startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, internalId));
     }
 }

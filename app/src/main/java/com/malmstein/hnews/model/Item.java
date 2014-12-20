@@ -11,13 +11,13 @@ public class Item {
         ask
     }
 
-    private final int internalId;
+    private final Long internalId;
     private final String by;
-    private final int id;
+    private final Long id;
     private final String type;
     private final Long time;
 
-    public Item(int internalId, String by, int id, String type, Long time) {
+    public Item(Long internalId, String by, Long id, String type, Long time) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -25,7 +25,7 @@ public class Item {
         this.time = time;
     }
 
-    public int getInternalId() {
+    public Long getInternalId() {
         return internalId;
     }
 
@@ -33,7 +33,7 @@ public class Item {
         return by;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

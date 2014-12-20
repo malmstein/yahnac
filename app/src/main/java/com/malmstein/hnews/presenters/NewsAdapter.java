@@ -82,6 +82,6 @@ public class NewsAdapter extends CursorAdapter {
 
         void onCommentsClicked();
 
-        void onContentClicked(int internalId);
+        void onContentClicked(Long internalId);
     }
 }

@@ -14,7 +14,7 @@ public class Story extends Item implements Serializable {
     private final String url;
     private final ArrayList<String> kids;
 
-    public Story(int internalId, String by, int id, String type, Long time, int score, String title, String url, ArrayList<String> kids) {
+    public Story(Long internalId, String by, Long id, String type, Long time, int score, String title, String url, ArrayList<String> kids) {
         super(internalId, by, id, type, time);
         this.score = score;
         this.title = title;
@@ -35,9 +35,9 @@ public class Story extends Item implements Serializable {
     }
 
     public static Story from(Cursor cursor) {
-        int internalId = cursor.getInt(HNewsContract.COLUMN_ID);
+        Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
-        int id = cursor.getInt(HNewsContract.COLUMN_ITEM_ID);
+        Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
         int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
         long time = cursor.getLong(HNewsContract.COLUMN_TIME);
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);

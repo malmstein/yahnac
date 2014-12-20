@@ -15,7 +15,7 @@ public class Comment extends Item {
     private final String text;
     private final ArrayList<String> kids;
 
-    public Comment(int internalId, String by, int id, String type, Long time, Long parent, String text, ArrayList<String> kids) {
+    public Comment(Long internalId, String by, Long id, String type, Long time, Long parent, String text, ArrayList<String> kids) {
         super(internalId, by, id, type, time);
         this.parent = parent;
         this.text = text;
@@ -35,8 +35,8 @@ public class Comment extends Item {
     }
 
     public static Comment from(Cursor cursor) {
-        int internalId = cursor.getInt(HNewsContract.COLUMN_ID);
-        int id = cursor.getInt(HNewsContract.COLUMN_ITEM_ID);
+        Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
+        Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
         long time = cursor.getLong(HNewsContract.COLUMN_TIME);
         String type = cursor.getString(HNewsContract.COLUMN_TYPE);
@@ -46,7 +46,8 @@ public class Comment extends Item {
         String kids = cursor.getString(HNewsContract.COLUMN_KIDS);
 
         Gson gson = new Gson();
-        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
+        Type jsonType = new TypeToken<ArrayList<String>>() {
+        }.getType();
         ArrayList<String> kidsArray = gson.fromJson(kids, jsonType);
 
         return new Comment(internalId, by, id, type, time, parent, text, kidsArray);
