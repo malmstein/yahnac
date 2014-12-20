@@ -89,7 +89,7 @@
         android:layout_height="match_parent"
         android:textColor="@color/black"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:text="@string/action_share" />
 
       <TextView
@@ -100,7 +100,7 @@
         android:textColor="@color/dark_orange"
         android:textAllCaps="true"
         android:layout_marginLeft="@dimen/card_content_padding"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         tools:text="26 COMMENTS" />
 
     </LinearLayout>
