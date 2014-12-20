@@ -26,7 +26,7 @@
   </style>
 
   <style name="HNews.Item.Article.Common" parent="HNews.Item.Article">
-    <item name="android:background">@drawable/shape_card_background_default</item>
+    <item name="android:background">@drawable/selector_card_clickable</item>
   </style>
 
   <style name="HNewsButton" parent="android:Widget.Holo.Button" />

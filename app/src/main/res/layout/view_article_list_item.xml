@@ -6,17 +6,18 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
 
-  <RelativeLayout
+  <com.malmstein.hnews.views.RelativeLayoutWithForeground
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
       android:id="@+id/article_text_root"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      android:padding="@dimen/default_padding"
-      style="@style/HNews.Item.Article.Common">
+      style="@style/HNewsButton.Borderless"
+      android:padding="@dimen/default_padding">
 
       <TextView
         android:id="@+id/article_title"
@@ -73,7 +74,7 @@
     </LinearLayout>
 
 
-  </RelativeLayout>
+  </com.malmstein.hnews.views.RelativeLayoutWithForeground>
 
 </android.support.v7.widget.CardView>
 

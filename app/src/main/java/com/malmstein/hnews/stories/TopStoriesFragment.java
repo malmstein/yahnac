@@ -43,7 +43,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_top_stories, container, false);
 
         mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
         mNewsAdapter = new NewsAdapter(getActivity(), null, 0, listener);
