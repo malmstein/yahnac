@@ -11,11 +11,7 @@ import com.malmstein.hnews.feed.Retriever;
 import com.malmstein.hnews.http.AndroidConnectionProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
 
-import java.util.concurrent.TimeUnit;
-
 public class DefaultDependenciesFactory implements DependenciesFactory {
-
-    private static final long MILLIS_IN_AMINUTE = TimeUnit.MINUTES.toMillis(1);
 
     private final Context context;
 
@@ -36,7 +32,7 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
 
     @Override
     public NewsProvider createFeedProvider(NewsPersister newsPersister, ConnectionProvider connectionProvider) {
-        return new PersistedNewsProvider(createRetriever(newsPersister, connectionProvider), newsPersister);
+        return new PersistedNewsProvider(createRetriever(newsPersister, connectionProvider));
     }
 
     @Override

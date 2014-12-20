@@ -71,6 +71,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mNewsAdapter.swapCursor(data);
+        listener.onLoadFinished();
     }
 
     @Override

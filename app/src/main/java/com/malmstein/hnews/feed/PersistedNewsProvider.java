@@ -11,15 +11,14 @@ import rx.schedulers.Schedulers;
 public class PersistedNewsProvider implements NewsProvider {
 
     private final Retriever<NewsUpdateEvent> retriever;
-    private final NewsPersister newsPersister;
+
     private final ForwardingSubject<NewsUpdateEvent> feedUpdateEventSubject;
     private final CachedOnSubscribe<NewsUpdateEvent> feedUpdateEventOnSubscribe;
 
     private Subscription retrieverSubscription;
 
-    public PersistedNewsProvider(Retriever<NewsUpdateEvent> retriever, NewsPersister newsPersister) {
+    public PersistedNewsProvider(Retriever<NewsUpdateEvent> retriever) {
         this.retriever = retriever;
-        this.newsPersister = newsPersister;
         this.feedUpdateEventOnSubscribe = new NewsUpdateEventCachedOnSubscribe();
         this.feedUpdateEventSubject = new ForwardingSubject<NewsUpdateEvent>(feedUpdateEventOnSubscribe);
     }
