@@ -16,7 +16,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_UPDATED,
+            ItemEntry.COLUMN_INSERTED,
             ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
@@ -28,7 +28,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_UPDATED,
+            ItemEntry.COLUMN_INSERTED,
             ItemEntry.COLUMN_PARENT,
             ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_KIDS,
@@ -72,7 +72,7 @@ public class HNewsContract {
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_PARTS = "parts";
-        public static final String COLUMN_UPDATED= "timestamp";
+        public static final String COLUMN_INSERTED = "timestamp";
 
         public static Uri buildItemUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

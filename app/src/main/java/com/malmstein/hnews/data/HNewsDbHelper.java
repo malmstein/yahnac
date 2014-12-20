@@ -31,7 +31,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_UPDATED + " INTEGER" +
+                HNewsContract.ItemEntry.COLUMN_INSERTED + " INTEGER" +
                 " );";
 
         db.execSQL(SQL_CREATE_ITEM_TABLE);

@@ -88,7 +88,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Item.TYPE.story.name()},
-                ItemEntry.COLUMN_UPDATED + " ASC");
+                ItemEntry.COLUMN_INSERTED + " ASC");
 
     }
 

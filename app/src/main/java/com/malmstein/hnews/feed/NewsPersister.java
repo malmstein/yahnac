@@ -60,7 +60,7 @@ public class NewsPersister {
         storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, id);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, by);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type);
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time);
+        storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time * 1000);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, score);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_KIDS, kids);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title);
@@ -87,7 +87,7 @@ public class NewsPersister {
         commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, id);
         commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, by);
         commentValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time);
+        commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time * 1000);
         commentValues.put(HNewsContract.ItemEntry.COLUMN_KIDS, kids);
         commentValues.put(HNewsContract.ItemEntry.COLUMN_PARENT, parent);
         commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, text);
@@ -109,7 +109,7 @@ public class NewsPersister {
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
         } else {
-            contentValues.put(HNewsContract.ItemEntry.COLUMN_UPDATED, System.currentTimeMillis());
+            contentValues.put(HNewsContract.ItemEntry.COLUMN_INSERTED, System.currentTimeMillis());
             Log.d(contentValues.get("type").toString() + " item inserted");
             contentResolver.insert(HNewsContract.ItemEntry.CONTENT_URI, contentValues);
         }
