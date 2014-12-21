@@ -1,34 +1,23 @@
 package com.malmstein.hnews.feed;
 
-import com.malmstein.hnews.http.ConnectionProvider;
 import com.malmstein.hnews.tasks.FetchTopStoriesTask;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
-import static com.malmstein.hnews.feed.StoriesUpdateEvent.Type.REFRESH_FINISHED;
-import static com.malmstein.hnews.feed.StoriesUpdateEvent.Type.REFRESH_STARTED;
-
-public class HNRetriever implements Retriever<StoriesUpdateEvent> {
+public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
 
     private final DatabasePersister databasePersister;
-    private final ConnectionProvider connectionProvider;
 
-    public HNRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+    public StoriesRetriever(DatabasePersister databasePersister) {
         this.databasePersister = databasePersister;
-        this.connectionProvider = connectionProvider;
     }
 
     @Override
-    public Observable<StoriesUpdateEvent> fetchStories() {
+    public Observable<StoriesUpdateEvent> fetch() {
         return Observable.create(new StoriesUpdateOnSubscribe(databasePersister))
                 .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Observable<StoriesUpdateEvent> fetchComments() {
-        return null;
     }
 
     private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesUpdateEvent> {
@@ -48,13 +37,14 @@ public class HNRetriever implements Retriever<StoriesUpdateEvent> {
         }
 
         private void startFetchingTopsStories() {
-            subscriber.onNext(new StoriesUpdateEvent(REFRESH_STARTED));
+            subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
             createFetchTopStoriesTask();
-            subscriber.onNext(new StoriesUpdateEvent(REFRESH_FINISHED));
+            subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
         private FetchTopStoriesTask createFetchTopStoriesTask() {
             return new FetchTopStoriesTask(databasePersister);
         }
     }
+
 }

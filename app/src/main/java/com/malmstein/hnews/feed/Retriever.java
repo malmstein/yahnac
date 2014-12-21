@@ -4,7 +4,6 @@ import rx.Observable;
 
 public interface Retriever<T> {
 
-    Observable<T> fetchStories();
-    Observable<T> fetchComments();
+    Observable<T> fetch();
 
 }

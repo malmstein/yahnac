@@ -9,6 +9,6 @@
     android:id="@+id/comments_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.malmstein.hnews.comments.CommentListFragment" />
+    android:name="com.malmstein.hnews.comments.CommentFragment" />
 
 </LinearLayout>

@@ -1,8 +1,8 @@
 package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.base.DeveloperError;
+import com.malmstein.hnews.comments.CommentsRetriever;
 import com.malmstein.hnews.feed.DatabasePersister;
-import com.malmstein.hnews.feed.HNRetriever;
 import com.malmstein.hnews.feed.StoriesProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
 
@@ -10,12 +10,12 @@ public class Inject {
 
     private static Inject INSTANCE;
     private final StoriesProvider storiesProvider;
-    private final HNRetriever retriever;
+    private final CommentsRetriever commentsRetriever;
     private final ConnectionProvider connectionProvider;
 
-    private Inject(StoriesProvider storiesProvider, HNRetriever retriever, ConnectionProvider connectionProvider) {
+    private Inject(StoriesProvider storiesProvider, CommentsRetriever commentsRetriever, ConnectionProvider connectionProvider) {
         this.storiesProvider = storiesProvider;
-        this.retriever = retriever;
+        this.commentsRetriever = commentsRetriever;
         this.connectionProvider = connectionProvider;
     }
 
@@ -23,10 +23,10 @@ public class Inject {
         ConnectionProvider connectionProvider = factory.createConnectionProvider();
         DatabasePersister databasePersister = factory.createDatabasePersister();
 
-        StoriesProvider storiesProvider = factory.createStoriesProvider(databasePersister, connectionProvider);
-        HNRetriever retriever = factory.createCommentsRetriever(databasePersister, connectionProvider);
+        StoriesProvider storiesProvider = factory.createStoriesProvider(databasePersister);
+        CommentsRetriever commentsRetriever = factory.createCommentsRetriever(databasePersister, connectionProvider);
 
-        INSTANCE = new Inject(storiesProvider, retriever, connectionProvider);
+        INSTANCE = new Inject(storiesProvider, commentsRetriever, connectionProvider);
     }
 
     private static Inject instance() {
@@ -40,9 +40,7 @@ public class Inject {
         return instance().storiesProvider;
     }
 
-    public static HNRetriever itemsRetriever() {
-        return instance().retriever;
-    }
+    public static CommentsRetriever commentsRetriever() { return instance().commentsRetriever; }
 
     public static ConnectionProvider connectionProvider() {
         return instance().connectionProvider;

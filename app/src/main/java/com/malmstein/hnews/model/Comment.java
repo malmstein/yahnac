@@ -12,11 +12,14 @@ public class Comment extends Item {
         super(internalId, by, id, time);
         this.level = level;
         this.text = text;
-
     }
 
     public String getText() {
         return text;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public static Comment from(Cursor cursor) {
@@ -30,6 +33,8 @@ public class Comment extends Item {
 
         return new Comment(internalId, by, id, time, level, text);
     }
+
+
 }
 
 //{

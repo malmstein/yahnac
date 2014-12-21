@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.comments.CommentListFragment;
+import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
@@ -45,7 +45,7 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
 
     @Override
     public void onCommentsClicked(Long internalId) {
-        startActivity(new Intent(this, CommentsActivity.class).putExtra(CommentListFragment.ARG_STORY_ID, internalId));
+        startActivity(new Intent(this, CommentsActivity.class).putExtra(CommentFragment.ARG_STORY_ID, internalId));
     }
 
     @Override

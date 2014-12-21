@@ -2,8 +2,9 @@ package com.malmstein.hnews.inject;
 
 import android.content.Context;
 
+import com.malmstein.hnews.comments.CommentsRetriever;
 import com.malmstein.hnews.feed.DatabasePersister;
-import com.malmstein.hnews.feed.HNRetriever;
+import com.malmstein.hnews.feed.StoriesRetriever;
 import com.malmstein.hnews.feed.PersistedStoriesProvider;
 import com.malmstein.hnews.feed.StoriesProvider;
 import com.malmstein.hnews.http.AndroidConnectionProvider;
@@ -17,8 +18,8 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
         this.context = context;
     }
 
-    private HNRetriever createStoriesRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
-        return new HNRetriever(databasePersister, connectionProvider);
+    private StoriesRetriever createStoriesRetriever(DatabasePersister databasePersister) {
+        return new StoriesRetriever(databasePersister);
     }
 
     @Override
@@ -27,13 +28,13 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     }
 
     @Override
-    public StoriesProvider createStoriesProvider(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
-        return new PersistedStoriesProvider(createStoriesRetriever(databasePersister, connectionProvider));
+    public StoriesProvider createStoriesProvider(DatabasePersister databasePersister) {
+        return new PersistedStoriesProvider(createStoriesRetriever(databasePersister));
     }
 
     @Override
-    public HNRetriever createCommentsRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
-        return createStoriesRetriever(databasePersister, connectionProvider);
+    public CommentsRetriever createCommentsRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+        return new CommentsRetriever(databasePersister, connectionProvider);
     }
 
     @Override

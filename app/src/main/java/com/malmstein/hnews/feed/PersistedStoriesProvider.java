@@ -32,7 +32,7 @@ public class PersistedStoriesProvider implements StoriesProvider {
     }
 
     private Observable<StoriesUpdateEvent> startRemoteFetch() {
-        return retriever.fetchStories();
+        return retriever.fetch();
     }
 
     private Action1<StoriesUpdateEvent> onRetrieverFinish() {

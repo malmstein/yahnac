@@ -15,12 +15,13 @@ import android.widget.ListView;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.presenters.NewsCommentsAdapter;
 
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 
-public class CommentListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CommentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int COMMENTS_LOADER = 0;
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
@@ -32,6 +33,8 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
+        CommentsRetriever commentsRetriever = Inject.commentsRetriever();
+        commentsRetriever.fetch();
     }
 
     @Override
