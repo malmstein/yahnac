@@ -30,29 +30,24 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_INSERTED,
-            ItemEntry.COLUMN_TYPE,
-            ItemEntry.COLUMN_PARENT,
             ItemEntry.COLUMN_TEXT,
-            ItemEntry.COLUMN_KIDS,
+            ItemEntry.COLUMN_LEVEL,
     };
 
     public static final int COLUMN_ID = 0;
     public static final int COLUMN_ITEM_ID = 1;
     public static final int COLUMN_BY = 2;
     public static final int COLUMN_TIME = 3;
-    public static final int COLUMN_INSERTED = 4;
 
+    public static final int COLUMN_INSERTED = 4;
     public static final int COLUMN_TYPE = 5;
     public static final int COLUMN_SCORE = 6;
     public static final int COLUMN_TITLE = 7;
     public static final int COLUMN_URL = 8;
     public static final int COLUMN_STORY_KIDS = 9;
 
-    public static final int COLUMN_COMMENT_TYPE = 5;
-    public static final int COLUMN_PARENT = 6;
-    public static final int COLUMN_TEXT = 7;
-    public static final int COLUMN_COMMENT_KIDS = 8;
+    public static final int COLUMN_TEXT = 4;
+    public static final int COLUMN_LEVEL = 5;
 
     public static final class ItemEntry implements BaseColumns {
 

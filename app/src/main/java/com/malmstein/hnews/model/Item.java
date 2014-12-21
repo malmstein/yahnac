@@ -14,17 +14,13 @@ public class Item {
     private final Long internalId;
     private final String by;
     private final Long id;
-    private final String type;
     private final Long time;
-    private final Long updated;
 
-    public Item(Long internalId, String by, Long id, String type, Long time, Long updated) {
+    public Item(Long internalId, String by, Long id, Long time) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
-        this.type = type;
         this.time = time;
-        this.updated = updated;
     }
 
     public Long getInternalId() {
@@ -39,15 +35,8 @@ public class Item {
         return id;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public Long getTime() {
         return time;
     }
 
-    public Long getUpdated() {
-        return updated;
-    }
 }

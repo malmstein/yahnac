@@ -16,13 +16,17 @@ public class Story extends Item implements Serializable {
     private final String title;
     private final String url;
     private final ArrayList<String> kids;
+    private final Long updated;
+    private final String type;
 
     public Story(Long internalId, String by, Long id, String type, Long time, int score, String title, String url, ArrayList<String> kids, Long updated) {
-        super(internalId, by, id, type, time, updated);
+        super(internalId, by, id, time);
+        this.type = type;
         this.score = score;
         this.title = title;
         this.url = url;
         this.kids = kids;
+        this.updated = updated;
     }
 
     public int getScore() {
@@ -47,6 +51,14 @@ public class Story extends Item implements Serializable {
 
     public int getComments() {
         return  hasKids() ? getKids().size() : 0;
+    }
+
+    public Long getUpdated() {
+        return updated;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public static Story from(Cursor cursor) {

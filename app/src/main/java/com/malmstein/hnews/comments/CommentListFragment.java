@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.presenters.NewsCommentsAdapter;
 
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
@@ -46,6 +45,10 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
         return rootView;
     }
 
+    private String getArgStoryId(){
+        return String.valueOf(getActivity().getIntent().getLongExtra(ARG_STORY_ID, 0));
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -55,8 +58,8 @@ public class CommentListFragment extends Fragment implements LoaderManager.Loade
                 getActivity(),
                 commentsUri,
                 COMMENT_COLUMNS,
-                ItemEntry.COLUMN_TYPE + " = ?",
-                new String[]{Item.TYPE.comment.name()},
+                ItemEntry.COLUMN_ITEM_ID + " = ?",
+                new String[]{getArgStoryId()},
                 null
         );
     }

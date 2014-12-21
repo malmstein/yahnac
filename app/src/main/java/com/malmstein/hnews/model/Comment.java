@@ -2,36 +2,21 @@ package com.malmstein.hnews.model;
 
 import android.database.Cursor;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.malmstein.hnews.data.HNewsContract;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class Comment extends Item {
 
-    private final Long parent;
+    private final int level;
     private final String text;
-    private final ArrayList<String> kids;
-
-    public Comment(Long internalId, String by, Long id, String type, Long time, Long parent, String text, ArrayList<String> kids, Long updated) {
-        super(internalId, by, id, type, time, updated);
-        this.parent = parent;
+    public Comment(Long internalId, String by, Long id, Long time, int level, String text) {
+        super(internalId, by, id, time);
+        this.level = level;
         this.text = text;
-        this.kids = kids;
-    }
 
-    public Long getParent() {
-        return parent;
     }
 
     public String getText() {
         return text;
-    }
-
-    public ArrayList<String> getKids() {
-        return kids;
     }
 
     public static Comment from(Cursor cursor) {
@@ -39,18 +24,11 @@ public class Comment extends Item {
         Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
         Long time = cursor.getLong(HNewsContract.COLUMN_TIME);
-        Long updated = cursor.getLong(HNewsContract.COLUMN_INSERTED);
 
-        Long parent = cursor.getLong(HNewsContract.COLUMN_PARENT);
+        int level = cursor.getInt(HNewsContract.COLUMN_LEVEL);
         String text = cursor.getString(HNewsContract.COLUMN_TEXT);
-        String kids = cursor.getString(HNewsContract.COLUMN_COMMENT_KIDS);
-        String type = cursor.getString(HNewsContract.COLUMN_COMMENT_TYPE);
 
-        Gson gson = new Gson();
-        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
-        ArrayList<String> kidsArray = gson.fromJson(kids, jsonType);
-
-        return new Comment(internalId, by, id, type, time, parent, text, kidsArray, updated);
+        return new Comment(internalId, by, id, time, level, text);
     }
 }
 
