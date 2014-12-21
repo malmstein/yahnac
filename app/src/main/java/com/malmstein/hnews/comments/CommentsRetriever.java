@@ -23,8 +23,8 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
     }
 
     @Override
-    public Observable<CommentsUpdateEvent> fetch() {
-        return Observable.create(new CommentsUpdateOnSubscribe(databasePersister, connectionProvider))
+    public Observable<CommentsUpdateEvent> fetch(Long... params) {
+        return Observable.create(new CommentsUpdateOnSubscribe(databasePersister, connectionProvider, params[0]))
                 .subscribeOn(Schedulers.io());
     }
 
@@ -32,11 +32,13 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
 
         private final DatabasePersister databasePersister;
         private final ConnectionProvider connectionProvider;
+        private final Long storyId;
         private Subscriber<? super CommentsUpdateEvent> subscriber;
 
-        private CommentsUpdateOnSubscribe(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+        private CommentsUpdateOnSubscribe(DatabasePersister databasePersister, ConnectionProvider connectionProvider, Long storyId) {
             this.databasePersister = databasePersister;
             this.connectionProvider = connectionProvider;
+            this.storyId = storyId;
         }
 
         @Override
@@ -48,13 +50,13 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
 
         private void startFetchingComments() {
             subscriber.onNext(new CommentsUpdateEvent(REFRESH_STARTED));
-            createFetchCommentsTask();
+            createFetchCommentsTask().execute();
             subscriber.onNext(new CommentsUpdateEvent(REFRESH_FINISHED));
         }
 
 
         private FetchCommentsTask createFetchCommentsTask() {
-            return new FetchCommentsTask(databasePersister, connectionProvider);
+            return new FetchCommentsTask(databasePersister, connectionProvider, storyId);
         }
     }
 }

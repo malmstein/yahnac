@@ -15,7 +15,7 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
     }
 
     @Override
-    public Observable<StoriesUpdateEvent> fetch() {
+    public Observable<StoriesUpdateEvent> fetch(Long... params) {
         return Observable.create(new StoriesUpdateOnSubscribe(databasePersister))
                 .subscribeOn(Schedulers.io());
     }

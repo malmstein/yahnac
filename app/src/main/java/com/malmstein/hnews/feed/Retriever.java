@@ -4,6 +4,6 @@ import rx.Observable;
 
 public interface Retriever<T> {
 
-    Observable<T> fetch();
+    Observable<T> fetch(Long... params);
 
 }
