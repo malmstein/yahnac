@@ -1,26 +1,25 @@
 package com.malmstein.hnews.feed;
 
 import com.malmstein.hnews.base.ForwardingSubject;
-import com.malmstein.hnews.model.Item;
 
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class PersistedNewsProvider implements NewsProvider {
+public class PersistedStoriesProvider implements StoriesProvider {
 
-    private final Retriever<NewsUpdateEvent> retriever;
+    private final Retriever<StoriesUpdateEvent> retriever;
 
-    private final ForwardingSubject<NewsUpdateEvent> feedUpdateEventSubject;
-    private final CachedOnSubscribe<NewsUpdateEvent> feedUpdateEventOnSubscribe;
+    private final ForwardingSubject<StoriesUpdateEvent> feedUpdateEventSubject;
+    private final CachedOnSubscribe<StoriesUpdateEvent> feedUpdateEventOnSubscribe;
 
     private Subscription retrieverSubscription;
 
-    public PersistedNewsProvider(Retriever<NewsUpdateEvent> retriever) {
+    public PersistedStoriesProvider(Retriever<StoriesUpdateEvent> retriever) {
         this.retriever = retriever;
         this.feedUpdateEventOnSubscribe = new NewsUpdateEventCachedOnSubscribe();
-        this.feedUpdateEventSubject = new ForwardingSubject<NewsUpdateEvent>(feedUpdateEventOnSubscribe);
+        this.feedUpdateEventSubject = new ForwardingSubject<StoriesUpdateEvent>(feedUpdateEventOnSubscribe);
     }
 
     @Override
@@ -32,15 +31,15 @@ public class PersistedNewsProvider implements NewsProvider {
                 .subscribe(feedUpdateEventSubject);
     }
 
-    private Observable<NewsUpdateEvent> startRemoteFetch() {
-        return retriever.fetch();
+    private Observable<StoriesUpdateEvent> startRemoteFetch() {
+        return retriever.fetchStories();
     }
 
-    private Action1<NewsUpdateEvent> onRetrieverFinish() {
-        return new Action1<NewsUpdateEvent>() {
+    private Action1<StoriesUpdateEvent> onRetrieverFinish() {
+        return new Action1<StoriesUpdateEvent>() {
             @Override
-            public void call(NewsUpdateEvent newsUpdateEvent) {
-                if (!newsUpdateEvent.isRefreshFinished()) {
+            public void call(StoriesUpdateEvent storiesUpdateEvent) {
+                if (!storiesUpdateEvent.isRefreshFinished()) {
                     return;
                 }
                 if (isAlreadySubscribed()) {
@@ -65,8 +64,4 @@ public class PersistedNewsProvider implements NewsProvider {
         return retrieverSubscription != null && !retrieverSubscription.isUnsubscribed();
     }
 
-    @Override
-    public Observable<Item> getNewsObservable() {
-        return null;
-    }
 }

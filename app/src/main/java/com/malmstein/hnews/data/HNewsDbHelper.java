@@ -16,7 +16,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        final String SQL_CREATE_ITEM_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_NAME + " (" +
+        final String SQL_CREATE_STORIES_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_ITEM_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
                 HNewsContract.ItemEntry.COLUMN_DELETED + " BOOLEAN," +
@@ -34,12 +34,23 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_INSERTED + " INTEGER" +
                 " );";
 
-        db.execSQL(SQL_CREATE_ITEM_TABLE);
+        final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
+                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_LEVEL + " INTEGER" +
+                " );";
+
+        db.execSQL(SQL_CREATE_STORIES_TABLE);
+        db.execSQL(SQL_CREATE_COMMENTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME);
         onCreate(db);
     }
 }

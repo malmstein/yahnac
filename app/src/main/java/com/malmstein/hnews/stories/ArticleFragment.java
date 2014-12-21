@@ -106,7 +106,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyUri = HNewsContract.ItemEntry.buildItemUri(getItemId());
+        Uri storyUri = HNewsContract.ItemEntry.buildStoryUriWith(getItemId());
 
         return new CursorLoader(
                 getActivity(),

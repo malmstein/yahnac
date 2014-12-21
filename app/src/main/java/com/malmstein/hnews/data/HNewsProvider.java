@@ -15,6 +15,7 @@ public class HNewsProvider extends ContentProvider {
 
     private static final int STORY = 100;
     private static final int STORY_ITEM = 101;
+    private static final int COMMENT = 102;
 
     @Override
     public boolean onCreate() {
@@ -28,7 +29,7 @@ public class HNewsProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case STORY: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        HNewsContract.ItemEntry.TABLE_NAME,
+                        HNewsContract.ItemEntry.TABLE_ITEM_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -40,10 +41,22 @@ public class HNewsProvider extends ContentProvider {
             }
             case STORY_ITEM: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        HNewsContract.ItemEntry.TABLE_NAME,
+                        HNewsContract.ItemEntry.TABLE_ITEM_NAME,
                         projection,
                         HNewsContract.ItemEntry._ID + " = '" + ContentUris.parseId(uri) + "'",
                         null,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case COMMENT: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        HNewsContract.ItemEntry.TABLE_COMMENTS_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
                         null,
                         null,
                         sortOrder
@@ -63,9 +76,11 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY:
-                return HNewsContract.ItemEntry.CONTENT_TYPE;
+                return HNewsContract.ItemEntry.CONTENT_STORY_TYPE;
             case STORY_ITEM:
-                return HNewsContract.ItemEntry.CONTENT_ITEM_TYPE;
+                return HNewsContract.ItemEntry.CONTENT_STORY_ITEM_TYPE;
+            case COMMENT:
+                return HNewsContract.ItemEntry.CONTENT_COMMENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -79,9 +94,18 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY: {
-                long _id = db.insert(HNewsContract.ItemEntry.TABLE_NAME, null, values);
+                long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, values);
                 if (_id > 0) {
-                    returnUri = HNewsContract.ItemEntry.buildItemUri(_id);
+                    returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
+            case COMMENT: {
+                long _id = db.insert(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, null, values);
+                if (_id > 0) {
+                    returnUri = HNewsContract.ItemEntry.buildCommentUriWith(_id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -102,7 +126,11 @@ public class HNewsProvider extends ContentProvider {
         switch (match) {
             case STORY:
                 rowsDeleted = db.delete(
-                        HNewsContract.ItemEntry.TABLE_NAME, selection, selectionArgs);
+                        HNewsContract.ItemEntry.TABLE_ITEM_NAME, selection, selectionArgs);
+                break;
+            case COMMENT:
+                rowsDeleted = db.delete(
+                        HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -121,7 +149,11 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY:
-                rowsUpdated = db.update(HNewsContract.ItemEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case COMMENT:
+                rowsUpdated = db.update(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -139,6 +171,7 @@ public class HNewsProvider extends ContentProvider {
 
         matcher.addURI(authority, HNewsContract.PATH_ITEM, STORY);
         matcher.addURI(authority, HNewsContract.PATH_ITEM + "/*", STORY_ITEM);
+        matcher.addURI(authority, HNewsContract.PATH_COMMENT, COMMENT);
 
         return matcher;
     }

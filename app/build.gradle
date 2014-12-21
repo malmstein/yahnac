@@ -42,4 +42,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:1.5.4'
     compile 'com.novoda:notils:2.2.8'
     compile 'com.google.code.gson:gson:2.3'
+    compile 'org.jsoup:jsoup:1.8.1'
 }

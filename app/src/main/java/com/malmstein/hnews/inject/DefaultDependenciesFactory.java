@@ -2,12 +2,12 @@ package com.malmstein.hnews.inject;
 
 import android.content.Context;
 
-import com.malmstein.hnews.feed.ItemsRetriever;
-import com.malmstein.hnews.feed.NewsPersister;
-import com.malmstein.hnews.feed.NewsProvider;
-import com.malmstein.hnews.feed.NewsUpdateEvent;
-import com.malmstein.hnews.feed.PersistedNewsProvider;
-import com.malmstein.hnews.feed.Retriever;
+import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.feed.HNRetriever;
+import com.malmstein.hnews.feed.PersistedStoriesProvider;
+import com.malmstein.hnews.feed.StoriesProvider;
+import com.malmstein.hnews.http.AndroidConnectionProvider;
+import com.malmstein.hnews.http.ConnectionProvider;
 
 public class DefaultDependenciesFactory implements DependenciesFactory {
 
@@ -17,18 +17,28 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
         this.context = context;
     }
 
-    private Retriever<NewsUpdateEvent> createRetriever(NewsPersister newsPersister) {
-        return new ItemsRetriever(newsPersister);
+    private HNRetriever createStoriesRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+        return new HNRetriever(databasePersister, connectionProvider);
     }
 
     @Override
-    public NewsPersister createFeedPersister() {
-        return new NewsPersister(context.getContentResolver());
+    public DatabasePersister createDatabasePersister() {
+        return new DatabasePersister(context.getContentResolver());
     }
 
     @Override
-    public NewsProvider createFeedProvider(NewsPersister newsPersister) {
-        return new PersistedNewsProvider(createRetriever(newsPersister));
+    public StoriesProvider createStoriesProvider(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+        return new PersistedStoriesProvider(createStoriesRetriever(databasePersister, connectionProvider));
+    }
+
+    @Override
+    public HNRetriever createCommentsRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+        return createStoriesRetriever(databasePersister, connectionProvider);
+    }
+
+    @Override
+    public ConnectionProvider createConnectionProvider() {
+        return AndroidConnectionProvider.newInstance();
     }
 
 }

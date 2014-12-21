@@ -81,7 +81,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri storyNewsUri = ItemEntry.buildItemsUri();
+        Uri storyNewsUri = ItemEntry.buildStoriesUri();
 
         return new CursorLoader(
                 getActivity(),

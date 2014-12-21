@@ -1,20 +1,20 @@
 package com.malmstein.hnews.feed;
 
-import static com.malmstein.hnews.feed.NewsUpdateEvent.Type.REFRESH_FINISHED;
+import static com.malmstein.hnews.feed.StoriesUpdateEvent.Type.REFRESH_FINISHED;
 
-public class NewsUpdateEventCachedOnSubscribe extends CachedOnSubscribe<NewsUpdateEvent> {
+public class NewsUpdateEventCachedOnSubscribe extends CachedOnSubscribe<StoriesUpdateEvent> {
 
     public NewsUpdateEventCachedOnSubscribe() {
         super();
     }
 
-    public NewsUpdateEventCachedOnSubscribe(NewsUpdateEvent defaultValue) {
+    public NewsUpdateEventCachedOnSubscribe(StoriesUpdateEvent defaultValue) {
         super(defaultValue);
     }
 
     @Override
-    protected NewsUpdateEvent getRecoveryValue(Throwable e) {
-        return new NewsUpdateEvent(REFRESH_FINISHED);
+    protected StoriesUpdateEvent getRecoveryValue(Throwable e) {
+        return new StoriesUpdateEvent(REFRESH_FINISHED);
     }
 
     /**

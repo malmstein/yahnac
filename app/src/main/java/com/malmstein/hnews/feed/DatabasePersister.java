@@ -12,11 +12,11 @@ import com.novoda.notils.logger.simple.Log;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class NewsPersister {
+public class DatabasePersister {
 
     private final ContentResolver contentResolver;
 
-    public NewsPersister(ContentResolver contentResolver) {
+    public DatabasePersister(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 
@@ -97,7 +97,7 @@ public class NewsPersister {
 
     private void persistItem(ContentValues contentValues, Long itemId) {
         Cursor storyCursor = contentResolver.query(
-                HNewsContract.ItemEntry.CONTENT_URI,
+                HNewsContract.ItemEntry.CONTENT_STORY_URI,
                 new String[]{HNewsContract.ItemEntry.COLUMN_BY},
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{itemId.toString()},
@@ -105,13 +105,13 @@ public class NewsPersister {
 
         if (storyCursor.moveToFirst()) {
             Log.d(contentValues.get("type").toString() + " item updated");
-            contentResolver.update(HNewsContract.ItemEntry.CONTENT_URI, contentValues,
+            contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues,
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
         } else {
             contentValues.put(HNewsContract.ItemEntry.COLUMN_INSERTED, System.currentTimeMillis());
             Log.d(contentValues.get("type").toString() + " item inserted");
-            contentResolver.insert(HNewsContract.ItemEntry.CONTENT_URI, contentValues);
+            contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
         }
         storyCursor.close();
     }

@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.feed.NewsProvider;
+import com.malmstein.hnews.feed.StoriesProvider;
 import com.malmstein.hnews.inject.Inject;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
@@ -89,8 +89,8 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        NewsProvider newsProvider = Inject.feedProvider();
-        newsProvider.refresh();
+        StoriesProvider storiesProvider = Inject.storiesProvider();
+        storiesProvider.refresh();
     }
 
 }

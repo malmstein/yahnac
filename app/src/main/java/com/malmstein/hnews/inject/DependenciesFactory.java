@@ -1,12 +1,18 @@
 package com.malmstein.hnews.inject;
 
-import com.malmstein.hnews.feed.NewsPersister;
-import com.malmstein.hnews.feed.NewsProvider;
+import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.feed.HNRetriever;
+import com.malmstein.hnews.feed.StoriesProvider;
+import com.malmstein.hnews.http.ConnectionProvider;
 
 public interface DependenciesFactory {
 
-    NewsPersister createFeedPersister();
+    DatabasePersister createDatabasePersister();
 
-    NewsProvider createFeedProvider(NewsPersister newsPersister);
+    StoriesProvider createStoriesProvider(DatabasePersister databasePersister, ConnectionProvider connectionProvider);
+
+    HNRetriever createCommentsRetriever(DatabasePersister commentsPersister, ConnectionProvider connectionProvider);
+
+    ConnectionProvider createConnectionProvider();
 
 }

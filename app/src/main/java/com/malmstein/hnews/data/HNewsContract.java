@@ -4,14 +4,13 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.malmstein.hnews.model.Item;
-
 public class HNewsContract {
 
     public static final String CONTENT_AUTHORITY = "com.malmstein.hnews";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEM = "item";
+    public static final String PATH_COMMENT = "comment";
 
     public static final String[] STORY_COLUMNS = {
             ItemEntry._ID,
@@ -55,17 +54,17 @@ public class HNewsContract {
     public static final int COLUMN_TEXT = 7;
     public static final int COLUMN_COMMENT_KIDS = 8;
 
-
-
-    /* Inner class that defines the table contents of the location table */
     public static final class ItemEntry implements BaseColumns {
 
-        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
+        public static final Uri CONTENT_STORY_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
+        public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
 
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
-        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
+        public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
+        public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
+        public static final String CONTENT_STORY_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
 
-        public static final String TABLE_NAME = "item";
+        public static final String TABLE_ITEM_NAME = "item";
+        public static final String TABLE_COMMENTS_NAME = "comment";
 
         public static final String COLUMN_ITEM_ID = "item_id";
         public static final String COLUMN_DELETED = "deleted";
@@ -81,17 +80,22 @@ public class HNewsContract {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_PARTS = "parts";
         public static final String COLUMN_INSERTED = "timestamp";
+        public static final String COLUMN_LEVEL = "level";
 
-        public static Uri buildItemUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+        public static Uri buildStoryUriWith(long id) {
+            return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
         }
 
-        public static Uri buildItemsUri() {
-            return CONTENT_URI.buildUpon().build();
+        public static Uri buildStoriesUri() {
+            return CONTENT_STORY_URI.buildUpon().build();
+        }
+
+        public static Uri buildCommentUriWith(long id) {
+            return ContentUris.withAppendedId(CONTENT_COMMENTS_URI, id);
         }
 
         public static Uri buildCommentsUri() {
-            return CONTENT_URI.buildUpon().appendQueryParameter(COLUMN_TYPE, Item.TYPE.comment.name()).build();
+            return CONTENT_COMMENTS_URI.buildUpon().build();
         }
 
     }
