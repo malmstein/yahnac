@@ -3,9 +3,7 @@ package com.malmstein.hnews.tasks;
 import com.malmstein.hnews.comments.CommentsParser;
 import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.http.ConnectionProvider;
-import com.novoda.notils.logger.simple.Log;
 
-import java.io.Closeable;
 import java.io.IOException;
 
 import org.apache.http.HttpEntity;
@@ -38,22 +36,13 @@ public class FetchCommentsTask {
     }
 
     public void execute() throws IOException {
-
-
-        //set timeouts
-        int timeoutConnection = 5000;
-        int timeoutSocket = 15000;
         HttpParams httpParameters = new BasicHttpParams();
 
-        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        HttpConnectionParams.setConnectionTimeout(httpParameters, getConnectionTimeout());
+        HttpConnectionParams.setSoTimeout(httpParameters, getReadTimeout());
 
         HttpClient httpclient = new DefaultHttpClient(httpParameters);
         HttpGet httpget = new HttpGet("https://news.ycombinator.com/item?id=" + storyId);
-
-
-        Integer i = 0;
-        Boolean success = false;
 
         HttpResponse response = httpclient.execute(httpget);
 
@@ -64,26 +53,8 @@ public class FetchCommentsTask {
 
             Document doc = Jsoup.parse(result);
 
+
             databasePersister.persistComments(new CommentsParser(storyId, doc).parse(), storyId);
-
-            success = true;
-        } else {
-            success = false;
-            Log.i("GetCommentsStatusCode", response.getStatusLine().getStatusCode() + "");
-
-        }
-
-
-    }
-
-    public void closeSilently(Closeable closeable) {
-        if (closeable == null) {
-            return;
-        }
-        try {
-            closeable.close();
-        } catch (IOException e) {
-            Log.d("Failed to close silently", e);
         }
     }
 

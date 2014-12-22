@@ -28,6 +28,7 @@ public class CommentsParser {
     }
 
     public Vector<ContentValues> parse() {
+        commentsList.clear();
         Elements comments = document.select("body>center>table>tbody>tr>td>table>tbody>tr>td>table>tbody>tr");
 
         for (Element comment : comments) {

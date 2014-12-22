@@ -25,7 +25,7 @@ public class PersistedCommentsProvider implements CommentsProvider {
     }
 
     @Override
-    public void refresh(Long storyId) {
+    public void fetch(Long storyId) {
         retrieverSubscription = startRemoteFetch(storyId)
                 .doOnNext(onRetrieverFinish())
                 .doOnError(onRetrieverError())

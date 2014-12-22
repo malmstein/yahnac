@@ -79,19 +79,7 @@ public class DatabasePersister {
         storyCursor.close();
     }
 
-    public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI,
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                new String[]{storyId.toString()});
-
-
-        ContentValues[] cvArray = new ContentValues[commentsVector.size()];
-        commentsVector.toArray(cvArray);
-        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
-    }
-
     public void updateStoriesOrder() {
-
         ContentValues updatedOrderValues = new ContentValues();
         updatedOrderValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, 101);
 
@@ -104,6 +92,18 @@ public class DatabasePersister {
     public void cleanUpStories() {
         contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
                 HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " = ?",
-                new String[]{"100"});
+                new String[]{"101"});
     }
+
+    public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI,
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                new String[]{storyId.toString()});
+
+        ContentValues[] cvArray = new ContentValues[commentsVector.size()];
+        commentsVector.toArray(cvArray);
+        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
+    }
+
+
 }

@@ -41,7 +41,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
         CommentsProvider commentsProvider = Inject.commentsProvider();
-        commentsProvider.refresh(getArgStoryId());
+        commentsProvider.fetch(getArgStoryId());
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onRefresh() {
         CommentsProvider commentsProvider = Inject.commentsProvider();
-        commentsProvider.refresh(getArgStoryId());
+        commentsProvider.fetch(getArgStoryId());
     }
 
     @Override
