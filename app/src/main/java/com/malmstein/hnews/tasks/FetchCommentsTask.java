@@ -7,8 +7,6 @@ import com.novoda.notils.logger.simple.Log;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -66,7 +64,7 @@ public class FetchCommentsTask {
 
             Document doc = Jsoup.parse(result);
 
-            databasePersister.persistComments(new CommentsParser(storyId, doc).parse());
+            databasePersister.persistComments(new CommentsParser(storyId, doc).parse(), storyId);
 
             success = true;
         } else {
@@ -76,16 +74,6 @@ public class FetchCommentsTask {
         }
 
 
-    }
-
-    protected void parseResponseBody(HttpURLConnection connection) throws IOException {
-        InputStream in = null;
-        try {
-            in = connection.getInputStream();
-            databasePersister.persistComments(new CommentsParser(storyId, Jsoup.parse(in.toString())).parse());
-        } finally {
-            closeSilently(in);
-        }
     }
 
     public void closeSilently(Closeable closeable) {

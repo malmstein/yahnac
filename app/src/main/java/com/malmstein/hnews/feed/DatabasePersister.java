@@ -76,7 +76,12 @@ public class DatabasePersister {
         storyCursor.close();
     }
 
-    public void persistComments(Vector<ContentValues> commentsVector) {
+    public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI,
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                new String[]{storyId.toString()});
+
+
         ContentValues[] cvArray = new ContentValues[commentsVector.size()];
         commentsVector.toArray(cvArray);
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);

@@ -36,7 +36,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
