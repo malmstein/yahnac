@@ -31,7 +31,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int COMMENTS_LOADER = 0;
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
 
-    private int refreshViewOffset;
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
     private NewsCommentsAdapter commentsAdapter;
@@ -64,8 +63,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setViewDelegate(this);
-        refreshViewOffset = getResources().getDimensionPixelSize(R.dimen.feed_refresh_top_padding);
-        refreshLayout.setProgressViewOffset(false, 0, refreshViewOffset);
     }
 
     private void setupCommentsList() {

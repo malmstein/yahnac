@@ -37,7 +37,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     private Listener listener;
 
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private int refreshViewOffset;
 
     @Override
     public void onAttach(Activity activity) {
@@ -68,8 +67,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setViewDelegate(this);
-        refreshViewOffset = getResources().getDimensionPixelSize(R.dimen.feed_refresh_top_padding);
-        refreshLayout.setProgressViewOffset(false, 0, refreshViewOffset);
     }
 
     private void setupStoriesList() {
