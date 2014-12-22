@@ -9,7 +9,6 @@ import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
-import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
 public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragment.Listener {
 
@@ -17,8 +16,6 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
-        HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

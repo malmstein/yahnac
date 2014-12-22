@@ -47,6 +47,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        HNewsSyncAdapter.syncImmediately(getActivity());
         getLoaderManager().initLoader(STORY_LOADER, null, this);
     }
 
@@ -74,9 +75,16 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         mNewsListView.setAdapter(mNewsAdapter);
     }
 
+    private void startRefreshing() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    private void stopRefreshing() {
+        refreshLayout.setRefreshing(false);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
         Uri storyNewsUri = ItemEntry.buildStoriesUri();
 
         return new CursorLoader(
@@ -90,12 +98,13 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mNewsAdapter.swapCursor(data);
         stopRefreshing();
+        mNewsAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        stopRefreshing();
         mNewsAdapter.swapCursor(null);
         stopRefreshing();
     }
@@ -103,10 +112,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onRefresh() {
         HNewsSyncAdapter.syncImmediately(getActivity());
-    }
-
-    private void stopRefreshing() {
-        refreshLayout.setRefreshing(false);
     }
 
     @Override

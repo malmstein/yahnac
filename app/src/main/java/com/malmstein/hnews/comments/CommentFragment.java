@@ -40,6 +40,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
+        startRefreshing();
         CommentsProvider commentsProvider = Inject.commentsProvider();
         commentsProvider.fetch(getArgStoryId());
     }
@@ -57,6 +58,15 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         setupCommentsList();
 
         return rootView;
+    }
+
+    private void startRefreshing() {
+        refreshLayout.postOnAnimation(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     private void setupRefreshLayout() {

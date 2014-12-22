@@ -2,6 +2,8 @@ package com.malmstein.hnews.presenters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +32,21 @@ public class NewsCommentsAdapter extends CursorAdapter {
 
         ViewHolder holder = (ViewHolder) view.getTag();
         Comment comment = Comment.from(cursor);
-        holder.text.setText(comment.getText());
+        holder.text.setText(Html.fromHtml(comment.getText()));
+        holder.text.setMovementMethod(LinkMovementMethod.getInstance());
+        holder.author.setText(Html.fromHtml(comment.getBy()));
+        holder.when.setText(Html.fromHtml(comment.getTimeText()));
     }
 
     public static class ViewHolder {
         public final TextView text;
+        public final TextView author;
+        public final TextView when;
 
         public ViewHolder(View view) {
             text = (TextView) view.findViewById(R.id.comment_text);
+            author = (TextView) view.findViewById(R.id.comment_by);
+            when = (TextView) view.findViewById(R.id.comment_when);
         }
     }
 }

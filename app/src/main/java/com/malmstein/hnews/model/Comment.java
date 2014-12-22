@@ -38,7 +38,9 @@ public class Comment extends Item {
         return new Comment(internalId, by, id, time, level, text, timeText);
     }
 
-
+    public String getTimeText() {
+        return timeText;
+    }
 }
 
 //{

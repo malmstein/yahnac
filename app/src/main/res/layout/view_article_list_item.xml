@@ -56,8 +56,6 @@
             android:paddingLeft="@dimen/card_content_padding"
             android:text="user" />
 
-
-
         </LinearLayout>
 
         <TextView

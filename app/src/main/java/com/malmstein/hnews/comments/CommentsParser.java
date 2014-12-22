@@ -1,8 +1,6 @@
 package com.malmstein.hnews.comments;
 
 import android.content.ContentValues;
-import android.text.Html;
-import android.text.Spanned;
 
 import com.malmstein.hnews.data.HNewsContract;
 
@@ -62,21 +60,9 @@ public class CommentsParser {
 
             if (text.contains("<p>") && text.contains("reply?id=")) { // removed reply link from multi paragraph replies
                 text = text.substring(0, text.lastIndexOf("<p>"));
-            } else {
-                text = text + "<p></p>"; // maintains uniformity with multiparagraph lines
             }
 
             text = Jsoup.clean(text, Whitelist.basic());
-            Spanned text_sp = Html.fromHtml(text);
-
-            Elements a_links = Jsoup.parse(text).select("a[href]");
-
-            //extract all links in the reply
-            String[] url_list = new String[a_links.size()];
-            int i = 0;
-            for (Element a : a_links) {
-                url_list[i++] = a.attr("href");
-            }
 
             if (nested.equals("0")) {
                 level = 0;
