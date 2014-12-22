@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.malmstein.hnews.data.HNewsContract;
-
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -42,7 +40,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_LEVEL + " INTEGER" +
+                HNewsContract.ItemEntry.COLUMN_LEVEL + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_TIME_TEXT + " TEXT" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);

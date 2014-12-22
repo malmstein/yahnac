@@ -1,6 +1,6 @@
 package com.malmstein.hnews.inject;
 
-import com.malmstein.hnews.comments.CommentsRetriever;
+import com.malmstein.hnews.comments.CommentsProvider;
 import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.feed.StoriesProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
@@ -13,6 +13,6 @@ public interface DependenciesFactory {
 
     StoriesProvider createStoriesProvider(DatabasePersister databasePersister);
 
-    CommentsRetriever createCommentsRetriever(DatabasePersister commentsPersister, ConnectionProvider connectionProvider);
+    CommentsProvider createCommentsProvider(DatabasePersister databasePersister);
 
 }

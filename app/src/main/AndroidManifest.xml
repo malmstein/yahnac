@@ -24,7 +24,8 @@
     </activity>
 
     <activity android:name="com.malmstein.hnews.stories.ArticleActivity"
-      android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity">
+      android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity"
+      android:configChanges="keyboardHidden|orientation|screenSize">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value="com.malmstein.hnews.stories.TopStoriesActivity" />

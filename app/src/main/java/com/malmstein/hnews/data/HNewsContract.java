@@ -32,6 +32,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_TIME,
             ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_LEVEL,
+            ItemEntry.COLUMN_TIME_TEXT,
     };
 
     public static final int COLUMN_ID = 0;
@@ -48,6 +49,7 @@ public class HNewsContract {
 
     public static final int COLUMN_TEXT = 4;
     public static final int COLUMN_LEVEL = 5;
+    public static final int COLUMN_TIME_TEXT = 6;
 
     public static final class ItemEntry implements BaseColumns {
 
@@ -76,6 +78,7 @@ public class HNewsContract {
         public static final String COLUMN_PARTS = "parts";
         public static final String COLUMN_INSERTED = "timestamp";
         public static final String COLUMN_LEVEL = "level";
+        public static final String COLUMN_TIME_TEXT = "time_text";
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);

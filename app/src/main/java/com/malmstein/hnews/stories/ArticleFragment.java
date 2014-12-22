@@ -2,7 +2,6 @@ package com.malmstein.hnews.stories;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,15 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.HNewsContract;
-import com.novoda.notils.logger.simple.Log;
 
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
@@ -38,6 +38,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     private ShareActionProvider mShareActionProvider;
     private WebView webView;
+    private ProgressBar webViewProgress;
     private String articleUrl;
 
     public static ArticleFragment from(Long itemId) {
@@ -86,13 +87,41 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_article, container, false);
 
         webView = (WebView) rootView.findViewById(R.id.article_webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webView.setWebViewClient(new HackerNewsWebClient());
+        webViewProgress = (ProgressBar) rootView.findViewById(R.id.article_progress);
+
+        setupWebView();
 
         return rootView;
+    }
+
+    private void setupWebView() {
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+
+        webView.setWebViewClient(new HackerNewsWebClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                webViewProgress.setProgress(progress);
+                if (webViewProgress.getProgress() >= 100) {
+                    webViewProgress.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+
+    private class HackerNewsWebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
     @Override
@@ -134,36 +163,4 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
 
-    private class HackerNewsWebClient extends WebViewClient {
-
-        boolean loadedFinished = false;
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            loadedFinished = true;
-            Log.d("onPageFinished: " + url);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            if (loadedFinished && (!articleUrl.equals(url))) {
-                launchExternalBrowser(Uri.parse(url));
-            }
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (loadedFinished && (!articleUrl.equals(url))) {
-                launchExternalBrowser(Uri.parse(url));
-                return true;
-            }
-
-            return false;
-        }
-
-        private void launchExternalBrowser(Uri newUri) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, newUri);
-            startActivity(intent);
-        }
-    }
 }

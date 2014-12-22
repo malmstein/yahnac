@@ -1,7 +1,7 @@
 package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.base.DeveloperError;
-import com.malmstein.hnews.comments.CommentsRetriever;
+import com.malmstein.hnews.comments.CommentsProvider;
 import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.feed.StoriesProvider;
 import com.malmstein.hnews.http.ConnectionProvider;
@@ -10,12 +10,12 @@ public class Inject {
 
     private static Inject INSTANCE;
     private final StoriesProvider storiesProvider;
-    private final CommentsRetriever commentsRetriever;
+    private final CommentsProvider commentsProvider;
     private final ConnectionProvider connectionProvider;
 
-    private Inject(StoriesProvider storiesProvider, CommentsRetriever commentsRetriever, ConnectionProvider connectionProvider) {
+    private Inject(StoriesProvider storiesProvider, CommentsProvider commentsProvider, ConnectionProvider connectionProvider) {
         this.storiesProvider = storiesProvider;
-        this.commentsRetriever = commentsRetriever;
+        this.commentsProvider = commentsProvider;
         this.connectionProvider = connectionProvider;
     }
 
@@ -24,9 +24,9 @@ public class Inject {
         DatabasePersister databasePersister = factory.createDatabasePersister();
 
         StoriesProvider storiesProvider = factory.createStoriesProvider(databasePersister);
-        CommentsRetriever commentsRetriever = factory.createCommentsRetriever(databasePersister, connectionProvider);
+        CommentsProvider commentsProvider = factory.createCommentsProvider(databasePersister);
 
-        INSTANCE = new Inject(storiesProvider, commentsRetriever, connectionProvider);
+        INSTANCE = new Inject(storiesProvider, commentsProvider, connectionProvider);
     }
 
     private static Inject instance() {
@@ -40,7 +40,7 @@ public class Inject {
         return instance().storiesProvider;
     }
 
-    public static CommentsRetriever commentsRetriever() { return instance().commentsRetriever; }
+    public static CommentsProvider commentsProvider() { return instance().commentsProvider; }
 
     public static ConnectionProvider connectionProvider() {
         return instance().connectionProvider;

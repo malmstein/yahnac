@@ -8,10 +8,13 @@ public class Comment extends Item {
 
     private final int level;
     private final String text;
-    public Comment(Long internalId, String by, Long id, Long time, int level, String text) {
+    private final String timeText;
+
+    public Comment(Long internalId, String by, Long id, Long time, int level, String text, String timeText) {
         super(internalId, by, id, time);
         this.level = level;
         this.text = text;
+        this.timeText = timeText;
     }
 
     public String getText() {
@@ -30,8 +33,9 @@ public class Comment extends Item {
 
         int level = cursor.getInt(HNewsContract.COLUMN_LEVEL);
         String text = cursor.getString(HNewsContract.COLUMN_TEXT);
+        String timeText = cursor.getString(HNewsContract.COLUMN_TIME_TEXT);
 
-        return new Comment(internalId, by, id, time, level, text);
+        return new Comment(internalId, by, id, time, level, text, timeText);
     }
 
 

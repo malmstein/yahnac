@@ -11,6 +11,7 @@ import com.novoda.notils.logger.simple.Log;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Vector;
 
 public class DatabasePersister {
 
@@ -22,10 +23,6 @@ public class DatabasePersister {
 
     public void persistItem(Map<String, Object> itemMap) {
         String type = (String) itemMap.get("type");
-
-        if (type.equals(Item.TYPE.comment.name())) {
-            persistComment(itemMap);
-        }
 
         if (type.equals(Item.TYPE.story.name())) {
             persistStory(itemMap);
@@ -69,32 +66,6 @@ public class DatabasePersister {
         persistItem(storyValues, id);
     }
 
-    private void persistComment(Map<String, Object> map) {
-        String by = (String) map.get("by");
-        Long id = (Long) map.get("id");
-        String type = (String) map.get("type");
-        long time = (long) map.get("time");
-
-        ArrayList<String> kidsArray = (ArrayList<String>) map.get("kids");
-        Gson gson = new Gson();
-        String kids = gson.toJson(kidsArray);
-
-        Long parent = (Long) map.get("parent");
-        String text = (String) map.get("text");
-
-        ContentValues commentValues = new ContentValues();
-
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, id);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, by);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME, time * 1000);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_KIDS, kids);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_PARENT, parent);
-        commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, text);
-
-        persistItem(commentValues, id);
-    }
-
     private void persistItem(ContentValues contentValues, Long itemId) {
         Cursor storyCursor = contentResolver.query(
                 HNewsContract.ItemEntry.CONTENT_STORY_URI,
@@ -116,7 +87,19 @@ public class DatabasePersister {
         storyCursor.close();
     }
 
-    private String buildType() {
-        return Item.TYPE.story.name();
+    public void persistComments(Vector<ContentValues> commentsVector) {
+        ContentValues[] cvArray = new ContentValues[commentsVector.size()];
+        commentsVector.toArray(cvArray);
+        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
+
+//        Calendar cal = Calendar.getInstance(); //Get's a calendar object with the current time.
+//        cal.add(Calendar.DATE, -1); //Signifies yesterday's date
+//        String yesterdayDate = WeatherContract.getDbDateString(cal.getTime());
+//        getContext().getContentResolver().delete(WeatherEntry.CONTENT_URI,
+//                WeatherEntry.COLUMN_DATETEXT + " <= ?",
+//                new String[]{yesterdayDate});
+
+
     }
+
 }

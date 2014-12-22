@@ -5,6 +5,8 @@ import com.malmstein.hnews.feed.Retriever;
 import com.malmstein.hnews.http.ConnectionProvider;
 import com.malmstein.hnews.tasks.FetchCommentsTask;
 
+import java.io.IOException;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -26,6 +28,9 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
     public Observable<CommentsUpdateEvent> fetch(Long... params) {
         return Observable.create(new CommentsUpdateOnSubscribe(databasePersister, connectionProvider, params[0]))
                 .subscribeOn(Schedulers.io());
+
+        //onNext here could notify to subscribers
+        //doOnError?
     }
 
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<CommentsUpdateEvent> {
@@ -50,10 +55,13 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
 
         private void startFetchingComments() {
             subscriber.onNext(new CommentsUpdateEvent(REFRESH_STARTED));
-            createFetchCommentsTask().execute();
+            try {
+                createFetchCommentsTask().execute();
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
             subscriber.onNext(new CommentsUpdateEvent(REFRESH_FINISHED));
         }
-
 
         private FetchCommentsTask createFetchCommentsTask() {
             return new FetchCommentsTask(databasePersister, connectionProvider, storyId);

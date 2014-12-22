@@ -24,7 +24,7 @@ import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 public class CommentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int COMMENTS_LOADER = 0;
-    public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
+    public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
 
     private ListView commentsListView;
     private NewsCommentsAdapter commentsAdapter;
@@ -33,8 +33,9 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
-        CommentsRetriever commentsRetriever = Inject.commentsRetriever();
-        commentsRetriever.fetch();
+
+        CommentsProvider commentsProvider = Inject.commentsProvider();
+        commentsProvider.refresh(getArgStoryId());
     }
 
     @Override
@@ -48,8 +49,8 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
-    private String getArgStoryId(){
-        return String.valueOf(getActivity().getIntent().getLongExtra(ARG_STORY_ID, 0));
+    private Long getArgStoryId(){
+        return getActivity().getIntent().getLongExtra(ARG_STORY_ID, 0);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
                 commentsUri,
                 COMMENT_COLUMNS,
                 ItemEntry.COLUMN_ITEM_ID + " = ?",
-                new String[]{getArgStoryId()},
+                new String[]{String.valueOf(getArgStoryId())},
                 null
         );
     }
