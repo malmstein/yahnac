@@ -71,17 +71,23 @@ public class DatabasePersister {
         ContentValues[] cvArray = new ContentValues[tmpStoriesValues.size()];
         tmpStoriesValues.toArray(cvArray);
 
-        int stories = contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
                 null,
                 null);
 
-        int tmp_stories = contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI,
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI,
                 null,
                 null);
 
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI,
                 cvArray);
 
+    }
+
+    public void persistStories(Vector<ContentValues> topStories) {
+        ContentValues[] cvArray = new ContentValues[topStories.size()];
+        topStories.toArray(cvArray);
+        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI, cvArray);
     }
 
     public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
@@ -93,5 +99,6 @@ public class DatabasePersister {
         commentsVector.toArray(cvArray);
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
     }
+
 
 }
