@@ -32,14 +32,9 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
         @Override
         public void call(Subscriber<? super StoriesUpdateEvent> subscriber) {
             this.subscriber = subscriber;
-            updateStoriesOrder();
             startFetchingTopsStories();
-            cleanUpStories();
+            moveFromTmpToStories();
             subscriber.onCompleted();
-        }
-
-        private void updateStoriesOrder(){
-            databasePersister.updateStoriesOrder();
         }
 
         private void startFetchingTopsStories() {
@@ -48,8 +43,8 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
-        private void cleanUpStories(){
-            databasePersister.cleanUpStories();
+        private void moveFromTmpToStories(){
+            databasePersister.moveFromTmpToStories();
         }
 
         private FetchTopStoriesTask createFetchTopStoriesTask() {

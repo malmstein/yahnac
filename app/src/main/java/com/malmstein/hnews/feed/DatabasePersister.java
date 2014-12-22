@@ -3,10 +3,10 @@ package com.malmstein.hnews.feed;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 
 import com.google.gson.Gson;
 import com.malmstein.hnews.data.HNewsContract;
-import com.malmstein.hnews.model.Item;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -20,15 +20,7 @@ public class DatabasePersister {
         this.contentResolver = contentResolver;
     }
 
-    public void persistItem(Map<String, Object> itemMap, int order) {
-        String type = (String) itemMap.get("type");
-
-        if (type.equals(Item.TYPE.story.name())) {
-            persistStory(itemMap, order);
-        }
-    }
-
-    private void persistStory(Map<String, Object> map, int order) {
+    public void persistStory(Map<String, Object> map, int order) {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
@@ -55,44 +47,41 @@ public class DatabasePersister {
         storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, url);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, order);
 
-        persistItem(storyValues, id);
+        contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI, storyValues);
     }
 
-    private void persistItem(ContentValues contentValues, Long itemId) {
-        Cursor storyCursor = contentResolver.query(
-                HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                new String[]{HNewsContract.ItemEntry.COLUMN_BY},
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                new String[]{itemId.toString()},
-                null);
-
-        if (storyCursor.moveToFirst()) {
-            contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                    contentValues,
-                    HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                    new String[]{itemId.toString()});
-
-        } else {
-            contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
-        }
-
-        storyCursor.close();
-    }
-
-    public void updateStoriesOrder() {
-        ContentValues updatedOrderValues = new ContentValues();
-        updatedOrderValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, 101);
-
-        contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                updatedOrderValues,
+    public void moveFromTmpToStories() {
+        Cursor tmpStories = contentResolver.query(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI,
+                HNewsContract.STORY_COLUMNS,
+                null,
                 null,
                 null);
-    }
 
-    public void cleanUpStories() {
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " = ?",
-                new String[]{"101"});
+        ArrayList<ContentValues> tmpStoriesValues = new ArrayList<>();
+        ContentValues map;
+        if (tmpStories.moveToFirst()) {
+            do {
+                map = new ContentValues();
+                DatabaseUtils.cursorRowToContentValues(tmpStories, map);
+                tmpStoriesValues.add(map);
+            } while (tmpStories.moveToNext());
+        }
+        tmpStories.close();
+
+        ContentValues[] cvArray = new ContentValues[tmpStoriesValues.size()];
+        tmpStoriesValues.toArray(cvArray);
+
+        int stories = contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                null,
+                null);
+
+        int tmp_stories = contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI,
+                null,
+                null);
+
+        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                cvArray);
+
     }
 
     public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
@@ -104,6 +93,5 @@ public class DatabasePersister {
         commentsVector.toArray(cvArray);
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
     }
-
 
 }

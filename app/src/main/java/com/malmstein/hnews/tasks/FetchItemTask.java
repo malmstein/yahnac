@@ -17,7 +17,7 @@ public class FetchItemTask {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                databasePersister.persistItem(newItem, order);
+                databasePersister.persistStory(newItem, order);
             }
 
             @Override

@@ -10,6 +10,7 @@ public class HNewsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEM = "item";
+    public static final String PATH_ITEM_TMP = "item_tmp";
     public static final String PATH_COMMENT = "comment";
 
     public static final String[] STORY_COLUMNS = {
@@ -54,13 +55,16 @@ public class HNewsContract {
     public static final class ItemEntry implements BaseColumns {
 
         public static final Uri CONTENT_STORY_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
+        public static final Uri CONTENT_STORY_TMP_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM_TMP).build();
         public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
 
         public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
+        public static final String CONTENT_STORY_TMP_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM_TMP;
         public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
         public static final String CONTENT_STORY_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
 
         public static final String TABLE_ITEM_NAME = "item";
+        public static final String TABLE_ITEM_TMP_NAME = "item_tmp";
         public static final String TABLE_COMMENTS_NAME = "comment";
 
         public static final String COLUMN_ITEM_ID = "item_id";
@@ -95,7 +99,6 @@ public class HNewsContract {
         public static Uri buildCommentsUri() {
             return CONTENT_COMMENTS_URI.buildUpon().build();
         }
-
     }
 
 }

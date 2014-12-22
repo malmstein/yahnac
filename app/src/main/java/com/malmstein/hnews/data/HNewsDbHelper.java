@@ -34,6 +34,24 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " INTEGER" +
                 " );";
 
+        final String SQL_CREATE_STORIES_TMP_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME + " (" +
+                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_DELETED + " BOOLEAN," +
+                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_DEAD + " BOOLEAN," +
+                HNewsContract.ItemEntry.COLUMN_PARENT + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_KIDS + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
+                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_PARTS + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " INTEGER" +
+                " );";
+
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER," +
@@ -45,12 +63,14 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);
+        db.execSQL(SQL_CREATE_STORIES_TMP_TABLE);
         db.execSQL(SQL_CREATE_COMMENTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME);
         onCreate(db);
     }

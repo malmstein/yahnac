@@ -16,10 +16,12 @@ public class HNewsProvider extends ContentProvider {
     private static final int STORY = 100;
     private static final int STORY_ITEM = 101;
     private static final int COMMENT = 102;
+    private static final int STORY_TMP = 103;
 
     @Override
     public boolean onCreate() {
         mOpenHelper = new HNewsDbHelper(getContext());
+        mOpenHelper.getReadableDatabase().execSQL("PRAGMA foreign_keys=ON");
         return true;
     }
 
@@ -63,6 +65,18 @@ public class HNewsProvider extends ContentProvider {
                 );
                 break;
             }
+            case STORY_TMP: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -81,6 +95,8 @@ public class HNewsProvider extends ContentProvider {
                 return HNewsContract.ItemEntry.CONTENT_STORY_ITEM_TYPE;
             case COMMENT:
                 return HNewsContract.ItemEntry.CONTENT_COMMENT_TYPE;
+            case STORY_TMP:
+                return HNewsContract.ItemEntry.CONTENT_STORY_TMP_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -111,6 +127,15 @@ public class HNewsProvider extends ContentProvider {
                 }
                 break;
             }
+            case STORY_TMP: {
+                long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME, null, values);
+                if (_id > 0) {
+                    returnUri = HNewsContract.ItemEntry.buildCommentUriWith(_id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -131,6 +156,10 @@ public class HNewsProvider extends ContentProvider {
             case COMMENT:
                 rowsDeleted = db.delete(
                         HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, selection, selectionArgs);
+                break;
+            case STORY_TMP:
+                rowsDeleted = db.delete(
+                        HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -169,13 +198,31 @@ public class HNewsProvider extends ContentProvider {
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
+        int returnCount;
+
         switch (match) {
             case COMMENT:
                 db.beginTransaction();
-                int returnCount = 0;
+                returnCount = 0;
                 try {
                     for (ContentValues value : values) {
                         long _id = db.insert(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            case STORY_TMP:
+                db.beginTransaction();
+                returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -198,6 +245,7 @@ public class HNewsProvider extends ContentProvider {
         matcher.addURI(authority, HNewsContract.PATH_ITEM, STORY);
         matcher.addURI(authority, HNewsContract.PATH_ITEM + "/*", STORY_ITEM);
         matcher.addURI(authority, HNewsContract.PATH_COMMENT, COMMENT);
+        matcher.addURI(authority, HNewsContract.PATH_ITEM_TMP, STORY_TMP);
 
         return matcher;
     }
