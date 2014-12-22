@@ -56,13 +56,15 @@ public class NewsAdapter extends CursorAdapter {
             }
         });
 
-        holder.comments_action.setText(context.getResources().getString(R.string.story_comments, story.getComments()));
-        holder.comments_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onCommentsClicked(story.getId());
-            }
-        });
+        if (story.getComments() > 0){
+            holder.comments_action.setText(context.getResources().getString(R.string.story_comments));
+            holder.comments_action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCommentsClicked(story.getId());
+                }
+            });
+        }
 
     }
 
