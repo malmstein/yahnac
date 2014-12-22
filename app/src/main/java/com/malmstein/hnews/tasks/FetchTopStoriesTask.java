@@ -8,6 +8,8 @@ import com.malmstein.hnews.feed.DatabasePersister;
 
 public class FetchTopStoriesTask {
 
+    int order;
+
     public FetchTopStoriesTask(final DatabasePersister databasePersister) {
         Firebase topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
         topStories.addChildEventListener(new ChildEventListener() {
@@ -15,7 +17,7 @@ public class FetchTopStoriesTask {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
                 Long itemId = (Long) snapshot.getValue();
-                new FetchItemTask(databasePersister, itemId);
+                new FetchItemTask(databasePersister, itemId, order++);
             }
 
             @Override

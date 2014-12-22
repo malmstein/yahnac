@@ -17,7 +17,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_INSERTED,
+            ItemEntry.COLUMN_ITEM_ORDER,
             ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
@@ -76,7 +76,7 @@ public class HNewsContract {
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_PARTS = "parts";
-        public static final String COLUMN_INSERTED = "timestamp";
+        public static final String COLUMN_ITEM_ORDER = "item_order";
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_TIME_TEXT = "time_text";
 

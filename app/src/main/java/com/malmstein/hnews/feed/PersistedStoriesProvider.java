@@ -4,6 +4,7 @@ import com.malmstein.hnews.base.ForwardingSubject;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -27,6 +28,12 @@ public class PersistedStoriesProvider implements StoriesProvider {
         retrieverSubscription = startRemoteFetch()
                 .doOnNext(onRetrieverFinish())
                 .doOnError(onRetrieverError())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .subscribe(feedUpdateEventSubject);
     }

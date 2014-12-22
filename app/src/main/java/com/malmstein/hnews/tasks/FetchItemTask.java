@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class FetchItemTask {
 
-    public FetchItemTask(final DatabasePersister databasePersister, Long itemId) {
+    public FetchItemTask(final DatabasePersister databasePersister, Long itemId, final int order) {
 
         Firebase item = new Firebase("https://hacker-news.firebaseio.com/v0/item/" + itemId);
         item.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                databasePersister.persistItem(newItem);
+                databasePersister.persistItem(newItem, order);
             }
 
             @Override

@@ -7,7 +7,6 @@ import android.database.Cursor;
 import com.google.gson.Gson;
 import com.malmstein.hnews.data.HNewsContract;
 import com.malmstein.hnews.model.Item;
-import com.novoda.notils.logger.simple.Log;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,23 +20,15 @@ public class DatabasePersister {
         this.contentResolver = contentResolver;
     }
 
-    public void persistItem(Map<String, Object> itemMap) {
+    public void persistItem(Map<String, Object> itemMap, int order) {
         String type = (String) itemMap.get("type");
 
         if (type.equals(Item.TYPE.story.name())) {
-            persistStory(itemMap);
-        }
-
-        if (type.equals(Item.TYPE.poll.name())) {
-
-        }
-
-        if (type.equals(Item.TYPE.pollopt.name())) {
-
+            persistStory(itemMap, order);
         }
     }
 
-    private void persistStory(Map<String, Object> map) {
+    private void persistStory(Map<String, Object> map, int order) {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
@@ -75,15 +66,13 @@ public class DatabasePersister {
                 null);
 
         if (storyCursor.moveToFirst()) {
-            Log.d(contentValues.get("type").toString() + " item updated");
-            contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues,
+            contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
-        } else {
-            contentValues.put(HNewsContract.ItemEntry.COLUMN_INSERTED, System.currentTimeMillis());
-            Log.d(contentValues.get("type").toString() + " item inserted");
-            contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
+
         }
+
+        contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
         storyCursor.close();
     }
 
@@ -98,7 +87,6 @@ public class DatabasePersister {
 //        getContext().getContentResolver().delete(WeatherEntry.CONTENT_URI,
 //                WeatherEntry.COLUMN_DATETEXT + " <= ?",
 //                new String[]{yesterdayDate});
-
 
     }
 
