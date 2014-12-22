@@ -32,14 +32,24 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
         @Override
         public void call(Subscriber<? super StoriesUpdateEvent> subscriber) {
             this.subscriber = subscriber;
+            updateStoriesOrder();
             startFetchingTopsStories();
+            cleanUpStories();
             subscriber.onCompleted();
+        }
+
+        private void updateStoriesOrder(){
+            databasePersister.updateStoriesOrder();
         }
 
         private void startFetchingTopsStories() {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
             createFetchTopStoriesTask();
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
+        }
+
+        private void cleanUpStories(){
+            databasePersister.cleanUpStories();
         }
 
         private FetchTopStoriesTask createFetchTopStoriesTask() {

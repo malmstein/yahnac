@@ -53,6 +53,7 @@ public class DatabasePersister {
         storyValues.put(HNewsContract.ItemEntry.COLUMN_KIDS, kids);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title);
         storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, url);
+        storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, order);
 
         persistItem(storyValues, id);
     }
@@ -66,13 +67,15 @@ public class DatabasePersister {
                 null);
 
         if (storyCursor.moveToFirst()) {
-            contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+            contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                    contentValues,
                     HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                     new String[]{itemId.toString()});
 
+        } else {
+            contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
         }
 
-        contentResolver.insert(HNewsContract.ItemEntry.CONTENT_STORY_URI, contentValues);
         storyCursor.close();
     }
 
@@ -85,14 +88,22 @@ public class DatabasePersister {
         ContentValues[] cvArray = new ContentValues[commentsVector.size()];
         commentsVector.toArray(cvArray);
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
-
-//        Calendar cal = Calendar.getInstance(); //Get's a calendar object with the current time.
-//        cal.add(Calendar.DATE, -1); //Signifies yesterday's date
-//        String yesterdayDate = WeatherContract.getDbDateString(cal.getTime());
-//        getContext().getContentResolver().delete(WeatherEntry.CONTENT_URI,
-//                WeatherEntry.COLUMN_DATETEXT + " <= ?",
-//                new String[]{yesterdayDate});
-
     }
 
+    public void updateStoriesOrder() {
+
+        ContentValues updatedOrderValues = new ContentValues();
+        updatedOrderValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, 101);
+
+        contentResolver.update(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                updatedOrderValues,
+                null,
+                null);
+    }
+
+    public void cleanUpStories() {
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " = ?",
+                new String[]{"100"});
+    }
 }

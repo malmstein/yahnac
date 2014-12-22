@@ -86,7 +86,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Item.TYPE.story.name()},
                 null);
-
     }
 
     @Override
