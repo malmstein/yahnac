@@ -24,7 +24,6 @@ import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
-import com.novoda.notils.logger.simple.Log;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
@@ -108,17 +107,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onRefresh() {
         HNewsSyncAdapter.syncImmediately(getActivity());
-        updateProgressbar(true);
-    }
-
-    private void updateProgressbar(final boolean visible) {
-        refreshLayout.postOnAnimation(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(visible);
-            }
-        });
-        Log.w("Refreshing: " + visible);
     }
 
     private void stopRefreshing() {
