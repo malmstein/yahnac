@@ -15,7 +15,7 @@
     android:theme="@style/HNews">
     <activity
       android:name=".stories.TopStoriesActivity"
-      android:label="@string/app_title">
+      android:label="@string/title_app">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,16 @@
 
     <activity
       android:name="com.malmstein.hnews.comments.CommentsActivity"
-      android:label="@string/comments"
+      android:label="@string/title_comments"
+      android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="com.malmstein.hnews.stories.TopStoriesActivity" />
+    </activity>
+
+    <activity
+      android:name="com.malmstein.hnews.settings.SettingsActivity"
+      android:label="@string/title_settings"
       android:parentActivityName="com.malmstein.hnews.stories.TopStoriesActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"

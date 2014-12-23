@@ -46,7 +46,7 @@ public class NewsAdapter extends CursorAdapter {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onContentClicked(story.getInternalId());
+                listener.onContentClicked(story);
             }
         });
         holder.share_action.setOnClickListener(new View.OnClickListener() {

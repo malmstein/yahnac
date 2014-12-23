@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Item;
+import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.NewsAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
@@ -124,7 +125,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
         void onCommentsClicked(Long internalId);
 
-        void onContentClicked(Long internalId);
+        void onContentClicked(Story internalId);
     }
 
 }

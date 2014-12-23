@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <ListPreference
+    android:key="@string/pref_sync_time_key"
+    android:title="@string/pref_sync_time_title"
+    android:defaultValue="@string/pref_sync_time_default"
+    android:entries="@array/pref_sync_time_list_titles"
+    android:entryValues="@array/pref_sync_time_list_values"
+    android:negativeButtonText="@null"
+    android:positiveButtonText="@null" />
+
+  <SwitchPreference
+    android:title="@string/pref_enable_browser"
+    android:key="@string/pref_enable_browser_key"
+    android:summaryOff="@string/pref_enable_browser_false"
+    android:summaryOn="@string/pref_enable_browser_true"
+    android:defaultValue="@string/pref_enable_browser_default" />
+
+</PreferenceScreen>
