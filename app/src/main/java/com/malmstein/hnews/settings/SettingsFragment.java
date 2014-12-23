@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
@@ -26,10 +25,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         mBindingPreference = true;
 
         preference.setOnPreferenceChangeListener(this);
-        onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        onPreferenceChange(preference, getString(R.string.pref_sync_time_default));
 
         mBindingPreference = false;
     }
@@ -40,11 +36,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         if (!mBindingPreference) {
             if (preference.getKey().equals(getString(R.string.pref_sync_time_key))) {
-                HNewsSyncAdapter.syncImmediately(getActivity());
+                int syncInterval = Integer.valueOf(stringValue);
+                int flexIntervalTime = syncInterval / 3;
+                HNewsSyncAdapter.configurePeriodicSync(getActivity(), syncInterval, flexIntervalTime);
             }
         }
 
         if (preference instanceof ListPreference) {
+
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(stringValue);
             if (prefIndex >= 0) {

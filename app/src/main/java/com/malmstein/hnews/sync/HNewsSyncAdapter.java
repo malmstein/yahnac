@@ -71,7 +71,7 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
             ContentResolver.requestSync(request);
         } else {
-            ContentResolver.addPeriodicSync(account,authority, new Bundle(), syncInterval);
+            ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
         }
     }
 

@@ -2,21 +2,21 @@
 <resources>
 
   <string name="pref_sync_time_key">key_sync_time</string>
-  <string name="pref_sync_time_title">Schedule content updates every</string>
-  <string name="pref_sync_time_default">3 hours</string>
+  <string name="pref_sync_time_title">Scheduled updates</string>
+  <string name="pref_sync_time_default">10800</string>
 
   <string-array name="pref_sync_time_list_titles">
     <item>1 hour</item>
     <item>3 hours</item>
     <item>12 hours</item>
-    <item>24 hours</item>
+    <item>Once a day</item>
   </string-array>
 
   <string-array name="pref_sync_time_list_values">
-    <item>1</item>
-    <item>3</item>
-    <item>12</item>
-    <item>24</item>
+    <item>3600</item>
+    <item>10800</item>
+    <item>43200</item>
+    <item>82400</item>
   </string-array>
 
   <string name="pref_enable_browser">Article reading using</string>
