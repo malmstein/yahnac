@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:baselineAligned="false"
+  android:divider="?android:attr/dividerHorizontal"
+  android:orientation="vertical"
+  tools:context="com.malmstein.hnews.stories.TopStoriesActivity">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="horizontal"
+    tools:context="com.malmstein.hnews.stories.TopStoriesActivity">
+
+    <fragment
+      android:id="@+id/top_stories_fragment"
+      android:name="com.malmstein.hnews.stories.TopStoriesFragment"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="2"
+      tools:layout="@android:layout/list_content" />
+
+    <FrameLayout
+      android:id="@+id/article_fragment_root"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="4" />
+
+  </LinearLayout>
+
+
+</LinearLayout>
