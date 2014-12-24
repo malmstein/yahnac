@@ -35,7 +35,6 @@ public class CommentsParser {
             String nested = comment.select("img[src=s.gif]").attr("width");
 
             String time = comment.select("span[class=comhead]").text().replaceAll(submitter, "").replaceAll("\\|", "").replaceAll("link", "");
-            String commentid = comment.select("span[class=comhead]>a").get(1).attr("href");
 
             //extract part between <pre> and </pre>
             if (text.contains("<pre>")) {
@@ -58,33 +57,17 @@ public class CommentsParser {
                 text = temp_text;
             }
 
-            if (text.contains("<p>") && text.contains("reply?id=")) { // removed reply link from multi paragraph replies
+            if (text.contains("<p>") && text.contains("reply?id=")) {
                 text = text.substring(0, text.lastIndexOf("<p>"));
+            } else {
+                text = text + "<p></p>";
             }
 
             text = Jsoup.clean(text, Whitelist.basic());
 
-            if (nested.equals("0")) {
-                level = 0;
-            } else if (nested.equals("40")) {
-                level = 15;
-            } else if (nested.equals("80")) {
-                level = 30;
-            } else if (nested.equals("120")) {
-                level = 45;
-            } else if (nested.equals("160")) {
-                level = 60;
-            } else if (nested.equals("200")) {
-                level = 75;
-            } else if (nested.equals("240")) {
-                level = 90;
-            } else if (nested.equals("280")) {
-                level = 105;
-            } else if (nested.equals("320")) {
-                level = 120;
-            } else if (nested.equals("360")) {
-                level = 135;
-            } else {
+            try{
+                level = Integer.valueOf(nested);
+            } catch (Exception e){
                 level = 0;
             }
 

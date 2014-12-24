@@ -18,7 +18,7 @@ import android.widget.ListView;
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.inject.Inject;
-import com.malmstein.hnews.presenters.NewsCommentsAdapter;
+import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
@@ -33,7 +33,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
-    private NewsCommentsAdapter commentsAdapter;
+    private CommentsAdapter commentsAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = (ListView) rootView.findViewById(R.id.listview_comments);
-        commentsAdapter = new NewsCommentsAdapter(getActivity(), null, 0);
+        commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
 
         setupRefreshLayout();
@@ -76,7 +76,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void setupCommentsList() {
-        commentsAdapter = new NewsCommentsAdapter(getActivity(), null, 0);
+        commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
     }
 

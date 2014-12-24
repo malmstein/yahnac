@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Comment;
 
-public class NewsCommentsAdapter extends CursorAdapter {
+public class CommentsAdapter extends CursorAdapter {
 
-    public NewsCommentsAdapter(Context context, Cursor c, int flags) {
+    public CommentsAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
@@ -36,6 +36,7 @@ public class NewsCommentsAdapter extends CursorAdapter {
         holder.text.setMovementMethod(LinkMovementMethod.getInstance());
         holder.author.setText(Html.fromHtml(comment.getBy()));
         holder.when.setText(Html.fromHtml(comment.getTimeText()));
+        view.setPadding(comment.getLevel(), 0, 0, 0);
     }
 
     public static class ViewHolder {

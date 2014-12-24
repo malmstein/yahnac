@@ -103,7 +103,6 @@
 
     </LinearLayout>
 
-
   </com.malmstein.hnews.views.RelativeLayoutWithForeground>
 
 </android.support.v7.widget.CardView>
