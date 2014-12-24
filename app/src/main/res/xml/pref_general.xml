@@ -1,13 +1,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <CheckBoxPreference
+    android:key="@string/pref_sync_key"
+    android:title="@string/pref_sync_title"
+    android:summary="@string/pref_sync_title"
+    android:defaultValue="true" />
+
   <ListPreference
+    android:dependency="@string/pref_sync_key"
     android:key="@string/pref_sync_time_key"
     android:title="@string/pref_sync_time_title"
-    android:defaultValue="@string/pref_sync_time_default"
+    android:dialogTitle="@string/pref_sync_time_title"
     android:entries="@array/pref_sync_time_list_titles"
     android:entryValues="@array/pref_sync_time_list_values"
-    android:negativeButtonText="@null"
-    android:positiveButtonText="@null" />
+    android:defaultValue="@string/pref_sync_time_default" />
 
   <SwitchPreference
     android:title="@string/pref_enable_browser"
