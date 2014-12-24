@@ -9,14 +9,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-      style="@style/HNews.List"
-      android:id="@+id/listview_news"
+    <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:dividerHeight="@dimen/list_padding"
-      android:divider="@android:color/transparent"
-      android:padding="@dimen/list_padding" />
+      android:layout_height="match_parent">
+
+      <TextView
+        android:id="@+id/listview_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/black"
+        android:padding="@dimen/list_padding"
+        android:text="Welcome to Hacker News! Swipe to refresh the content" />
+
+      <ListView
+        style="@style/HNews.List"
+        android:id="@+id/listview_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="@dimen/list_padding"
+        android:divider="@android:color/transparent"
+        android:padding="@dimen/list_padding" />
+
+    </FrameLayout>
 
   </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
 

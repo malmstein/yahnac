@@ -23,15 +23,6 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
-        if (isTwoPaneLayout()){
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.article_fragment_root, new ArticleFragment())
-                        .commit();
-            }
-        }
-
         HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 
