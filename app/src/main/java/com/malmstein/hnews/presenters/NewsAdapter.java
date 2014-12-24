@@ -46,6 +46,7 @@ public class NewsAdapter extends CursorAdapter {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setSelected(true);
                 listener.onContentClicked(story);
             }
         });
@@ -90,7 +91,7 @@ public class NewsAdapter extends CursorAdapter {
             user = (TextView) view.findViewById(R.id.article_user);
             timeAgo = (TextView) view.findViewById(R.id.article_time);
             score = (TextView) view.findViewById(R.id.article_score);
-            card = view.findViewById(R.id.article_text_root);
+            card = view.findViewById(R.id.article_card_root);
             share_action = (TextView) view.findViewById(R.id.article_share_action);
             comments_action = (TextView) view.findViewById(R.id.article_comments_action);
         }

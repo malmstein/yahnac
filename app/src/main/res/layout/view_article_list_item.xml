@@ -9,21 +9,24 @@
 
   <com.malmstein.hnews.views.RelativeLayoutWithForeground
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_card_clickable"
+    android:id="@+id/article_card_root">
 
     <LinearLayout
       android:id="@+id/article_text_root"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      style="@style/HNewsButton.Borderless"
-      android:padding="@dimen/default_padding">
+      android:paddingTop="@dimen/default_padding"
+      android:paddingLeft="@dimen/default_padding"
+      android:paddingRight="@dimen/default_padding"
+      android:paddingBottom="@dimen/card_content_padding">
 
       <TextView
         android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minLines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/black"
         tools:text="This is the article title" />
@@ -32,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="bottom"
         android:paddingTop="@dimen/card_content_padding">
 
         <LinearLayout
@@ -62,7 +66,7 @@
           android:id="@+id/article_score"
           android:layout_width="match_parent"
           android:gravity="right|bottom"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
           android:textAllCaps="true"
           android:textColor="@color/light_grey"
           android:textAppearance="@style/TextAppearance.AppCompat.Medium"

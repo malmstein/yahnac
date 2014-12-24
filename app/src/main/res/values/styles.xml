@@ -67,6 +67,8 @@
   </style>
 
   <style name="HNewsButton" parent="android:Widget.Holo.Button" />
-  <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless" />
+
+  <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
+  </style>
 
 </resources>

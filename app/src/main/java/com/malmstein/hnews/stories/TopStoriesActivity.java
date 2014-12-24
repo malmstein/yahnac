@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +15,7 @@ import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.settings.SettingsActivity;
+import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
 public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragment.Listener {
 
@@ -21,6 +23,16 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+
+        if (isTwoPaneLayout()){
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.article_fragment_root, new ArticleFragment())
+                        .commit();
+            }
+        }
+
+        HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
@@ -54,17 +66,34 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         navigateToArticle(story);
     }
 
+    private boolean isTwoPaneLayout(){
+        return findViewById(R.id.article_fragment_root) != null;
+    }
+
     private void navigateToArticle(Story story){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean preferExternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
-        if (preferExternalBrowser){
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-            browserIntent.setData(Uri.parse(story.getUrl()));
-            startActivity(browserIntent);
+        boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
+        if (preferInternalBrowser) {
+            if (isTwoPaneLayout()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.article_fragment_root,
+                                ArticleFragment.from(story.getInternalId()),
+                                ArticleFragment.TAG)
+                        .commit();
+            } else {
+                startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, story.getInternalId()));
+            }
         } else {
-            startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, story.getInternalId()));
+            navigateToExternalBrowser(Uri.parse(story.getUrl()));
         }
 
+    }
+
+    private void navigateToExternalBrowser(Uri articleUri){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(articleUri);
+        startActivity(browserIntent);
     }
 
 }
