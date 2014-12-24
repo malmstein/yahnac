@@ -4,6 +4,7 @@
   <string name="pref_sync_key">key_pref</string>
   <string name="pref_sync_title">Enable Sync</string>
   <string name="pref_sync_summary">The application will load content in the background</string>
+  <string name="pref_sync_default">true</string>
 
   <string name="pref_sync_time_key">key_sync_time</string>
   <string name="pref_sync_time_title">Content updates every</string>
@@ -25,8 +26,8 @@
 
   <string name="pref_enable_browser">Article reading using</string>
   <string name="pref_enable_browser_key" translatable="false">enable_browser</string>
-  <string name="pref_enable_browser_true">External browser</string>
-  <string name="pref_enable_browser_false">Internal browser</string>
+  <string name="pref_enable_external_browser_true">External browser</string>
+  <string name="pref_enable_internal_browser">Internal browser</string>
   <string name="pref_enable_browser_default" translatable="false">true</string>
 
 </resources>

@@ -93,4 +93,9 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
         storiesProvider.refresh();
     }
 
+    public static void removePeriodicSyncs(Context context) {
+        Account account = getSyncAccount(context);
+        String authority = context.getString(R.string.content_authority);
+        ContentResolver.removePeriodicSync(account, authority, new Bundle());
+    }
 }

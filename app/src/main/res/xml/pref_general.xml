@@ -3,7 +3,7 @@
   <CheckBoxPreference
     android:key="@string/pref_sync_key"
     android:title="@string/pref_sync_title"
-    android:summary="@string/pref_sync_title"
+    android:summary="@string/pref_sync_summary"
     android:defaultValue="true" />
 
   <ListPreference
@@ -18,8 +18,8 @@
   <SwitchPreference
     android:title="@string/pref_enable_browser"
     android:key="@string/pref_enable_browser_key"
-    android:summaryOff="@string/pref_enable_browser_false"
-    android:summaryOn="@string/pref_enable_browser_true"
-    android:defaultValue="@string/pref_enable_browser_default" />
+    android:summaryOn="@string/pref_enable_internal_browser"
+    android:summaryOff="@string/pref_enable_external_browser_true"
+    android:defaultValue="true" />
 
 </PreferenceScreen>
