@@ -2,6 +2,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
   <stroke android:color="@color/selectable_pressed" android:width="3dp" />
-  <solid android:color="@android:color/transparent" />
+  <solid android:color="@color/selectable_pressed" />
   <corners android:radius="@dimen/card_corner_radius" />
 </shape>
