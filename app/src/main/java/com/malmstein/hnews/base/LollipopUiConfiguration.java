@@ -4,7 +4,7 @@ import com.malmstein.hnews.R;
 
 public enum LollipopUiConfiguration {
 
-    NEWS(R.string.app_name, R.drawable.ic_hn, R.color.orange, R.color.dark_orange, R.color.black);
+    NEWS(R.string.title_app, R.drawable.ic_hn, R.color.orange, R.color.dark_orange, R.color.black);
 
     private final int taskTitleResourceId;
     private final int taskLogoResourceId;

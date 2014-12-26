@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">HNews</string>
-
   <string name="title_app">Hacker News</string>
   <string name="title_comments">Comments</string>
   <string name="title_settings">Settings</string>

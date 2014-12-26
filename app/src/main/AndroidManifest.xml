@@ -11,7 +11,7 @@
     android:allowBackup="true"
     android:name="com.malmstein.hnews.HNewsApplication"
     android:icon="@drawable/ic_launcher"
-    android:label="@string/app_name"
+    android:label="@string/title_app"
     android:theme="@style/HNews">
     <activity
       android:name=".stories.TopStoriesActivity"

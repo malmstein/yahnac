@@ -41,7 +41,7 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
     public static Account getSyncAccount(Context context) {
         AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
-        Account newAccount = new Account(context.getString(R.string.app_name),
+        Account newAccount = new Account(context.getString(R.string.title_app),
                 context.getString(R.string.sync_account_type));
 
         if (null == accountManager.getPassword(newAccount)) {
