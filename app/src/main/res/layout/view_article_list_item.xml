@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   style="@style/HNews.Card"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
 
-  <com.malmstein.hnews.views.RelativeLayoutWithForeground
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/article_card_root"
     android:background="@drawable/selector_card_clickable"
-    android:id="@+id/article_card_root">
+    android:orientation="vertical">
 
     <LinearLayout
       android:id="@+id/article_text_root"
@@ -92,6 +92,7 @@
         android:textColor="@color/black"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:focusable="false"
         android:text="@string/action_share" />
 
       <TextView
@@ -102,12 +103,13 @@
         android:textColor="@color/dark_orange"
         android:textAllCaps="true"
         android:layout_marginLeft="@dimen/card_content_padding"
+        android:focusable="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         tools:text="26 COMMENTS" />
 
     </LinearLayout>
 
-  </com.malmstein.hnews.views.RelativeLayoutWithForeground>
+  </LinearLayout>
 
 </android.support.v7.widget.CardView>
 

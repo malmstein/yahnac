@@ -77,10 +77,6 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         mNewsListView.setAdapter(mNewsAdapter);
     }
 
-    private void startRefreshing() {
-        refreshLayout.setRefreshing(true);
-    }
-
     private void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }

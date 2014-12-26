@@ -50,20 +50,6 @@
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>
     <item name="cardPreventCornerOverlap">false</item>
-    <item name="android:foreground">@drawable/selector_card_clickable</item>
-  </style>
-
-  <style name="HNews.Item">
-    <item name="android:foreground">@drawable/selector_card_clickable</item>
-  </style>
-
-  <style name="HNews.Item.Article">
-    <item name="android:paddingLeft">0dp</item>
-    <item name="android:paddingRight">0dp</item>
-  </style>
-
-  <style name="HNews.Item.Article.Common" parent="HNews.Item.Article">
-    <item name="android:background">@drawable/selector_card_clickable</item>
   </style>
 
   <style name="HNewsButton" parent="android:Widget.Holo.Button" />
