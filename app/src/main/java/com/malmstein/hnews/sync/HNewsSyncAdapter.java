@@ -6,10 +6,12 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.feed.StoriesProvider;
@@ -89,8 +91,10 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        StoriesProvider storiesProvider = Inject.storiesProvider();
-        storiesProvider.refresh();
+        if (isSyncEnabled()){
+            StoriesProvider storiesProvider = Inject.storiesProvider();
+            storiesProvider.refresh();
+        }
     }
 
     public static void removePeriodicSyncs(Context context) {
@@ -98,5 +102,12 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
         String authority = context.getString(R.string.content_authority);
         Bundle bundle = new Bundle();
         ContentResolver.removePeriodicSync(account, authority, bundle);
+    }
+
+    private boolean isSyncEnabled(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean isEnabled = preferences.getBoolean(getContext().getString(R.string.pref_sync_key),
+                Boolean.valueOf(getContext().getString(R.string.pref_sync_default)));
+        return isEnabled;
     }
 }

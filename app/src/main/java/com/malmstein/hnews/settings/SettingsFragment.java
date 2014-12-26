@@ -53,6 +53,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 String stringValue = newValue.toString();
                 int syncInterval = Integer.valueOf(stringValue);
                 int flexIntervalTime = syncInterval / 3;
+                HNewsSyncAdapter.removePeriodicSyncs(getActivity());
                 HNewsSyncAdapter.configurePeriodicSync(getActivity(), syncInterval, flexIntervalTime);
             }
 
