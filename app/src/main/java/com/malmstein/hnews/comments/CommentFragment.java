@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
@@ -28,12 +29,29 @@ import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 
 public class CommentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
+    public static final String TAG = "CommentsFragment";
     private static final int COMMENTS_LOADER = 0;
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
     private CommentsAdapter commentsAdapter;
+
+    public static CommentFragment from(Long itemId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_STORY_ID, itemId);
+        CommentFragment fragment = new CommentFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private Long getArgStoryId() {
+        if (getArguments().containsKey(ARG_STORY_ID)) {
+            return getArguments().getLong(ARG_STORY_ID);
+        } else {
+            throw new DeveloperError("Missing argument");
+        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -78,10 +96,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private void setupCommentsList() {
         commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
-    }
-
-    private Long getArgStoryId(){
-        return getActivity().getIntent().getLongExtra(ARG_STORY_ID, 0);
     }
 
     private void stopRefreshing() {

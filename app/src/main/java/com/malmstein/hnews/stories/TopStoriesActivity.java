@@ -48,8 +48,8 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     }
 
     @Override
-    public void onCommentsClicked(Long internalId) {
-        startActivity(new Intent(this, CommentsActivity.class).putExtra(CommentFragment.ARG_STORY_ID, internalId));
+    public void onCommentsClicked(Story story) {
+        navigateToComments(story);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
     }
 
     private boolean isTwoPaneLayout(){
-        return findViewById(R.id.article_fragment_root) != null;
+        return findViewById(R.id.story_fragment_root) != null;
     }
 
     private void navigateToArticle(Story story){
@@ -66,9 +66,10 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
         if (preferInternalBrowser) {
             if (isTwoPaneLayout()) {
+                setTitle(story.getTitle());
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.article_fragment_root,
+                        .replace(R.id.story_fragment_root,
                                 ArticleFragment.from(story.getInternalId()),
                                 ArticleFragment.TAG)
                         .commit();
@@ -78,13 +79,26 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         } else {
             navigateToExternalBrowser(Uri.parse(story.getUrl()));
         }
-
     }
 
     private void navigateToExternalBrowser(Uri articleUri){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
         browserIntent.setData(articleUri);
         startActivity(browserIntent);
+    }
+
+    private void navigateToComments(Story story){
+        if (isTwoPaneLayout()) {
+            setTitle(story.getTitle());
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.story_fragment_root,
+                            CommentFragment.from(story.getInternalId()),
+                            CommentFragment.TAG)
+                    .commit();
+        } else {
+            startActivity(new Intent(this, CommentsActivity.class).putExtra(CommentFragment.ARG_STORY_ID, story.getInternalId()));
+        }
     }
 
 }

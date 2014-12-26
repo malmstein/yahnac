@@ -3,12 +3,11 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  tools:context=".TopStoriesActivity">
+  tools:context=".CommentsActivity">
 
-  <fragment
-    android:id="@+id/comments_fragment"
+  <FrameLayout
+    android:id="@+id/comments_fragment_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="com.malmstein.hnews.comments.CommentFragment" />
+    android:layout_height="match_parent" />
 
 </LinearLayout>

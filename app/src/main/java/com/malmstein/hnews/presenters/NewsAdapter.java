@@ -61,7 +61,7 @@ public class NewsAdapter extends CursorAdapter {
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onCommentsClicked(story.getId());
+                    listener.onCommentsClicked(story);
                 }
             });
         }
