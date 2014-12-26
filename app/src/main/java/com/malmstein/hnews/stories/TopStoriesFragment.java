@@ -33,6 +33,8 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     private static final int STORY_LOADER = 0;
 
+    private static final String SELECTED_KEY = "selected_position";
+
     private ListView mNewsListView;
     private NewsAdapter mNewsAdapter;
     private Listener listener;
@@ -59,11 +61,23 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
         mNewsListView.setEmptyView(rootView.findViewById(R.id.listview_empty_view));
-
         setupRefreshLayout();
         setupStoriesList();
 
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mNewsAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
+        }
+
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        int position = mNewsAdapter.getSelectedPosition();
+        if (position != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, position);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     private void setupRefreshLayout() {
@@ -98,6 +112,10 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         stopRefreshing();
         mNewsAdapter.swapCursor(data);
+        int position = mNewsAdapter.getSelectedPosition();
+        if (position != ListView.INVALID_POSITION) {
+            mNewsListView.smoothScrollToPosition(position);
+        }
     }
 
     @Override

@@ -31,15 +31,18 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     public static final String TAG = "CommentsFragment";
     private static final int COMMENTS_LOADER = 0;
+
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
+    public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_TITLE";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
     private CommentsAdapter commentsAdapter;
 
-    public static CommentFragment from(Long itemId) {
+    public static CommentFragment from(Long id, String title) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_STORY_ID, itemId);
+        args.putSerializable(ARG_STORY_ID, id);
+        args.putSerializable(ARG_STORY_TITLE, title);
         CommentFragment fragment = new CommentFragment();
         fragment.setArguments(args);
         return fragment;
@@ -48,6 +51,14 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private Long getArgStoryId() {
         if (getArguments().containsKey(ARG_STORY_ID)) {
             return getArguments().getLong(ARG_STORY_ID);
+        } else {
+            throw new DeveloperError("Missing argument");
+        }
+    }
+
+    private String getTitle() {
+        if (getArguments().containsKey(ARG_STORY_TITLE)) {
+            return getArguments().getString(ARG_STORY_TITLE);
         } else {
             throw new DeveloperError("Missing argument");
         }
@@ -120,6 +131,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         commentsAdapter.swapCursor(data);
+        getActivity().setTitle(getTitle());
         stopRefreshing();
     }
 

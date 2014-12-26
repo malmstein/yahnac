@@ -16,12 +16,13 @@ public class ArticleActivity extends HNewsActivity {
 
         setContentView(R.layout.activity_article);
 
-        setupSubActivity();
+        setupSubActivityWithTitle();
 
         if (findArticleFragment() == null) {
-            Long itemId = getIntent().getExtras().getLong(ArticleFragment.ARG_STORY_ID);
+            Long storyId = getIntent().getExtras().getLong(ArticleFragment.ARG_STORY_ID);
+            String title = getIntent().getExtras().getString(ArticleFragment.ARG_STORY_TITLE);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.article_fragment_root, ArticleFragment.from(itemId), ArticleFragment.TAG).commit();
+            fragmentManager.beginTransaction().add(R.id.article_fragment_root, ArticleFragment.from(storyId, title), ArticleFragment.TAG).commit();
         }
 
     }

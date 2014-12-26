@@ -33,7 +33,10 @@ import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 public class ArticleFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = "ArticleFragment";
+
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
+    public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_STORY_TITLE";
+
     private static final int ARTICLE_LOADER = 0;
 
     private ShareActionProvider mShareActionProvider;
@@ -41,9 +44,10 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     private ProgressBar webViewProgress;
     private String articleUrl;
 
-    public static ArticleFragment from(Long itemId) {
+    public static ArticleFragment from(Long internalId, String title) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_STORY_ID, itemId);
+        args.putSerializable(ARG_STORY_ID, internalId);
+        args.putSerializable(ARG_STORY_TITLE, title);
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(args);
         return fragment;
@@ -52,6 +56,14 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     private Long getItemId() {
         if (getArguments().containsKey(ARG_STORY_ID)) {
             return getArguments().getLong(ARG_STORY_ID);
+        } else {
+            throw new DeveloperError("Missing argument");
+        }
+    }
+
+    private String getStoryTitle() {
+        if (getArguments().containsKey(ARG_STORY_TITLE)) {
+            return getArguments().getString(ARG_STORY_TITLE);
         } else {
             throw new DeveloperError("Missing argument");
         }
@@ -152,6 +164,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
         if (data != null && data.moveToFirst()) {
             articleUrl = data.getString(data.getColumnIndex(HNewsContract.ItemEntry.COLUMN_URL));
             webView.loadUrl(articleUrl);
+            getActivity().setTitle(getStoryTitle());
             if (mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createShareArticleIntent());
             }

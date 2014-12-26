@@ -18,6 +18,7 @@ import java.util.Date;
 
 public class NewsAdapter extends CursorAdapter {
 
+    private int currentPosition;
     private final TopStoriesFragment.Listener listener;
     private TimeAgo timeAgo;
 
@@ -36,7 +37,7 @@ public class NewsAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, Context context, final Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
         final Story story = Story.from(cursor);
         holder.title.setText(story.getTitle());
@@ -46,6 +47,7 @@ public class NewsAdapter extends CursorAdapter {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentPosition = cursor.getPosition();
                 listener.onContentClicked(story);
             }
         });
@@ -61,6 +63,7 @@ public class NewsAdapter extends CursorAdapter {
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentPosition = cursor.getPosition();
                     listener.onCommentsClicked(story);
                 }
             });
@@ -74,6 +77,14 @@ public class NewsAdapter extends CursorAdapter {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, url);
         return shareIntent;
+    }
+
+    public void setSelectedPosition(int position) {
+        currentPosition = position;
+    }
+
+    public int getSelectedPosition() {
+        return currentPosition;
     }
 
     public static class ViewHolder {

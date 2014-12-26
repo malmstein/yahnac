@@ -57,47 +57,51 @@ public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragm
         navigateToArticle(story);
     }
 
-    private boolean isTwoPaneLayout(){
+    private boolean isTwoPaneLayout() {
         return findViewById(R.id.story_fragment_root) != null;
     }
 
-    private void navigateToArticle(Story story){
+    private void navigateToArticle(Story story) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
         if (preferInternalBrowser) {
             if (isTwoPaneLayout()) {
-                setTitle(story.getTitle());
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.story_fragment_root,
-                                ArticleFragment.from(story.getInternalId()),
+                                ArticleFragment.from(story.getInternalId(), story.getTitle()),
                                 ArticleFragment.TAG)
                         .commit();
             } else {
-                startActivity(new Intent(this, ArticleActivity.class).putExtra(ArticleFragment.ARG_STORY_ID, story.getInternalId()));
+                Intent articleIntent = new Intent(this, ArticleActivity.class);
+                articleIntent.putExtra(ArticleFragment.ARG_STORY_ID, story.getInternalId());
+                articleIntent.putExtra(ArticleFragment.ARG_STORY_TITLE, story.getTitle());
+                startActivity(articleIntent);
             }
         } else {
             navigateToExternalBrowser(Uri.parse(story.getUrl()));
         }
     }
 
-    private void navigateToExternalBrowser(Uri articleUri){
+    private void navigateToExternalBrowser(Uri articleUri) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
         browserIntent.setData(articleUri);
         startActivity(browserIntent);
     }
 
-    private void navigateToComments(Story story){
+    private void navigateToComments(Story story) {
         if (isTwoPaneLayout()) {
-            setTitle(story.getTitle());
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.story_fragment_root,
-                            CommentFragment.from(story.getInternalId()),
+                            CommentFragment.from(story.getId(), story.getTitle()),
                             CommentFragment.TAG)
                     .commit();
         } else {
-            startActivity(new Intent(this, CommentsActivity.class).putExtra(CommentFragment.ARG_STORY_ID, story.getInternalId()));
+            Intent commentIntent = new Intent(this, CommentsActivity.class);
+            commentIntent.putExtra(CommentFragment.ARG_STORY_ID, story.getId());
+            commentIntent.putExtra(CommentFragment.ARG_STORY_TITLE, story.getTitle());
+            startActivity(commentIntent);
         }
     }
 
