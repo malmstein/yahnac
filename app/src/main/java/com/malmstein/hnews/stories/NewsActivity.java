@@ -17,7 +17,7 @@ import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 
-public class TopStoriesActivity extends HNewsActivity implements TopStoriesFragment.Listener {
+public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
