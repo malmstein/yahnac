@@ -20,7 +20,7 @@ import android.widget.ListView;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.NewsAdapter;
+import com.malmstein.hnews.presenters.TopStoriesAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
@@ -36,7 +36,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     private static final String SELECTED_KEY = "selected_position";
 
     private ListView mNewsListView;
-    private NewsAdapter mNewsAdapter;
+    private TopStoriesAdapter mTopStoriesAdapter;
     private Listener listener;
 
     private DelegatedSwipeRefreshLayout refreshLayout;
@@ -65,7 +65,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
         setupStoriesList();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            mNewsAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
+            mTopStoriesAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
         }
 
         return rootView;
@@ -73,7 +73,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        int position = mNewsAdapter.getSelectedPosition();
+        int position = mTopStoriesAdapter.getSelectedPosition();
         if (position != ListView.INVALID_POSITION) {
             outState.putInt(SELECTED_KEY, position);
         }
@@ -87,8 +87,8 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     }
 
     private void setupStoriesList() {
-        mNewsAdapter = new NewsAdapter(getActivity(), null, 0, listener);
-        mNewsListView.setAdapter(mNewsAdapter);
+        mTopStoriesAdapter = new TopStoriesAdapter(getActivity(), null, 0, listener);
+        mNewsListView.setAdapter(mTopStoriesAdapter);
     }
 
     private void stopRefreshing() {
@@ -111,8 +111,8 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         stopRefreshing();
-        mNewsAdapter.swapCursor(data);
-        int position = mNewsAdapter.getSelectedPosition();
+        mTopStoriesAdapter.swapCursor(data);
+        int position = mTopStoriesAdapter.getSelectedPosition();
         if (position != ListView.INVALID_POSITION) {
             mNewsListView.smoothScrollToPosition(position);
         }
@@ -121,7 +121,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         stopRefreshing();
-        mNewsAdapter.swapCursor(null);
+        mTopStoriesAdapter.swapCursor(null);
         stopRefreshing();
     }
 

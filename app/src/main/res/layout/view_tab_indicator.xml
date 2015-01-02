@@ -13,6 +13,6 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@android:id/text1"
-  style="@style/SunMobile.TabIndicator"
+  style="@style/HNews.TabIndicator"
   android:layout_width="wrap_content"
   android:layout_height="@dimen/appbar_tab_indicator_height" />

@@ -57,4 +57,24 @@
   <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
   </style>
 
+  <style name="HNews.TabStrip">
+    <item name="android:clipToPadding">false</item>
+    <item name="android:paddingLeft">@dimen/appbar_tab_left_padding</item>
+  </style>
+
+  <style name="HNews.Feed.TabStrip" parent="HNews.TabStrip" />
+
+  <style name="HNews.TabIndicator">
+    <item name="android:background">?android:selectableItemBackground</item>
+    <item name="android:paddingLeft">@dimen/appbar_tab_indicator_horizontal_padding</item>
+    <item name="android:paddingRight">@dimen/appbar_tab_indicator_horizontal_padding</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textColor">@color/tab_text_color</item>
+    <item name="android:textSize">@dimen/appbar_tab_title_text</item>
+    <item name="android:textStyle">@integer/font_textStyle_medium</item>
+    <item name="android:fontFamily">@string/font_fontFamily_medium</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:lines">1</item>
+  </style>
+
 </resources>

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,16 +15,44 @@ import com.malmstein.hnews.R;
 import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.model.Story;
+import com.malmstein.hnews.presenters.NewsAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
+import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
+import com.novoda.notils.caster.Views;
 
 public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Listener {
+
+    private static final int OFFSCREEN_PAGE_LIMIT = 1;
+
+    private ViewPager headersPager;
+    private SlidingTabLayout slidingTabs;
+    private NewsAdapter headersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         HNewsSyncAdapter.initializeSyncAdapter(this);
+
+        setupCategories();
+        setupTabsAndHeaders();
+    }
+
+    private void setupCategories(){
+        headersAdapter = new NewsAdapter(getFragmentManager());
+        headersPager = Views.findById(this, R.id.news_pager);
+        headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
+        headersPager.setAdapter(headersAdapter);
+    }
+
+    private void setupTabsAndHeaders(){
+        slidingTabs = Views.findById(this, R.id.sliding_tabs);
+
+        slidingTabs.setOnPageChangeListener(new CategoryOnPageChangeListener());
+        slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
+
+        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
     }
 
     @Override
@@ -103,6 +132,10 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
             commentIntent.putExtra(CommentFragment.ARG_STORY_TITLE, story.getTitle());
             startActivity(commentIntent);
         }
+    }
+
+    private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+
     }
 
 }

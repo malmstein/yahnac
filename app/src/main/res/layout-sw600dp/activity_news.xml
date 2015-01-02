@@ -5,7 +5,7 @@
   android:baselineAligned="false"
   android:divider="?android:attr/dividerHorizontal"
   android:orientation="vertical"
-  tools:context="com.malmstein.hnews.stories.TopStoriesActivity">
+  tools:context="com.malmstein.hnews.stories.NewsActivity">
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -13,7 +13,7 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context="com.malmstein.hnews.stories.TopStoriesActivity">
+    tools:context="com.malmstein.hnews.stories.NewsActivity">
 
     <fragment
       android:id="@+id/top_stories_fragment"
