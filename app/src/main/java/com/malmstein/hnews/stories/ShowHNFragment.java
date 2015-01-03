@@ -19,7 +19,7 @@ import com.malmstein.hnews.views.ViewDelegate;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
-public class TopStoriesFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public class ShowHNFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     private static final int STORY_LOADER = 0;
 
@@ -57,7 +57,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 storyNewsUri,
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
-                new String[]{Item.TYPE.story.name()},
+                new String[]{Item.TYPE.show.name()},
                 ItemEntry.COLUMN_ITEM_ORDER + " ASC");
     }
 

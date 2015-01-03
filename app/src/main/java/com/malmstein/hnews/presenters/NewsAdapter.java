@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.malmstein.hnews.BuildConfig;
+import com.malmstein.hnews.stories.ShowHNFragment;
 import com.malmstein.hnews.stories.TopStoriesFragment;
 
 public class NewsAdapter extends TaggedFragmentStatePagerAdapter {
@@ -18,7 +19,12 @@ public class NewsAdapter extends TaggedFragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return (Fragment) new TopStoriesFragment();
+        switch (position){
+            case 0:
+                return new TopStoriesFragment();
+            default:
+                return new ShowHNFragment();
+        }
     }
 
     @Override

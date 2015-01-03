@@ -24,7 +24,7 @@ import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.malmstein.hnews.views.toolbar.InsetAwareToolbar;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Listener, InsetAwareToolbar.Listener {
+public class NewsActivity extends HNewsActivity implements StoryListener, InsetAwareToolbar.Listener {
 
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
 
@@ -37,10 +37,15 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        HNewsSyncAdapter.initializeSyncAdapter(this);
 
+        setupSyncAdapter();
         setupCategories();
         setupTabsAndHeaders();
+    }
+
+    private void setupSyncAdapter() {
+        HNewsSyncAdapter.initializeSyncAdapter(this);
+        HNewsSyncAdapter.syncImmediately(this);
     }
 
     private void setupCategories() {
@@ -162,7 +167,6 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
 
             appBarContainer.showAppBar();
         }
-
 
     }
 

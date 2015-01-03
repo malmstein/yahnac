@@ -12,17 +12,17 @@ import android.widget.TextView;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.TimeAgo;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.stories.TopStoriesFragment;
+import com.malmstein.hnews.stories.StoryListener;
 
 import java.util.Date;
 
-public class TopStoriesAdapter extends CursorAdapter {
+public class StoriesAdapter extends CursorAdapter {
 
     private int currentPosition;
-    private final TopStoriesFragment.Listener listener;
+    private final StoryListener listener;
     private TimeAgo timeAgo;
 
-    public TopStoriesAdapter(Context context, Cursor c, int flags, TopStoriesFragment.Listener listener) {
+    public StoriesAdapter(Context context, Cursor c, int flags, StoryListener listener) {
         super(context, c, flags);
         this.listener = listener;
         timeAgo = new TimeAgo(context.getResources());
