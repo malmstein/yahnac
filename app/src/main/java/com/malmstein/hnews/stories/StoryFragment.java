@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.presenters.StoriesAdapter;
+import com.malmstein.hnews.presenters.StoriesCursorAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
@@ -21,7 +21,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     protected static final String SELECTED_KEY = "selected_position";
 
     protected ListView storiesList;
-    protected StoriesAdapter storiesAdapter;
+    protected StoriesCursorAdapter storiesCursorAdapter;
 
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
@@ -43,7 +43,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         setupStoriesList();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            storiesAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
+            storiesCursorAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
         }
 
         return rootView;
@@ -58,11 +58,11 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setupStoriesList() {
-        storiesAdapter = getStoriesAdapter(listener);
-        storiesList.setAdapter(storiesAdapter);
+        storiesCursorAdapter = getStoriesAdapter(listener);
+        storiesList.setAdapter(storiesCursorAdapter);
     }
 
-    protected abstract StoriesAdapter getStoriesAdapter(StoryListener listener);
+    protected abstract StoriesCursorAdapter getStoriesAdapter(StoryListener listener);
 
     @Override
     public void onRefresh() {

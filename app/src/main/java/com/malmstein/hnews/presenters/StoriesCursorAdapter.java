@@ -16,13 +16,13 @@ import com.malmstein.hnews.stories.StoryListener;
 
 import java.util.Date;
 
-public class StoriesAdapter extends CursorAdapter {
+public class StoriesCursorAdapter extends CursorAdapter {
 
     private int currentPosition;
     private final StoryListener listener;
     private TimeAgo timeAgo;
 
-    public StoriesAdapter(Context context, Cursor c, int flags, StoryListener listener) {
+    public StoriesCursorAdapter(Context context, Cursor c, int flags, StoryListener listener) {
         super(context, c, flags);
         this.listener = listener;
         timeAgo = new TimeAgo(context.getResources());

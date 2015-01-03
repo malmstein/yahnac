@@ -7,13 +7,13 @@ import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.stories.ShowHNFragment;
 import com.malmstein.hnews.stories.TopStoriesFragment;
 
-public class NewsAdapter extends TaggedFragmentStatePagerAdapter {
+public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
 
     private String[] categories = {"Top Stories" , "Show HN", "Ask HN", "Jobs"};
 
     private static final String TAG_TEMPLATE = BuildConfig.APPLICATION_ID + ".FEED_FRAGMENT#";
 
-    public NewsAdapter(FragmentManager fm) {
+    public StoriesPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

@@ -16,7 +16,7 @@ import com.malmstein.hnews.R;
 import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.NewsAdapter;
+import com.malmstein.hnews.presenters.StoriesPagerAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
@@ -31,7 +31,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
     private AppBarContainer appBarContainer;
     private ViewPager headersPager;
     private SlidingTabLayout slidingTabs;
-    private NewsAdapter headersAdapter;
+    private StoriesPagerAdapter headersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
     }
 
     private void setupCategories() {
-        headersAdapter = new NewsAdapter(getSupportFragmentManager());
+        headersAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
         headersPager = Views.findById(this, R.id.news_pager);
         headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
         headersPager.setAdapter(headersAdapter);
