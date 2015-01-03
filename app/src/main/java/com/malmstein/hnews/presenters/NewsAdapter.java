@@ -1,7 +1,7 @@
 package com.malmstein.hnews.presenters;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.stories.TopStoriesFragment;
