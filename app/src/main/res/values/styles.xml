@@ -46,7 +46,7 @@
   <style name="HNews.Feed.TabStrip" parent="HNews.TabStrip" />
 
   <style name="HNews.TabIndicator" parent="None">
-    <item name="android:background">@color/orange</item>
+    <item name="android:background">?android:selectableItemBackground</item>
     <item name="android:paddingLeft">@dimen/appbar_tab_indicator_horizontal_padding</item>
     <item name="android:paddingRight">@dimen/appbar_tab_indicator_horizontal_padding</item>
     <item name="android:gravity">center</item>

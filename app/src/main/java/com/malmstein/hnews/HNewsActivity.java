@@ -2,6 +2,7 @@ package com.malmstein.hnews;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -58,6 +59,14 @@ public class HNewsActivity extends ActionBarActivity {
         Resources resources = getResources();
         setAppBarColor(getDefaultAppBarColor(resources));
         setStatusBarColorMaybe(getDefaultStatusBarColor(resources));
+    }
+
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        if (toolbar != null) {
+            super.setSupportActionBar(toolbar);
+        }
+        this.appBar = (HNToolbar) toolbar;
     }
 
     protected void setAppBarColor(int color) {

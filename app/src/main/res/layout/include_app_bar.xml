@@ -5,4 +5,4 @@
   style="@style/HNews.AppBar"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  tools:showIn="@layout/activity_feed" />
+  tools:showIn="@layout/activity_news" />
