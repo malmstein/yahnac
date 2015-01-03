@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="HNews.List">
+  <style name="HNews.List" parent="None">
     <item name="android:choiceMode">singleChoice</item>
   </style>
 

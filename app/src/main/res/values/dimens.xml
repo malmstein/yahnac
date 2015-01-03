@@ -20,4 +20,6 @@
   <dimen name="appbar_tab_indicator_height">48dp</dimen>
 
   <dimen name="empty_view_text">18sp</dimen>
+
+  <dimen name="app_bar_shadow_height">4dp</dimen>
 </resources>

@@ -1,24 +1,5 @@
 <resources>
 
-  <style name="HNews" parent="Theme.AppCompat.Light">
-    <item name="android:windowBackground">@color/app_background</item>
-    <item name="android:textColorPrimary">@color/black</item>
-
-    <item name="android:actionBarStyle">@style/HNews.ActionBar</item>
-    <item name="android:actionBarItemBackground">@color/orange</item>
-    <item name="android:actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
-    <item name="android:colorPrimary">@color/orange</item>
-    <item name="android:colorPrimaryDark">@color/dark_orange</item>
-    <item name="android:colorAccent">@color/black</item>
-
-    <item name="actionBarStyle">@style/HNews.ActionBar</item>
-    <item name="actionBarItemBackground">@color/orange</item>
-    <item name="actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
-    <item name="colorPrimary">@color/orange</item>
-    <item name="colorPrimaryDark">@color/dark_orange</item>
-    <item name="colorAccent">@color/black</item>
-  </style>
-
   <style name="HNews.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
     <item name="android:displayOptions">showTitle</item>
     <item name="android:background">@color/orange</item>
@@ -40,13 +21,13 @@
     <item name="divider">@color/light_grey</item>
   </style>
 
-  <style name="HNews.List">
+  <style name="HNews.List" parent="None">
     <item name="android:paddingTop">?actionBarSize</item>
     <item name="android:clipToPadding">false</item>
     <item name="android:descendantFocusability">blocksDescendants</item>
   </style>
 
-  <style name="HNews.Card">
+  <style name="HNews.Card" parent="None">
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>
     <item name="cardPreventCornerOverlap">false</item>
@@ -57,14 +38,14 @@
   <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
   </style>
 
-  <style name="HNews.TabStrip">
+  <style name="HNews.TabStrip" parent="None">
     <item name="android:clipToPadding">false</item>
     <item name="android:paddingLeft">@dimen/appbar_tab_left_padding</item>
   </style>
 
   <style name="HNews.Feed.TabStrip" parent="HNews.TabStrip" />
 
-  <style name="HNews.TabIndicator">
+  <style name="HNews.TabIndicator" parent="None">
     <item name="android:background">@color/orange</item>
     <item name="android:paddingLeft">@dimen/appbar_tab_indicator_horizontal_padding</item>
     <item name="android:paddingRight">@dimen/appbar_tab_indicator_horizontal_padding</item>
@@ -90,6 +71,11 @@
 
   <style name="HNews.Feed.EmptyView.Loading">
     <item name="android:text">@string/feed_loading_text</item>
+  </style>
+
+  <style name="HNews.AppBar" parent="Widget.AppCompat.Toolbar">
+    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
   </style>
 
 </resources>

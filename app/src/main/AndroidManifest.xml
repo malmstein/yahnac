@@ -12,7 +12,7 @@
     android:name="com.malmstein.hnews.HNewsApplication"
     android:icon="@drawable/ic_launcher"
     android:label="@string/title_app"
-    android:theme="@style/HNews">
+    android:theme="@style/Theme.HNews">
     <activity
       android:name=".stories.NewsActivity"
       android:label="@string/title_app">

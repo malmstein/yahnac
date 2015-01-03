@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <declare-styleable name="AppBarContainer">
+    <attr name="appBarShadowHeight" format="dimension" />
+    <attr name="appBarColor" format="color"/>
+    <attr name="appBarLayout" format="reference"/>
+  </declare-styleable>
+
+</resources>
