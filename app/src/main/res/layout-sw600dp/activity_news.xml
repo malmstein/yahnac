@@ -30,13 +30,18 @@
     android:orientation="horizontal"
     tools:context="com.malmstein.hnews.stories.NewsActivity">
 
-    <fragment
-      android:id="@+id/top_stories_fragment"
-      android:name="com.malmstein.hnews.stories.TopStoriesFragment"
+    <FrameLayout
+      android:id="@+id/feed_main_content"
       android:layout_width="0dp"
       android:layout_height="match_parent"
-      android:layout_weight="2"
-      tools:layout="@android:layout/list_content" />
+      android:layout_weight="2">
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/news_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <FrameLayout
       android:id="@+id/story_fragment_root"
