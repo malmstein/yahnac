@@ -23,6 +23,20 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
 
     private static final int STORY_LOADER = 0;
 
+    public enum QUERY {
+        top,
+        newest,
+        best
+    }
+
+    public static TopStoriesFragment from(QUERY query){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("query", query);
+        TopStoriesFragment fragment = new TopStoriesFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -48,6 +62,22 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         return new StoriesCursorAdapter(getActivity(), null, 0, listener);
     }
 
+    private String getOrder(){
+        QUERY query = (QUERY) getArguments().get("query");
+        switch (query){
+
+            case top:
+                return ItemEntry.COLUMN_ITEM_ORDER + " ASC";
+            case newest:
+                return ItemEntry.COLUMN_TIME + " DESC";
+            case best:
+                return ItemEntry.COLUMN_SCORE + " DESC";
+            default:
+                return null;
+        }
+
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri storyNewsUri = ItemEntry.buildStoriesUri();
@@ -58,7 +88,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Item.TYPE.story.name()},
-                ItemEntry.COLUMN_ITEM_ORDER + " ASC");
+                getOrder());
     }
 
     @Override

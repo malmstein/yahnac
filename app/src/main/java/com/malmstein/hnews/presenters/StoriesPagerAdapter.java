@@ -4,12 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.malmstein.hnews.BuildConfig;
+import com.malmstein.hnews.stories.AskHNFragment;
 import com.malmstein.hnews.stories.ShowHNFragment;
 import com.malmstein.hnews.stories.TopStoriesFragment;
 
 public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
 
-    private String[] categories = {"Top Stories" , "Show HN", "Ask HN", "Jobs"};
+    private String[] categories = {"Top Stories", "Newest", "Best", "Show HN", "Ask HN"};
 
     private static final String TAG_TEMPLATE = BuildConfig.APPLICATION_ID + ".FEED_FRAGMENT#";
 
@@ -21,9 +22,17 @@ public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new TopStoriesFragment();
-            default:
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.top);
+            case 1:
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.newest);
+            case 2:
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.best);
+            case 3:
                 return new ShowHNFragment();
+            case 4:
+                return new AskHNFragment();
+            default:
+                return new TopStoriesFragment();
         }
     }
 
