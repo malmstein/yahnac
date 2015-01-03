@@ -60,7 +60,7 @@ public class TopStoriesFragment extends Fragment implements LoaderManager.Loader
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         mNewsListView = (ListView) rootView.findViewById(R.id.listview_news);
-        mNewsListView.setEmptyView(rootView.findViewById(R.id.listview_empty_view));
+        mNewsListView.setEmptyView(rootView.findViewById(R.id.feed_empty_placeholder));
         setupRefreshLayout();
         setupStoriesList();
 

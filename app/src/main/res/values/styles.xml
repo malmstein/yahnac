@@ -77,4 +77,19 @@
     <item name="android:lines">1</item>
   </style>
 
+  <!-- Empty view -->
+  <style name="EmptyView">
+    <item name="android:text">@string/empty_view_text</item>
+    <item name="android:textSize">@dimen/empty_view_text</item>
+    <item name="android:textColor">@color/feed_empty_text</item>
+    <item name="android:visibility">gone</item>
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="HNews.Feed.EmptyView" parent="EmptyView" />
+
+  <style name="HNews.Feed.EmptyView.Loading">
+    <item name="android:text">@string/feed_loading_text</item>
+  </style>
+
 </resources>

@@ -16,4 +16,6 @@
   <color name="feed_tabs_text_normal">#99FFFFFF</color>
   <color name="feed_tabs_selected_indicator">#FFFFFF</color>
 
+  <color name="feed_empty_text">#cbcbcb</color>
+
 </resources>

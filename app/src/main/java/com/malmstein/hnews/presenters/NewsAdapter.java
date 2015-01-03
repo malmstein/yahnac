@@ -8,8 +8,9 @@ import com.malmstein.hnews.stories.TopStoriesFragment;
 
 public class NewsAdapter extends TaggedFragmentStatePagerAdapter {
 
+    private String[] categories = {"Top Stories" , "Show HN", "Ask HN", "Jobs"};
+
     private static final String TAG_TEMPLATE = BuildConfig.APPLICATION_ID + ".FEED_FRAGMENT#";
-    private static final int HEADERS = 4;
 
     public NewsAdapter(FragmentManager fm) {
         super(fm);
@@ -27,6 +28,11 @@ public class NewsAdapter extends TaggedFragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return HEADERS;
+        return categories.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return categories[position];
     }
 }

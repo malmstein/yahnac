@@ -39,20 +39,19 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
         setupTabsAndHeaders();
     }
 
-    private void setupCategories(){
-        headersAdapter = new NewsAdapter(getFragmentManager());
+    private void setupCategories() {
+        headersAdapter = new NewsAdapter(getSupportFragmentManager());
         headersPager = Views.findById(this, R.id.news_pager);
         headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
         headersPager.setAdapter(headersAdapter);
     }
 
-    private void setupTabsAndHeaders(){
+    private void setupTabsAndHeaders() {
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
 
-        slidingTabs.setOnPageChangeListener(new CategoryOnPageChangeListener());
         slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
-
         slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
+        slidingTabs.setViewPager(headersPager);
     }
 
     @Override
@@ -134,8 +133,5 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
         }
     }
 
-    private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-
-    }
 
 }
