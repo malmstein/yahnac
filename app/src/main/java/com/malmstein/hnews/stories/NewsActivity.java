@@ -19,12 +19,14 @@ import com.malmstein.hnews.presenters.NewsAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
+import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
 
 public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Listener {
 
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
 
+    private AppBarContainer appBarContainer;
     private ViewPager headersPager;
     private SlidingTabLayout slidingTabs;
     private NewsAdapter headersAdapter;
@@ -47,8 +49,12 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
     }
 
     private void setupTabsAndHeaders() {
+        appBarContainer = Views.findById(this, R.id.app_bar_container);
+        appBarContainer.setAppBar(getAppBar());
+
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
 
+        slidingTabs.setOnPageChangeListener(new CategoryOnPageChangeListener());
         slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
         slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
         slidingTabs.setViewPager(headersPager);
@@ -133,5 +139,18 @@ public class NewsActivity extends HNewsActivity implements TopStoriesFragment.Li
         }
     }
 
+    private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (positionOffset == 0) {
+                return;
+            }
+
+            appBarContainer.showAppBar();
+        }
+
+
+    }
 
 }

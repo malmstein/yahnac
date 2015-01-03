@@ -47,6 +47,10 @@ public class HNewsActivity extends ActionBarActivity {
         findAndSetAppBarIfAny();
     }
 
+    protected HNToolbar getAppBar() {
+        return appBar;
+    }
+
     private void findAndSetAppBarIfAny() {
         Toolbar toolbar = Views.findById(this, R.id.toolbar);
         setSupportActionBar(toolbar);
