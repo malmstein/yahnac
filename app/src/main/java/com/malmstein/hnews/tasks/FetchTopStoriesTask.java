@@ -85,7 +85,10 @@ public class FetchTopStoriesTask {
         Gson gson = new Gson();
         String kids = gson.toJson(kidsArray);
 
-        long score = (Long) map.get("score");
+        long score = 0;
+        if (map.containsKey("score")){
+           score = (Long) map.get("score");
+        }
         String title = (String) map.get("title");
         String url = (String) map.get("url");
 

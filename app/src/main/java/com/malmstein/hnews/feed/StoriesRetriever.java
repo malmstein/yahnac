@@ -1,9 +1,6 @@
 package com.malmstein.hnews.feed;
 
-import com.malmstein.hnews.tasks.FetchShowHNTask;
 import com.malmstein.hnews.tasks.FetchTopStoriesTask;
-
-import java.io.IOException;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -42,12 +39,12 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
 
         private void startFetchingTopsStories() {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
-//            createFetchTopStoriesTask();
-            try {
-                new FetchShowHNTask().execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createFetchTopStoriesTask();
+//            try {
+//                new FetchShowHNTask().execute();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
