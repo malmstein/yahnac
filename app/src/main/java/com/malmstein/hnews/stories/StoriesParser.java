@@ -20,7 +20,7 @@ public class StoriesParser {
         this.document = document;
     }
 
-    public Vector<ContentValues> parse() {
+    public Vector<ContentValues> parse(Item.TYPE type) {
         storiesList.clear();
 
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");
@@ -40,11 +40,15 @@ public class StoriesParser {
 
             ContentValues storyValues = new ContentValues();
 
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type.name());
             storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, submitter_i);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, Item.TYPE.story.name());
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME, submitter_i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_COMMENTS, comments_i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_DOMAIN, domain);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, article_url_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, point_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title_i);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, article_url_i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, i);
 
             storiesList.add(storyValues);
         }

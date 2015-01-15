@@ -1,5 +1,7 @@
 package com.malmstein.hnews.tasks;
 
+import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.model.Item;
 import com.malmstein.hnews.stories.StoriesParser;
 
 import java.io.IOException;
@@ -21,9 +23,10 @@ public class FetchShowHNTask {
 
     private static final int DEFAULT_CONNECTION_TIMEOUT = 15 * 1000;
     private static final int DEFAULT_READ_TIMEOUT = 15 * 1000;
+    private final DatabasePersister databasePersister;
 
-    public FetchShowHNTask() {
-
+    public FetchShowHNTask(final DatabasePersister databasePersister) {
+        this.databasePersister = databasePersister;
     }
 
     public void execute() throws IOException {
@@ -44,7 +47,7 @@ public class FetchShowHNTask {
 
             Document doc = Jsoup.parse(result);
 
-            new StoriesParser(doc).parse();
+            databasePersister.persistStories(new StoriesParser(doc).parse(Item.TYPE.show));
         }
     }
 

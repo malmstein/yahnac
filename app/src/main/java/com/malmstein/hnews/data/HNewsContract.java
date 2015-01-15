@@ -16,13 +16,14 @@ public class HNewsContract {
     public static final String[] STORY_COLUMNS = {
             ItemEntry._ID,
             ItemEntry.COLUMN_ITEM_ID,
+            ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
+            ItemEntry.COLUMN_COMMENTS,
             ItemEntry.COLUMN_DOMAIN,
-            ItemEntry.COLUMN_TYPE,
+            ItemEntry.COLUMN_URL,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
-            ItemEntry.COLUMN_URL,
     };
 
     public static final String[] COMMENT_COLUMNS = {
@@ -40,11 +41,12 @@ public class HNewsContract {
     public static final int COLUMN_BY = 2;
     public static final int COLUMN_TIME = 3;
 
-    public static final int COLUMN_DOMAIN = 4;
-    public static final int COLUMN_TYPE = 5;
-    public static final int COLUMN_SCORE = 6;
-    public static final int COLUMN_TITLE = 7;
-    public static final int COLUMN_URL = 8;
+    public static final int COLUMN_COMMENTS = 4;
+    public static final int COLUMN_DOMAIN = 5;
+    public static final int COLUMN_TYPE = 6;
+    public static final int COLUMN_SCORE = 7;
+    public static final int COLUMN_TITLE = 8;
+    public static final int COLUMN_URL = 9;
 
     public static final int COLUMN_TEXT = 4;
     public static final int COLUMN_LEVEL = 5;
@@ -69,7 +71,9 @@ public class HNewsContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
         public static final String COLUMN_TIME = "time";
+        public static final String COLUMN_ITEM_ORDER = "time";
         public static final String COLUMN_TEXT = "text";
+        public static final String COLUMN_COMMENTS = "comments";
         public static final String COLUMN_URL = "url";
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_TITLE = "title";

@@ -22,11 +22,13 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_COMMENTS + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_DOMAIN + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT" +
+                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " TIMESTAMP," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " TEXT" +
                 " );";
 
         final String SQL_CREATE_STORIES_TMP_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME + " (" +
@@ -35,11 +37,13 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_COMMENTS + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_DOMAIN + " BOOLEAN," +
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT" +
+                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " TIMESTAMP," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " TEXT" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
