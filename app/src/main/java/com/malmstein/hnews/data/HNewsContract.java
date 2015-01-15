@@ -71,7 +71,7 @@ public class HNewsContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
         public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_ITEM_ORDER = "time";
+        public static final String COLUMN_ITEM_ORDER = "item_order";
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_COMMENTS = "comments";
         public static final String COLUMN_URL = "url";

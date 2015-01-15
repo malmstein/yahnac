@@ -11,7 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.model.Item;
+import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesCursorAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
@@ -57,7 +57,7 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
                 storyNewsUri,
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
-                new String[]{Item.TYPE.ask.name()},
+                new String[]{Story.TYPE.ask.name()},
                 ItemEntry.COLUMN_ITEM_ORDER + " ASC");
     }
 

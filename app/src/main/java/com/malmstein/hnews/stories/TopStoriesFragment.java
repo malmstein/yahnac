@@ -11,7 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.model.Item;
+import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesCursorAdapter;
 import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
@@ -87,7 +87,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 storyNewsUri,
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
-                new String[]{Item.TYPE.story.name()},
+                new String[]{Story.TYPE.top_story.name()},
                 getOrder());
     }
 

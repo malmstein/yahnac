@@ -1,7 +1,8 @@
 package com.malmstein.hnews.tasks;
 
 import com.malmstein.hnews.feed.DatabasePersister;
-import com.malmstein.hnews.model.Item;
+
+import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoriesParser;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class FetchShowHNTask {
 
             Document doc = Jsoup.parse(result);
 
-            databasePersister.persistStories(new StoriesParser(doc).parse(Item.TYPE.show));
+            databasePersister.persistStories(new StoriesParser(doc).parse(Story.TYPE.show));
         }
     }
 

@@ -4,14 +4,21 @@ import android.database.Cursor;
 
 import com.malmstein.hnews.data.HNewsContract;
 
-public class Comment extends Item {
+public class Comment {
 
+    private final Long internalId;
+    private final String by;
+    private final Long id;
+    private final Long time;
     private final int level;
     private final String text;
     private final String timeText;
 
     public Comment(Long internalId, String by, Long id, Long time, int level, String text, String timeText) {
-        super(internalId, by, id, time);
+        this.internalId = internalId;
+        this.by = by;
+        this.id = id;
+        this.time = time;
         this.level = level;
         this.text = text;
         this.timeText = timeText;
@@ -40,6 +47,22 @@ public class Comment extends Item {
 
     public String getTimeText() {
         return timeText;
+    }
+
+    public Long getInternalId() {
+        return internalId;
+    }
+
+    public String getBy() {
+        return by;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getTime() {
+        return time;
     }
 }
 

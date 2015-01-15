@@ -58,16 +58,15 @@ public class StoriesCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (story.getComments() > 0){
-            holder.comments_action.setText(context.getResources().getString(R.string.story_comments));
-            holder.comments_action.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currentPosition = cursor.getPosition();
-                    listener.onCommentsClicked(story);
-                }
-            });
-        }
+        holder.comments_action.setText(story.getComments());
+        holder.comments_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPosition = cursor.getPosition();
+                listener.onCommentsClicked(story);
+            }
+        });
+//        }
 
     }
 

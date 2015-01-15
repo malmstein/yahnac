@@ -3,7 +3,7 @@ package com.malmstein.hnews.stories;
 import android.content.ContentValues;
 
 import com.malmstein.hnews.data.HNewsContract;
-import com.malmstein.hnews.model.Item;
+import com.malmstein.hnews.model.Story;
 
 import java.util.Vector;
 
@@ -20,7 +20,7 @@ public class StoriesParser {
         this.document = document;
     }
 
-    public Vector<ContentValues> parse(Item.TYPE type) {
+    public Vector<ContentValues> parse(Story.TYPE type) {
         storiesList.clear();
 
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");

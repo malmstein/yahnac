@@ -2,31 +2,66 @@ package com.malmstein.hnews.model;
 
 import android.database.Cursor;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.malmstein.hnews.data.HNewsContract;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
-public class Story extends Item implements Serializable {
+public class Story implements Serializable {
 
+    public String getDomain() {
+        return domain;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public enum TYPE {
+        top_story,
+        new_story,
+        best_story,
+        show,
+        ask
+    }
+
+    private final Long internalId;
+    private final String by;
+    private final Long id;
+    private final Long time;
     private final int score;
     private final String title;
     private final String url;
-    private final ArrayList<String> kids;
-    private final Long updated;
+    private final String domain;
+    private final String comments;
     private final String type;
 
-    public Story(Long internalId, String by, Long id, String type, Long time, int score, String title, String url, ArrayList<String> kids, Long updated) {
-        super(internalId, by, id, time);
+    public Story(Long internalId, String by, Long id, String type, Long time, int score, String title, String url, String domain, String comments) {
+        this.internalId = internalId;
+        this.by = by;
+        this.id = id;
+        this.time = time;
         this.type = type;
         this.score = score;
         this.title = title;
         this.url = url;
-        this.kids = kids;
-        this.updated = updated;
+        this.domain = domain;
+        this.comments = comments;
+    }
+
+    public Long getInternalId() {
+        return internalId;
+    }
+
+    public String getBy() {
+        return by;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getTime() {
+        return time;
     }
 
     public int getScore() {
@@ -39,22 +74,6 @@ public class Story extends Item implements Serializable {
 
     public String getUrl() {
         return url;
-    }
-
-    public ArrayList<String> getKids() {
-        return kids;
-    }
-
-    private boolean hasKids(){
-        return kids != null;
-    }
-
-    public int getComments() {
-        return  hasKids() ? getKids().size() : 0;
-    }
-
-    public Long getUpdated() {
-        return updated;
     }
 
     public String getType() {
@@ -70,22 +89,9 @@ public class Story extends Item implements Serializable {
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);
         String type = cursor.getString(HNewsContract.COLUMN_TYPE);
         String url = cursor.getString(HNewsContract.COLUMN_URL);
-        Long updated = cursor.getLong(HNewsContract.COLUMN_INSERTED);
-        String kids = cursor.getString(HNewsContract.COLUMN_STORY_KIDS);
+        String domain = cursor.getString(HNewsContract.COLUMN_DOMAIN);
+        String comments = cursor.getString(HNewsContract.COLUMN_COMMENTS);
 
-        Gson gson = new Gson();
-        Type jsonType = new TypeToken<ArrayList<String>>() {}.getType();
-        ArrayList<String> kidsList = gson.fromJson(kids, jsonType);
-
-        return new Story(internalId, by, id, type, time, score, title, url, kidsList, updated);
+        return new Story(internalId, by, id, type, time, score, title, url, domain, comments);
     }
 }
-
-//    "by":"dhouston",
-//            "id":8863,
-//            "kids":[8952,9224,8917,8884,8887,8943,8869,8958,9005,9671,8940,9067,8908,9055,8865,8881,8872,8873,8955,10403,8903,8928,9125,8998,8901,8902,8907,8894,8878,8870,8980,8934,8876],
-//            "score":111,
-//            "time":1175714200,
-//            "title":"My YC app: Dropbox - Throw away your USB drive",
-//            "type":"story",
-//            "url":"http://www.getdropbox.com/u/2/screencast.html"
