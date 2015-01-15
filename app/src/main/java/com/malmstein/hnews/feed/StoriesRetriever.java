@@ -34,17 +34,17 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
         @Override
         public void call(Subscriber<? super StoriesUpdateEvent> subscriber) {
             this.subscriber = subscriber;
-            try {
-                startFetchingTopsStories();
-            } catch (IOException e) {
-                this.subscriber.onError(e);
-            }
-            this.subscriber.onCompleted();
+            startFetchingTopsStories();
+            subscriber.onCompleted();
         }
 
-        private void startFetchingTopsStories() throws IOException {
+        private void startFetchingTopsStories() {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
-            createFetchTopStoriesTask().execute();
+            try {
+                createFetchTopStoriesTask().execute();
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
