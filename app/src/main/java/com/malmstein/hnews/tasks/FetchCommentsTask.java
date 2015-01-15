@@ -2,7 +2,6 @@ package com.malmstein.hnews.tasks;
 
 import com.malmstein.hnews.comments.CommentsParser;
 import com.malmstein.hnews.feed.DatabasePersister;
-import com.malmstein.hnews.http.ConnectionProvider;
 
 import java.io.IOException;
 
@@ -25,12 +24,10 @@ public class FetchCommentsTask {
     private static final int DEFAULT_READ_TIMEOUT = 15 * 1000;
 
     private final DatabasePersister databasePersister;
-    private final ConnectionProvider connectionProvider;
     private final Long storyId;
 
-    public FetchCommentsTask(final DatabasePersister databasePersister, ConnectionProvider connectionProvider, Long storyId) {
+    public FetchCommentsTask(final DatabasePersister databasePersister, Long storyId) {
         this.databasePersister = databasePersister;
-        this.connectionProvider = connectionProvider;
         this.storyId = storyId;
 
     }
@@ -52,7 +49,6 @@ public class FetchCommentsTask {
             String result = EntityUtils.toString(httpEntity);
 
             Document doc = Jsoup.parse(result);
-
 
             databasePersister.persistComments(new CommentsParser(storyId, doc).parse(), storyId);
         }

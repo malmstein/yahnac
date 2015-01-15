@@ -2,7 +2,6 @@ package com.malmstein.hnews.comments;
 
 import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.feed.Retriever;
-import com.malmstein.hnews.http.ConnectionProvider;
 import com.malmstein.hnews.tasks.FetchCommentsTask;
 
 import java.io.IOException;
@@ -14,35 +13,28 @@ import rx.schedulers.Schedulers;
 import static com.malmstein.hnews.comments.CommentsUpdateEvent.Type.REFRESH_FINISHED;
 import static com.malmstein.hnews.comments.CommentsUpdateEvent.Type.REFRESH_STARTED;
 
-public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
+public class CommentsRetriever implements Retriever<CommentsUpdateEvent>{
 
     private final DatabasePersister databasePersister;
-    private final ConnectionProvider connectionProvider;
 
-    public CommentsRetriever(DatabasePersister databasePersister, ConnectionProvider connectionProvider) {
+    public CommentsRetriever(DatabasePersister databasePersister) {
         this.databasePersister = databasePersister;
-        this.connectionProvider = connectionProvider;
     }
 
     @Override
     public Observable<CommentsUpdateEvent> fetch(Long... params) {
-        return Observable.create(new CommentsUpdateOnSubscribe(databasePersister, connectionProvider, params[0]))
+        return Observable.create(new CommentsUpdateOnSubscribe(databasePersister, params[0]))
                 .subscribeOn(Schedulers.io());
-
-        //onNext here could notify to subscribers
-        //doOnError?
     }
 
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<CommentsUpdateEvent> {
 
         private final DatabasePersister databasePersister;
-        private final ConnectionProvider connectionProvider;
         private final Long storyId;
         private Subscriber<? super CommentsUpdateEvent> subscriber;
 
-        private CommentsUpdateOnSubscribe(DatabasePersister databasePersister, ConnectionProvider connectionProvider, Long storyId) {
+        private CommentsUpdateOnSubscribe(DatabasePersister databasePersister, Long storyId) {
             this.databasePersister = databasePersister;
-            this.connectionProvider = connectionProvider;
             this.storyId = storyId;
         }
 
@@ -64,7 +56,7 @@ public class CommentsRetriever implements Retriever<CommentsUpdateEvent> {
         }
 
         private FetchCommentsTask createFetchCommentsTask() {
-            return new FetchCommentsTask(databasePersister, connectionProvider, storyId);
+            return new FetchCommentsTask(databasePersister, storyId);
         }
     }
 }

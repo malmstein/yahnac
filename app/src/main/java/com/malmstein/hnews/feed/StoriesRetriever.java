@@ -1,57 +1,18 @@
 package com.malmstein.hnews.feed;
 
-import com.malmstein.hnews.tasks.FetchShowHNTask;
-
-import java.io.IOException;
-
 import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
-public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
+public interface StoriesRetriever<T> extends Retriever {
 
-    private final DatabasePersister databasePersister;
+    Observable<T> fetch(Long... params);
 
-    public StoriesRetriever(DatabasePersister databasePersister) {
-        this.databasePersister = databasePersister;
-    }
+    Observable<T> fetchTop();
 
-    @Override
-    public Observable<StoriesUpdateEvent> fetch(Long... params) {
-        return Observable.create(new StoriesUpdateOnSubscribe(databasePersister))
-                .subscribeOn(Schedulers.io());
-    }
+    Observable<T> fetchNew();
 
-    private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesUpdateEvent> {
+    Observable<T> fetchBest();
 
-        private final DatabasePersister databasePersister;
-        private Subscriber<? super StoriesUpdateEvent> subscriber;
+    Observable<T> fetchShow();
 
-        private StoriesUpdateOnSubscribe(DatabasePersister databasePersister) {
-            this.databasePersister = databasePersister;
-        }
-
-        @Override
-        public void call(Subscriber<? super StoriesUpdateEvent> subscriber) {
-            this.subscriber = subscriber;
-            startFetchingTopsStories();
-            subscriber.onCompleted();
-        }
-
-        private void startFetchingTopsStories() {
-            subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
-            try {
-                createFetchTopStoriesTask().execute();
-            } catch (IOException e) {
-                subscriber.onError(e);
-            }
-            subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
-        }
-
-        private FetchShowHNTask createFetchTopStoriesTask() {
-            return new FetchShowHNTask(databasePersister);
-        }
-
-    }
-
+    Observable<T> fetchAsk();
 }

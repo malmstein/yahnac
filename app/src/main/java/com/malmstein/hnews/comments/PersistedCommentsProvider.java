@@ -9,7 +9,7 @@ import rx.Subscription;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class PersistedCommentsProvider implements CommentsProvider {
+public class PersistedCommentsProvider implements CommentsProvider{
 
     private final Retriever<CommentsUpdateEvent> retriever;
 
@@ -21,7 +21,7 @@ public class PersistedCommentsProvider implements CommentsProvider {
     public PersistedCommentsProvider(Retriever<CommentsUpdateEvent> retriever) {
         this.retriever = retriever;
         this.feedUpdateEventOnSubscribe = new CommentsUpdateEventCachedOnSubscribe();
-        this.feedUpdateEventSubject = new ForwardingSubject<CommentsUpdateEvent>(feedUpdateEventOnSubscribe);
+        this.feedUpdateEventSubject = new ForwardingSubject<>(feedUpdateEventOnSubscribe);
     }
 
     @Override

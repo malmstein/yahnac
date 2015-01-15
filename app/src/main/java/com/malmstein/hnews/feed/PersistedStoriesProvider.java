@@ -9,30 +9,95 @@ import rx.schedulers.Schedulers;
 
 public class PersistedStoriesProvider implements StoriesProvider {
 
-    private final Retriever<StoriesUpdateEvent> retriever;
+    private final NewsRetriever<StoriesUpdateEvent> retriever;
 
     private final ForwardingSubject<StoriesUpdateEvent> feedUpdateEventSubject;
     private final CachedOnSubscribe<StoriesUpdateEvent> feedUpdateEventOnSubscribe;
 
     private Subscription retrieverSubscription;
 
-    public PersistedStoriesProvider(Retriever<StoriesUpdateEvent> retriever) {
+    public PersistedStoriesProvider(NewsRetriever<StoriesUpdateEvent> retriever) {
         this.retriever = retriever;
         this.feedUpdateEventOnSubscribe = new NewsUpdateEventCachedOnSubscribe();
-        this.feedUpdateEventSubject = new ForwardingSubject<StoriesUpdateEvent>(feedUpdateEventOnSubscribe);
+        this.feedUpdateEventSubject = new ForwardingSubject<>(feedUpdateEventOnSubscribe);
     }
 
     @Override
     public void refresh() {
-        retrieverSubscription = startRemoteFetch()
+        retrieverSubscription = startRemoteRefresh()
                 .doOnNext(onRetrieverFinish())
                 .doOnError(onRetrieverError())
                 .subscribeOn(Schedulers.io())
                 .subscribe(feedUpdateEventSubject);
     }
 
-    private Observable<StoriesUpdateEvent> startRemoteFetch() {
-        return retriever.fetch();
+    @Override
+    public void fetchNewStories() {
+        retrieverSubscription = startRemoteNewStoriesRefresh()
+                .doOnNext(onRetrieverFinish())
+                .doOnError(onRetrieverError())
+                .subscribeOn(Schedulers.io())
+                .subscribe(feedUpdateEventSubject);
+    }
+
+    @Override
+    public void fetchBestStories() {
+        retrieverSubscription = startRemoteBestStoriesRefresh()
+                .doOnNext(onRetrieverFinish())
+                .doOnError(onRetrieverError())
+                .subscribeOn(Schedulers.io())
+                .subscribe(feedUpdateEventSubject);
+    }
+
+    @Override
+    public void fetchTopStories() {
+        retrieverSubscription = startRemoteRefresh()
+                .doOnNext(onRetrieverFinish())
+                .doOnError(onRetrieverError())
+                .subscribeOn(Schedulers.io())
+                .subscribe(feedUpdateEventSubject);
+    }
+
+    @Override
+    public void fetchShowStories() {
+        retrieverSubscription = startRemoteShowStoriesRefresh()
+                .doOnNext(onRetrieverFinish())
+                .doOnError(onRetrieverError())
+                .subscribeOn(Schedulers.io())
+                .subscribe(feedUpdateEventSubject);
+    }
+
+    @Override
+    public void fetchAskStories() {
+        retrieverSubscription = startRemoteAskStoriesRefresh()
+                .doOnNext(onRetrieverFinish())
+                .doOnError(onRetrieverError())
+                .subscribeOn(Schedulers.io())
+                .subscribe(feedUpdateEventSubject);
+    }
+
+    private Observable<StoriesUpdateEvent> startRemoteRefresh() {
+        return retriever.fetchTop()
+                .mergeWith(retriever.fetchNew())
+                .mergeWith(retriever.fetchBest())
+                .mergeWith(retriever.fetchShow())
+                .mergeWith(retriever.fetchAsk());
+    }
+
+    private Observable<StoriesUpdateEvent> startRemoteNewStoriesRefresh() {
+        return retriever.fetchNew();
+    }
+
+    private Observable<StoriesUpdateEvent> startRemoteBestStoriesRefresh() {
+        return retriever.fetchTop();
+    }
+
+    private Observable<StoriesUpdateEvent> startRemoteShowStoriesRefresh() {
+        return retriever.fetchShow();
+    }
+
+    private Observable<StoriesUpdateEvent> startRemoteAskStoriesRefresh() {
+        return retriever.fetchAsk();
     }
 
     private Action1<StoriesUpdateEvent> onRetrieverFinish() {
