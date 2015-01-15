@@ -1,6 +1,8 @@
 package com.malmstein.hnews.feed;
 
-import com.malmstein.hnews.tasks.FetchTopStoriesTask;
+import com.malmstein.hnews.tasks.FetchShowHNTask;
+
+import java.io.IOException;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -32,28 +34,22 @@ public class StoriesRetriever implements Retriever<StoriesUpdateEvent> {
         @Override
         public void call(Subscriber<? super StoriesUpdateEvent> subscriber) {
             this.subscriber = subscriber;
-            startFetchingTopsStories();
-            moveFromTmpToStories();
-            subscriber.onCompleted();
+            try {
+                startFetchingTopsStories();
+            } catch (IOException e) {
+                this.subscriber.onError(e);
+            }
+            this.subscriber.onCompleted();
         }
 
-        private void startFetchingTopsStories() {
+        private void startFetchingTopsStories() throws IOException {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_STARTED));
-            createFetchTopStoriesTask();
-//            try {
-//                new FetchShowHNTask().execute();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            createFetchTopStoriesTask().execute();
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
-        private void moveFromTmpToStories(){
-            databasePersister.moveFromTmpToStories();
-        }
-
-        private FetchTopStoriesTask createFetchTopStoriesTask() {
-            return new FetchTopStoriesTask(databasePersister);
+        private FetchShowHNTask createFetchTopStoriesTask() {
+            return new FetchShowHNTask(databasePersister);
         }
 
     }
