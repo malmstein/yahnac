@@ -18,12 +18,11 @@ public class HNewsContract {
             ItemEntry.COLUMN_ITEM_ID,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_ITEM_ORDER,
+            ItemEntry.COLUMN_DOMAIN,
             ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
             ItemEntry.COLUMN_URL,
-            ItemEntry.COLUMN_KIDS,
     };
 
     public static final String[] COMMENT_COLUMNS = {
@@ -41,12 +40,11 @@ public class HNewsContract {
     public static final int COLUMN_BY = 2;
     public static final int COLUMN_TIME = 3;
 
-    public static final int COLUMN_INSERTED = 4;
+    public static final int COLUMN_DOMAIN = 4;
     public static final int COLUMN_TYPE = 5;
     public static final int COLUMN_SCORE = 6;
     public static final int COLUMN_TITLE = 7;
     public static final int COLUMN_URL = 8;
-    public static final int COLUMN_STORY_KIDS = 9;
 
     public static final int COLUMN_TEXT = 4;
     public static final int COLUMN_LEVEL = 5;
@@ -68,20 +66,15 @@ public class HNewsContract {
         public static final String TABLE_COMMENTS_NAME = "comment";
 
         public static final String COLUMN_ITEM_ID = "item_id";
-        public static final String COLUMN_DELETED = "deleted";
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
         public static final String COLUMN_TIME = "time";
         public static final String COLUMN_TEXT = "text";
-        public static final String COLUMN_DEAD = "dead";
-        public static final String COLUMN_PARENT = "parent";
-        public static final String COLUMN_KIDS = "kids";
         public static final String COLUMN_URL = "url";
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_PARTS = "parts";
-        public static final String COLUMN_ITEM_ORDER = "item_order";
         public static final String COLUMN_LEVEL = "level";
+        public static final String COLUMN_DOMAIN = "domain";
         public static final String COLUMN_TIME_TEXT = "time_text";
 
         public static Uri buildStoryUriWith(long id) {

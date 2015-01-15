@@ -46,7 +46,6 @@ public class StoriesParser {
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, article_url_i);
 
-
             storiesList.add(storyValues);
         }
 

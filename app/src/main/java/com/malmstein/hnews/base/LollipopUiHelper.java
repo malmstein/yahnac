@@ -9,7 +9,6 @@ import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 import static android.app.ActivityManager.TaskDescription;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
