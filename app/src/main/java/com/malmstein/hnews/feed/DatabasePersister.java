@@ -16,9 +16,6 @@ public class DatabasePersister {
     }
 
     public void persistStories(Vector<ContentValues> topStories) {
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                HNewsContract.ItemEntry.COLUMN_TIME + " <= ",
-                new String[]{String.valueOf(System.currentTimeMillis())});
 
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);

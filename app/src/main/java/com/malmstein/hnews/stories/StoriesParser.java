@@ -35,11 +35,13 @@ public class StoriesParser {
             String article_url_i = titles.get(i).select("td[class=title]>a").attr("href");
             String submitter_i = subtext.get(i).select("a[href*=user]").text();
             String comments_i = subtext.get(i).select("a[href*=item]").text().replaceAll("discuss", "0 comments");
-
+            String item_i = subtext.get(i).select("a[href*=item]").attr("href");
+            int item_id = Integer.valueOf(item_i.replace("item?id=", ""));
             i++;
 
             ContentValues storyValues = new ContentValues();
 
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, item_id);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type.name());
             storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, submitter_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME, submitter_i);
