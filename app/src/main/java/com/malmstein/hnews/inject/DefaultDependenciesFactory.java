@@ -5,6 +5,7 @@ import android.content.Context;
 import com.malmstein.hnews.comments.CommentsProvider;
 import com.malmstein.hnews.comments.CommentsRetriever;
 import com.malmstein.hnews.comments.PersistedCommentsProvider;
+import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.feed.NewsRetriever;
 import com.malmstein.hnews.feed.PersistedStoriesProvider;
@@ -42,6 +43,11 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     @Override
     public CommentsProvider createCommentsProvider(DatabasePersister databasePersister) {
         return new PersistedCommentsProvider(createCommentsRetriever(databasePersister));
+    }
+
+    @Override
+    public DataRepository createDataRepository(DatabasePersister databasePersister) {
+        return new DataRepository(databasePersister);
     }
 
     @Override

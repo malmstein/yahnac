@@ -1,7 +1,7 @@
 package com.malmstein.hnews.feed;
 
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.tasks.FetchShowHNTask;
+import com.malmstein.hnews.tasks.FetchStoriesTask;
 
 import java.io.IOException;
 
@@ -103,8 +103,8 @@ public class NewsRetriever<S> implements StoriesRetriever<StoriesUpdateEvent> {
             subscriber.onNext(new StoriesUpdateEvent(StoriesUpdateEvent.Type.REFRESH_FINISHED));
         }
 
-        private FetchShowHNTask createFetchTopStoriesTask() {
-            return new FetchShowHNTask(databasePersister);
+        private FetchStoriesTask createFetchTopStoriesTask() {
+            return new FetchStoriesTask(databasePersister);
         }
 
     }

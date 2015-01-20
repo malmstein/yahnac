@@ -26,6 +26,8 @@ public class StoriesParser {
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");
         Elements subtext = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=subtext])");
 
+        String url_next = document.select(".title:not(span[class=comhead])>a[href]:contains(more)").last().attr("href");
+
         Integer i = 0;
         for (Element st : subtext) {
 
@@ -35,8 +37,12 @@ public class StoriesParser {
             String article_url_i = titles.get(i).select("td[class=title]>a").attr("href");
             String submitter_i = subtext.get(i).select("a[href*=user]").text();
             String comments_i = subtext.get(i).select("a[href*=item]").text().replaceAll("discuss", "0 comments");
+
             String item_i = subtext.get(i).select("a[href*=item]").attr("href");
-            int item_id = Integer.valueOf(item_i.replace("item?id=", ""));
+//            int item_id = Integer.valueOf(item_i.replace("item?id=", ""));
+            int item_id = Integer.valueOf(getStringValuePrefixedByPrefix(item_i, "id="));
+
+            String upvote_i = titles.get(i).select("td>center>a[href^=vote]").attr("href");
             i++;
 
             ContentValues storyValues = new ContentValues();
@@ -51,10 +57,20 @@ public class StoriesParser {
             storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, point_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_UPVOTE_URL, upvote_i);
 
             storiesList.add(storyValues);
         }
 
         return storiesList;
     }
+
+    public static String getStringValuePrefixedByPrefix(String value, String prefix) {
+        int prefixWordIdx = value.indexOf(prefix);
+        if (prefixWordIdx >= 0) {
+            return value.substring(prefixWordIdx + prefix.length());
+        }
+        return null;
+    }
+
 }

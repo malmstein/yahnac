@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
@@ -12,15 +13,24 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.feed.StoriesProvider;
+import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.inject.Inject;
+
+import java.util.Vector;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+    private Subscription subscription;
 
     public HNewsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -91,9 +101,30 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        if (isSyncEnabled()){
-            StoriesProvider storiesProvider = Inject.storiesProvider();
-            storiesProvider.refresh();
+        if (isSyncEnabled()) {
+            DataRepository dataRepository = Inject.dataRepository();
+            subscription = dataRepository
+                    .getAllStories()
+                    .observeOn(Schedulers.io())
+                    .subscribe(new Observer<Vector<ContentValues>>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.d("Got stuff ?", "Got stuff completed ! ");
+                            if (!subscription.isUnsubscribed()) {
+                                subscription.unsubscribe();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("Got stuff ?", "Error !", e);
+                        }
+
+                        @Override
+                        public void onNext(Vector<ContentValues> edition) {
+                            Log.d("Got stuff ?", "Got stuff ! " + edition.size());
+                        }
+                    });
         }
     }
 
@@ -104,7 +135,7 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentResolver.removePeriodicSync(account, authority, bundle);
     }
 
-    private boolean isSyncEnabled(){
+    private boolean isSyncEnabled() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean isEnabled = preferences.getBoolean(getContext().getString(R.string.pref_sync_key),
                 Boolean.valueOf(getContext().getString(R.string.pref_sync_default)));

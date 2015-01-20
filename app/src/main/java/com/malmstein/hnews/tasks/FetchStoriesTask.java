@@ -1,11 +1,12 @@
 package com.malmstein.hnews.tasks;
 
-import com.malmstein.hnews.feed.DatabasePersister;
+import android.content.ContentValues;
 
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoriesParser;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,24 +21,19 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class FetchShowHNTask {
+public class FetchStoriesTask {
 
     private static final int DEFAULT_CONNECTION_TIMEOUT = 15 * 1000;
     private static final int DEFAULT_READ_TIMEOUT = 15 * 1000;
-    private final DatabasePersister databasePersister;
 
-    public FetchShowHNTask(final DatabasePersister databasePersister) {
-        this.databasePersister = databasePersister;
-    }
-
-    public void execute() throws IOException {
+    public Vector<ContentValues> execute(String url) throws IOException {
         HttpParams httpParameters = new BasicHttpParams();
 
         HttpConnectionParams.setConnectionTimeout(httpParameters, getConnectionTimeout());
         HttpConnectionParams.setSoTimeout(httpParameters, getReadTimeout());
 
         HttpClient httpclient = new DefaultHttpClient(httpParameters);
-        HttpGet httpget = new HttpGet("https://news.ycombinator.com/show");
+        HttpGet httpget = new HttpGet(url);
 
         HttpResponse response = httpclient.execute(httpget);
 
@@ -48,8 +44,9 @@ public class FetchShowHNTask {
 
             Document doc = Jsoup.parse(result);
 
-            databasePersister.persistStories(new StoriesParser(doc).parse(Story.TYPE.show));
+            return new StoriesParser(doc).parse(Story.TYPE.show);
         }
+        return null;
     }
 
     protected int getConnectionTimeout() {

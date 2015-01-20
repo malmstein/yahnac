@@ -26,22 +26,9 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIME + " TIMESTAMP," +
+                HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " TEXT" +
-                " );";
-
-        final String SQL_CREATE_STORIES_TMP_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME + " (" +
-                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_COMMENTS + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_DOMAIN + " BOOLEAN," +
-                HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIME + " TIMESTAMP," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " TEXT" +
+                HNewsContract.ItemEntry.COLUMN_UPVOTE_URL + " TEXT" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
@@ -55,7 +42,6 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);
-        db.execSQL(SQL_CREATE_STORIES_TMP_TABLE);
         db.execSQL(SQL_CREATE_COMMENTS_TABLE);
     }
 
