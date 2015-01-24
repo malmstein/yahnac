@@ -5,18 +5,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.data.DataRepository;
+import com.malmstein.hnews.inject.Inject;
+import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesCursorAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
 
+import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
@@ -34,14 +40,6 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (StoryListener) getActivity();
-    }
-
-    @Override
-    public void onStop() {
-        if (!subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-        super.onStop();
     }
 
     @Override
@@ -78,10 +76,34 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        onRefreshDelegated();
+        DataRepository dataRepository = Inject.dataRepository();
+        dataRepository.getStoriesFrom(getType());
+        subscription = dataRepository
+                .getStoriesFrom(getType())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("Got stuff ?", "Got stuff completed ! ");
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Got stuff ?", "Error !", e);
+                    }
+
+                    @Override
+                    public void onNext(Integer rowsAffected) {
+                        Log.d("Got stuff ?", "Got stuff ! " + rowsAffected);
+                        stopRefreshing();
+                    }
+                });
     }
 
-    protected abstract void onRefreshDelegated();
+    protected abstract Story.TYPE getType();
 
     protected void stopRefreshing() {
         refreshLayout.setRefreshing(false);

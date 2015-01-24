@@ -8,19 +8,13 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
-import com.malmstein.hnews.data.DataRepository;
-import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesCursorAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
-
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
@@ -68,7 +62,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         return new StoriesCursorAdapter(getActivity(), null, 0, listener);
     }
 
-    private Story.TYPE getType(){
+    public Story.TYPE getType(){
         QUERY query = (QUERY) getArguments().get("query");
         switch (query){
             case top:
@@ -126,35 +120,6 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         stopRefreshing();
         storiesCursorAdapter.swapCursor(null);
         stopRefreshing();
-    }
-
-    @Override
-    public void onRefreshDelegated() {
-        DataRepository dataRepository = Inject.dataRepository();
-        dataRepository.getStoriesFrom(getType());
-        subscription = dataRepository
-                .getStoriesFrom(getType())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d("Got stuff ?", "Got stuff completed ! ");
-                        if (!subscription.isUnsubscribed()) {
-                            subscription.unsubscribe();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("Got stuff ?", "Error !", e);
-                    }
-
-                    @Override
-                    public void onNext(Integer rowsAffected) {
-                        Log.d("Got stuff ?", "Got stuff ! " + rowsAffected);
-                        stopRefreshing();
-                    }
-                });
     }
 
 }

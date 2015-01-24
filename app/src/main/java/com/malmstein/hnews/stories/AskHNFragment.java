@@ -13,7 +13,6 @@ import android.widget.ListView;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesCursorAdapter;
-import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
@@ -49,6 +48,11 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
     }
 
     @Override
+    protected Story.TYPE getType() {
+        return Story.TYPE.ask;
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri storyNewsUri = ItemEntry.buildStoriesUri();
 
@@ -76,11 +80,6 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
         stopRefreshing();
         storiesCursorAdapter.swapCursor(null);
         stopRefreshing();
-    }
-
-    @Override
-    public void onRefreshDelegated() {
-        HNewsSyncAdapter.syncImmediately(getActivity());
     }
 
 }

@@ -125,7 +125,6 @@ public class HNewsProvider extends ContentProvider {
                     } else {
                         throw new android.database.SQLException("Failed to insert row into " + uri);
                     }
-                    exists.close();
                 } else {
                     long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, values);
                     if (_id > 0) {
@@ -134,6 +133,7 @@ public class HNewsProvider extends ContentProvider {
                         throw new android.database.SQLException("Failed to insert row into " + uri);
                     }
                 }
+                exists.close();
                 break;
             }
             case COMMENT: {
