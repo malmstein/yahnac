@@ -19,7 +19,13 @@ public class DatabasePersister {
 
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);
-        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_TMP_URI, cvArray);
+        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);
+    }
+
+    public int persistStoriesAndReturnRows(Vector<ContentValues> topStories) {
+        ContentValues[] cvArray = new ContentValues[topStories.size()];
+        topStories.toArray(cvArray);
+        return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);
     }
 
     public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {

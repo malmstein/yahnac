@@ -8,7 +8,9 @@ import com.malmstein.hnews.model.Story;
 import java.util.Vector;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.functions.Func5;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
@@ -16,12 +18,14 @@ import rx.subjects.BehaviorSubject;
 public class DataRepository {
 
     private final BehaviorSubject<Vector<ContentValues>> storiesSubject;
+    private final BehaviorSubject<Integer> storySubject;
     private final HNewsApi api;
     private final DatabasePersister databasePersister;
 
     public DataRepository(DatabasePersister databasePersister) {
         this.databasePersister = databasePersister;
         this.storiesSubject = BehaviorSubject.create();
+        this.storySubject = BehaviorSubject.create();
         this.api = new HNewsApi();
     }
 
@@ -50,7 +54,7 @@ public class DataRepository {
         return new Func5<Vector<ContentValues>, Vector<ContentValues>, Vector<ContentValues>, Vector<ContentValues>, Vector<ContentValues>, Vector<ContentValues>>() {
             @Override
             public Vector<ContentValues> call(Vector<ContentValues> top, Vector<ContentValues> news, Vector<ContentValues> best, Vector<ContentValues> show, Vector<ContentValues> ask) {
-                Vector<ContentValues> allStories = null;
+                Vector<ContentValues> allStories = new Vector<>();
                 allStories.addAll(top);
                 allStories.addAll(news);
                 allStories.addAll(best);
@@ -59,6 +63,27 @@ public class DataRepository {
                 return allStories;
             }
         };
+    }
+
+    public Observable<Integer> getStoriesFrom(Story.TYPE type) {
+        refreshStoryType(type);
+        return storySubject;
+    }
+
+    private void refreshStoryType(Story.TYPE type) {
+        api.getStories(type)
+                .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(final Vector<ContentValues> contentValueses) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                            @Override
+                            public void call(Subscriber<? super Integer> subscriber) {
+                                databasePersister.persistStoriesAndReturnRows(contentValueses);
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io()).subscribe(storySubject);
     }
 
 }

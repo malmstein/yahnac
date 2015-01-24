@@ -23,7 +23,7 @@ import java.util.Vector;
 
 import rx.Observer;
 import rx.Subscription;
-import rx.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -105,7 +105,7 @@ public class HNewsSyncAdapter extends AbstractThreadedSyncAdapter {
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
                     .getAllStories()
-                    .observeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Vector<ContentValues>>() {
                         @Override
                         public void onCompleted() {

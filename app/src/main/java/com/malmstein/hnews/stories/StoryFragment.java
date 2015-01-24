@@ -16,6 +16,8 @@ import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
 
+import rx.Subscription;
+
 public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     protected static final String SELECTED_KEY = "selected_position";
@@ -26,10 +28,20 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
 
+    protected Subscription subscription;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (StoryListener) getActivity();
+    }
+
+    @Override
+    public void onStop() {
+        if (!subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+        super.onStop();
     }
 
     @Override

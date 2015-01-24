@@ -45,7 +45,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
 
     private void setupSyncAdapter() {
         HNewsSyncAdapter.initializeSyncAdapter(this);
-        HNewsSyncAdapter.syncImmediately(this);
     }
 
     private void setupCategories() {

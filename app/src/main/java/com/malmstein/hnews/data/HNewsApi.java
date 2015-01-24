@@ -37,32 +37,15 @@ public class HNewsApi {
         }
 
         private void startFetchingStories() {
-            Vector<ContentValues> stories = null;
+            Vector<ContentValues> stories = new Vector<>();
             try {
-                switch (type){
-                    case top_story:
-                        stories = new FetchStoriesTask().execute("https://news.ycombinator.com/news");
-                        break;
-                    case new_story:
-                        stories = new FetchStoriesTask().execute("https://news.ycombinator.com/new");
-                        break;
-                    case best_story:
-                        stories = new FetchStoriesTask().execute("https://news.ycombinator.com/best");
-                        break;
-                    case show:
-                        stories = new FetchStoriesTask().execute("https://news.ycombinator.com/show");
-                        break;
-                    case ask:
-                        stories = new FetchStoriesTask().execute("https://news.ycombinator.com/ask");
-                        break;
-                }
-
+                stories = new FetchStoriesTask(type).execute();
             } catch (IOException e) {
                 subscriber.onError(e);
             }
+
             subscriber.onNext(stories);
         }
-
 
     }
 }

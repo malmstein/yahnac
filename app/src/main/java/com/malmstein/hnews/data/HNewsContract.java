@@ -57,7 +57,6 @@ public class HNewsContract {
     public static final class ItemEntry implements BaseColumns {
 
         public static final Uri CONTENT_STORY_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
-        public static final Uri CONTENT_STORY_TMP_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM_TMP).build();
         public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
 
         public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
@@ -82,14 +81,13 @@ public class HNewsContract {
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_DOMAIN = "domain";
         public static final String COLUMN_TIME_TEXT = "time_text";
-        public static final String COLUMN_UPVOTE_URL = "upvote_url";
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
         }
 
         public static Uri buildStoriesUri() {
-            return CONTENT_STORY_TMP_URI.buildUpon().build();
+            return CONTENT_STORY_URI.buildUpon().build();
         }
 
         public static Uri buildCommentUriWith(long id) {

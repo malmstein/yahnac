@@ -2,6 +2,7 @@ package com.malmstein.hnews.tasks;
 
 import android.content.ContentValues;
 
+import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoriesParser;
 
@@ -26,7 +27,37 @@ public class FetchStoriesTask {
     private static final int DEFAULT_CONNECTION_TIMEOUT = 15 * 1000;
     private static final int DEFAULT_READ_TIMEOUT = 15 * 1000;
 
-    public Vector<ContentValues> execute(String url) throws IOException {
+    private final Story.TYPE type;
+    private final String url;
+
+    public FetchStoriesTask(Story.TYPE type) {
+        this.type = type;
+        switch (type) {
+            case top_story:
+                url = "https://news.ycombinator.com/news";
+                break;
+            case new_story:
+                url = "https://news.ycombinator.com/newest";
+                break;
+            case best_story:
+                url = "https://news.ycombinator.com/best";
+                break;
+            case show:
+                url = "https://news.ycombinator.com/show";
+                break;
+            case ask:
+                url = "https://news.ycombinator.com/ask";
+                break;
+            default:
+                throw new DeveloperError("Story type not recognised");
+        }
+
+    }
+
+    public Vector<ContentValues> execute() throws IOException {
+
+        Vector<ContentValues> stories = new Vector<>();
+
         HttpParams httpParameters = new BasicHttpParams();
 
         HttpConnectionParams.setConnectionTimeout(httpParameters, getConnectionTimeout());
@@ -36,17 +67,18 @@ public class FetchStoriesTask {
         HttpGet httpget = new HttpGet(url);
 
         HttpResponse response = httpclient.execute(httpget);
+        int statusCode = response.getStatusLine().getStatusCode();
 
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+        if (statusCode == HttpStatus.SC_OK) {
             HttpEntity httpEntity = response.getEntity();
 
             String result = EntityUtils.toString(httpEntity);
 
             Document doc = Jsoup.parse(result);
 
-            return new StoriesParser(doc).parse(Story.TYPE.show);
+            stories = new StoriesParser(doc).parse(type);
         }
-        return null;
+        return stories;
     }
 
     protected int getConnectionTimeout() {

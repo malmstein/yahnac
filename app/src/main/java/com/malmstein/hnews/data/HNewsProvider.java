@@ -110,11 +110,29 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY: {
-                long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, values);
-                if (_id > 0) {
-                    returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                Cursor exists = db.query(HNewsContract.ItemEntry.TABLE_ITEM_NAME,
+                        new String[]{HNewsContract.ItemEntry.COLUMN_ITEM_ID},
+                        HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                        new String[]{values.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)},
+                        null,
+                        null,
+                        null);
+                if (exists.moveToLast()) {
+                    long _id = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, values, HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                            new String[]{values.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)});
+                    if (_id > 0) {
+                        returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row into " + uri);
+                    }
+                    exists.close();
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, values);
+                    if (_id > 0) {
+                        returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row into " + uri);
+                    }
                 }
                 break;
             }
