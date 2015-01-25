@@ -30,10 +30,9 @@ public class HNewsContract {
     public static final String[] COMMENT_COLUMNS = {
             ItemEntry._ID,
             ItemEntry.COLUMN_ITEM_ID,
-            ItemEntry.COLUMN_BY,
-            ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_LEVEL,
+            ItemEntry.COLUMN_BY,
+            ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_TIME_TEXT,
     };
 
@@ -48,11 +47,10 @@ public class HNewsContract {
     public static final int COLUMN_TITLE = 8;
     public static final int COLUMN_TIME = 9;
     public static final int COLUMN_ITEM_ORDER = 10;
-    public static final int COLUMN_UPVOTE_URL = 11;
 
+    public static final int COLUMN_LEVEL = 2;
     public static final int COLUMN_TEXT = 4;
-    public static final int COLUMN_LEVEL = 5;
-    public static final int COLUMN_TIME_TEXT = 6;
+    public static final int COLUMN_TIME_TEXT = 5;
 
     public static final class ItemEntry implements BaseColumns {
 
