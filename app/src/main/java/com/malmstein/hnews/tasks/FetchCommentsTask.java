@@ -1,9 +1,11 @@
 package com.malmstein.hnews.tasks;
 
+import android.content.ContentValues;
+
 import com.malmstein.hnews.comments.CommentsParser;
-import com.malmstein.hnews.feed.DatabasePersister;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,16 +25,15 @@ public class FetchCommentsTask {
     private static final int DEFAULT_CONNECTION_TIMEOUT = 15 * 1000;
     private static final int DEFAULT_READ_TIMEOUT = 15 * 1000;
 
-    private final DatabasePersister databasePersister;
     private final Long storyId;
 
-    public FetchCommentsTask(final DatabasePersister databasePersister, Long storyId) {
-        this.databasePersister = databasePersister;
+    public FetchCommentsTask(Long storyId) {
         this.storyId = storyId;
-
     }
 
-    public void execute() throws IOException {
+    public Vector<ContentValues> execute() throws IOException {
+        Vector<ContentValues> comments = new Vector<>();
+
         HttpParams httpParameters = new BasicHttpParams();
 
         HttpConnectionParams.setConnectionTimeout(httpParameters, getConnectionTimeout());
@@ -50,8 +51,9 @@ public class FetchCommentsTask {
 
             Document doc = Jsoup.parse(result);
 
-            databasePersister.persistComments(new CommentsParser(storyId, doc).parse(), storyId);
+            comments = new CommentsParser(storyId, doc).parse();
         }
+        return comments;
     }
 
     protected int getConnectionTimeout() {

@@ -19,6 +19,7 @@ public class DataRepository {
 
     private final BehaviorSubject<Vector<ContentValues>> storiesSubject;
     private final BehaviorSubject<Integer> storySubject;
+    private final BehaviorSubject<Integer> commentsSubject;
     private final HNewsApi api;
     private final DatabasePersister databasePersister;
 
@@ -26,6 +27,7 @@ public class DataRepository {
         this.databasePersister = databasePersister;
         this.storiesSubject = BehaviorSubject.create();
         this.storySubject = BehaviorSubject.create();
+        this.commentsSubject = BehaviorSubject.create();
         this.api = new HNewsApi();
     }
 
@@ -79,6 +81,27 @@ public class DataRepository {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
                                 databasePersister.persistStoriesAndReturnRows(contentValueses);
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io()).subscribe(storySubject);
+    }
+
+    public Observable<Integer> getCommentsFromStory(Long storyId) {
+        refreshComments(storyId);
+        return storySubject;
+    }
+
+    private void refreshComments(final Long storyId) {
+        api.getCommentsFromStory(storyId)
+                .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(final Vector<ContentValues> contentValueses) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                            @Override
+                            public void call(Subscriber<? super Integer> subscriber) {
+                                databasePersister.persistComments(contentValueses, storyId);
                             }
                         });
                     }

@@ -10,6 +10,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,16 @@ import android.widget.ListView;
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
+import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
@@ -38,6 +44,8 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
     private CommentsAdapter commentsAdapter;
+
+    private Subscription subscription;
 
     public static CommentFragment from(Long id, String title) {
         Bundle args = new Bundle();
@@ -70,8 +78,34 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
         startRefreshing();
-        CommentsProvider commentsProvider = Inject.commentsProvider();
-        commentsProvider.fetch(getArgStoryId());
+        getComments();
+    }
+
+    private void getComments() {
+        DataRepository dataRepository = Inject.dataRepository();
+        subscription = dataRepository
+                .getCommentsFromStory(getArgStoryId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("Got stuff ?", "Got stuff completed ! ");
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                        stopRefreshing();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Got stuff ?", "Error !", e);
+                    }
+
+                    @Override
+                    public void onNext(Integer comments) {
+                        Log.d("Got stuff ?", "Got stuff ! " + comments);
+                    }
+                });
     }
 
     @Override
@@ -142,8 +176,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onRefresh() {
-        CommentsProvider commentsProvider = Inject.commentsProvider();
-        commentsProvider.fetch(getArgStoryId());
+        getComments();
     }
 
     @Override
