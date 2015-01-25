@@ -1,4 +1,4 @@
-package com.malmstein.hnews.feed;
+package com.malmstein.hnews.data;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -7,11 +7,11 @@ import com.malmstein.hnews.data.HNewsContract;
 
 import java.util.Vector;
 
-public class DatabasePersister {
+public class DataPersister {
 
     private final ContentResolver contentResolver;
 
-    public DatabasePersister(ContentResolver contentResolver) {
+    public DataPersister(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 

@@ -2,7 +2,7 @@ package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.DataRepository;
-import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.data.DataPersister;
 
 public class Inject {
 
@@ -14,9 +14,9 @@ public class Inject {
     }
 
     public static void using(DependenciesFactory factory) {
-        DatabasePersister databasePersister = factory.createDatabasePersister();
+        DataPersister dataPersister = factory.createDatabasePersister();
 
-        DataRepository dataRepository = factory.createDataRepository(databasePersister);
+        DataRepository dataRepository = factory.createDataRepository(dataPersister);
 
         INSTANCE = new Inject(dataRepository);
     }

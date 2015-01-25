@@ -2,7 +2,6 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.hnews.feed.DatabasePersister;
 import com.malmstein.hnews.model.Story;
 
 import java.util.Vector;
@@ -21,10 +20,10 @@ public class DataRepository {
     private final BehaviorSubject<Integer> storySubject;
     private final BehaviorSubject<Integer> commentsSubject;
     private final HNewsApi api;
-    private final DatabasePersister databasePersister;
+    private final DataPersister dataPersister;
 
-    public DataRepository(DatabasePersister databasePersister) {
-        this.databasePersister = databasePersister;
+    public DataRepository(DataPersister dataPersister) {
+        this.dataPersister = dataPersister;
         this.storiesSubject = BehaviorSubject.create();
         this.storySubject = BehaviorSubject.create();
         this.commentsSubject = BehaviorSubject.create();
@@ -47,7 +46,7 @@ public class DataRepository {
         ).doOnNext(new Action1<Vector<ContentValues>>() {
             @Override
             public void call(Vector<ContentValues> stories) {
-                databasePersister.persistStories(stories);
+                dataPersister.persistStories(stories);
             }
         }).subscribeOn(Schedulers.io()).subscribe(storiesSubject);
     }
@@ -80,7 +79,7 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                databasePersister.persistStoriesAndReturnRows(contentValueses);
+                                dataPersister.persistStoriesAndReturnRows(contentValueses);
                             }
                         });
                     }
@@ -101,7 +100,7 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                databasePersister.persistComments(contentValueses, storyId);
+                                dataPersister.persistComments(contentValueses, storyId);
                             }
                         });
                     }

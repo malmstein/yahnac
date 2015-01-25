@@ -3,7 +3,7 @@ package com.malmstein.hnews.inject;
 import android.content.Context;
 
 import com.malmstein.hnews.data.DataRepository;
-import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.data.DataPersister;
 
 public class DefaultDependenciesFactory implements DependenciesFactory {
 
@@ -14,13 +14,13 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     }
 
     @Override
-    public DatabasePersister createDatabasePersister() {
-        return new DatabasePersister(context.getContentResolver());
+    public DataPersister createDatabasePersister() {
+        return new DataPersister(context.getContentResolver());
     }
 
     @Override
-    public DataRepository createDataRepository(DatabasePersister databasePersister) {
-        return new DataRepository(databasePersister);
+    public DataRepository createDataRepository(DataPersister dataPersister) {
+        return new DataRepository(dataPersister);
     }
 
 }

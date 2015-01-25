@@ -1,7 +1,5 @@
 package com.malmstein.hnews.base;
 
-import com.malmstein.hnews.feed.CachedOnSubscribe;
-
 public class ForwardingSubject<T> extends rx.subjects.Subject<T, T> {
 
     private final CachedOnSubscribe<T> subscribeFunc;

@@ -1,12 +1,12 @@
 package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.data.DataRepository;
-import com.malmstein.hnews.feed.DatabasePersister;
+import com.malmstein.hnews.data.DataPersister;
 
 public interface DependenciesFactory {
 
-    DatabasePersister createDatabasePersister();
+    DataPersister createDatabasePersister();
 
-    DataRepository createDataRepository(DatabasePersister databasePersister);
+    DataRepository createDataRepository(DataPersister dataPersister);
 
 }
