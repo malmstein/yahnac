@@ -62,16 +62,6 @@
 
         </LinearLayout>
 
-        <TextView
-          android:id="@+id/article_score"
-          android:layout_width="match_parent"
-          android:gravity="right|bottom"
-          android:layout_height="wrap_content"
-          android:textAllCaps="true"
-          android:textColor="@color/light_grey"
-          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-          tools:text="123" />
-
       </LinearLayout>
 
 
@@ -106,6 +96,17 @@
         android:focusable="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         tools:text="26 COMMENTS" />
+
+      <TextView
+        android:id="@+id/article_score"
+        android:layout_width="match_parent"
+        android:gravity="right|bottom"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textColor="@color/light_grey"
+        android:paddingRight="@dimen/default_padding"
+
+        tools:text="123" />
 
     </LinearLayout>
 
