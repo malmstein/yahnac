@@ -30,7 +30,7 @@ public class StoriesCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_news_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_article_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         view.setTag(holder);
         return view;
