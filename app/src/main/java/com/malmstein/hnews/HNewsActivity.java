@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.malmstein.hnews.base.ColorTweaker;
 import com.malmstein.hnews.base.LollipopUiConfiguration;
 import com.malmstein.hnews.base.LollipopUiHelper;
+import com.malmstein.hnews.base.Navigator;
 import com.malmstein.hnews.views.toolbar.HNToolbar;
 import com.novoda.notils.caster.Views;
 
@@ -20,6 +21,7 @@ public class HNewsActivity extends ActionBarActivity {
 
     private ColorTweaker colorTweaker;
     private LollipopUiHelper lollipopUiHelper;
+    private Navigator navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class HNewsActivity extends ActionBarActivity {
         lollipopUiHelper = new LollipopUiHelper(this, colorTweaker, getLollipopUiConfiguration());
         lollipopUiHelper.setTaskDescriptionOnLollipopAndLater();
         lollipopUiHelper.setSystemBarsColorOnLollipopAndLater();
+        navigator = new Navigator(this);
+
     }
 
     @Override
@@ -101,6 +105,13 @@ public class HNewsActivity extends ActionBarActivity {
     protected void setupSubActivityWithTitle() {
         setupSubActivity();
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+    }
+
+    protected Navigator navigate(){
+        if (navigator == null){
+            navigator = new Navigator(this);
+        }
+        return navigator;
     }
 
 }

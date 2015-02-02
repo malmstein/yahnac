@@ -14,7 +14,6 @@ import android.view.View;
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.comments.CommentFragment;
-import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesPagerAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
@@ -89,8 +88,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
     }
 
     @Override
-    public void onCommentsClicked(Story story) {
-        navigateToComments(story);
+    public void onCommentsClicked(View v, Story story) {
+        navigateToComments(v, story);
     }
 
     @Override
@@ -130,7 +129,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
         startActivity(browserIntent);
     }
 
-    private void navigateToComments(Story story) {
+    private void navigateToComments(View v, Story story) {
         if (isTwoPaneLayout()) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -139,10 +138,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
                             CommentFragment.TAG)
                     .commit();
         } else {
-            Intent commentIntent = new Intent(this, CommentsActivity.class);
-            commentIntent.putExtra(CommentFragment.ARG_STORY_ID, story.getId());
-            commentIntent.putExtra(CommentFragment.ARG_STORY_TITLE, story.getTitle());
-            startActivity(commentIntent);
+            navigate().toComments(story, v);
         }
     }
 
