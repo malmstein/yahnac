@@ -40,6 +40,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
     public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_TITLE";
+    public static final String ARG_LOCATION = BuildConfig.APPLICATION_ID + ".ARG_LOCATION";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private ListView commentsListView;
@@ -70,15 +71,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         } else {
             throw new DeveloperError("Missing argument");
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
-
-        startRefreshing();
-        getComments();
     }
 
     private void getComments() {
@@ -113,7 +105,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
-        commentsListView = (ListView) rootView.findViewById(R.id.listview_comments);
+        commentsListView = Views.findById(rootView, R.id.listview_comments);
         commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
 
@@ -121,6 +113,14 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         setupCommentsList();
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
+        startRefreshing();
+        getComments();
     }
 
     private void startRefreshing() {
@@ -142,6 +142,8 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
     }
+
+
 
     private void stopRefreshing() {
         refreshLayout.setRefreshing(false);
@@ -183,4 +185,5 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     public boolean isReadyForPull() {
         return ViewCompat.canScrollVertically(commentsListView, -1);
     }
+
 }

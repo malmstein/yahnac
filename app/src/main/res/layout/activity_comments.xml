@@ -11,10 +11,14 @@
     android:layout_height="wrap_content"
     app:appBarLayout="@layout/include_app_bar" />
 
+  <com.malmstein.hnews.views.RevealBackgroundView
+    android:id="@+id/comments_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
   <FrameLayout
     android:id="@+id/comments_fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
-
 
 </LinearLayout>

@@ -10,34 +10,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ListView
+      style="@style/HNews.List"
+      android:id="@+id/listview_comments"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical">
+      android:dividerHeight="@dimen/comments_padding"
+      android:divider="@color/app_background"
+      android:padding="@dimen/list_padding" />
 
-      <TextView
-        android:id="@+id/article_comments_action"
-        style="@style/HNewsButton.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/dark_orange"
-        android:textAllCaps="true"
-        android:layout_marginLeft="@dimen/card_content_padding"
-        android:focusable="false"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:transitionName="comment"
-        tools:text="26 COMMENTS" />
-
-      <ListView
-        style="@style/HNews.List"
-        android:id="@+id/listview_comments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@dimen/comments_padding"
-        android:divider="@color/app_background"
-        android:padding="@dimen/list_padding" />
-
-    </LinearLayout>
 
   </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
 
