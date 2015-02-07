@@ -78,6 +78,8 @@
         android:resource="@xml/authenticator" />
     </service>
 
+    <meta-data android:name="com.crashlytics.ApiKey" android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686"/>
+
   </application>
 
 </manifest>

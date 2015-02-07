@@ -2,8 +2,10 @@ package com.malmstein.hnews.inject;
 
 import android.content.Context;
 
-import com.malmstein.hnews.data.DataRepository;
+import com.malmstein.hnews.analytics.CrashAnalytics;
+import com.malmstein.hnews.analytics.CrashlyticsAnalytics;
 import com.malmstein.hnews.data.DataPersister;
+import com.malmstein.hnews.data.DataRepository;
 
 public class DefaultDependenciesFactory implements DependenciesFactory {
 
@@ -21,6 +23,11 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     @Override
     public DataRepository createDataRepository(DataPersister dataPersister) {
         return new DataRepository(dataPersister);
+    }
+
+    @Override
+    public CrashAnalytics createCrashAnalytics() {
+        return new CrashlyticsAnalytics();
     }
 
 }

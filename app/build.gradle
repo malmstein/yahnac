@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 21
@@ -10,6 +11,9 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
+        buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
     }
 
     compileOptions {
@@ -41,4 +45,5 @@ dependencies {
     compile 'com.novoda:notils:2.2.8'
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.jsoup:jsoup:1.8.1'
+    compile 'com.crashlytics.android:crashlytics:1.1.11'
 }
