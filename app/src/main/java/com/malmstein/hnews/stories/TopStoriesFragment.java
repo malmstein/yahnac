@@ -78,18 +78,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     }
 
     private String getOrder(){
-        QUERY query = (QUERY) getArguments().get("query");
-        switch (query){
-            case top:
-                return ItemEntry.COLUMN_ITEM_ORDER + " ASC";
-            case newest:
-                return ItemEntry.COLUMN_TIME + " DESC";
-            case best:
-                return ItemEntry.COLUMN_SCORE + " DESC";
-            default:
-                return null;
-        }
-
+        return ItemEntry.COLUMN_TIMESTAMP + " DESC";
     }
 
     @Override

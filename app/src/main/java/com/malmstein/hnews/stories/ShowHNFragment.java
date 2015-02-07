@@ -62,7 +62,7 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Story.TYPE.show.name()},
-                ItemEntry.COLUMN_ITEM_ORDER + " ASC");
+                ItemEntry.COLUMN_TIMESTAMP + " ASC");
     }
 
     @Override

@@ -46,8 +46,8 @@ public class StoriesParser {
                 item_id = 0;
             }
 
-
             String upvote_i = titles.get(i).select("td>center>a[href^=vote]").attr("href");
+
             i++;
 
             ContentValues storyValues = new ContentValues();
@@ -61,7 +61,7 @@ public class StoriesParser {
             storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, article_url_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, point_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title_i);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ORDER, i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
 
             storiesList.add(storyValues);
         }

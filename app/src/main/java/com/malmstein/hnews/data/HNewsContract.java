@@ -24,7 +24,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
             ItemEntry.COLUMN_TIME,
-            ItemEntry.COLUMN_ITEM_ORDER,
+            ItemEntry.COLUMN_TIMESTAMP,
     };
 
     public static final String[] COMMENT_COLUMNS = {
@@ -63,14 +63,13 @@ public class HNewsContract {
         public static final String CONTENT_STORY_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
 
         public static final String TABLE_ITEM_NAME = "item";
-        public static final String TABLE_ITEM_TMP_NAME = "item_tmp";
         public static final String TABLE_COMMENTS_NAME = "comment";
 
         public static final String COLUMN_ITEM_ID = "item_id";
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
         public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_ITEM_ORDER = "item_order";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_COMMENTS = "comments";
         public static final String COLUMN_URL = "url";

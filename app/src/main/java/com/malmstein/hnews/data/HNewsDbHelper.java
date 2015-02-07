@@ -27,7 +27,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ORDER + " TEXT" +
+                HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " INTEGER" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
@@ -46,7 +46,6 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_TMP_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME);
         onCreate(db);
     }
