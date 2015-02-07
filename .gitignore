@@ -1,6 +1,53 @@
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+out/
+build.log
+build-log.xml
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+.project
+.classpath
+.settings
+target/
+build/
+classes/
+gen-external-apklibs/
+tmp/
+
+# IDEA Ignores
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
+
+# Android
+local.properties
+
+# MAC
+*.DS_Store
+
+# Linux
+*~
+
+=======
+# generated every build
+crashlytics.properties
+com_crashlytics_export_strings.xml
+
+app/build
+app-test/build
+lint-results.xml
