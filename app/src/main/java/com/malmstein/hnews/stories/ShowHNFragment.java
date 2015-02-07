@@ -68,10 +68,14 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         stopRefreshing();
-        storiesCursorAdapter.swapCursor(data);
-        int position = storiesCursorAdapter.getSelectedPosition();
-        if (position != ListView.INVALID_POSITION) {
-            storiesList.smoothScrollToPosition(position);
+        if (data.moveToFirst()) {
+            storiesCursorAdapter.swapCursor(data);
+            int position = storiesCursorAdapter.getSelectedPosition();
+            if (position != ListView.INVALID_POSITION) {
+                storiesList.smoothScrollToPosition(position);
+            }
+        } else {
+            onRefresh();
         }
     }
 

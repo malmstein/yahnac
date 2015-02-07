@@ -105,7 +105,7 @@ public class DataRepository {
                         });
                     }
                 })
-                .subscribeOn(Schedulers.io()).subscribe(storySubject);
+                .subscribeOn(Schedulers.io()).subscribe(commentsSubject);
     }
 
 }

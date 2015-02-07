@@ -76,6 +76,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
+        maybeShowRefreshing();
         DataRepository dataRepository = Inject.dataRepository();
         dataRepository.getStoriesFrom(getType());
         subscription = dataRepository
@@ -105,6 +106,11 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     protected abstract Story.TYPE getType();
 
+    protected void maybeShowRefreshing(){
+        if (!refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(true);
+        }
+    }
     protected void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }

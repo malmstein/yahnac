@@ -78,7 +78,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     }
 
     private String getOrder(){
-        return ItemEntry.COLUMN_TIMESTAMP + " DESC";
+        return ItemEntry.COLUMN_TIMESTAMP + " ASC";
     }
 
     @Override
@@ -97,11 +97,16 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         stopRefreshing();
-        storiesCursorAdapter.swapCursor(data);
-        int position = storiesCursorAdapter.getSelectedPosition();
-        if (position != ListView.INVALID_POSITION) {
-            storiesList.smoothScrollToPosition(position);
+        if (data.moveToFirst()){
+            storiesCursorAdapter.swapCursor(data);
+            int position = storiesCursorAdapter.getSelectedPosition();
+            if (position != ListView.INVALID_POSITION) {
+                storiesList.smoothScrollToPosition(position);
+            }
+        } else {
+            onRefresh();
         }
+
     }
 
     @Override
