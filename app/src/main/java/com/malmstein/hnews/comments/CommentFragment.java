@@ -10,11 +10,12 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
@@ -40,11 +41,11 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
     public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_TITLE";
-    public static final String ARG_LOCATION = BuildConfig.APPLICATION_ID + ".ARG_LOCATION";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private ListView commentsListView;
-    private CommentsAdapter commentsAdapter;
+    private RecyclerView commentsListView;
+    private RecyclerView.Adapter commentsAdapter;
+    private RecyclerView.LayoutManager commentsLayoutManager;
 
     private Subscription subscription;
 
@@ -106,6 +107,11 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = Views.findById(rootView, R.id.listview_comments);
+        commentsListView.setHasFixedSize(true);
+        // use a linear layout manager
+        commentsLayoutManager = new LinearLayoutManager(getActivity());
+        commentsListView.setLayoutManager(commentsLayoutManager);
+
         commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
         commentsListView.setAdapter(commentsAdapter);
 

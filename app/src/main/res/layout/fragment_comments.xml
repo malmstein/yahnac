@@ -10,15 +10,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
       style="@style/HNews.List"
       android:id="@+id/listview_comments"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:padding="@dimen/list_padding"
       android:dividerHeight="@dimen/comments_padding"
       android:divider="@color/app_background"
-      android:padding="@dimen/list_padding" />
-
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
   </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
 
