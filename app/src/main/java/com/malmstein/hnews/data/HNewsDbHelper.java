@@ -27,6 +27,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TIME_AGO + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_RANK + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " INTEGER" +
                 " );";
 

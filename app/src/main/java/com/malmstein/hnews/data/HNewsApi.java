@@ -2,7 +2,6 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.tasks.FetchCommentsTask;
 import com.malmstein.hnews.tasks.FetchStoriesTask;
@@ -49,7 +48,7 @@ public class HNewsApi {
             }
 
             if (stories.size() == 0) {
-                subscriber.onError(new DeveloperError("Threading"));
+                subscriber.onError(new RuntimeException("API is not returning any data"));
             } else {
                 subscriber.onNext(stories);
             }

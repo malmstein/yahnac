@@ -14,8 +14,6 @@ import com.malmstein.hnews.base.TimeAgo;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoryListener;
 
-import java.util.Date;
-
 public class StoriesCursorAdapter extends CursorAdapter {
 
     private int currentPosition;
@@ -42,7 +40,7 @@ public class StoriesCursorAdapter extends CursorAdapter {
         final Story story = Story.from(cursor);
         holder.title.setText(story.getTitle());
         holder.user.setText(context.getResources().getString(R.string.story_by, story.getBy()));
-        holder.timeAgo.setText(timeAgo.timeAgo(new Date(story.getTime())));
+        holder.timeAgo.setText(story.getTimeAgo());
         holder.score.setText(context.getResources().getString(R.string.story_points, story.getScore()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override

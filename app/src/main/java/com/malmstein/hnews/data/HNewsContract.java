@@ -10,7 +10,6 @@ public class HNewsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEM = "item";
-    public static final String PATH_ITEM_TMP = "item_tmp";
     public static final String PATH_COMMENT = "comment";
 
     public static final String[] STORY_COLUMNS = {
@@ -24,6 +23,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
             ItemEntry.COLUMN_TIME_AGO,
+            ItemEntry.COLUMN_RANK,
             ItemEntry.COLUMN_TIMESTAMP,
     };
 
@@ -45,8 +45,9 @@ public class HNewsContract {
     public static final int COLUMN_URL = 6;
     public static final int COLUMN_SCORE = 7;
     public static final int COLUMN_TITLE = 8;
-    public static final int COLUMN_TIME = 9;
-    public static final int COLUMN_ITEM_ORDER = 10;
+    public static final int COLUMN_TIME_AGO = 9;
+    public static final int COLUMN_RANK = 10;
+    public static final int COLUMN_TIMESTAMP = 11;
 
     public static final int COLUMN_LEVEL = 2;
     public static final int COLUMN_TEXT = 4;
@@ -68,6 +69,7 @@ public class HNewsContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
         public static final String COLUMN_TIME_AGO = "time_ago";
+        public static final String COLUMN_RANK = "rank";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_COMMENTS = "comments";

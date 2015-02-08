@@ -49,6 +49,7 @@ public class FetchStoriesTask {
         Document doc = Jsoup.connect(url)
                 .userAgent(System.getProperty("http.agent"))
                 .header("Accept-Encoding", "gzip")
+                .followRedirects(true)
                 .post();
 
         stories = new StoriesParser(doc).parse(type);

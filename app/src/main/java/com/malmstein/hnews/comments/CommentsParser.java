@@ -77,7 +77,7 @@ public class CommentsParser {
             commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, storyId);
             commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, text);
             commentValues.put(HNewsContract.ItemEntry.COLUMN_LEVEL, level);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_TEXT, time);
+            commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, time);
 
             commentsList.add(commentValues);
         }

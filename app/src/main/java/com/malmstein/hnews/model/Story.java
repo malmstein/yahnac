@@ -31,7 +31,7 @@ public class Story implements Serializable {
     private final Long internalId;
     private final String by;
     private final Long id;
-    private final Long time;
+    private final String timeAgo;
     private final int score;
     private final String title;
     private final String url;
@@ -40,11 +40,11 @@ public class Story implements Serializable {
     private final String type;
     private final String order;
 
-    public Story(Long internalId, String by, Long id, String type, Long time, int score, String title, String url, String domain, String comments, String order) {
+    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, String comments, String order) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
-        this.time = time;
+        this.timeAgo = timeAgo;
         this.type = type;
         this.score = score;
         this.title = title;
@@ -66,8 +66,8 @@ public class Story implements Serializable {
         return id;
     }
 
-    public Long getTime() {
-        return time;
+    public String getTimeAgo() {
+        return timeAgo;
     }
 
     public int getScore() {
@@ -96,8 +96,8 @@ public class Story implements Serializable {
         String url = cursor.getString(HNewsContract.COLUMN_URL);
         int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);
-        Long time = cursor.getLong(HNewsContract.COLUMN_TIME);
-        String order = cursor.getString(HNewsContract.COLUMN_ITEM_ORDER);
+        String time = cursor.getString(HNewsContract.COLUMN_TIME_AGO);
+        String order = cursor.getString(HNewsContract.COLUMN_TIMESTAMP);
 
         return new Story(internalId, by, id, type, time, score, title, url, domain, comments, order);
     }

@@ -165,7 +165,7 @@ public class StoriesParser {
     private static String parseAgo(Element subtext, String submitter) {
         String whole = subtext.text();
         int start = whole.indexOf(submitter) + 1;
-        int end = whole.indexOf("|");
+        int end = whole.indexOf("|") - 1;
 
         return whole.substring(start + submitter.length(), end);
     }
@@ -230,12 +230,13 @@ public class StoriesParser {
             storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, item_id);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type.name());
             storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, submitter_i);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, submitter_i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, ago);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_COMMENTS, comments_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_DOMAIN, domain);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, article_url_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, point_i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title_i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_RANK, i);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
 
             storiesList.add(storyValues);
