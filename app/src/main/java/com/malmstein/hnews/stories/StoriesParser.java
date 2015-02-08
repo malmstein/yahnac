@@ -77,7 +77,7 @@ public class StoriesParser {
         int end = line.indexOf("|") - 1;
 
         if (end < 0){
-            return "";
+            return line;
         } else {
             return line.substring(start + submitter.length(), end);
         }

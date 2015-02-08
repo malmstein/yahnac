@@ -1,6 +1,7 @@
 package com.malmstein.hnews.model;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.malmstein.hnews.data.HNewsContract;
 
@@ -58,8 +59,16 @@ public class Story implements Serializable {
         return internalId;
     }
 
-    public String getBy() {
+    public String getSubmitter() {
         return by;
+    }
+
+    private boolean isSubmitterEmpty(){
+        return TextUtils.isEmpty(by);
+    }
+
+    public boolean isStoryAJob(){
+        return isSubmitterEmpty();
     }
 
     public Long getId() {

@@ -10,7 +10,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.base.TimeAgo;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoryListener;
 
@@ -18,12 +17,10 @@ public class StoriesCursorAdapter extends CursorAdapter {
 
     private int currentPosition;
     private final StoryListener listener;
-    private TimeAgo timeAgo;
 
     public StoriesCursorAdapter(Context context, Cursor c, int flags, StoryListener listener) {
         super(context, c, flags);
         this.listener = listener;
-        timeAgo = new TimeAgo(context.getResources());
     }
 
     @Override
@@ -38,10 +35,9 @@ public class StoriesCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, final Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
         final Story story = Story.from(cursor);
+
         holder.title.setText(story.getTitle());
-        holder.user.setText(context.getResources().getString(R.string.story_by, story.getBy()));
-        holder.timeAgo.setText(story.getTimeAgo());
-        holder.score.setText(context.getResources().getString(R.string.story_points, story.getScore()));
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,16 +52,26 @@ public class StoriesCursorAdapter extends CursorAdapter {
             }
         });
 
-        holder.comments_action.setText(story.getComments());
-        holder.comments_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentPosition = cursor.getPosition();
-                listener.onCommentsClicked(v, story);
-                // start the new activity
-            }
-        });
-//        }
+        if (story.isStoryAJob()){
+            holder.user.setVisibility(View.GONE);
+            holder.timeAgo.setVisibility(View.GONE);
+            holder.score.setVisibility(View.GONE);
+            holder.comments_action.setVisibility(View.GONE);
+        } else {
+            holder.user.setText(context.getResources().getString(R.string.story_by, story.getSubmitter()));
+            holder.timeAgo.setText(story.getTimeAgo());
+            holder.score.setText(context.getResources().getString(R.string.story_points, story.getScore()));
+            holder.comments_action.setText(story.getComments());
+            holder.comments_action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentPosition = cursor.getPosition();
+                    listener.onCommentsClicked(v, story);
+                }
+            });
+        }
+
+
 
     }
 

@@ -44,7 +44,6 @@ public class StoriesParserTest {
     private static final String EMPTY_SUBMITTER = "";
 
     private static final String DEFAULT_TIME_AGO = "39 minutes ago";
-    private static final String EMPTY_TIME_AGO = "";
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
     private static final Story.TYPE DEFAULT_TYPE = Story.TYPE.top_story;
@@ -64,9 +63,9 @@ public class StoriesParserTest {
     }
 
     @org.junit.Test
-    public void returnEmptyTimeWhenParsingJobStory() {
+    public void returnTimeWhenParsingJobStory() {
         String timeAgo = StoriesParser.parseAgo(JOB_STORY_SUBLINE, EMPTY_SUBMITTER);
-        assertEquals(timeAgo, EMPTY_TIME_AGO);
+        assertEquals(timeAgo, JOB_STORY_SUBLINE);
     }
 
     @org.junit.Test
