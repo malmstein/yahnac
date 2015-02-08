@@ -47,7 +47,8 @@ public class FetchStoriesTask {
 
         //Here we'll add the cookie when fetched
         Document doc = Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 Chrome/26.0.1410.64 Safari/537.31")
+                .userAgent(System.getProperty("http.agent"))
+                .header("Accept-Encoding", "gzip")
                 .post();
 
         stories = new StoriesParser(doc).parse(type);

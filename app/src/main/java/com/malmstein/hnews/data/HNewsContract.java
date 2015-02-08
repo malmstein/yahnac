@@ -23,7 +23,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_URL,
             ItemEntry.COLUMN_SCORE,
             ItemEntry.COLUMN_TITLE,
-            ItemEntry.COLUMN_TIME,
+            ItemEntry.COLUMN_TIME_AGO,
             ItemEntry.COLUMN_TIMESTAMP,
     };
 
@@ -33,7 +33,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_LEVEL,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TEXT,
-            ItemEntry.COLUMN_TIME_TEXT,
+            ItemEntry.COLUMN_TIME_AGO,
     };
 
     public static final int COLUMN_ID = 0;
@@ -58,7 +58,6 @@ public class HNewsContract {
         public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
 
         public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
-        public static final String CONTENT_STORY_TMP_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM_TMP;
         public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
         public static final String CONTENT_STORY_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
 
@@ -68,7 +67,7 @@ public class HNewsContract {
         public static final String COLUMN_ITEM_ID = "item_id";
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_BY = "by";
-        public static final String COLUMN_TIME = "time";
+        public static final String COLUMN_TIME_AGO = "time_ago";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_TEXT = "text";
         public static final String COLUMN_COMMENTS = "comments";
@@ -77,7 +76,6 @@ public class HNewsContract {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_DOMAIN = "domain";
-        public static final String COLUMN_TIME_TEXT = "time_text";
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
