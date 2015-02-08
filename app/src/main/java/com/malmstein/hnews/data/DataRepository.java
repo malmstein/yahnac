@@ -79,7 +79,7 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                dataPersister.persistStoriesAndReturnRows(contentValueses);
+                                dataPersister.persistStories(contentValueses);
                             }
                         });
                     }
