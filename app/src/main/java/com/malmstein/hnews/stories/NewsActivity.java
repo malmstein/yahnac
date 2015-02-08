@@ -89,7 +89,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
 
     @Override
     public void onCommentsClicked(View v, Story story) {
-        navigateToComments(v, story);
+        navigateToComments(story);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
         startActivity(browserIntent);
     }
 
-    private void navigateToComments(View v, Story story) {
+    private void navigateToComments(Story story) {
         if (isTwoPaneLayout()) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -138,7 +138,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
                             CommentFragment.TAG)
                     .commit();
         } else {
-            navigate().toComments(story, v);
+            navigate().toComments(story);
         }
     }
 

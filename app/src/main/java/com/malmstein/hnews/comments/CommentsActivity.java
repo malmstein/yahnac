@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.base.DeveloperError;
 
 public class CommentsActivity extends HNewsActivity {
 
@@ -33,14 +32,6 @@ public class CommentsActivity extends HNewsActivity {
 
     private CommentFragment findCommentsFragment() {
         return (CommentFragment) getSupportFragmentManager().findFragmentByTag(CommentFragment.TAG);
-    }
-
-    private int[] getStartingPoint() {
-        if (getIntent().hasExtra(CommentFragment.ARG_LOCATION)) {
-            return getIntent().getExtras().getIntArray(CommentFragment.ARG_LOCATION);
-        } else {
-            throw new DeveloperError("Missing argument");
-        }
     }
 
 }
