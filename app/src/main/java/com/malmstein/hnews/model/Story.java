@@ -9,18 +9,6 @@ import java.io.Serializable;
 
 public class Story implements Serializable {
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
     public enum TYPE {
         top_story,
         new_story,
@@ -37,11 +25,11 @@ public class Story implements Serializable {
     private final String title;
     private final String url;
     private final String domain;
-    private final String comments;
+    private final int comments;
     private final String type;
     private final String order;
 
-    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, String comments, String order) {
+    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, int comments, String order) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -63,11 +51,11 @@ public class Story implements Serializable {
         return by;
     }
 
-    private boolean isSubmitterEmpty(){
+    private boolean isSubmitterEmpty() {
         return TextUtils.isEmpty(by);
     }
 
-    public boolean isStoryAJob(){
+    public boolean isStoryAJob() {
         return isSubmitterEmpty();
     }
 
@@ -95,12 +83,24 @@ public class Story implements Serializable {
         return type;
     }
 
+    public int getComments() {
+        return comments;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
     public static Story from(Cursor cursor) {
         Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
         Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
         String type = cursor.getString(HNewsContract.COLUMN_TYPE);
         String by = cursor.getString(HNewsContract.COLUMN_BY);
-        String comments = cursor.getString(HNewsContract.COLUMN_COMMENTS);
+        int comments = cursor.getInt(HNewsContract.COLUMN_COMMENTS);
         String domain = cursor.getString(HNewsContract.COLUMN_DOMAIN);
         String url = cursor.getString(HNewsContract.COLUMN_URL);
         int score = cursor.getInt(HNewsContract.COLUMN_SCORE);

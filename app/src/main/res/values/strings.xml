@@ -12,8 +12,8 @@
   <string name="content_authority">com.malmstein.hnews</string>
 
   <string name="story_by">by %s</string>
-  <string name="story_comments">Show Comments</string>
   <string name="story_points">%d points</string>
+  <string name="story_comments">%d comments</string>
 
   <string name="empty_view_text">No content to display</string>
   <string name="feed_loading_text">Fetching stories, you can also swipe to refresh the content</string>

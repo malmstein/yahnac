@@ -58,6 +58,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
             holder.timeAgo.setText(story.getTimeAgo());
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
+            holder.comments_action.setText(holder.user.getResources().getString(R.string.story_comments, story.getComments()));
             holder.comments_action.setText(story.getComments());
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override

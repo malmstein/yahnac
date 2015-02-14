@@ -21,7 +21,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
                 HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_COMMENTS + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_COMMENTS + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_DOMAIN + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
