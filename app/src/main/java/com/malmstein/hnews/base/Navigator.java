@@ -19,7 +19,7 @@ public class Navigator {
     public void toComments(Story story) {
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
         commentIntent.putExtra(CommentFragment.ARG_STORY_ID, story.getId());
-        commentIntent.putExtra(CommentFragment.ARG_STORY_TITLE, story.getComments());
+        commentIntent.putExtra(CommentFragment.ARG_STORY_COMMENTS, story.getComments());
 
         ActivityCompat.startActivity(activity, commentIntent, null);
     }

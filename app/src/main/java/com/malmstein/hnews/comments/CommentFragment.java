@@ -40,7 +40,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int COMMENTS_LOADER = 0;
 
     public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_ID";
-    public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_TITLE";
+    public static final String ARG_STORY_COMMENTS = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY_TITLE";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private RecyclerView commentsListView;
@@ -49,10 +49,10 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     private Subscription subscription;
 
-    public static CommentFragment from(Long id, String title) {
+    public static CommentFragment from(Long id, int title) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_STORY_ID, id);
-        args.putSerializable(ARG_STORY_TITLE, title);
+        args.putSerializable(ARG_STORY_COMMENTS, title);
         CommentFragment fragment = new CommentFragment();
         fragment.setArguments(args);
         return fragment;
@@ -67,8 +67,9 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private String getTitle() {
-        if (getArguments().containsKey(ARG_STORY_TITLE)) {
-            return getArguments().getString(ARG_STORY_TITLE);
+        if (getArguments().containsKey(ARG_STORY_COMMENTS)) {
+            int comments = getArguments().getInt(ARG_STORY_COMMENTS);
+            return getResources().getQuantityString(R.plurals.story_comments, comments, comments);
         } else {
             throw new DeveloperError("Missing argument");
         }
@@ -145,8 +146,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         commentsAdapter = new CommentsAdapter(null);
         commentsListView.setAdapter(commentsAdapter);
     }
-
-
 
     private void stopRefreshing() {
         refreshLayout.setRefreshing(false);

@@ -18,9 +18,9 @@ public class CommentsActivity extends HNewsActivity {
 
         if (findCommentsFragment() == null) {
             Long storyId = getIntent().getExtras().getLong(CommentFragment.ARG_STORY_ID);
-            String title = getIntent().getExtras().getString(CommentFragment.ARG_STORY_TITLE);
+            int comments = getIntent().getExtras().getInt(CommentFragment.ARG_STORY_COMMENTS);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentFragment.from(storyId, title), CommentFragment.TAG).commit();
+            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentFragment.from(storyId, comments), CommentFragment.TAG).commit();
         }
     }
 

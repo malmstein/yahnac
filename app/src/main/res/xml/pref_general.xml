@@ -20,6 +20,6 @@
     android:key="@string/pref_enable_browser_key"
     android:summaryOn="@string/pref_enable_internal_browser"
     android:summaryOff="@string/pref_enable_external_browser"
-    android:defaultValue="true" />
+    android:defaultValue="false" />
 
 </PreferenceScreen>
