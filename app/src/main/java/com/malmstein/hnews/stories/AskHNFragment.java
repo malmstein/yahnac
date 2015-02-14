@@ -34,11 +34,6 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
 
 
     @Override
-    protected StoriesAdapter getStoriesAdapter(StoryListener listener) {
-        return new StoriesAdapter(null, listener);
-    }
-
-    @Override
     protected Story.TYPE getType() {
         return Story.TYPE.ask;
     }

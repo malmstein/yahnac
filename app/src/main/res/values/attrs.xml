@@ -8,4 +8,9 @@
     <attr name="appBarLayout" format="reference"/>
   </declare-styleable>
 
+  <declare-styleable name="FooterWithTopDividerLayout">
+    <attr name="dividerHeight" format="dimension" />
+    <attr name="dividerColor" format="color" />
+  </declare-styleable>
+
 </resources>

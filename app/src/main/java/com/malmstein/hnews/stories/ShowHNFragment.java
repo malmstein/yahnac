@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
@@ -30,11 +29,6 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_top_stories;
-    }
-
-    @Override
-    protected StoriesAdapter getStoriesAdapter(StoryListener listener) {
-        return new StoriesAdapter(null, listener);
     }
 
     @Override

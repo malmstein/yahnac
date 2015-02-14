@@ -26,12 +26,6 @@
     <item name="android:descendantFocusability">blocksDescendants</item>
   </style>
 
-  <style name="HNews.CardRoot" parent="None">
-    <item name="android:paddingLeft">@dimen/list_padding</item>
-    <item name="android:paddingRight">@dimen/list_padding</item>
-    <item name="android:paddingBottom">@dimen/list_padding</item>
-  </style>
-
   <style name="HNews.Card" parent="CardView">
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>
@@ -41,6 +35,12 @@
 
   <style name="HNews.FeedItem" parent="None">
     <item name="android:background">@drawable/selector_card_clickable</item>
+  </style>
+
+  <style name="HNews.FeedFooter" parent="None">
+    <item name="dividerHeight">@dimen/feed_item_article_footer_divider_height</item>
+    <item name="dividerColor">@color/feed_item_footer_divider</item>
+    <item name="android:minHeight">@dimen/feed_item_article_footer_height</item>
   </style>
 
   <style name="HNewsButton" parent="android:Widget.Holo.Button" />

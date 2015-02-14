@@ -1,6 +1,7 @@
 package com.malmstein.hnews.stories;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -19,6 +20,7 @@ import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
+import com.malmstein.hnews.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;
@@ -66,13 +68,18 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private void setupStoriesList() {
         storiesList.setHasFixedSize(true);
         storiesLayoutManager = new LinearLayoutManager(getActivity());
+        storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
 
         storiesAdapter = new StoriesAdapter(null, listener);
         storiesList.setAdapter(storiesAdapter);
     }
 
-    protected abstract StoriesAdapter getStoriesAdapter(StoryListener listener);
+    private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
+        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
+        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
+        return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
+    }
 
     @Override
     public void onRefresh() {
