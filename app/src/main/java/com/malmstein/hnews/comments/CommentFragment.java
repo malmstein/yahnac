@@ -44,7 +44,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private RecyclerView commentsListView;
-    private RecyclerView.Adapter commentsAdapter;
+    private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
     private Subscription subscription;
@@ -106,14 +106,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
-        commentsListView = Views.findById(rootView, R.id.listview_comments);
-        commentsListView.setHasFixedSize(true);
-        // use a linear layout manager
-        commentsLayoutManager = new LinearLayoutManager(getActivity());
-        commentsListView.setLayoutManager(commentsLayoutManager);
-
-        commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
-        commentsListView.setAdapter(commentsAdapter);
+        commentsListView = Views.findById(rootView, R.id.list_comments);
 
         setupRefreshLayout();
         setupCommentsList();
@@ -145,7 +138,11 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void setupCommentsList() {
-        commentsAdapter = new CommentsAdapter(getActivity(), null, 0);
+        commentsListView.setHasFixedSize(true);
+        commentsLayoutManager = new LinearLayoutManager(getActivity());
+        commentsListView.setLayoutManager(commentsLayoutManager);
+
+        commentsAdapter = new CommentsAdapter(null);
         commentsListView.setAdapter(commentsAdapter);
     }
 

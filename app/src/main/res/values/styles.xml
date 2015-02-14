@@ -22,15 +22,25 @@
   </style>
 
   <style name="HNews.List" parent="None">
-    <item name="android:paddingTop">?actionBarSize</item>
     <item name="android:clipToPadding">false</item>
     <item name="android:descendantFocusability">blocksDescendants</item>
   </style>
 
-  <style name="HNews.Card" parent="None">
+  <style name="HNews.CardRoot" parent="None">
+    <item name="android:paddingLeft">@dimen/list_padding</item>
+    <item name="android:paddingRight">@dimen/list_padding</item>
+    <item name="android:paddingBottom">@dimen/list_padding</item>
+  </style>
+
+  <style name="HNews.Card" parent="CardView">
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>
     <item name="cardPreventCornerOverlap">false</item>
+    <item name="android:background">@drawable/shape_card_background_default</item>
+  </style>
+
+  <style name="HNews.FeedItem" parent="None">
+    <item name="android:background">@drawable/selector_card_clickable</item>
   </style>
 
   <style name="HNewsButton" parent="android:Widget.Holo.Button" />

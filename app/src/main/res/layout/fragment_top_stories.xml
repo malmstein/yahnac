@@ -21,14 +21,11 @@
         android:layout_gravity="center"
         tools:visibility="visible" />
 
-      <ListView
+      <android.support.v7.widget.RecyclerView
         style="@style/HNews.List"
-        android:id="@+id/listview_news"
+        android:id="@+id/list_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@dimen/list_padding"
-        android:divider="@android:color/transparent"
-        android:padding="@dimen/list_padding" />
+        android:layout_height="match_parent" />
 
     </FrameLayout>
 

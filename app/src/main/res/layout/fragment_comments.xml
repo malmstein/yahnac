@@ -12,7 +12,7 @@
 
     <android.support.v7.widget.RecyclerView
       style="@style/HNews.List"
-      android:id="@+id/listview_comments"
+      android:id="@+id/list_comments"
       android:padding="@dimen/list_padding"
       android:dividerHeight="@dimen/comments_padding"
       android:divider="@color/app_background"

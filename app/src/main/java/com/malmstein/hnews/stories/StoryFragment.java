@@ -5,17 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.StoriesCursorAdapter;
+import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
@@ -26,10 +27,9 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
-    protected static final String SELECTED_KEY = "selected_position";
-
-    protected ListView storiesList;
-    protected StoriesCursorAdapter storiesCursorAdapter;
+    private RecyclerView storiesList;
+    protected StoriesAdapter storiesAdapter;
+    private RecyclerView.LayoutManager storiesLayoutManager;
 
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
@@ -47,14 +47,10 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         View rootView = inflater.inflate(getFragmentLayoutId(), container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
-        storiesList = (ListView) rootView.findViewById(R.id.listview_news);
-        storiesList.setEmptyView(rootView.findViewById(R.id.feed_empty_placeholder));
+        storiesList = Views.findById(rootView, R.id.list_news);
+
         setupRefreshLayout();
         setupStoriesList();
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            storiesCursorAdapter.setSelectedPosition(savedInstanceState.getInt(SELECTED_KEY));
-        }
 
         return rootView;
     }
@@ -68,11 +64,15 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setupStoriesList() {
-        storiesCursorAdapter = getStoriesAdapter(listener);
-        storiesList.setAdapter(storiesCursorAdapter);
+        storiesList.setHasFixedSize(true);
+        storiesLayoutManager = new LinearLayoutManager(getActivity());
+        storiesList.setLayoutManager(storiesLayoutManager);
+
+        storiesAdapter = new StoriesAdapter(null, listener);
+        storiesList.setAdapter(storiesAdapter);
     }
 
-    protected abstract StoriesCursorAdapter getStoriesAdapter(StoryListener listener);
+    protected abstract StoriesAdapter getStoriesAdapter(StoryListener listener);
 
     @Override
     public void onRefresh() {

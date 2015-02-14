@@ -8,12 +8,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.ListView;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.StoriesCursorAdapter;
+import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
@@ -49,17 +48,8 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        int position = storiesCursorAdapter.getSelectedPosition();
-        if (position != ListView.INVALID_POSITION) {
-            outState.putInt(SELECTED_KEY, position);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected StoriesCursorAdapter getStoriesAdapter(StoryListener listener) {
-        return new StoriesCursorAdapter(getActivity(), null, 0, listener);
+    protected StoriesAdapter getStoriesAdapter(StoryListener listener) {
+        return new StoriesAdapter(null, listener);
     }
 
     public Story.TYPE getType(){
@@ -98,11 +88,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         stopRefreshing();
         if (data.moveToFirst()){
-            storiesCursorAdapter.swapCursor(data);
-            int position = storiesCursorAdapter.getSelectedPosition();
-            if (position != ListView.INVALID_POSITION) {
-                storiesList.smoothScrollToPosition(position);
-            }
+            storiesAdapter.swapCursor(data);
         } else {
             onRefresh();
         }
@@ -111,8 +97,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        stopRefreshing();
-        storiesCursorAdapter.swapCursor(null);
+        storiesAdapter.swapCursor(null);
         stopRefreshing();
     }
 
