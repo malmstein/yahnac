@@ -34,8 +34,8 @@
   <TextView
     android:id="@+id/article_score"
     android:layout_width="match_parent"
-    android:gravity="right|bottom"
-    android:layout_height="wrap_content"
+    android:gravity="right|center_vertical"
+    android:layout_height="match_parent"
     android:textAllCaps="true"
     android:textColor="@color/light_grey"
     android:paddingRight="@dimen/default_padding"
