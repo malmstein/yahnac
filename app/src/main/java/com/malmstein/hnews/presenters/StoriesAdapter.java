@@ -58,8 +58,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
             holder.timeAgo.setText(story.getTimeAgo());
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
-            holder.comments_action.setText(holder.user.getResources().getString(R.string.story_comments, story.getComments()));
-            holder.comments_action.setText(story.getComments());
+            holder.comments_action.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,7 +74,6 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;

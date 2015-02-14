@@ -13,7 +13,11 @@
 
   <string name="story_by">by %s</string>
   <string name="story_points">%d points</string>
-  <string name="story_comments">%d comments</string>
+
+  <plurals name="story_comments">
+    <item quantity="one">%d comment</item>
+    <item quantity="other">%d comments</item>
+  </plurals>
 
   <string name="empty_view_text">No content to display</string>
   <string name="feed_loading_text">Fetching stories, you can also swipe to refresh the content</string>

@@ -47,7 +47,7 @@ public class StoriesParserTest {
     @Before
     public void setUp() throws Exception {
         Document jobsDoc = Jsoup.parse(StoriesJson.jobs, BASE_URI);
-        Document newsDoc = Jsoup.parse(StoriesJson.news, BASE_URI);
+        Document newsDoc = Jsoup.parse(StoriesJson.new_stories, BASE_URI);
 
         newsFirstLine = newsDoc.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])").get(1);
         newsSecondLine = newsDoc.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=subtext])").get(1);
