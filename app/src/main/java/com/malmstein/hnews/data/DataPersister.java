@@ -15,6 +15,10 @@ public class DataPersister {
 
     public void persistStories(Vector<ContentValues> topStories) {
 
+//        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+//                null,
+//                null);
+
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);
         contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);

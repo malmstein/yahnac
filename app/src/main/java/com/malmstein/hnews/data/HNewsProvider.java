@@ -207,6 +207,42 @@ public class HNewsProvider extends ContentProvider {
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
+
+            case STORY:
+                db.beginTransaction();
+                returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+
+                        Cursor exists = db.query(HNewsContract.ItemEntry.TABLE_ITEM_NAME,
+                                new String[]{HNewsContract.ItemEntry.COLUMN_ITEM_ID},
+                                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                                new String[]{value.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)},
+                                null,
+                                null,
+                                null);
+
+                        if (exists.moveToLast()) {
+                            long _id = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, value, HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+                                    new String[]{value.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)});
+
+                            if (_id != -1) {
+                                returnCount++;
+                            }
+                        } else {
+                            long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, value);
+                            if (_id != -1) {
+                                returnCount++;
+                            }
+                        }
+                        exists.close();
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
             default:
                 return super.bulkInsert(uri, values);
         }
