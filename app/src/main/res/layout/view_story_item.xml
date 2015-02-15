@@ -36,7 +36,7 @@
         android:paddingTop="@dimen/card_content_padding">
 
         <LinearLayout
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal">
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/light_grey"
-            android:text="1h ago" />
+            tools:text="1h ago" />
 
           <TextView
             android:id="@+id/article_user"
@@ -55,7 +55,17 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/light_grey"
             android:paddingLeft="@dimen/card_content_padding"
-            android:text="user" />
+            tools:text="user" />
+
+
+          <TextView
+            android:id="@+id/article_domain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/light_grey"
+            tools:text="(domain)" />
 
         </LinearLayout>
 

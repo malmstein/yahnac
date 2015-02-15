@@ -91,6 +91,10 @@ public class Story implements Serializable {
         return domain;
     }
 
+    public boolean hasDomain() {
+        return !TextUtils.isEmpty(domain);
+    }
+
     public String getOrder() {
         return order;
     }

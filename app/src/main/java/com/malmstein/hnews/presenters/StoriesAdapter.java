@@ -34,6 +34,12 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         final Story story = Story.from(cursor);
 
         holder.title.setText(story.getTitle());
+        if (story.hasDomain()){
+            holder.domain.setText(story.getDomain());
+        } else {
+            holder.domain.setVisibility(View.GONE);
+        }
+
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +89,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final View card;
         public final TextView share_action;
         public final TextView comments_action;
+        public final TextView domain;
 
         public ViewHolder(View view) {
             super(view);
@@ -93,6 +100,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             card = view.findViewById(R.id.article_card_root);
             share_action = (TextView) view.findViewById(R.id.article_share_action);
             comments_action = (TextView) view.findViewById(R.id.article_comments_action);
+            domain = (TextView) view.findViewById(R.id.article_domain);
         }
     }
 
