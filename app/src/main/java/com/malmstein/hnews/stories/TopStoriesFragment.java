@@ -62,7 +62,8 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     }
 
     private String getOrder(){
-        return ItemEntry.COLUMN_RANK + " ASC";
+        return ItemEntry.COLUMN_RANK + " ASC" +
+                ", " + ItemEntry.COLUMN_TIMESTAMP + " ASC";
     }
 
     @Override
