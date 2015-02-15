@@ -61,11 +61,6 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         }
     }
 
-    private String getOrder(){
-        return ItemEntry.COLUMN_RANK + " ASC" +
-                ", " + ItemEntry.COLUMN_TIMESTAMP + " ASC";
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri storyNewsUri = ItemEntry.buildStoriesUri();

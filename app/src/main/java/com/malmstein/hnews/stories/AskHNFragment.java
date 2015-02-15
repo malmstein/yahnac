@@ -46,7 +46,7 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
                 STORY_COLUMNS,
                 ItemEntry.COLUMN_TYPE + " = ?",
                 new String[]{Story.TYPE.ask.name()},
-                ItemEntry.COLUMN_TIMESTAMP + " ASC");
+                getOrder());
     }
 
     @Override

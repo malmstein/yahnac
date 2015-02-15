@@ -109,12 +109,17 @@ public class StoriesParser {
         int comments = 0;
         Elements secondLineElements = secondLine.select("a[href*=item]");
         if (secondLineElements.size() > 0) {
-            String commentsLine = secondLineElements.get(1).text().replaceAll(" comments", "").replaceAll(" comment", "");
+            String commentsLine = secondLineElements.get(1).text().replaceAll("comments", "").replaceAll("comment", "");
+            commentsLine = commentsLine.trim();
             if (commentsLine.equals("discuss")){
                 //no comments yet
-                return 0;
+                comments = 0;
             } else {
-                comments = Integer.valueOf(commentsLine);
+                try{
+                    comments = Integer.valueOf(commentsLine);
+                } catch (Exception e){
+                    comments = 0;
+                }
             }
         }
         return comments;

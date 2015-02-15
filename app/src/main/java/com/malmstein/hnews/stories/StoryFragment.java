@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.data.DataRepository;
+import com.malmstein.hnews.data.HNewsContract;
 import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesAdapter;
@@ -114,6 +115,11 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     }
 
     protected abstract Story.TYPE getType();
+
+    protected String getOrder() {
+        return HNewsContract.ItemEntry.COLUMN_RANK + " ASC" +
+                ", " + HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " ASC";
+    }
 
     protected void maybeShowRefreshing(){
         if (!refreshLayout.isRefreshing()){
