@@ -46,6 +46,7 @@ local.properties
 =======
 # generated every build
 crashlytics.properties
+app/src/main/assets/crashlytics-build.properties
 com_crashlytics_export_strings.xml
 
 app/build
