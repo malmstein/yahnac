@@ -83,57 +83,16 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
 
     @Override
     public void onCommentsClicked(View v, Story story) {
-        navigateToComments(story);
+        showOrNavigateToCommentsOf(story);
     }
 
     @Override
     public void onContentClicked(Story story) {
-        navigateToArticle(story);
+        showOrNavigateTo(story);
     }
 
     private boolean isTwoPaneLayout() {
         return findViewById(R.id.story_fragment_root) != null;
-    }
-
-    private void navigateToArticle(Story story) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
-        if (preferInternalBrowser) {
-            if (isTwoPaneLayout()) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.story_fragment_root,
-                                ArticleFragment.from(story.getInternalId(), story.getTitle()),
-                                ArticleFragment.TAG)
-                        .commit();
-            } else {
-                Intent articleIntent = new Intent(this, ArticleActivity.class);
-                articleIntent.putExtra(ArticleFragment.ARG_STORY_ID, story.getInternalId());
-                articleIntent.putExtra(ArticleFragment.ARG_STORY_TITLE, story.getTitle());
-                startActivity(articleIntent);
-            }
-        } else {
-            navigateToExternalBrowser(Uri.parse(story.getUrl()));
-        }
-    }
-
-    private void navigateToExternalBrowser(Uri articleUri) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-        browserIntent.setData(articleUri);
-        startActivity(browserIntent);
-    }
-
-    private void navigateToComments(Story story) {
-        if (isTwoPaneLayout()) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.story_fragment_root,
-                            CommentFragment.from(story.getId(), story.getComments()),
-                            CommentFragment.TAG)
-                    .commit();
-        } else {
-            navigate().toComments(story);
-        }
     }
 
     @Override
@@ -144,6 +103,42 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
                 topInset,
                 target.getPaddingRight(),
                 target.getPaddingBottom());
+    }
+
+    private void showOrNavigateTo(Story story) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
+        if (preferInternalBrowser) {
+            if (isTwoPaneLayout()) {
+                showInnerBrowserFragment(story);
+            } else {
+                navigate().toInnerBrowser(story);
+            }
+        } else {
+           navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+        }
+    }
+
+    private void showOrNavigateToCommentsOf(Story story) {
+        if (isTwoPaneLayout()){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.story_fragment_root,
+                            CommentFragment.from(story.getId(), story.getComments()),
+                            CommentFragment.TAG)
+                    .commit();
+        }  else {
+            navigate().toComments(story);
+        }
+    }
+
+    public void showInnerBrowserFragment(Story story) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.story_fragment_root,
+                        ArticleFragment.from(story.getId(), story.getTitle()),
+                        CommentFragment.TAG)
+                .commit();
     }
 
     private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
