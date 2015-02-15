@@ -18,7 +18,7 @@ import rx.subjects.BehaviorSubject;
 public class DataRepository {
 
     private static final long MILLIS_IN_AMINUTE = TimeUnit.MINUTES.toMillis(1);
-    private static final long maxMillisWithoutUpgrade = 1 * MILLIS_IN_AMINUTE;
+    private static final long maxMillisWithoutUpgrade = 60 * MILLIS_IN_AMINUTE;
 
     private final BehaviorSubject<Integer> storySubject;
     private final BehaviorSubject<Integer> commentsSubject;
@@ -55,8 +55,8 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                dataPersister.persistStories(contentValueses);
                                 refreshPreferences.saveRefreshTick(type);
+                                dataPersister.persistStories(contentValueses);
                             }
                         });
                     }
