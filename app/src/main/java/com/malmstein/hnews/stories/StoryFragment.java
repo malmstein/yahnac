@@ -8,7 +8,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +52,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
         setupRefreshLayout();
         setupStoriesList();
+        maybeUpdateContent();
 
         return rootView;
     }
@@ -75,6 +75,13 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         storiesList.setAdapter(storiesAdapter);
     }
 
+    private void maybeUpdateContent() {
+        DataRepository dataRepository = Inject.dataRepository();
+        if (dataRepository.shouldUpdateContent()) {
+            onRefresh();
+        }
+    }
+
     private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
@@ -85,14 +92,12 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     public void onRefresh() {
         maybeShowRefreshing();
         DataRepository dataRepository = Inject.dataRepository();
-        dataRepository.getStoriesFrom(getType());
         subscription = dataRepository
                 .getStoriesFrom(getType())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Integer>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("Got stuff ?", "Got stuff completed ! ");
                         if (!subscription.isUnsubscribed()) {
                             subscription.unsubscribe();
                         }
@@ -100,12 +105,11 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Got stuff ?", "Error !", e);
+                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
                     }
 
                     @Override
                     public void onNext(Integer rowsAffected) {
-                        Log.d("Got stuff ?", "Got stuff ! " + rowsAffected);
                         stopRefreshing();
                     }
                 });
@@ -115,9 +119,10 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     protected void maybeShowRefreshing(){
         if (!refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(true);
+            refreshLayout.setRefreshing(false);
         }
     }
+
     protected void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }
