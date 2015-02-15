@@ -1,6 +1,7 @@
 package com.malmstein.hnews;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
@@ -13,9 +14,12 @@ public class HNewsApplication extends Application {
 
     private static final String LOG_TAG = "Yahnac";
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         Inject.using(new DefaultDependenciesFactory(this));
         startup();
     }
@@ -34,6 +38,10 @@ public class HNewsApplication extends Application {
             }
 
         }.execute();
+    }
+
+    public static Context context() {
+        return context;
     }
 
     private static StrictMode.VmPolicy.Builder newVmPolicyBuilder() {

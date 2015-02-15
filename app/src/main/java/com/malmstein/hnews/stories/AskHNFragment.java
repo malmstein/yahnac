@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
-import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.ViewDelegate;
 
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
@@ -31,7 +30,6 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
     protected int getFragmentLayoutId() {
         return R.layout.fragment_top_stories;
     }
-
 
     @Override
     protected Story.TYPE getType() {
@@ -53,17 +51,12 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        storiesAdapter.swapCursor(data);
         stopRefreshing();
-        if (data.moveToFirst()) {
-            storiesAdapter.swapCursor(data);
-        } else {
-            onRefresh();
-        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        stopRefreshing();
         storiesAdapter.swapCursor(null);
         stopRefreshing();
     }

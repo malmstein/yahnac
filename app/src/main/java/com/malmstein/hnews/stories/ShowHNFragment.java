@@ -51,12 +51,8 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        storiesAdapter.swapCursor(data);
         stopRefreshing();
-        if (data.moveToFirst()) {
-            storiesAdapter.swapCursor(data);
-        } else {
-            onRefresh();
-        }
     }
 
     @Override
