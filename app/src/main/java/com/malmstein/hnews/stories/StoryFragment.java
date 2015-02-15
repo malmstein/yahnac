@@ -109,9 +109,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
                     }
 
                     @Override
-                    public void onNext(Integer rowsAffected) {
-                        stopRefreshing();
-                    }
+                    public void onNext(Integer rowsAffected) {}
                 });
     }
 

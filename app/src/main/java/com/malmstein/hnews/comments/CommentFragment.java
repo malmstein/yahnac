@@ -12,7 +12,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,21 +82,18 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
                 .subscribe(new Observer<Integer>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("Got stuff ?", "Got stuff completed ! ");
                         if (!subscription.isUnsubscribed()) {
                             subscription.unsubscribe();
                         }
-                        stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Got stuff ?", "Error !", e);
+                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getCommentsFrom " + getArgStoryId(), e);
                     }
 
                     @Override
                     public void onNext(Integer comments) {
-                        Log.d("Got stuff ?", "Got stuff ! " + comments);
                     }
                 });
     }
