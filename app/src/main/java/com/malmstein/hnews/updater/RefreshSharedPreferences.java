@@ -5,11 +5,16 @@ import android.content.SharedPreferences;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.HNewsApplication;
+import com.malmstein.hnews.model.Story;
 
 public class RefreshSharedPreferences {
 
     private static final String PREFERENCE_NAME = BuildConfig.APPLICATION_ID + ".REFRESH_PREFERENCES";
-    private static final String KEY_REFRESH_HISTORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_PREFERENCES_LAST_REFRESH";
+    private static final String KEY_REFRESH_TIME_TOP_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_TOP_STORY";
+    private static final String KEY_REFRESH_TIME_NEW_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_NEW_STORY";
+    private static final String KEY_REFRESH_TIME_BEST_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_BEST_STORY";
+    private static final String KEY_REFRESH_TIME_SHOW_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_SHOW_STORY";
+    private static final String KEY_REFRESH_TIME_ASK_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_ASK_STORY";
 
     private final SharedPreferences preferences;
 
@@ -22,12 +27,42 @@ public class RefreshSharedPreferences {
         return new RefreshSharedPreferences(preferences);
     }
 
-    public void saveRefreshTick() {
-        preferences.edit().putLong(KEY_REFRESH_HISTORY, RefreshTimestamp.now().getMillis()).apply();
+    public void saveRefreshTick(Story.TYPE type) {
+        switch (type) {
+            case top_story:
+                preferences.edit().putLong(KEY_REFRESH_TIME_TOP_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
+            case new_story:
+                preferences.edit().putLong(KEY_REFRESH_TIME_NEW_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
+            case best_story:
+                preferences.edit().putLong(KEY_REFRESH_TIME_BEST_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
+            case show:
+                preferences.edit().putLong(KEY_REFRESH_TIME_SHOW_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
+            case ask:
+                preferences.edit().putLong(KEY_REFRESH_TIME_ASK_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
+        }
+
     }
 
-    public RefreshTimestamp getLastRefresh() {
-        return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_HISTORY, 0));
+    public RefreshTimestamp getLastRefresh(Story.TYPE type) {
+        switch (type) {
+            case top_story:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_TOP_STORY, 0));
+            case new_story:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_NEW_STORY, 0));
+            case best_story:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_BEST_STORY, 0));
+            case show:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_SHOW_STORY, 0));
+            case ask:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_ASK_STORY, 0));
+            default:
+                return RefreshTimestamp.now();
+        }
     }
 
 }

@@ -34,8 +34,8 @@ public class DataRepository {
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
     }
 
-    public boolean shouldUpdateContent(){
-        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh();
+    public boolean shouldUpdateContent(Story.TYPE type){
+        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
         RefreshTimestamp now = RefreshTimestamp.now();
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
         return elapsedTime > maxMillisWithoutUpgrade;
@@ -47,7 +47,7 @@ public class DataRepository {
         return storySubject;
     }
 
-    private void refreshStoryType(Story.TYPE type) {
+    private void refreshStoryType(final Story.TYPE type) {
         api.getStories(type)
                 .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
                     @Override
@@ -56,6 +56,7 @@ public class DataRepository {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
                                 dataPersister.persistStories(contentValueses);
+                                refreshPreferences.saveRefreshTick(type);
                             }
                         });
                     }

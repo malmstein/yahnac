@@ -77,7 +77,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     private void maybeUpdateContent() {
         DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.shouldUpdateContent()) {
+        if (dataRepository.shouldUpdateContent(getType())) {
             onRefresh();
         }
     }
