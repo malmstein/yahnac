@@ -17,7 +17,6 @@ import com.malmstein.hnews.comments.CommentFragment;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesPagerAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
-import com.malmstein.hnews.sync.HNewsSyncAdapter;
 import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.malmstein.hnews.views.toolbar.InsetAwareToolbar;
@@ -37,13 +36,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        setupSyncAdapter();
         setupCategories();
         setupTabsAndHeaders();
-    }
-
-    private void setupSyncAdapter() {
-        HNewsSyncAdapter.initializeSyncAdapter(this);
     }
 
     private void setupCategories() {

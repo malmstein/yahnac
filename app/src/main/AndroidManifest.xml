@@ -58,26 +58,6 @@
       android:exported="true"
       android:syncable="true" />
 
-    <service
-      android:name="com.malmstein.hnews.sync.HNewsSyncService"
-      android:exported="true">
-      <intent-filter>
-        <action android:name="android.content.SyncAdapter" />
-      </intent-filter>
-      <meta-data
-        android:name="android.content.SyncAdapter"
-        android:resource="@xml/syncadapter" />
-    </service>
-
-    <service android:name="com.malmstein.hnews.sync.HNewsAuthenticatorService">
-      <intent-filter>
-        <action android:name="android.accounts.AccountAuthenticator" />
-      </intent-filter>
-      <meta-data
-        android:name="android.accounts.AccountAuthenticator"
-        android:resource="@xml/authenticator" />
-    </service>
-
     <meta-data android:name="com.crashlytics.ApiKey" android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686"/>
 
   </application>

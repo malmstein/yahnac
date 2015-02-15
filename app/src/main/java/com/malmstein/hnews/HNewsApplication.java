@@ -11,7 +11,7 @@ import com.novoda.notils.logger.simple.Log;
 
 public class HNewsApplication extends Application {
 
-    private static final String LOG_TAG = "HNews";
+    private static final String LOG_TAG = "Yahnac";
 
     @Override
     public void onCreate() {
