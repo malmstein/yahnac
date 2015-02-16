@@ -54,14 +54,9 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
         setupRefreshLayout();
         setupStoriesList();
+        maybeUpdateContent();
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        maybeUpdateContent();
     }
 
     protected abstract int getFragmentLayoutId();
