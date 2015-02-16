@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
+Properties props = new Properties()
+props.load(new FileInputStream(file(rootProject.file('hnews.properties'))))
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -10,7 +13,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
 
         buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
         buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
@@ -21,11 +24,35 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    signingConfigs {
+        malmstein {
+            storeFile props['signing.storeFile']
+            storePassword props['signing.storePassword']
+            keyAlias props['signing.keyAlias']
+            keyPassword props['signing.keyPassword']
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+            minifyEnabled true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    productFlavors {
+
+        alpha {
+            signingConfig signingConfigs.malmstein
+        }
+
     }
 
     packagingOptions {
@@ -50,7 +77,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.crashlytics.android:crashlytics:1.1.11'
-
     testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.9.5"
+    testCompile 'org.mockito:mockito-core:1.9.5'
 }

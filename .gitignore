@@ -36,6 +36,7 @@ tmp/
 
 # Android
 local.properties
+hnews.properties
 
 # MAC
 *.DS_Store
