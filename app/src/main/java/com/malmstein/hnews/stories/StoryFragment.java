@@ -3,6 +3,7 @@ package com.malmstein.hnews.stories;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -53,9 +54,14 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
         setupRefreshLayout();
         setupStoriesList();
-        maybeUpdateContent();
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        maybeUpdateContent();
     }
 
     protected abstract int getFragmentLayoutId();
@@ -79,6 +85,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private void maybeUpdateContent() {
         DataRepository dataRepository = Inject.dataRepository();
         if (dataRepository.shouldUpdateContent(getType())) {
+            startRefreshing();
             onRefresh();
         }
     }
@@ -91,7 +98,6 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        maybeShowRefreshing();
         DataRepository dataRepository = Inject.dataRepository();
         subscription = dataRepository
                 .getStoriesFrom(getType())
@@ -110,7 +116,8 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
                     }
 
                     @Override
-                    public void onNext(Integer rowsAffected) {}
+                    public void onNext(Integer rowsAffected) {
+                    }
                 });
     }
 
@@ -121,10 +128,13 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
                 ", " + HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " ASC";
     }
 
-    protected void maybeShowRefreshing(){
-        if (!refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
+    protected void startRefreshing() {
+        refreshLayout.postOnAnimation(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     protected void stopRefreshing() {
