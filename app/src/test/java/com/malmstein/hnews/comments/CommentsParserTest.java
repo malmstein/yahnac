@@ -29,16 +29,16 @@ public class CommentsParserTest {
         storyCommentsParser = new CommentsParser(storyId, storyComments);
     }
 
-//    @org.junit.Test
-//    public void returnsAllStoryComments() {
-//        Vector<ContentValues> stories = storyCommentsParser.parse();
-//        assertEquals(stories.size(), 30);
-//    }
+    @org.junit.Test
+    public void returnsAllStoryComments() {
+        Vector<ContentValues> stories = storyCommentsParser.parse();
+        assertEquals(12, stories.size());
+    }
 
     @org.junit.Test
     public void returnsAllAskStoryComments() {
         Vector<ContentValues> stories = askStoryCommentsParser.parse();
-        assertEquals(stories.size(), 30);
+        assertEquals(4, stories.size());
     }
 
 }
