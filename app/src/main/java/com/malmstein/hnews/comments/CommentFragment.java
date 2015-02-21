@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
@@ -79,7 +80,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
         subscription = dataRepository
                 .getCommentsFromStory(getArgStoryId())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
+                .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
                         if (!subscription.isUnsubscribed()) {
@@ -93,7 +94,9 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
                     }
 
                     @Override
-                    public void onNext(Integer comments) {
+                    public void onNext(String comments) {
+                        String header = comments;
+                        Toast.makeText(getActivity(), header, Toast.LENGTH_LONG);
                     }
                 });
     }
