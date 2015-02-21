@@ -9,7 +9,7 @@
   <com.malmstein.hnews.views.toolbar.AppBarContainer
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:appBarLayout="@layout/include_comments_app_bar" />
+    app:appBarLayout="@layout/include_app_bar" />
 
   <FrameLayout
     android:id="@+id/comments_fragment_root"

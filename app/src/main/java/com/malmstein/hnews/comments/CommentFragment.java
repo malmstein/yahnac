@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -12,14 +11,12 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.malmstein.hnews.BuildConfig;
-import com.malmstein.hnews.HNewsActivity;
+import com.malmstein.hnews.HNewsFragment;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.DataRepository;
@@ -37,7 +34,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 
-public class CommentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public class CommentFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     public static final String TAG = "CommentsFragment";
     private static final int COMMENTS_LOADER = 0;
@@ -49,7 +46,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
-    private TextView headerTv;
     private Subscription subscription;
 
     public static CommentFragment from(Story story) {
@@ -80,7 +76,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = Views.findById(rootView, R.id.list_comments);
-        headerTv = Views.findById(((HNewsActivity) getActivity()).getAppBar(), R.id.toolbar_subtitles);
 
         setupRefreshLayout();
         setupCommentsList();
@@ -124,14 +119,11 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void showHeader(String header){
-        headerTv.setText(Html.fromHtml(header));
+//        headerTv.setText(Html.fromHtml(header));
     }
 
     private void maybeShowStoryHeader(){
-        if (!getStory().getType().equals(Story.TYPE.ask.toString())){
-            headerTv.setVisibility(View.GONE);
-            getActivity().setTitle(getTitle());
-        }
+        getActivity().setTitle(getTitle());
     }
 
     private void startRefreshing() {
