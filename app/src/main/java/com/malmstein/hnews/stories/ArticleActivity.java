@@ -2,8 +2,6 @@ package com.malmstein.hnews.stories;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
@@ -25,12 +23,6 @@ public class ArticleActivity extends HNewsActivity {
             fragmentManager.beginTransaction().add(R.id.article_fragment_root, ArticleFragment.from(storyId, title), ArticleFragment.TAG).commit();
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        NavUtils.navigateUpFromSameTask(this);
-        return true;
     }
 
     private ArticleFragment findArticleFragment() {
