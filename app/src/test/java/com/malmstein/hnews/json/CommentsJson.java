@@ -88,4 +88,6 @@ public class CommentsJson {
             "<span class=\"yclinks\"><a href=\"newsguidelines.html\">Guidelines</a> | <a href=\"newsfaq.html\">FAQ</a> | <a href=\"mailto:hn@ycombinator.com\">Support</a> | <a href=\"lists\">Lists</a> | <a href=\"bookmarklet.html\">Bookmarklet</a> | <a href=\"dmca.html\">DMCA</a> | <a href=\"http://www.ycombinator.com/\">Y Combinator</a> | <a href=\"http://www.ycombinator.com/apply/\">Apply</a> | <a href=\"mailto:hn@ycombinator.com\">Contact</a></span><br><br>\n" +
             "<form method=\"get\" action=\"//hn.algolia.com/\">Search: <input type=\"text\" name=\"q\" value=\"\" size=\"17\"></form></center></td></tr></table></center></body></html>";
 
+
+
 }

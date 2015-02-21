@@ -24,38 +24,26 @@ public class CommentsParser {
 
     public Vector<ContentValues> parse() {
         commentsList.clear();
+
         Elements tableRows = document.select("table tr table tr:has(table)");
 
 //         String currentUser = Settings.getUserName(App.getInstance());
-
-        String text = null;
-        String author = null;
-        int level = 0;
-        String timeAgo = null;
-        String url = null;
-        Boolean isDownvoted = false;
-        String upvoteUrl = null;
-        String downvoteUrl = null;
 
         boolean endParsing = false;
         for (int row = 0; row < tableRows.size(); row++) {
             Element mainRowElement = tableRows.get(row).select("td:eq(2)").first();
             Element rowLevelElement = tableRows.get(row).select("td:eq(0)").first();
-            if (mainRowElement == null)
+
+            if (mainRowElement == null) {
                 continue;
+            }
 
-            text = mainRowElement.select("span.comment > *:not(:has(font[size=1]))").html();
+            String text = parseText(mainRowElement);
+            String author = parseAuthor(mainRowElement);
+            String timeAgo = parseTimeAgo(mainRowElement);
+            int level = parseLevel(rowLevelElement);
 
-            Element comHeadElement = mainRowElement.select("span.comhead").first();
-            author = comHeadElement.select("a[href*=user]").text();
-            timeAgo = comHeadElement.select("a[href*=item").text();
-            Element urlElement = comHeadElement.select("a[href*=item]").first();
-            if (urlElement != null)
-                url = urlElement.attr("href");
-
-            String levelSpacerWidth = rowLevelElement.select("img").first().attr("width");
-            if (levelSpacerWidth != null)
-                level = Integer.parseInt(levelSpacerWidth);
+            String questionText = parseQuestion();
 
             ContentValues commentValues = new ContentValues();
 
@@ -67,29 +55,53 @@ public class CommentsParser {
 
             commentsList.add(commentValues);
 
-            if (endParsing)
+            if (endParsing) {
                 break;
-        }
-
-        Element header = document.select("body table:eq(0)  tbody > tr:eq(2) > td:eq(0) > table").get(0);
-
-        if (header.select("tr").size() > 5) {
-            String headerText = parseHeader(header);
+            }
         }
 
         return commentsList;
     }
 
-    public String parseHeader(Element doc){
-        Elements headerRows = doc.select("tr");
-
-        // Six rows means that this is just a Ask HN post or a poll with
-        // no options.  In either case, the content we want is in the fourth row
-        if (headerRows.size() == 6) {
-            return headerRows.get(3).select("td").get(1).html();
-        }
-
-        return null;
+    public String parseText(Element topRowElement) {
+        String text = topRowElement.select("span.comment > *:not(:has(font[size=1]))").html();
+        return text;
     }
 
+    public String parseAuthor(Element topRowElement) {
+        Element comHeadElement = topRowElement.select("span.comhead").first();
+        String author = comHeadElement.select("a[href*=user]").text();
+        return author;
+    }
+
+    public String parseTimeAgo(Element topRowElement) {
+        Element comHeadElement = topRowElement.select("span.comhead").first();
+        String timeAgo = comHeadElement.select("a[href*=item").text();
+        return timeAgo;
+    }
+
+    public int parseLevel(Element rowLevelElement) {
+        String levelSpacerWidth = rowLevelElement.select("img").first().attr("width");
+        int level = 0;
+        if (levelSpacerWidth != null) {
+            level = Integer.parseInt(levelSpacerWidth);
+        }
+        return level;
+    }
+
+    public String parseQuestion() {
+        Element headerElement = document.select("body table:eq(0)  tbody > tr:eq(2) > td:eq(0) > table").get(0);
+
+        if (headerElement.select("tr").size() > 5) {
+            Elements headerRows = headerElement.select("tr");
+            if (headerRows.size() == 6) {
+                String header = headerRows.get(3).select("td").get(1).html();
+                return header;
+            }
+            return "";
+        } else {
+            return "";
+        }
+    }
 }
+
