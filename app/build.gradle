@@ -24,14 +24,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    signingConfigs {
-        malmstein {
-            storeFile props['signing.storeFile']
-            storePassword props['signing.storePassword']
-            keyAlias props['signing.keyAlias']
-            keyPassword props['signing.keyPassword']
-        }
-    }
+//    signingConfigs {
+//        malmstein {
+//            storeFile props['signing.storeFile']
+//            storePassword props['signing.storePassword']
+//            keyAlias props['signing.keyAlias']
+//            keyPassword props['signing.keyPassword']
+//        }
+//    }
 
     buildTypes {
         debug {
@@ -47,13 +47,13 @@ android {
         }
     }
 
-    productFlavors {
-
-        alpha {
-            signingConfig signingConfigs.malmstein
-        }
-
-    }
+//    productFlavors {
+//
+//        alpha {
+//            signingConfig signingConfigs.malmstein
+//        }
+//
+//    }
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
