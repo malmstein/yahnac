@@ -1,10 +1,7 @@
 package com.malmstein.hnews.comments;
 
-import android.content.ContentValues;
-
 import com.malmstein.hnews.json.CommentsJson;
-
-import java.util.Vector;
+import com.malmstein.hnews.model.CommentsJsoup;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,7 +37,7 @@ public class CommentsParserTest {
 
         Elements tableRows = askStoryComments.select("table tr table tr:has(table)");
 
-        topRowElement =  tableRows.get(0).select("td:eq(0)").first();
+        topRowElement = tableRows.get(0).select("td:eq(0)").first();
         secondRowElement = tableRows.get(0).select("td:eq(0)").first();
 
         askStoryCommentsParser = new CommentsParser(storyId, askStoryComments);
@@ -49,20 +46,20 @@ public class CommentsParserTest {
 
     @org.junit.Test
     public void returnsAllStoryComments() {
-        Vector<ContentValues> stories = storyCommentsParser.parse();
-        assertEquals(12, stories.size());
+        CommentsJsoup storyComments = storyCommentsParser.parse();
+        assertEquals(12, storyComments.getCommentsList().size());
     }
 
     @org.junit.Test
     public void returnsAllAskStoryComments() {
-        Vector<ContentValues> stories = askStoryCommentsParser.parse();
-        assertEquals(4, stories.size());
+        CommentsJsoup askStoryComments = askStoryCommentsParser.parse();
+        assertEquals(4, askStoryComments.getCommentsList().size());
     }
 
     @org.junit.Test
     public void returnsCommentText() {
         String title = storyCommentsParser.parseText(topRowElement);
-        assertEquals(TITLE_SAMPLE , title);
+        assertEquals(TITLE_SAMPLE, title);
     }
 
     @org.junit.Test

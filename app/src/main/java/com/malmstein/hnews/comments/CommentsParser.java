@@ -3,6 +3,7 @@ package com.malmstein.hnews.comments;
 import android.content.ContentValues;
 
 import com.malmstein.hnews.data.HNewsContract;
+import com.malmstein.hnews.model.CommentsJsoup;
 
 import java.util.Vector;
 
@@ -15,21 +16,20 @@ public class CommentsParser {
     private final Document document;
     private final Long storyId;
 
-    static Vector<ContentValues> commentsList = new Vector<>();
+    private Vector<ContentValues> commentsList = new Vector<>();
 
     public CommentsParser(Long storyId, Document document) {
         this.storyId = storyId;
         this.document = document;
     }
 
-    public Vector<ContentValues> parse() {
+    public CommentsJsoup parse() {
         commentsList.clear();
 
         Elements tableRows = document.select("table tr table tr:has(table)");
 
-//         String currentUser = Settings.getUserName(App.getInstance());
+        String questionText = parseQuestion();
 
-        boolean endParsing = false;
         for (int row = 0; row < tableRows.size(); row++) {
             Element mainRowElement = tableRows.get(row).select("td:eq(2)").first();
             Element rowLevelElement = tableRows.get(row).select("td:eq(0)").first();
@@ -43,8 +43,6 @@ public class CommentsParser {
             String timeAgo = parseTimeAgo(mainRowElement);
             int level = parseLevel(rowLevelElement);
 
-            String questionText = parseQuestion();
-
             ContentValues commentValues = new ContentValues();
 
             commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, author);
@@ -54,13 +52,9 @@ public class CommentsParser {
             commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, timeAgo);
 
             commentsList.add(commentValues);
-
-            if (endParsing) {
-                break;
-            }
         }
 
-        return commentsList;
+        return new CommentsJsoup(questionText, commentsList);
     }
 
     public String parseText(Element topRowElement) {
