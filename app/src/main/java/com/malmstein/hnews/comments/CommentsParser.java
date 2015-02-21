@@ -6,18 +6,15 @@ import com.malmstein.hnews.data.HNewsContract;
 
 import java.util.Vector;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 public class CommentsParser {
 
-    private final Long storyId;
     private final Document document;
+    private final Long storyId;
 
-    private int level;
     static Vector<ContentValues> commentsList = new Vector<>();
 
     public CommentsParser(Long storyId, Document document) {
@@ -27,61 +24,72 @@ public class CommentsParser {
 
     public Vector<ContentValues> parse() {
         commentsList.clear();
-        Elements comments = document.select("body>center>table>tbody>tr>td>table>tbody>tr>td>table>tbody>tr");
+        Elements tableRows = document.select("table tr table tr:has(table)");
 
-        for (Element comment : comments) {
-            String submitter = comment.select("span[class=comhead]>a").get(0).text();
-            String text = comment.select("span[class=comment]").html();
-            String nested = comment.select("img[src=s.gif]").attr("width");
+//         String currentUser = Settings.getUserName(App.getInstance());
 
-            String time = comment.select("span[class=comhead]").text().replaceAll(submitter, "").replaceAll("\\|", "").replaceAll("link", "");
+        String text = null;
+        String author = null;
+        int level = 0;
+        String timeAgo = null;
+        String url = null;
+        Boolean isDownvoted = false;
+        String upvoteUrl = null;
+        String downvoteUrl = null;
 
-            //extract part between <pre> and </pre>
-            if (text.contains("<pre>")) {
-                String temp_text = text;
+        boolean endParsing = false;
+        for (int row = 0; row < tableRows.size(); row++) {
+            Element mainRowElement = tableRows.get(row).select("td:eq(2)").first();
+            Element rowLevelElement = tableRows.get(row).select("td:eq(0)").first();
+            if (mainRowElement == null)
+                continue;
 
-                while (temp_text.contains("<pre>")) {
-                    Integer pos_start = temp_text.indexOf("<pre>");
-                    Integer pos_end = temp_text.indexOf("</pre>") + 5; // 5 for length of </pre>
+            text = mainRowElement.select("span.comment > *:not(:has(font[size=1]))").html();
 
-                    String code = temp_text.substring(pos_start, pos_end);
-                    code = code.replaceAll("\\r\\n|\\r|\\n", "<br>");
-                    code = code.replaceAll("  ", "&nbsp;&nbsp;");
-                    code = code.replace("<pre>", "");
-                    code = code.replace("</pre>", "");
-                    code = code.replace("<code>", "<blockquote><tt>");
-                    code = code.replace("</code>", "</tt></blockquote>");
+            Element comHeadElement = mainRowElement.select("span.comhead").first();
+            author = comHeadElement.select("a[href*=user]").text();
+            timeAgo = comHeadElement.select("a[href*=item").text();
+            Element urlElement = comHeadElement.select("a[href*=item]").first();
+            if (urlElement != null)
+                url = urlElement.attr("href");
 
-                    temp_text = temp_text.substring(0, pos_start) + code + temp_text.substring(pos_end);
-                }
-                text = temp_text;
-            }
-
-            if (text.contains("<p>") && text.contains("reply?id=")) {
-                text = text.substring(0, text.lastIndexOf("<p>"));
-            } else {
-                text = text + "<p></p>";
-            }
-
-            text = Jsoup.clean(text, Whitelist.basic());
-
-            try{
-                level = Integer.valueOf(nested);
-            } catch (Exception e){
-                level = 0;
-            }
+            String levelSpacerWidth = rowLevelElement.select("img").first().attr("width");
+            if (levelSpacerWidth != null)
+                level = Integer.parseInt(levelSpacerWidth);
 
             ContentValues commentValues = new ContentValues();
 
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, submitter);
+            commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, author);
             commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, storyId);
             commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, text);
             commentValues.put(HNewsContract.ItemEntry.COLUMN_LEVEL, level);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, time);
+            commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, timeAgo);
 
             commentsList.add(commentValues);
+
+            if (endParsing)
+                break;
+        }
+
+        Element header = document.select("body table:eq(0)  tbody > tr:eq(2) > td:eq(0) > table").get(0);
+
+        if (header.select("tr").size() > 5) {
+            String headerText = parseHeader(header);
         }
 
         return commentsList;
     }
+
+    public String parseHeader(Element doc){
+        Elements headerRows = doc.select("tr");
+
+        // Six rows means that this is just a Ask HN post or a poll with
+        // no options.  In either case, the content we want is in the fourth row
+        if (headerRows.size() == 6) {
+            return headerRows.get(3).select("td").get(1).html();
+        }
+
+        return null;
+    }
+
 }
