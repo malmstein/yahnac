@@ -108,26 +108,31 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
     private void showOrNavigateTo(Story story) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
-        if (preferInternalBrowser) {
-            if (isTwoPaneLayout()) {
-                showInnerBrowserFragment(story);
-            } else {
-                navigate().toInnerBrowser(story);
-            }
+
+        if (story.getType().equals(Story.TYPE.ask.toString())) {
+            navigate().toComments(story);
         } else {
-           navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+            if (preferInternalBrowser) {
+                if (isTwoPaneLayout()) {
+                    showInnerBrowserFragment(story);
+                } else {
+                    navigate().toInnerBrowser(story);
+                }
+            } else {
+                navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+            }
         }
     }
 
     private void showOrNavigateToCommentsOf(Story story) {
-        if (isTwoPaneLayout()){
+        if (isTwoPaneLayout()) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.story_fragment_root,
                             CommentFragment.from(story.getId(), story.getComments()),
                             CommentFragment.TAG)
                     .commit();
-        }  else {
+        } else {
             navigate().toComments(story);
         }
     }
