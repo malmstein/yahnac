@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.malmstein.hnews.views.toolbar.HNToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/toolbar"
+  style="@style/HNews.AppBar"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:minHeight="?android:attr/actionBarSize"
+  android:background="?colorPrimary"
+  tools:showIn="@layout/activity_comments">
+
+  <TextView
+    style="@style/HNews.AppBar.Subtitle"
+    android:padding="@dimen/card_content_padding"
+    android:id="@+id/toolbar_subtitles"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:text="This is the comment Title"/>
+
+  </com.malmstein.hnews.views.toolbar.HNToolbar>

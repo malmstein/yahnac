@@ -12,12 +12,14 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malmstein.hnews.BuildConfig;
+import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.DataRepository;
@@ -47,10 +49,7 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
-    private TextView text;
-    private TextView author;
-    private TextView when;
-
+    private TextView headerTv;
     private Subscription subscription;
 
     public static CommentFragment from(Story story) {
@@ -81,12 +80,8 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = Views.findById(rootView, R.id.list_comments);
+        headerTv = Views.findById(((HNewsActivity) getActivity()).getAppBar(), R.id.toolbar_subtitles);
 
-        text = Views.findById(rootView, R.id.comment_text);
-        author = Views.findById(rootView, R.id.comment_by);
-        when = Views.findById(rootView, R.id.comment_when);
-
-        setupHeader();
         setupRefreshLayout();
         setupCommentsList();
 
@@ -97,6 +92,8 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
+
+        maybeShowStoryHeader();
         startRefreshing();
         getComments();
     }
@@ -120,11 +117,21 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
                     }
 
                     @Override
-                    public void onNext(String comments) {
-                        String header = comments;
-                        text.setText(header);
+                    public void onNext(String header) {
+                        showHeader(header);
                     }
                 });
+    }
+
+    private void showHeader(String header){
+        headerTv.setText(Html.fromHtml(header));
+    }
+
+    private void maybeShowStoryHeader(){
+        if (!getStory().getType().equals(Story.TYPE.ask.toString())){
+            headerTv.setVisibility(View.GONE);
+            getActivity().setTitle(getTitle());
+        }
     }
 
     private void startRefreshing() {
@@ -134,11 +141,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
                 refreshLayout.setRefreshing(true);
             }
         });
-    }
-
-    private void setupHeader(){
-        author.setText(getStory().getSubmitter());
-        when.setText(getStory().getTimeAgo());
     }
 
     private void setupRefreshLayout() {
@@ -178,7 +180,6 @@ public class CommentFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         commentsAdapter.swapCursor(data);
-        getActivity().setTitle(getTitle());
         stopRefreshing();
     }
 

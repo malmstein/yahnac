@@ -88,4 +88,13 @@
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
   </style>
 
+  <style name="HNews.AppBar.Subtitle" parent="None">
+    <item name="android:gravity">bottom</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textSize">@dimen/appbar_tab_title_text</item>
+    <item name="android:textStyle">@integer/font_textStyle_medium</item>
+    <item name="android:fontFamily">@string/font_fontFamily_medium</item>
+  </style>
+
+
 </resources>

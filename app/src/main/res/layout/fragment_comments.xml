@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
+
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
@@ -10,24 +10,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+      style="@style/HNews.List"
+      android:id="@+id/list_comments"
+      android:padding="@dimen/list_padding"
+      android:dividerHeight="@dimen/comments_padding"
+      android:divider="@color/app_background"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
-
-      <include layout="@layout/view_comment" />
-
-      <android.support.v7.widget.RecyclerView
-        style="@style/HNews.List"
-        android:id="@+id/list_comments"
-        android:padding="@dimen/list_padding"
-        android:dividerHeight="@dimen/comments_padding"
-        android:divider="@color/app_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    </LinearLayout>
-
+      android:layout_height="match_parent" />
 
   </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
 

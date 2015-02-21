@@ -52,7 +52,7 @@ public class HNewsActivity extends ActionBarActivity {
         findAndSetAppBarIfAny();
     }
 
-    protected HNToolbar getAppBar() {
+    public HNToolbar getAppBar() {
         return appBar;
     }
 
