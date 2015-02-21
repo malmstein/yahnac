@@ -129,7 +129,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.story_fragment_root,
-                            CommentFragment.from(story.getId(), story.getComments()),
+                            CommentFragment.from(story),
                             CommentFragment.TAG)
                     .commit();
         } else {

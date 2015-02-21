@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
+import com.malmstein.hnews.model.Story;
 
 public class CommentsActivity extends HNewsActivity {
 
@@ -15,10 +16,9 @@ public class CommentsActivity extends HNewsActivity {
         setupSubActivityWithTitle();
 
         if (findCommentsFragment() == null) {
-            Long storyId = getIntent().getExtras().getLong(CommentFragment.ARG_STORY_ID);
-            int comments = getIntent().getExtras().getInt(CommentFragment.ARG_STORY_COMMENTS);
+            Story story = (Story) getIntent().getExtras().getSerializable(CommentFragment.ARG_STORY);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentFragment.from(storyId, comments), CommentFragment.TAG).commit();
+            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentFragment.from(story), CommentFragment.TAG).commit();
         }
     }
 
