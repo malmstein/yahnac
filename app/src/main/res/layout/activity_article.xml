@@ -7,9 +7,10 @@
   tools:context=".ArticleActivity">
 
   <com.malmstein.hnews.views.toolbar.AppBarContainer
+    style="@style/HNews.AppBar.NewsContainer"
+    android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:appBarLayout="@layout/include_app_bar" />
+    android:layout_height="wrap_content"/>
 
   <FrameLayout
     android:id="@+id/article_fragment_root"
