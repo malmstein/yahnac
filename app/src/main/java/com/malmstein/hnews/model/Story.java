@@ -108,16 +108,16 @@ public class Story implements Serializable {
     }
 
     public boolean isHackerNewsLocalItem(){
-        boolean isPollOrAsk = false;
+        boolean isLocalItem = false;
         if (getType().equals(TYPE.ask)){
-            isPollOrAsk = true;
+            isLocalItem = true;
         }
 
         if (url.startsWith(ASK_URL_BASE)){
-            isPollOrAsk = true;
+            isLocalItem = true;
         }
 
-        return isPollOrAsk;
+        return isLocalItem;
     }
 
     public static Story from(Cursor cursor) {
