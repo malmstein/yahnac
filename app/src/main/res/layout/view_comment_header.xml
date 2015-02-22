@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.malmstein.hnews.views.CommentTextView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/comment_header_text"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingTop="@dimen/default_padding"
+  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+  android:textColor="@color/black"
+  tools:text="This is a comment" />
