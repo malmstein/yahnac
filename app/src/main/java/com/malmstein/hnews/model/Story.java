@@ -11,6 +11,7 @@ public class Story implements Serializable {
 
     public static String COMMENT_URL_BASE = "https://news.ycombinator.com/item?id=";
     public static String NEXT_URL_BASE = "https://news.ycombinator.com/";
+    public static String ASK_URL_BASE = "item?id=";
 
     public enum TYPE {
         top_story,
@@ -104,6 +105,19 @@ public class Story implements Serializable {
 
     public String getCommentsUrl() {
         return COMMENT_URL_BASE + getId();
+    }
+
+    public boolean isHackerNewsLocalItem(){
+        boolean isPollOrAsk = false;
+        if (getType().equals(TYPE.ask)){
+            isPollOrAsk = true;
+        }
+
+        if (url.startsWith(ASK_URL_BASE)){
+            isPollOrAsk = true;
+        }
+
+        return isPollOrAsk;
     }
 
     public static Story from(Cursor cursor) {

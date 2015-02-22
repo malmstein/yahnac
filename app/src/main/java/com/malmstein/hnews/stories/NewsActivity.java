@@ -98,7 +98,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
 
-        if (story.getType().equals(Story.TYPE.ask.toString())) {
+        if (story.isHackerNewsLocalItem()) {
             navigate().toComments(story);
         } else {
             if (preferInternalBrowser) {
