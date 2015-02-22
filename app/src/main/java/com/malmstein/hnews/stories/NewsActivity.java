@@ -49,6 +49,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     private void setupTabsAndHeaders() {
         appBarContainer = Views.findById(this, R.id.app_bar_container);
         appBarContainer.setAppBar(getAppBar());
+        setTitle(getString(R.string.title_app));
 
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
 

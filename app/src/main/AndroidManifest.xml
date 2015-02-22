@@ -11,11 +11,11 @@
     android:allowBackup="true"
     android:name="com.malmstein.hnews.HNewsApplication"
     android:icon="@mipmap/ic_launcher"
-    android:label="@string/title_app"
+    android:label="@string/title_launcher"
     android:theme="@style/Theme.HNews">
     <activity
       android:name=".stories.NewsActivity"
-      android:label="@string/title_app"
+      android:label="@string/title_launcher"
       android:theme="@style/Theme.HNews.Feed">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
