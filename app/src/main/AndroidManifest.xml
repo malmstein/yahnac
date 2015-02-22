@@ -52,6 +52,11 @@
         android:value=".stories.NewsActivity" />
     </activity>
 
+    <activity
+      android:name="com.malmstein.hnews.settings.SoftwareLicensesActivity"
+      android:label="@string/activity_software_licenses_label"
+      android:parentActivityName="com.malmstein.hnews.settings.SettingsActivity"/>
+
     <provider
       android:authorities="com.malmstein.hnews"
       android:name="com.malmstein.hnews.data.HNewsProvider"

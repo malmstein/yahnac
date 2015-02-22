@@ -15,6 +15,10 @@ android {
         versionCode 1
         versionName "0.1"
 
+        Calendar instance = Calendar.getInstance()
+        instance.setTimeInMillis(System.currentTimeMillis())
+
+        buildConfigField "String", "BUILD_TIME_FORMATTED", "\"${instance.getTime()}\""
         buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
         buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
     }
@@ -72,9 +76,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.squareup.okhttp:okhttp:1.5.4'
     compile 'com.novoda:notils:2.2.8'
-    compile 'com.google.code.gson:gson:2.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.crashlytics.android:crashlytics:1.1.11'
     testCompile 'junit:junit:4.12'

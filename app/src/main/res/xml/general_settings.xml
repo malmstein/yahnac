@@ -1,10 +1,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <PreferenceCategory
+    android:key="@string/settings_category_key_general"
+    android:title="@string/settings_category_title_general">
+
   <SwitchPreference
     android:title="@string/pref_enable_browser"
     android:key="@string/pref_enable_browser_key"
     android:summaryOn="@string/pref_enable_internal_browser"
     android:summaryOff="@string/pref_enable_external_browser"
     android:defaultValue="false" />
+
+  </PreferenceCategory>
 
 </PreferenceScreen>
