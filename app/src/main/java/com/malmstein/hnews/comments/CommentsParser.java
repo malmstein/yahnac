@@ -3,7 +3,6 @@ package com.malmstein.hnews.comments;
 import android.content.ContentValues;
 
 import com.malmstein.hnews.data.HNewsContract;
-import com.malmstein.hnews.model.CommentsJsoup;
 
 import java.util.Vector;
 
@@ -23,12 +22,12 @@ public class CommentsParser {
         this.document = document;
     }
 
-    public CommentsJsoup parse() {
+    public Vector<ContentValues> parse() {
         commentsList.clear();
 
         Elements tableRows = document.select("table tr table tr:has(table)");
 
-        String questionText = parseQuestion();
+        storesQuestion();
 
         for (int row = 0; row < tableRows.size(); row++) {
             Element mainRowElement = tableRows.get(row).select("td:eq(2)").first();
@@ -54,7 +53,7 @@ public class CommentsParser {
             commentsList.add(commentValues);
         }
 
-        return new CommentsJsoup(questionText, commentsList);
+        return commentsList;
     }
 
     public String parseText(Element topRowElement) {
@@ -83,18 +82,23 @@ public class CommentsParser {
         return level;
     }
 
-    public String parseQuestion() {
+    public void storesQuestion() {
         Element headerElement = document.select("body table:eq(0)  tbody > tr:eq(2) > td:eq(0) > table").get(0);
 
         if (headerElement.select("tr").size() > 5) {
             Elements headerRows = headerElement.select("tr");
             if (headerRows.size() == 6) {
                 String header = headerRows.get(3).select("td").get(1).html();
-                return header;
+
+                ContentValues commentValues = new ContentValues();
+
+                commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, storyId);
+                commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, header);
+                commentValues.put(HNewsContract.ItemEntry.COLUMN_HEADER, HNewsContract.TRUE_BOOLEAN);
+
+                commentsList.add(commentValues);
+
             }
-            return "";
-        } else {
-            return "";
         }
     }
 }

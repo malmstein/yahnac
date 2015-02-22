@@ -24,8 +24,8 @@ public class CommentsAdapter extends CursorRecyclerAdapter<CommentsAdapter.ViewH
         Comment comment = Comment.from(cursor);
         holder.text.setText(Html.fromHtml(comment.getText()));
         holder.text.setMovementMethod(LinkMovementMethod.getInstance());
-        holder.author.setText(Html.fromHtml(comment.getBy()));
-        holder.when.setText(Html.fromHtml(comment.getTimeText()));
+        holder.author.setText(comment.getBy());
+        holder.when.setText(comment.getTimeText());
         holder.root.setPadding(comment.getLevel(), 0, 0, 0);
     }
 

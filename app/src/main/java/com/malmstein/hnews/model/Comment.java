@@ -12,14 +12,16 @@ public class Comment {
     private final int level;
     private final String text;
     private final String timeText;
+    private final boolean isHeader;
 
-    public Comment(Long internalId, String by, Long id, int level, String text, String timeText) {
+    public Comment(Long internalId, String by, Long id, int level, String text, String timeText, boolean isHeader) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
         this.level = level;
         this.text = text;
         this.timeText = timeText;
+        this.isHeader = isHeader;
     }
 
     public String getText() {
@@ -38,8 +40,9 @@ public class Comment {
         int level = cursor.getInt(HNewsContract.COLUMN_LEVEL);
         String text = cursor.getString(HNewsContract.COLUMN_TEXT);
         String timeText = cursor.getString(HNewsContract.COLUMN_TIME_TEXT);
+        boolean isHeader = cursor.getInt(HNewsContract.COLUMN_HEADER) == HNewsContract.TRUE_BOOLEAN;
 
-        return new Comment(internalId, by, id, level, text, timeText);
+        return new Comment(internalId, by, id, level, text, timeText, isHeader);
     }
 
     public String getTimeText() {
@@ -56,5 +59,9 @@ public class Comment {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isHeader() {
+        return isHeader;
     }
 }

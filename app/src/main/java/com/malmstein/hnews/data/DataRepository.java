@@ -2,7 +2,6 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.hnews.model.CommentsJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.updater.RefreshSharedPreferences;
 import com.malmstein.hnews.updater.RefreshTimestamp;
@@ -57,20 +56,19 @@ public class DataRepository {
                 });
     }
 
-    public Observable<String> getCommentsFromStory(Long storyId) {
+    public Observable<Integer> getCommentsFromStory(Long storyId) {
         return refreshComments(storyId);
     }
 
-    private Observable<String> refreshComments(final Long storyId) {
+    private Observable<Integer> refreshComments(final Long storyId) {
         return api.getCommentsFromStory(storyId)
-                .flatMap(new Func1<CommentsJsoup, Observable<String>>() {
+                .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
                     @Override
-                    public Observable<String> call(final CommentsJsoup commentsJsoup) {
-                        return Observable.create(new Observable.OnSubscribe<String>() {
+                    public Observable<Integer> call(final Vector<ContentValues> commentsJsoup) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
-                            public void call(Subscriber<? super String> subscriber) {
-                                dataPersister.persistComments(commentsJsoup.getCommentsList(), storyId);
-                                subscriber.onNext(commentsJsoup.getTitle());
+                            public void call(Subscriber<? super Integer> subscriber) {
+                                subscriber.onNext(dataPersister.persistComments(commentsJsoup, storyId));
                                 subscriber.onCompleted();
                             }
                         });

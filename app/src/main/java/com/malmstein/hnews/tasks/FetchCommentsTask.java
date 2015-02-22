@@ -1,9 +1,11 @@
 package com.malmstein.hnews.tasks;
 
+import android.content.ContentValues;
+
 import com.malmstein.hnews.comments.CommentsParser;
-import com.malmstein.hnews.model.CommentsJsoup;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -29,8 +31,8 @@ public class FetchCommentsTask {
         this.storyId = storyId;
     }
 
-    public CommentsJsoup execute() throws IOException {
-        CommentsJsoup commentJsoup = new CommentsJsoup();
+    public Vector<ContentValues> execute() throws IOException {
+        Vector<ContentValues> commentsList = new Vector<>();
 
         HttpParams httpParameters = new BasicHttpParams();
 
@@ -49,9 +51,9 @@ public class FetchCommentsTask {
 
             Document doc = Jsoup.parse(result);
 
-            commentJsoup = new CommentsParser(storyId, doc).parse();
+            commentsList = new CommentsParser(storyId, doc).parse();
         }
-        return commentJsoup;
+        return commentsList;
     }
 
     protected int getConnectionTimeout() {

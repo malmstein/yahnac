@@ -19,14 +19,14 @@ public class DataPersister {
         return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);
     }
 
-    public void persistComments(Vector<ContentValues> commentsVector, Long storyId) {
+    public int persistComments(Vector<ContentValues> commentsVector, Long storyId) {
         contentResolver.delete(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI,
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{storyId.toString()});
 
         ContentValues[] cvArray = new ContentValues[commentsVector.size()];
         commentsVector.toArray(cvArray);
-        contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
+        return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
     }
 
 

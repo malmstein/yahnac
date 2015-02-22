@@ -2,7 +2,6 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.hnews.model.CommentsJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.tasks.FetchCommentsTask;
 import com.malmstein.hnews.tasks.FetchStoriesTask;
@@ -57,37 +56,37 @@ public class HNewsApi {
 
     }
 
-    Observable<CommentsJsoup> getCommentsFromStory(Long storyId) {
+    Observable<Vector<ContentValues>> getCommentsFromStory(Long storyId) {
         return Observable.create(
                 new CommentsUpdateOnSubscribe(storyId))
                 .subscribeOn(Schedulers.io());
     }
 
-    private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<CommentsJsoup> {
+    private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
 
         private final Long storyId;
-        private Subscriber<? super CommentsJsoup> subscriber;
+        private Subscriber<? super Vector<ContentValues>> subscriber;
 
         private CommentsUpdateOnSubscribe(Long storyId) {
             this.storyId = storyId;
         }
 
         @Override
-        public void call(Subscriber<? super CommentsJsoup> subscriber) {
+        public void call(Subscriber<? super Vector<ContentValues>> subscriber) {
             this.subscriber = subscriber;
             startFetchingComments();
             subscriber.onCompleted();
         }
 
         private void startFetchingComments() {
-            CommentsJsoup commentsJsoup = new CommentsJsoup();
+            Vector<ContentValues> commentsList = new Vector<>();
             try {
-                commentsJsoup = new FetchCommentsTask(storyId).execute();
+                commentsList = new FetchCommentsTask(storyId).execute();
             } catch (IOException e) {
                 subscriber.onError(e);
             }
 
-            subscriber.onNext(commentsJsoup);
+            subscriber.onNext(commentsList);
         }
 
     }

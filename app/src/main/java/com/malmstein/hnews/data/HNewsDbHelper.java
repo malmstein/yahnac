@@ -37,7 +37,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_LEVEL + " INTEGER," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIME_AGO + " TEXT" +
+                HNewsContract.ItemEntry.COLUMN_TIME_AGO + " TEXT," +
+                HNewsContract.ItemEntry.COLUMN_HEADER + " BOOLEAN" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);

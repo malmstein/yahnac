@@ -98,7 +98,7 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
         subscription = dataRepository
                 .getCommentsFromStory(getStory().getId())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<Integer>() {
                     @Override
                     public void onCompleted() {
                         if (!subscription.isUnsubscribed()) {
@@ -112,8 +112,8 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
                     }
 
                     @Override
-                    public void onNext(String header) {
-                        showHeader(header);
+                    public void onNext(Integer header) {
+
                     }
                 });
     }

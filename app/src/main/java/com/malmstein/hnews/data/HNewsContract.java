@@ -12,6 +12,9 @@ public class HNewsContract {
     public static final String PATH_ITEM = "item";
     public static final String PATH_COMMENT = "comment";
 
+    public static final int FALSE_BOOLEAN = 0;
+    public static final int TRUE_BOOLEAN = 1;
+
     public static final String[] STORY_COLUMNS = {
             ItemEntry._ID,
             ItemEntry.COLUMN_ITEM_ID,
@@ -34,6 +37,7 @@ public class HNewsContract {
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_TEXT,
             ItemEntry.COLUMN_TIME_AGO,
+            ItemEntry.COLUMN_HEADER,
     };
 
     public static final int COLUMN_ID = 0;
@@ -52,6 +56,7 @@ public class HNewsContract {
     public static final int COLUMN_LEVEL = 2;
     public static final int COLUMN_TEXT = 4;
     public static final int COLUMN_TIME_TEXT = 5;
+    public static final int COLUMN_HEADER = 6;
 
     public static final class ItemEntry implements BaseColumns {
 
@@ -78,6 +83,7 @@ public class HNewsContract {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_DOMAIN = "domain";
+        public static final String COLUMN_HEADER = "header";
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
