@@ -12,6 +12,9 @@
   <dimen name="list_divider">4dp</dimen>
   <dimen name="comments_padding">4dp</dimen>
 
+  <dimen name="feed_padding_left">8dp</dimen>
+  <dimen name="feed_padding_right">8dp</dimen>
+
   <dimen name="feed_padding_infra_spans">@dimen/feed_padding_left</dimen>
   <dimen name="feed_divider_height">5dp</dimen>
   <dimen name="feed_item_article_footer_divider_height">1dp</dimen>
@@ -27,5 +30,6 @@
   <dimen name="empty_view_text">18sp</dimen>
 
   <dimen name="app_bar_shadow_height">4dp</dimen>
+  <dimen name="app_bar_shadow_no_height">0dp</dimen>
   <dimen name="toolbar_elevation">6dp</dimen>
 </resources>

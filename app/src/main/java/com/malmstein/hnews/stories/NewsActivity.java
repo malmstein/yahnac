@@ -21,7 +21,7 @@ import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener, AppBarContainer.Listener {
+public class NewsActivity extends HNewsActivity implements StoryListener {
 
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
 
@@ -47,7 +47,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener, AppBar
     }
 
     private void setupTabsAndHeaders() {
-        getAppBarContainer().setListener(this);
         appBarContainer = Views.findById(this, R.id.app_bar_container);
         appBarContainer.setAppBar(getAppBar());
 
@@ -133,11 +132,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener, AppBar
                         ArticleFragment.from(story.getId(), story.getTitle()),
                         CommentsFragment.TAG)
                 .commit();
-    }
-
-    @Override
-    public void onTopInsetChanged(int topInset) {
-
     }
 
     private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {

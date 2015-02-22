@@ -10,7 +10,6 @@
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:appBarShadowHeight="0dp"
     android:elevation="@dimen/toolbar_elevation"
     app:appBarLayout="@layout/include_transparent_app_bar">
 

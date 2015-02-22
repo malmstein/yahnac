@@ -48,14 +48,15 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AppBarContainer);
         if (a != null) {
             try {
+                includeInsetInHideableHeight = a.getBoolean(R.styleable.AppBarContainer_includeInsetInHideableHeight, false);
                 int appBarColor = a.getColor(R.styleable.AppBarContainer_appBarColor, getResources().getColor(R.color.orange));
                 int shadowHeight = a.getDimensionPixelSize(R.styleable.AppBarContainer_appBarShadowHeight, getResources().getDimensionPixelSize(R.dimen.app_bar_shadow_height));
+
                 shadowHeightPx = shadowHeight;
                 initBackground(appBarColor, shadowHeight);
 
                 int appBarLayoutId = a.getResourceId(R.styleable.AppBarContainer_appBarLayout, R.layout.include_app_bar);
                 initAppBar(appBarLayoutId);
-                includeInsetInHideableHeight = a.getBoolean(R.styleable.AppBarContainer_includeInsetInHideableHeight, false);
             } finally {
                 a.recycle();
             }
