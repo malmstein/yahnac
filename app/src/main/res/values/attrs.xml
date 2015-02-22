@@ -6,6 +6,7 @@
     <attr name="appBarShadowHeight" format="dimension" />
     <attr name="appBarColor" format="color"/>
     <attr name="appBarLayout" format="reference"/>
+    <attr name="includeInsetInHideableHeight" format="boolean" />
   </declare-styleable>
 
   <declare-styleable name="FooterWithTopDividerLayout">

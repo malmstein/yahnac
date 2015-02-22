@@ -24,7 +24,6 @@ import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
-import com.malmstein.hnews.views.StoryHeaderView;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
 
@@ -35,7 +34,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import static com.malmstein.hnews.data.HNewsContract.COMMENT_COLUMNS;
 import static com.malmstein.hnews.data.HNewsContract.ItemEntry;
 
-public class CommentFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public class CommentsFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     public static final String TAG = "CommentsFragment";
     private static final int COMMENTS_LOADER = 0;
@@ -47,14 +46,12 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
     private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
-    private StoryHeaderView storyHeaderView;
-
     private Subscription subscription;
 
-    public static CommentFragment from(Story story) {
+    public static CommentsFragment from(Story story) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_STORY, story);
-        CommentFragment fragment = new CommentFragment();
+        CommentsFragment fragment = new CommentsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,19 +64,12 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
         }
     }
 
-    private String getTitle() {
-        return getResources().getQuantityString(R.plurals.story_comments,
-                getStory().getComments(),
-                getStory().getComments());
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = Views.findById(rootView, R.id.list_comments);
-        storyHeaderView = Views.findById(rootView, R.id.story_header_view);
 
         setupRefreshLayout();
         setupCommentsList();
@@ -92,7 +82,6 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
-        setupStoryHeader();
         startRefreshing();
         getComments();
     }
@@ -120,11 +109,6 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
 
                     }
                 });
-    }
-
-    private void setupStoryHeader(){
-        getActivity().setTitle(getTitle());
-        storyHeaderView.updateWith(getStory());
     }
 
     private void startRefreshing() {

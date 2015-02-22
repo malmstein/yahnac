@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
 
-import com.malmstein.hnews.comments.CommentFragment;
+import com.malmstein.hnews.comments.CommentsFragment;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.ArticleActivity;
@@ -36,7 +36,7 @@ public class Navigator {
 
     public void toComments(Story story) {
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
-        commentIntent.putExtra(CommentFragment.ARG_STORY, story);
+        commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
 
         ActivityCompat.startActivity(activity, commentIntent, null);
     }

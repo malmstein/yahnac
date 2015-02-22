@@ -13,16 +13,15 @@ import android.view.View;
 
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.R;
-import com.malmstein.hnews.comments.CommentFragment;
+import com.malmstein.hnews.comments.CommentsFragment;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesPagerAdapter;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.hnews.views.toolbar.AppBarContainer;
-import com.malmstein.hnews.views.toolbar.InsetAwareToolbar;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener, InsetAwareToolbar.Listener {
+public class NewsActivity extends HNewsActivity implements StoryListener, AppBarContainer.Listener {
 
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
 
@@ -48,7 +47,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
     }
 
     private void setupTabsAndHeaders() {
-        getAppBar().setListener(this);
+        getAppBarContainer().setListener(this);
         appBarContainer = Views.findById(this, R.id.app_bar_container);
         appBarContainer.setAppBar(getAppBar());
 
@@ -95,16 +94,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
         return findViewById(R.id.story_fragment_root) != null;
     }
 
-    @Override
-    public void onTopInsetChanged(int topInset) {
-        View target = findViewById(R.id.feed_main_content);
-        target.setPadding(
-                target.getPaddingLeft(),
-                topInset,
-                target.getPaddingRight(),
-                target.getPaddingBottom());
-    }
-
     private void showOrNavigateTo(Story story) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
@@ -129,8 +118,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.story_fragment_root,
-                            CommentFragment.from(story),
-                            CommentFragment.TAG)
+                            CommentsFragment.from(story),
+                            CommentsFragment.TAG)
                     .commit();
         } else {
             navigate().toComments(story);
@@ -142,8 +131,13 @@ public class NewsActivity extends HNewsActivity implements StoryListener, InsetA
         fragmentManager.beginTransaction()
                 .replace(R.id.story_fragment_root,
                         ArticleFragment.from(story.getId(), story.getTitle()),
-                        CommentFragment.TAG)
+                        CommentsFragment.TAG)
                 .commit();
+    }
+
+    @Override
+    public void onTopInsetChanged(int topInset) {
+
     }
 
     private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {

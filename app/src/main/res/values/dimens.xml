@@ -1,5 +1,4 @@
 <resources>
-  <!-- Default screen margins, per the Android Design guidelines. -->
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
 
@@ -20,7 +19,7 @@
 
   <dimen name="feed_refresh_top_padding">64dp</dimen>
 
-  <dimen name="appbar_tab_left_padding">60dp</dimen>
+  <dimen name="appbar_tab_left_padding">4dp</dimen>
   <dimen name="appbar_tab_title_text">14sp</dimen>
   <dimen name="appbar_tab_indicator_horizontal_padding">12dp</dimen>
   <dimen name="appbar_tab_indicator_height">48dp</dimen>
@@ -28,4 +27,5 @@
   <dimen name="empty_view_text">18sp</dimen>
 
   <dimen name="app_bar_shadow_height">4dp</dimen>
+  <dimen name="toolbar_elevation">6dp</dimen>
 </resources>

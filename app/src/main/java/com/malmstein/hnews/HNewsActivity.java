@@ -11,11 +11,13 @@ import com.malmstein.hnews.base.ColorTweaker;
 import com.malmstein.hnews.base.LollipopUiConfiguration;
 import com.malmstein.hnews.base.LollipopUiHelper;
 import com.malmstein.hnews.base.Navigator;
+import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.malmstein.hnews.views.toolbar.HNToolbar;
 import com.novoda.notils.caster.Views;
 
 public class HNewsActivity extends ActionBarActivity {
 
+    private AppBarContainer appBarContainer;
     private HNToolbar appBar;
 
     private ColorTweaker colorTweaker;
@@ -55,6 +57,10 @@ public class HNewsActivity extends ActionBarActivity {
         return appBar;
     }
 
+    protected AppBarContainer getAppBarContainer() {
+        return appBarContainer;
+    }
+
     private void findAndSetAppBarIfAny() {
         Toolbar toolbar = Views.findById(this, R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +72,8 @@ public class HNewsActivity extends ActionBarActivity {
             super.setSupportActionBar(toolbar);
         }
         this.appBar = (HNToolbar) toolbar;
+        appBarContainer = Views.findById(this, R.id.app_bar_container);
+        appBarContainer.setAppBar(appBar);
     }
 
     protected LollipopUiConfiguration getLollipopUiConfiguration() {

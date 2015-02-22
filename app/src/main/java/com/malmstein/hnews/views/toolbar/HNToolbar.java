@@ -1,13 +1,14 @@
 package com.malmstein.hnews.views.toolbar;
 
 import android.content.Context;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.malmstein.hnews.views.quickreturn.AbstractUiShowHideAnimator;
 import com.malmstein.hnews.views.quickreturn.TranslateUiShowHideAnimator;
 
-public class HNToolbar extends InsetAwareToolbar {
+public class HNToolbar extends Toolbar {
 
     private boolean showing;
     private TranslateUiShowHideAnimator showHideAnimator;
