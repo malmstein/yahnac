@@ -210,10 +210,10 @@ public class HNewsProvider extends ContentProvider {
 
             case STORY:
 
-//                final String updateRows = "UPDATE " + HNewsContract.ItemEntry.TABLE_ITEM_NAME +
-//                        " SET " + HNewsContract.ItemEntry.COLUMN_RANK +
-//                        " = 1000";
-//                db.execSQL(updateRows);
+                final String updateRows = "UPDATE " + HNewsContract.ItemEntry.TABLE_ITEM_NAME +
+                        " SET " + HNewsContract.ItemEntry.COLUMN_RANK +
+                        " = 1000";
+                db.execSQL(updateRows);
 
                 db.beginTransaction();
                 returnCount = 0;
