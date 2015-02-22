@@ -12,10 +12,19 @@
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:orientation="vertical">
 
+  <com.malmstein.hnews.views.CommentTextView
+    android:id="@+id/story_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+    android:textColor="@color/white"
+    tools:text="This is the title of a story or the question of an ASK post" />
+
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/card_content_padding">
 
     <TextView
       android:id="@+id/story_by"
@@ -35,15 +44,6 @@
       tools:text="2 hours ago" />
 
   </LinearLayout>
-
-  <com.malmstein.hnews.views.CommentTextView
-    android:id="@+id/story_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/card_content_padding"
-    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-    android:textColor="@color/white"
-    tools:text="This is the title of a story or the question of an ASK post" />
 
 </LinearLayout>
 

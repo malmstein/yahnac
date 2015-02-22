@@ -46,7 +46,7 @@ public class StoryHeaderView extends LinearLayout {
 
     public void updateWith(Story story){
         text.setText(Html.fromHtml(story.getTitle()));
-        author.setText(story.getSubmitter());
+        author.setText(getResources().getString(R.string.story_by, story.getSubmitter()));
         when.setText(story.getTimeAgo());
     }
 }
