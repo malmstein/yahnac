@@ -1,6 +1,5 @@
 package com.malmstein.hnews;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
@@ -59,10 +58,6 @@ public class HNewsActivity extends ActionBarActivity {
     private void findAndSetAppBarIfAny() {
         Toolbar toolbar = Views.findById(this, R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Resources resources = getResources();
-        setAppBarColor(getDefaultAppBarColor(resources));
-        setStatusBarColorMaybe(getDefaultStatusBarColor(resources));
     }
 
     @Override
@@ -71,24 +66,6 @@ public class HNewsActivity extends ActionBarActivity {
             super.setSupportActionBar(toolbar);
         }
         this.appBar = (HNToolbar) toolbar;
-    }
-
-    protected void setAppBarColor(int color) {
-        if (appBar != null) {
-            appBar.setBackgroundColor(color);
-        }
-    }
-
-    protected int getDefaultAppBarColor(Resources resources) {
-        return resources.getColor(R.color.orange);
-    }
-
-    protected void setStatusBarColorMaybe(int color) {
-        lollipopUiHelper.setStatusBarColorMaybe(color);
-    }
-
-    protected int getDefaultStatusBarColor(Resources resources) {
-        return resources.getColor(R.color.dark_orange);
     }
 
     protected LollipopUiConfiguration getLollipopUiConfiguration() {

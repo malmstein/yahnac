@@ -6,10 +6,12 @@
   android:orientation="vertical"
   tools:context=".CommentsActivity">
 
-  <com.malmstein.hnews.views.toolbar.AppBarContainer
+  <com.malmstein.hnews.views.toolbar.HNToolbar
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:appBarLayout="@layout/include_app_bar" />
+    app:theme="@style/HNews.Toolbar.Overlay"
+    tools:showIn="@layout/activity_comments" />
 
   <FrameLayout
     android:id="@+id/comments_fragment_root"

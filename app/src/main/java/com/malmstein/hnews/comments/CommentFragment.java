@@ -24,6 +24,7 @@ import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
+import com.malmstein.hnews.views.StoryHeaderView;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
 
@@ -45,6 +46,8 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
     private RecyclerView commentsListView;
     private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
+
+    private StoryHeaderView storyHeaderView;
 
     private Subscription subscription;
 
@@ -76,6 +79,7 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         commentsListView = Views.findById(rootView, R.id.list_comments);
+        storyHeaderView = Views.findById(rootView, R.id.story_header_view);
 
         setupRefreshLayout();
         setupCommentsList();
@@ -88,7 +92,7 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
-        maybeShowStoryHeader();
+        setupStoryHeader();
         startRefreshing();
         getComments();
     }
@@ -118,12 +122,9 @@ public class CommentFragment extends HNewsFragment implements LoaderManager.Load
                 });
     }
 
-    private void showHeader(String header){
-//        headerTv.setText(Html.fromHtml(header));
-    }
-
-    private void maybeShowStoryHeader(){
+    private void setupStoryHeader(){
         getActivity().setTitle(getTitle());
+        storyHeaderView.updateWith(getStory());
     }
 
     private void startRefreshing() {
