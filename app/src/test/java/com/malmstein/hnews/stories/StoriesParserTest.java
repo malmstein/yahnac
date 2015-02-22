@@ -24,6 +24,7 @@ public class StoriesParserTest {
     private static final String NEWS_STORY_TIME_AGO = "0 minutes ago";
     private static final int NEWS_STORY_COMMENTS = 0;
     private static final int NEWS_STORY_ID = 9050291;
+    private static final int NEWS_STORY_RANK = 2;
 
     private static final String JOBS_STORY_TITLE = "Aptible (YC S14) Is Hiring Devops Platform Engineers";
     private static final String JOBS_STORY_DOMAIN = "(lever.co)";
@@ -170,5 +171,17 @@ public class StoriesParserTest {
     public void returnNextPageUrl() {
         String nextPageUrl = storiesNewsParser.parseNextPageUrl();
         assertEquals(NEXT_PAGE_SAMPLE, nextPageUrl);
+    }
+
+    @org.junit.Test
+    public void returnStoryRank() {
+        int rank = storiesNewsParser.parseRank(newsFirstLine);
+        assertEquals(NEWS_STORY_RANK, rank);
+    }
+
+    @org.junit.Test
+    public void returnJobsItemRank() {
+        int rank = storiesJobsParser.parseRank(newsFirstLine);
+        assertEquals(NEWS_STORY_RANK, rank);
     }
 }

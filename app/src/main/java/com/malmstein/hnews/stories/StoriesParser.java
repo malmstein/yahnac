@@ -14,16 +14,15 @@ import org.jsoup.select.Elements;
 
 public class StoriesParser {
 
-    private final Document document;
+    private Document document;
     static Vector<ContentValues> storiesList = new Vector<>();
 
     public StoriesParser(Document document) {
         this.document = document;
+        storiesList.clear();
     }
 
     public StoriesJsoup parse(Story.TYPE type) {
-        storiesList.clear();
-
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");
         Elements subtext = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=subtext])");
 
@@ -39,6 +38,7 @@ public class StoriesParser {
             String ago = parseAgo(st);
             int comments = parseComments(st);
             int item_id = parseItemId(st);
+            int rank = parseRank(titles.get(i));
 
 //            String upvote_i = titles.get(i).select("td>center>a[href^=vote]").attr("href");
 
@@ -55,7 +55,7 @@ public class StoriesParser {
             storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, url);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, points);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_RANK, i);
+            storyValues.put(HNewsContract.ItemEntry.COLUMN_RANK, rank);
             storyValues.put(HNewsContract.ItemEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
 
             storiesList.add(storyValues);
@@ -146,5 +146,11 @@ public class StoriesParser {
         String nextUrl = document.select(".title:not(span[class=comhead])>a[href]:contains(more)").last().attr("href");
         nextUrl = Story.NEXT_URL_BASE + nextUrl;
         return nextUrl;
+    }
+
+    public int parseRank(Element newsFirstLine) {
+        String rankString = newsFirstLine.select("span.rank").text();
+        int rank = Integer.valueOf(rankString.replace(".", ""));
+        return rank;
     }
 }

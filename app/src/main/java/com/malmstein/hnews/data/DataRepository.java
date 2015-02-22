@@ -36,20 +36,21 @@ public class DataRepository {
         return elapsedTime > maxMillisWithoutUpgrade;
     }
 
-    public Observable<Integer> getStoriesFrom(Story.TYPE type) {
-        return refreshStoryType(type);
+    public Observable<String> getStoriesFrom(Story.TYPE type, String nextUrl) {
+        return refreshStoryType(type, nextUrl);
     }
 
-    private Observable<Integer> refreshStoryType(final Story.TYPE type) {
-        return api.getStories(type)
-                .flatMap(new Func1<StoriesJsoup, Observable<Integer>>() {
+    private Observable<String> refreshStoryType(final Story.TYPE type, String nextUrl) {
+        return api.getStories(type, nextUrl)
+                .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
                     @Override
-                    public Observable<Integer> call(final StoriesJsoup stories) {
-                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                    public Observable<String> call(final StoriesJsoup stories) {
+                        return Observable.create(new Observable.OnSubscribe<String>() {
                             @Override
-                            public void call(Subscriber<? super Integer> subscriber) {
+                            public void call(Subscriber<? super String> subscriber) {
                                 refreshPreferences.saveRefreshTick(type);
-                                subscriber.onNext(dataPersister.persistStories(stories.getStories()));
+                                dataPersister.persistStories(stories.getStories());
+                                subscriber.onNext(stories.getNextUrl());
                                 subscriber.onCompleted();
                             }
                         });

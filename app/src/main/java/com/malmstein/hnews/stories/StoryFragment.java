@@ -17,6 +17,7 @@ import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.data.HNewsContract;
 import com.malmstein.hnews.inject.Inject;
 import com.malmstein.hnews.model.Story;
+import com.malmstein.hnews.presenters.ScrollManager;
 import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
@@ -27,7 +28,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
 
     private RecyclerView storiesList;
     protected StoriesAdapter storiesAdapter;
@@ -37,6 +38,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private DelegatedSwipeRefreshLayout refreshLayout;
 
     protected Subscription subscription;
+    private String nextUrl;
 
     @Override
     public void onAttach(Activity activity) {
@@ -71,6 +73,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         storiesLayoutManager = new LinearLayoutManager(getActivity());
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
+        storiesList.setOnScrollListener(new ScrollManager(this));
 
         storiesAdapter = new StoriesAdapter(null, listener);
         storiesList.setAdapter(storiesAdapter);
@@ -88,31 +91,6 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
         return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
-    }
-
-    @Override
-    public void onRefresh() {
-        DataRepository dataRepository = Inject.dataRepository();
-        subscription = dataRepository
-                .getStoriesFrom(getType())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
-                    @Override
-                    public void onCompleted() {
-                        if (!subscription.isUnsubscribed()) {
-                            subscription.unsubscribe();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
-                    }
-
-                    @Override
-                    public void onNext(Integer rowsAffected) {
-                    }
-                });
     }
 
     protected abstract Story.TYPE getType();
@@ -140,4 +118,39 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
         return ViewCompat.canScrollVertically(storiesList, -1);
     }
 
+    @Override
+    public void onRefresh() {
+        subscribeToStories();
+    }
+
+    @Override
+    public void onLoadMoreItems() {
+        //show a snack bar with loading message
+        subscribeToStories();
+    }
+
+    private void subscribeToStories() {
+        DataRepository dataRepository = Inject.dataRepository();
+        subscription = dataRepository
+                .getStoriesFrom(getType(), nextUrl)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
+                    }
+
+                    @Override
+                    public void onNext(String moreItemsUrl) {
+                        nextUrl = moreItemsUrl;
+                    }
+                });
+    }
 }

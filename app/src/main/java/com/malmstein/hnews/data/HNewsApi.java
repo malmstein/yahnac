@@ -18,19 +18,21 @@ import rx.schedulers.Schedulers;
 
 public class HNewsApi {
 
-    Observable<StoriesJsoup> getStories(Story.TYPE storyType) {
+    Observable<StoriesJsoup> getStories(Story.TYPE storyType, String nextUrl) {
         return retryObservable(Observable.create(
-                new StoriesUpdateOnSubscribe(storyType))
+                new StoriesUpdateOnSubscribe(storyType, nextUrl))
                 .subscribeOn(Schedulers.io()), 3, 3000);
     }
 
     private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesJsoup> {
 
         private final Story.TYPE type;
+        private final String nextUrl;
         private Subscriber<? super StoriesJsoup> subscriber;
 
-        private StoriesUpdateOnSubscribe(Story.TYPE type) {
+        private StoriesUpdateOnSubscribe(Story.TYPE type, String nextUrl) {
             this.type = type;
+            this.nextUrl = nextUrl;
         }
 
         @Override
@@ -43,7 +45,7 @@ public class HNewsApi {
         private void startFetchingStories() {
             StoriesJsoup stories = StoriesJsoup.empty();
             try {
-                stories = new FetchStoriesTask(type).execute();
+                stories = new FetchStoriesTask(type, nextUrl).execute();
             } catch (IOException e) {
                 subscriber.onError(e);
             }
@@ -86,7 +88,6 @@ public class HNewsApi {
             } catch (IOException e) {
                 subscriber.onError(e);
             }
-
             subscriber.onNext(commentsList);
         }
 
