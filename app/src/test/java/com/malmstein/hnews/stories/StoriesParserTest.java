@@ -19,19 +19,21 @@ public class StoriesParserTest {
     private static final String EMPTY = "";
     private static final int ZERO = 0;
 
-    private static final String NEWS_STORY_TITLE = "Apple CEO Tim Cook challenges Obama with impassioned stand on privacy";
-    private static final String NEWS_STORY_DOMAIN = "(theguardian.com)";
-    private static final String NEWS_STORY_POINTS = "221";
-    private static final String NEWS_STORY_URL = "http://www.theguardian.com/technology/2015/feb/13/apple-ceo-tim-cook-challenges-obama-privacy";
-    private static final String NEWS_STORY_SUBMITTER = "mikek";
-    private static final String NEWS_STORY_TIME_AGO = "11 hours ago";
-    private static final int NEWS_STORY_COMMENTS = 97;
-    private static final int NEWS_STORY_ID = 9048772;
+    private static final String NEWS_STORY_TITLE = "Vaccine opposition has ebbed and flowed over centuries";
+    private static final String NEWS_STORY_DOMAIN = "(komonews.com)";
+    private static final String NEWS_STORY_POINTS = "1";
+    private static final String NEWS_STORY_URL = "http://www.komonews.com/news/health/Vaccine-opposition-has-ebbed-and-flowed-over-centuries-291956021.html";
+    private static final String NEWS_STORY_SUBMITTER = "Mz";
+    private static final String NEWS_STORY_TIME_AGO = "0 minutes ago";
+    private static final int NEWS_STORY_COMMENTS = 0;
+    private static final int NEWS_STORY_ID = 9050291;
 
     private static final String JOBS_STORY_TITLE = "Aptible (YC S14) Is Hiring Devops Platform Engineers";
     private static final String JOBS_STORY_DOMAIN = "(lever.co)";
     private static final String JOBS_STORY_URL = "https://jobs.lever.co/aptible/e14de4f6-9fb1-426d-8003-82b91f72d1f9?lever-source=HackerNews";
     private static final String JOBS_STORY_TIME_AGO = "5 hours ago";
+
+    private static final String NEXT_PAGE_SAMPLE = "https://news.ycombinator.com/newest?next=9050123&n=31";
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
     private static final Story.TYPE DEFAULT_TYPE = Story.TYPE.top_story;
@@ -167,4 +169,9 @@ public class StoriesParserTest {
         assertEquals(ZERO, itemId);
     }
 
+    @org.junit.Test
+    public void returnNextPageUrl() {
+        String nextPageUrl = storiesNewsParser.parseNextPageUrl();
+        assertEquals(NEXT_PAGE_SAMPLE, nextPageUrl);
+    }
 }

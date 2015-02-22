@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class Story implements Serializable {
 
     public static String COMMENT_URL_BASE = "https://news.ycombinator.com/item?id=";
+    public static String NEXT_URL_BASE = "https://news.ycombinator.com/";
 
     public enum TYPE {
         top_story,

@@ -1,7 +1,10 @@
 package com.malmstein.hnews.comments;
 
+import android.content.ContentValues;
+
 import com.malmstein.hnews.json.CommentsJson;
-import com.malmstein.hnews.model.CommentsJsoup;
+
+import java.util.Vector;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,14 +49,14 @@ public class CommentsParserTest {
 
     @org.junit.Test
     public void returnsAllStoryComments() {
-        CommentsJsoup storyComments = storyCommentsParser.parse();
-        assertEquals(12, storyComments.getCommentsList().size());
+        Vector<ContentValues> storyComments = storyCommentsParser.parse();
+        assertEquals(12, storyComments.size());
     }
 
     @org.junit.Test
     public void returnsAllAskStoryComments() {
-        CommentsJsoup askStoryComments = askStoryCommentsParser.parse();
-        assertEquals(4, askStoryComments.getCommentsList().size());
+        Vector<ContentValues> storyComments = askStoryCommentsParser.parse();
+        assertEquals(4, storyComments.size());
     }
 
     @org.junit.Test
@@ -78,18 +81,6 @@ public class CommentsParserTest {
     public void returnsCommentLevel() {
         int level = storyCommentsParser.parseLevel(secondRowElement);
         assertEquals(0, level);
-    }
-
-    @org.junit.Test
-    public void returnsAskStoryQuestion() {
-        String question = askStoryCommentsParser.parseQuestion();
-        assertEquals(QUESTION_SAMPLE, question);
-    }
-
-    @org.junit.Test
-    public void returnsEmptyQuestionWhenNoAskStory() {
-        String question = storyCommentsParser.parseQuestion();
-        assertEquals(EMPTY_QUESTION_SAMPLE, question);
     }
 
 }

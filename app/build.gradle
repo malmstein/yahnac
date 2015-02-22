@@ -13,7 +13,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 3
-        versionName "0.1"
+        versionName "0.2"
 
         Calendar instance = Calendar.getInstance()
         instance.setTimeInMillis(System.currentTimeMillis())
@@ -28,15 +28,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-//    signingConfigs {
-//        malmstein {
-//            storeFile props['signing.storeFile']
-//            storePassword props['signing.storePassword']
-//            keyAlias props['signing.keyAlias']
-//            keyPassword props['signing.keyPassword']
-//        }
-//    }
-
     buildTypes {
         debug {
             debuggable true
@@ -50,14 +41,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-//    productFlavors {
-//
-//        alpha {
-//            signingConfig signingConfigs.malmstein
-//        }
-//
-//    }
 
     packagingOptions {
         exclude 'META-INF/LICENSE'

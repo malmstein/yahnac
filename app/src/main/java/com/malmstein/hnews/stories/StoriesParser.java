@@ -138,4 +138,10 @@ public class StoriesParser {
 
         return item_id;
     }
+
+    public String parseNextPageUrl() {
+        String nextUrl = document.select(".title:not(span[class=comhead])>a[href]:contains(more)").last().attr("href");
+        nextUrl = Story.NEXT_URL_BASE + nextUrl;
+        return nextUrl;
+    }
 }
