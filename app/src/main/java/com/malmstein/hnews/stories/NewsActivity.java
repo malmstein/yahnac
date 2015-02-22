@@ -52,8 +52,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         setTitle(getString(R.string.title_app));
 
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
-
-        slidingTabs.setOnPageChangeListener(new CategoryOnPageChangeListener());
         slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
         slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
         slidingTabs.setViewPager(headersPager);
@@ -135,17 +133,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                 .commit();
     }
 
-    private class CategoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
 
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (positionOffset == 0) {
-                return;
-            }
-
-            appBarContainer.showAppBar();
-        }
-
-    }
 
 }
