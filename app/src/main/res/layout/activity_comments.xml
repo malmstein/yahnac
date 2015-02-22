@@ -7,11 +7,10 @@
   tools:context=".CommentsActivity">
 
   <com.malmstein.hnews.views.toolbar.AppBarContainer
+    style="@style/HNews.AppBar.CommentsContainer"
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="@dimen/toolbar_elevation"
-    app:appBarLayout="@layout/include_transparent_app_bar">
+    android:layout_height="wrap_content">
 
     <com.malmstein.hnews.views.StoryHeaderView
       android:id="@+id/story_header_view"
