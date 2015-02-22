@@ -1,5 +1,6 @@
 package com.malmstein.hnews.comments;
 
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
+import com.malmstein.hnews.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;
@@ -42,7 +44,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
 
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private RecyclerView commentsListView;
+    private RecyclerView commentsList;
     private CommentsAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
@@ -69,7 +71,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
-        commentsListView = Views.findById(rootView, R.id.list_comments);
+        commentsList = Views.findById(rootView, R.id.list_comments);
 
         setupRefreshLayout();
         setupCommentsList();
@@ -127,12 +129,19 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     }
 
     private void setupCommentsList() {
-        commentsListView.setHasFixedSize(true);
+        commentsList.setHasFixedSize(true);
         commentsLayoutManager = new LinearLayoutManager(getActivity());
-        commentsListView.setLayoutManager(commentsLayoutManager);
+        commentsList.addItemDecoration(createItemDecoration(getResources()));
+        commentsList.setLayoutManager(commentsLayoutManager);
 
         commentsAdapter = new CommentsAdapter(null);
-        commentsListView.setAdapter(commentsAdapter);
+        commentsList.setAdapter(commentsAdapter);
+    }
+
+    private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
+        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_divider_height);
+        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_padding_infra_spans);
+        return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     private void stopRefreshing() {
@@ -172,7 +181,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(commentsListView, -1);
+        return ViewCompat.canScrollVertically(commentsList, -1);
     }
 
 }

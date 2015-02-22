@@ -24,7 +24,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0){
+        if (position == 0) {
             return TYPE_HEADER;
         } else {
             return TYPE_COMMENT;
@@ -52,7 +52,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
     }
 
-    private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent){
+    private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
         HeaderViewHolder vh = new HeaderViewHolder(v);
         return vh;
@@ -60,18 +60,32 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final TextView text;
+        public final TextView author;
+        public final TextView when;
+        public final View root;
 
         public HeaderViewHolder(View view) {
             super(view);
             text = Views.findById(view, R.id.comment_header_text);
+            author = Views.findById(view, R.id.comment_header_by);
+            when = Views.findById(view, R.id.comment_header_when);
+            root = Views.findById(view, R.id.comment_header_root);
         }
 
-        public void bind(Comment comment){
+        public void bind(Comment comment) {
             text.setText(Html.fromHtml(comment.getText()));
+            if (comment.isHeader()) {
+                author.setVisibility(View.GONE);
+                when.setVisibility(View.GONE);
+            } else {
+                author.setText(comment.getBy());
+                when.setText(comment.getTimeText());
+                root.setPadding(comment.getLevel(), 0, 0, 0);
+            }
         }
     }
 
-    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent){
+    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
         CommentViewHolder vh = new CommentViewHolder(v);
         return vh;
