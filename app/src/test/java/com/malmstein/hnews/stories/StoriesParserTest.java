@@ -1,11 +1,8 @@
 package com.malmstein.hnews.stories;
 
-import android.content.ContentValues;
-
 import com.malmstein.hnews.json.StoriesJson;
+import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
-
-import java.util.Vector;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -63,14 +60,14 @@ public class StoriesParserTest {
 
     @org.junit.Test
     public void returnsAllNews() {
-        Vector<ContentValues> stories = storiesNewsParser.parse(DEFAULT_TYPE);
-        assertEquals(stories.size(), 30);
+        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_TYPE);
+        assertEquals(stories.getStories().size(), 30);
     }
 
     @org.junit.Test
     public void returnsAllJobs() {
-        Vector<ContentValues> stories = storiesNewsParser.parse(DEFAULT_TYPE);
-        assertEquals(stories.size(), 30);
+        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_TYPE);
+        assertEquals(stories.getStories().size(), 30);
     }
 
     @org.junit.Test

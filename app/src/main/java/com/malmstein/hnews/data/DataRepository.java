@@ -2,6 +2,7 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
+import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.updater.RefreshSharedPreferences;
 import com.malmstein.hnews.updater.RefreshTimestamp;
@@ -41,14 +42,14 @@ public class DataRepository {
 
     private Observable<Integer> refreshStoryType(final Story.TYPE type) {
         return api.getStories(type)
-                .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
+                .flatMap(new Func1<StoriesJsoup, Observable<Integer>>() {
                     @Override
-                    public Observable<Integer> call(final Vector<ContentValues> contentValueses) {
+                    public Observable<Integer> call(final StoriesJsoup stories) {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
                                 refreshPreferences.saveRefreshTick(type);
-                                subscriber.onNext(dataPersister.persistStories(contentValueses));
+                                subscriber.onNext(dataPersister.persistStories(stories.getStories()));
                                 subscriber.onCompleted();
                             }
                         });

@@ -2,6 +2,7 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
+import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.tasks.FetchCommentsTask;
 import com.malmstein.hnews.tasks.FetchStoriesTask;
@@ -17,37 +18,37 @@ import rx.schedulers.Schedulers;
 
 public class HNewsApi {
 
-    Observable<Vector<ContentValues>> getStories(Story.TYPE storyType) {
+    Observable<StoriesJsoup> getStories(Story.TYPE storyType) {
         return retryObservable(Observable.create(
                 new StoriesUpdateOnSubscribe(storyType))
                 .subscribeOn(Schedulers.io()), 3, 3000);
     }
 
-    private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
+    private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesJsoup> {
 
         private final Story.TYPE type;
-        private Subscriber<? super Vector<ContentValues>> subscriber;
+        private Subscriber<? super StoriesJsoup> subscriber;
 
         private StoriesUpdateOnSubscribe(Story.TYPE type) {
             this.type = type;
         }
 
         @Override
-        public void call(Subscriber<? super Vector<ContentValues>> subscriber) {
+        public void call(Subscriber<? super StoriesJsoup> subscriber) {
             this.subscriber = subscriber;
             startFetchingStories();
             subscriber.onCompleted();
         }
 
         private void startFetchingStories() {
-            Vector<ContentValues> stories = new Vector<>();
+            StoriesJsoup stories = StoriesJsoup.empty();
             try {
                 stories = new FetchStoriesTask(type).execute();
             } catch (IOException e) {
                 subscriber.onError(e);
             }
 
-            if (stories.size() == 0) {
+            if (stories.getStories().size() == 0) {
                 subscriber.onError(new RuntimeException("API is not returning any data"));
             } else {
                 subscriber.onNext(stories);

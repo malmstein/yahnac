@@ -3,6 +3,7 @@ package com.malmstein.hnews.stories;
 import android.content.ContentValues;
 
 import com.malmstein.hnews.data.HNewsContract;
+import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 
 import java.util.Vector;
@@ -20,7 +21,7 @@ public class StoriesParser {
         this.document = document;
     }
 
-    public Vector<ContentValues> parse(Story.TYPE type) {
+    public StoriesJsoup parse(Story.TYPE type) {
         storiesList.clear();
 
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");
@@ -60,7 +61,9 @@ public class StoriesParser {
             storiesList.add(storyValues);
         }
 
-        return storiesList;
+        String nextUrl = parseNextPageUrl();
+
+        return new StoriesJsoup(storiesList, nextUrl);
     }
 
     public String parseTitle(Element firstLine) {

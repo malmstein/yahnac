@@ -1,13 +1,11 @@
 package com.malmstein.hnews.tasks;
 
-import android.content.ContentValues;
-
 import com.malmstein.hnews.base.DeveloperError;
+import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoriesParser;
 
 import java.io.IOException;
-import java.util.Vector;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,9 +39,7 @@ public class FetchStoriesTask {
 
     }
 
-    public Vector<ContentValues> execute() throws IOException {
-
-        Vector<ContentValues> stories;
+    public StoriesJsoup execute() throws IOException {
 
         //Here we'll add the cookie when fetched
         Document doc = Jsoup.connect(url)
@@ -52,9 +48,7 @@ public class FetchStoriesTask {
                 .followRedirects(true)
                 .post();
 
-        stories = new StoriesParser(doc).parse(type);
-
-        return stories;
+        return new StoriesParser(doc).parse(type);
     }
 
 }
