@@ -3,6 +3,7 @@ package com.malmstein.hnews.tasks;
 import android.content.ContentValues;
 
 import com.malmstein.hnews.comments.CommentsParser;
+import com.malmstein.hnews.model.Story;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -40,7 +41,7 @@ public class FetchCommentsTask {
         HttpConnectionParams.setSoTimeout(httpParameters, getReadTimeout());
 
         HttpClient httpclient = new DefaultHttpClient(httpParameters);
-        HttpGet httpget = new HttpGet("https://news.ycombinator.com/item?id=" + storyId);
+        HttpGet httpget = new HttpGet(Story.COMMENT_URL_BASE + storyId);
 
         HttpResponse response = httpclient.execute(httpget);
 

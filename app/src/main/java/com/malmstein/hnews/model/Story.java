@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 public class Story implements Serializable {
 
+    public static String COMMENT_URL_BASE = "https://news.ycombinator.com/item?id=";
+
     public enum TYPE {
         top_story,
         new_story,
@@ -97,6 +99,10 @@ public class Story implements Serializable {
 
     public String getOrder() {
         return order;
+    }
+
+    public String getCommentsUrl() {
+        return COMMENT_URL_BASE + getId();
     }
 
     public static Story from(Cursor cursor) {
