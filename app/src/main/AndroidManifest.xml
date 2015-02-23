@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.malmstein.hnews">
+
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+  <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+  <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+
+  <application
+    android:allowBackup="true"
+    android:name="com.malmstein.hnews.HNewsApplication"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/title_launcher"
+    android:theme="@style/Theme.HNews">
+    <activity
+      android:name=".stories.NewsActivity"
+      android:label="@string/title_launcher"
+      android:theme="@style/Theme.HNews.Feed">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <activity
+      android:name="com.malmstein.hnews.stories.ArticleActivity"
+      android:parentActivityName=".stories.NewsActivity"
+      android:configChanges="keyboardHidden|orientation|screenSize">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".stories.NewsActivity" />
+    </activity>
+
+    <activity
+      android:name="com.malmstein.hnews.comments.CommentsActivity"
+      android:label="@string/title_comments"
+      android:parentActivityName=".stories.NewsActivity"
+      android:theme="@style/Theme.HNews.Comments">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".stories.NewsActivity" />
+    </activity>
+
+    <activity
+      android:name="com.malmstein.hnews.settings.SettingsActivity"
+      android:label="@string/title_settings"
+      android:parentActivityName=".stories.NewsActivity">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".stories.NewsActivity" />
+    </activity>
+
+    <activity
+      android:name="com.malmstein.hnews.settings.SoftwareLicensesActivity"
+      android:label="@string/activity_software_licenses_label"
+      android:parentActivityName="com.malmstein.hnews.settings.SettingsActivity"/>
+
+    <provider
+      android:authorities="com.malmstein.hnews"
+      android:name="com.malmstein.hnews.data.HNewsProvider"
+      android:exported="true"
+      android:syncable="true" />
+
+    <meta-data android:name="com.crashlytics.ApiKey" android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686"/>
+
+  </application>
+
+</manifest>

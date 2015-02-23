@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="None" />
+
+  <style name="Theme.HNews" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:windowContentTransitions">true</item>
+
+    <item name="android:textColorPrimary">@color/black</item>
+
+    <item name="android:actionBarStyle">@style/HNews.ActionBar</item>
+    <item name="android:actionBarItemBackground">@color/orange</item>
+    <item name="android:actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
+    <item name="android:colorPrimary">@color/orange</item>
+    <item name="android:colorPrimaryDark">@color/dark_orange</item>
+    <item name="android:colorAccent">@color/black</item>
+  </style>
+
+  <style name="Theme.HNews.Feed">
+    <item name="android:windowSharedElementExitTransition">@transition/change_transform</item>
+  </style>
+
+  <style name="Theme.HNews.Comments">
+    <item name="android:windowSharedElementEnterTransition">@transition/change_transform</item>
+  </style>
+
+
+
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.malmstein.hnews.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  style="@style/HNews.FeedFooter"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/button_root_height"
+  android:orientation="horizontal"
+  android:layout_below="@id/article_text_root">
+
+  <TextView
+    android:id="@+id/article_share_action"
+    style="@style/HNewsButton.Borderless"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:textColor="@color/black"
+    android:textAllCaps="true"
+    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+    android:focusable="false"
+    android:text="@string/action_share" />
+
+  <TextView
+    android:id="@+id/article_comments_action"
+    style="@style/HNewsButton.Borderless"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:textColor="@color/dark_orange"
+    android:textAllCaps="true"
+    android:layout_marginLeft="@dimen/card_content_padding"
+    android:focusable="false"
+    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+    tools:text="26 COMMENTS" />
+
+  <TextView
+    android:id="@+id/article_score"
+    android:layout_width="match_parent"
+    android:gravity="right|center_vertical"
+    android:layout_height="match_parent"
+    android:textAllCaps="true"
+    android:textColor="@color/light_grey"
+    android:paddingRight="@dimen/default_padding"
+    tools:text="123" />
+
+</com.malmstein.hnews.views.FooterWithTopDividerLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="activity_software_licenses_label">@string/licenses</string>
+  <string name="software_licenses_fragment_tag">softwareLicensesFragmentTag</string>
+
+  <string name="pref_enable_browser">Article reading using</string>
+  <string name="pref_enable_browser_key" translatable="false">enable_browser</string>
+  <string name="pref_enable_external_browser">External browser</string>
+  <string name="pref_enable_internal_browser">Internal browser</string>
+  <string name="pref_enable_browser_default" translatable="false">false</string>
+
+  <string name="licenses">Software licenses</string>
+
+  <string name="settings_category_key_general">keyGeneral</string>
+  <string name="settings_category_title_general">General</string>
+
+  <string name="settings_category_key_about">keyAbout</string>
+  <string name="settings_category_title_about">About</string>
+
+  <string name="settings_key_build_version">keyBuildVersion</string>
+  <string name="settings_title_build_version">Version</string>
+
+  <string name="settings_key_build_timestamp">keyBuildTimestamp</string>
+  <string name="settings_title_build_timestamp">Build date</string>
+
+  <string name="settings_key_software_licences">keySoftwareLicenses</string>
+  <string name="settings_title_software_licences">@string/licenses</string>
+  <string name="settings_value_version_number">v%s</string>
+
+</resources>

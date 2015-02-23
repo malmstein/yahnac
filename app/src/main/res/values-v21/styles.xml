@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="HNews.AppBar.NewsContainer" parent="None">
+    <item name="android:elevation">@dimen/toolbar_elevation</item>
+    <item name="appBarShadowHeight">@dimen/app_bar_shadow_no_height</item>
+    <item name="appBarLayout">@layout/include_app_bar</item>
+  </style>
+
+  <style name="HNews.AppBar.CommentsContainer" parent="None">
+    <item name="android:elevation">@dimen/toolbar_elevation</item>
+    <item name="appBarShadowHeight">@dimen/app_bar_shadow_no_height</item>
+    <item name="appBarLayout">@layout/include_transparent_app_bar</item>
+  </style>
+
+
+
+</resources>

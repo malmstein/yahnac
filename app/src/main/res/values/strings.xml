@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="title_launcher">Yahnac</string>
+  <string name="title_app">Hacker News</string>
+  <string name="title_comments">Comments</string>
+  <string name="title_settings">Settings</string>
+
+  <string name="action_settings">Settings</string>
+  <string name="action_share">Share</string>
+
+  <string name="content_authority">com.malmstein.hnews</string>
+
+  <string name="story_by">by %s</string>
+  <string name="story_points">%d points</string>
+
+  <plurals name="story_comments">
+    <item quantity="one">%d comment</item>
+    <item quantity="other">%d comments</item>
+  </plurals>
+
+  <string name="empty_view_text">No content to display</string>
+  <string name="feed_loading_text">Fetching stories, you can also swipe to refresh the content</string>
+
+</resources>

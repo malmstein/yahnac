@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="time_seconds">less than a minute</string>
+
+  <plurals name="time_minute">
+    <item quantity="one">about %d minute</item>
+    <item quantity="other">%d minutes</item>
+  </plurals>
+
+  <plurals name="time_day">
+    <item quantity="one">%d day</item>
+    <item quantity="other">%d days</item>
+  </plurals>
+
+  <plurals name="time_hour">
+    <item quantity="one">about %d hour</item>
+    <item quantity="other">%d hours</item>
+  </plurals>
+
+  <plurals name="time_year">
+    <item quantity="one">about %d year</item>
+    <item quantity="other">%d years</item>
+  </plurals>
+
+  <plurals name="time_month">
+    <item quantity="one">about %d month</item>
+    <item quantity="other">%d months</item>
+  </plurals>
+
+  <string name="time_ago">ago</string>
+
+  <string name="time_from_now">from now</string>
+
+</resources>

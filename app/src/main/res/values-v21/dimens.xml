@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="feed_padding_left">8dp</dimen>
+  <dimen name="feed_padding_right">8dp</dimen>
+  <dimen name="feed_divider_height">8dp</dimen>
+
+  <dimen name="comments_divider_height">8dp</dimen>
+  <dimen name="comments_padding_left">8dp</dimen>
+  <dimen name="comments_padding_infra_spans">@dimen/feed_padding_left</dimen>
+</resources>

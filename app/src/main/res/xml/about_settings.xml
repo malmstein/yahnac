@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:key="@string/settings_category_key_about"
+    android:title="@string/settings_category_title_about">
+
+    <Preference
+      android:key="@string/settings_key_software_licences"
+      android:title="@string/settings_title_software_licences" />
+
+    <Preference
+      android:key="@string/settings_key_build_version"
+      android:title="@string/settings_title_build_version"
+      android:enabled="true" />
+
+    <Preference
+      android:key="@string/settings_key_build_timestamp"
+      android:title="@string/settings_title_build_timestamp"
+      android:enabled="false" />
+
+  </PreferenceCategory>
+
+</PreferenceScreen>

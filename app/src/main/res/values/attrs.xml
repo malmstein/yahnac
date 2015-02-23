@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <declare-styleable name="AppBarContainer">
+    <attr name="appBarShadowHeight" format="dimension" />
+    <attr name="appBarColor" format="color"/>
+    <attr name="appBarLayout" format="reference"/>
+    <attr name="includeInsetInHideableHeight" format="boolean" />
+  </declare-styleable>
+
+  <declare-styleable name="FooterWithTopDividerLayout">
+    <attr name="dividerHeight" format="dimension" />
+    <attr name="dividerColor" format="color" />
+  </declare-styleable>
+
+</resources>

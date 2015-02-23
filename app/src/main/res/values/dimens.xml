@@ -1,0 +1,39 @@
+<resources>
+  <dimen name="activity_horizontal_margin">16dp</dimen>
+  <dimen name="activity_vertical_margin">16dp</dimen>
+
+  <dimen name="card_corner_radius">2dp</dimen>
+  <dimen name="card_content_padding">4dp</dimen>
+
+  <dimen name="button_root_height">48dp</dimen>
+  <dimen name="button_padding">6dp</dimen>
+  <dimen name="default_padding">8dp</dimen>
+  <dimen name="list_padding">12dp</dimen>
+  <dimen name="list_divider">4dp</dimen>
+  <dimen name="comments_padding">4dp</dimen>
+
+  <dimen name="feed_padding_left">8dp</dimen>
+  <dimen name="feed_padding_right">8dp</dimen>
+
+  <dimen name="feed_padding_infra_spans">@dimen/feed_padding_left</dimen>
+  <dimen name="feed_divider_height">5dp</dimen>
+  <dimen name="feed_item_article_footer_divider_height">1dp</dimen>
+  <dimen name="feed_item_article_footer_height">42dp</dimen>
+
+  <dimen name="comments_divider_height">8dp</dimen>
+  <dimen name="comments_padding_left">8dp</dimen>
+  <dimen name="comments_padding_infra_spans">@dimen/feed_padding_left</dimen>
+
+  <dimen name="feed_refresh_top_padding">64dp</dimen>
+
+  <dimen name="appbar_tab_left_padding">4dp</dimen>
+  <dimen name="appbar_tab_title_text">14sp</dimen>
+  <dimen name="appbar_tab_indicator_horizontal_padding">12dp</dimen>
+  <dimen name="appbar_tab_indicator_height">48dp</dimen>
+
+  <dimen name="empty_view_text">18sp</dimen>
+
+  <dimen name="app_bar_shadow_height">4dp</dimen>
+  <dimen name="app_bar_shadow_no_height">0dp</dimen>
+  <dimen name="toolbar_elevation">6dp</dimen>
+</resources>

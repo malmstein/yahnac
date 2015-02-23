@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:baselineAligned="false"
+  android:divider="?android:attr/dividerHorizontal"
+  android:orientation="vertical"
+  tools:context="com.malmstein.hnews.stories.NewsActivity">
+
+  <com.malmstein.hnews.views.toolbar.AppBarContainer
+    android:id="@+id/app_bar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:appBarLayout="@layout/include_app_bar">
+
+    <com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout
+      android:id="@+id/sliding_tabs"
+      style="@style/HNews.Feed.TabStrip"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+  </com.malmstein.hnews.views.toolbar.AppBarContainer>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="horizontal"
+    tools:context="com.malmstein.hnews.stories.NewsActivity">
+
+    <FrameLayout
+      android:id="@+id/feed_main_content"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="2">
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/news_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <FrameLayout
+      android:id="@+id/story_fragment_root"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="4" />
+
+  </LinearLayout>
+
+
+</LinearLayout>

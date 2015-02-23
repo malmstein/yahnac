@@ -37,6 +37,7 @@ tmp/
 
 # Android
 local.properties
+hnews.properties
 
 # MAC
 *.DS_Store
@@ -44,22 +45,10 @@ local.properties
 # Linux
 *~
 
-# api scripts
-session.key
-access.token
-response.txt
-feed.cookie
-login.properties
-.pt
-*.orig
-terminator/
-feed.cookie
-login.properties
-
-=======
 # generated every build
 crashlytics.properties
 crashlytics-build.properties
+app/src/main/assets/crashlytics-build.properties
 com_crashlytics_export_strings.xml
 
 app/build
