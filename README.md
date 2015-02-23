@@ -12,6 +12,11 @@ You can use this app keep you up to date with the latest news from Hacker News:
   - Show HN
   - Ask HN
 
+## Tests
+
+Yahnac has tests around the parsing of Stories and Comments. You can execute them by using the new Unit Testing functionality addedd to Android Studio.
+You can learn more about [testing](http://developer.android.com/tools/testing/testing_android.html) and [how to run them](http://tools.android.com/tech-docs/unit-testing-support)
+
 ## Links
 
 Here are a list of useful links:
