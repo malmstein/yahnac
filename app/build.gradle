@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
-Properties props = new Properties()
-props.load(new FileInputStream(file(rootProject.file('hnews.properties'))))
-
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -36,7 +33,7 @@ android {
         release {
             debuggable false
             jniDebuggable false
-            minifyEnabled false
+            minifyEnabled true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
