@@ -27,6 +27,7 @@ build/
 classes/
 gen-external-apklibs/
 tmp/
+team-props/
 
 # IDEA Ignores
 *.iml
