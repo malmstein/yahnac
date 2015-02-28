@@ -13,9 +13,10 @@ public class DataPersister {
         this.contentResolver = contentResolver;
     }
 
-    public int persistStories(Vector<ContentValues> topStories) {
+    public int persistStories(Vector<ContentValues> topStories, boolean overwrite) {
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);
+
         return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);
     }
 

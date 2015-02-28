@@ -132,7 +132,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private void subscribeToStories() {
         DataRepository dataRepository = Inject.dataRepository();
         subscription = dataRepository
-                .getStoriesFrom(getType(), nextUrl)
+                .observeStories(getType(), nextUrl)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override

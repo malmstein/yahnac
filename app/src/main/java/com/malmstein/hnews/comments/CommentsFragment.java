@@ -123,7 +123,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void getComments() {
         DataRepository dataRepository = Inject.dataRepository();
         subscription = dataRepository
-                .getCommentsFromStory(getStory().getId())
+                .observeComments(getStory().getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Integer>() {
                     @Override

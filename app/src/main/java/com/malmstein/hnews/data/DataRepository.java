@@ -1,6 +1,7 @@
 package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
+import android.text.TextUtils;
 
 import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
@@ -36,11 +37,11 @@ public class DataRepository {
         return elapsedTime > maxMillisWithoutUpgrade;
     }
 
-    public Observable<String> getStoriesFrom(Story.TYPE type, String nextUrl) {
-        return refreshStoryType(type, nextUrl);
+    public Observable<String> observeStories(Story.TYPE type, String nextUrl) {
+        return getStories(type, nextUrl);
     }
 
-    private Observable<String> refreshStoryType(final Story.TYPE type, String nextUrl) {
+    private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
         return api.getStories(type, nextUrl)
                 .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
                     @Override
@@ -49,7 +50,7 @@ public class DataRepository {
                             @Override
                             public void call(Subscriber<? super String> subscriber) {
                                 refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(stories.getStories());
+                                dataPersister.persistStories(stories.getStories(), !TextUtils.isEmpty(nextUrl));
                                 subscriber.onNext(stories.getNextUrl());
                                 subscriber.onCompleted();
                             }
@@ -58,11 +59,11 @@ public class DataRepository {
                 });
     }
 
-    public Observable<Integer> getCommentsFromStory(Long storyId) {
-        return refreshComments(storyId);
+    public Observable<Integer> observeComments(Long storyId) {
+        return getComments(storyId);
     }
 
-    private Observable<Integer> refreshComments(final Long storyId) {
+    private Observable<Integer> getComments(final Long storyId) {
         return api.getCommentsFromStory(storyId)
                 .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
                     @Override
