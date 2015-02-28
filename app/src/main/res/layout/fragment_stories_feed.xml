@@ -15,6 +15,13 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
+    <com.malmstein.hnews.views.SnackBarView
+      android:id="@+id/feed_page_snackbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:visibility="invisible" />
+
   </com.malmstein.hnews.views.DelegatedSwipeRefreshLayout>
 
 </FrameLayout>

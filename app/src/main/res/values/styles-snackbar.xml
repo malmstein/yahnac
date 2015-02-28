@@ -8,7 +8,6 @@
   <style name="Crouton.Text">
     <item name="android:textSize">@dimen/snackbar_text</item>
     <item name="android:textColor">@color/snackbar_text</item>
-    <item name="fontAsset">robotoLight</item>
     <item name="android:gravity">center</item>
     <item name="android:background">@drawable/selector_snackbar</item>
     <item name="android:clickable">true</item>

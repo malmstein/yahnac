@@ -9,7 +9,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.views.ViewDelegate;
@@ -21,13 +20,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
 
     private static final int STORY_LOADER = 0;
 
-    public enum QUERY {
-        top,
-        newest,
-        best
-    }
-
-    public static TopStoriesFragment from(QUERY query){
+    public static TopStoriesFragment from(QUERY query) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("query", query);
         TopStoriesFragment fragment = new TopStoriesFragment();
@@ -41,14 +34,9 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         getLoaderManager().initLoader(STORY_LOADER, null, this);
     }
 
-    @Override
-    protected int getFragmentLayoutId() {
-        return R.layout.fragment_top_stories;
-    }
-
-    public Story.TYPE getType(){
+    public Story.TYPE getType() {
         QUERY query = (QUERY) getArguments().get("query");
-        switch (query){
+        switch (query) {
             case top:
                 return Story.TYPE.top_story;
             case newest:
@@ -84,6 +72,12 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
         storiesAdapter.swapCursor(null);
         stopRefreshing();
+    }
+
+    public enum QUERY {
+        top,
+        newest,
+        best
     }
 
 }

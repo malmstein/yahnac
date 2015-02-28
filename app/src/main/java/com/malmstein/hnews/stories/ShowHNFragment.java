@@ -9,7 +9,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.views.ViewDelegate;
 
@@ -24,11 +23,6 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(STORY_LOADER, null, this);
-    }
-
-    @Override
-    protected int getFragmentLayoutId() {
-        return R.layout.fragment_top_stories;
     }
 
     @Override

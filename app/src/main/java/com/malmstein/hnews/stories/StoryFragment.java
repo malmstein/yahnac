@@ -30,14 +30,12 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
 
-    private RecyclerView storiesList;
     protected StoriesAdapter storiesAdapter;
+    protected Subscription subscription;
+    private RecyclerView storiesList;
     private RecyclerView.LayoutManager storiesLayoutManager;
-
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
-
-    protected Subscription subscription;
     private String nextUrl;
 
     @Override
@@ -48,7 +46,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(getFragmentLayoutId(), container, false);
+        View rootView = inflater.inflate(R.layout.fragment_stories_feed, container, false);
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
@@ -59,8 +57,6 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
         return rootView;
     }
-
-    protected abstract int getFragmentLayoutId();
 
     protected void setupRefreshLayout() {
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
