@@ -126,7 +126,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void onLoadMoreItems() {
         //show a snack bar with loading message
-//        subscribeToStories();
+        subscribeToStories();
     }
 
     private void subscribeToStories() {

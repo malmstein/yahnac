@@ -19,9 +19,9 @@ import rx.schedulers.Schedulers;
 public class HNewsApi {
 
     Observable<StoriesJsoup> getStories(Story.TYPE storyType, String nextUrl) {
-        return retryObservable(Observable.create(
+        return Observable.create(
                 new StoriesUpdateOnSubscribe(storyType, nextUrl))
-                .subscribeOn(Schedulers.io()), 3, 3000);
+                .subscribeOn(Schedulers.io());
     }
 
     private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesJsoup> {
