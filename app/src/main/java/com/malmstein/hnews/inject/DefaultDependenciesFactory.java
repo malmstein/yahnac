@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.malmstein.hnews.analytics.CrashAnalytics;
 import com.malmstein.hnews.analytics.CrashlyticsAnalytics;
+import com.malmstein.hnews.connectivity.WizMerlin;
 import com.malmstein.hnews.data.DataPersister;
 import com.malmstein.hnews.data.DataRepository;
 
@@ -22,12 +23,17 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
 
     @Override
     public DataRepository createDataRepository(DataPersister dataPersister) {
-        return new DataRepository(dataPersister);
+        return new DataRepository(dataPersister, createWizMerlin());
     }
 
     @Override
     public CrashAnalytics createCrashAnalytics() {
         return new CrashlyticsAnalytics();
+    }
+
+    @Override
+    public WizMerlin createWizMerlin() {
+        return WizMerlin.newInstance(context);
     }
 
 }

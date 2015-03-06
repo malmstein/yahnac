@@ -2,6 +2,7 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
+import com.malmstein.hnews.connectivity.WizMerlin;
 import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.updater.RefreshSharedPreferences;
@@ -21,19 +22,25 @@ public class DataRepository {
 
     private final HNewsApi api;
     private final DataPersister dataPersister;
+    private final WizMerlin merlin;
     private final RefreshSharedPreferences refreshPreferences;
 
-    public DataRepository(DataPersister dataPersister) {
+    public DataRepository(DataPersister dataPersister, WizMerlin merlin) {
         this.dataPersister = dataPersister;
+        this.merlin = merlin;
         this.api = new HNewsApi();
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
-        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
-        RefreshTimestamp now = RefreshTimestamp.now();
-        long elapsedTime = now.getMillis() - lastUpdate.getMillis();
-        return elapsedTime > maxMillisWithoutUpgrade;
+        if (merlin.detectsWorkingNetworkConnection()){
+            RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
+            RefreshTimestamp now = RefreshTimestamp.now();
+            long elapsedTime = now.getMillis() - lastUpdate.getMillis();
+            return elapsedTime > maxMillisWithoutUpgrade;
+        } else {
+            return false;
+        }
     }
 
     public Observable<String> observeStories(Story.TYPE type, String nextUrl) {

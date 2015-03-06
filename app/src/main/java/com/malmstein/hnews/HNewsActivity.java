@@ -11,6 +11,7 @@ import com.malmstein.hnews.base.ColorTweaker;
 import com.malmstein.hnews.base.LollipopUiConfiguration;
 import com.malmstein.hnews.base.LollipopUiHelper;
 import com.malmstein.hnews.base.Navigator;
+import com.malmstein.hnews.connectivity.WizMerlin;
 import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.malmstein.hnews.views.toolbar.HNToolbar;
 import com.novoda.notils.caster.Views;
@@ -24,6 +25,8 @@ public class HNewsActivity extends ActionBarActivity {
     private LollipopUiHelper lollipopUiHelper;
     private Navigator navigator;
 
+    private WizMerlin merlin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +35,7 @@ public class HNewsActivity extends ActionBarActivity {
         lollipopUiHelper.setTaskDescriptionOnLollipopAndLater();
         lollipopUiHelper.setSystemBarsColorOnLollipopAndLater();
         navigator = new Navigator(this);
-
+        merlin = WizMerlin.newInstance(this);
     }
 
     @Override

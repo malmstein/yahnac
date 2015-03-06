@@ -55,7 +55,7 @@
     <activity
       android:name="com.malmstein.hnews.settings.SoftwareLicensesActivity"
       android:label="@string/activity_software_licenses_label"
-      android:parentActivityName="com.malmstein.hnews.settings.SettingsActivity"/>
+      android:parentActivityName="com.malmstein.hnews.settings.SettingsActivity" />
 
     <provider
       android:authorities="com.malmstein.hnews"
@@ -63,7 +63,20 @@
       android:exported="true"
       android:syncable="true" />
 
-    <meta-data android:name="com.crashlytics.ApiKey" android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686"/>
+    <!-- Merlin Service & Receiver TODO: remove when updated to v5 -->
+    <service
+      android:exported="false"
+      android:name="com.novoda.merlin.service.MerlinService" />
+
+    <receiver android:name="com.novoda.merlin.receiver.ConnectivityReceiver">
+      <intent-filter>
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+      </intent-filter>
+    </receiver>
+
+    <meta-data
+      android:name="com.crashlytics.ApiKey"
+      android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686" />
 
   </application>
 
