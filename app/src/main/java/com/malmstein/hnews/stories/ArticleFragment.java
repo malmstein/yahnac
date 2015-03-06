@@ -27,6 +27,7 @@ import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.base.DeveloperError;
 import com.malmstein.hnews.data.HNewsContract;
+import com.malmstein.hnews.model.Story;
 
 import static com.malmstein.hnews.data.HNewsContract.STORY_COLUMNS;
 
@@ -34,7 +35,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     public static final String TAG = "ArticleFragment";
 
-    public static final String ARG_STORY_ID = BuildConfig.APPLICATION_ID + ".ARG_STORY_ID";
+    public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_STORY";
     public static final String ARG_STORY_TITLE = BuildConfig.APPLICATION_ID + ".ARG_STORY_TITLE";
 
     private static final int ARTICLE_LOADER = 0;
@@ -44,18 +45,18 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     private ProgressBar webViewProgress;
     private String articleUrl;
 
-    public static ArticleFragment from(Long internalId, String title) {
+    public static ArticleFragment from(Story story) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_STORY_ID, internalId);
-        args.putSerializable(ARG_STORY_TITLE, title);
+        args.putSerializable(ARG_STORY, story.getInternalId());
+        args.putSerializable(ARG_STORY_TITLE, story.getTitle());
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     private Long getItemId() {
-        if (getArguments().containsKey(ARG_STORY_ID)) {
-            return getArguments().getLong(ARG_STORY_ID);
+        if (getArguments().containsKey(ARG_STORY)) {
+            return getArguments().getLong(ARG_STORY);
         } else {
             throw new DeveloperError("Missing argument");
         }
@@ -140,7 +141,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     public void onResume() {
         super.onResume();
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ARG_STORY_ID)) {
+        if (arguments != null && arguments.containsKey(ARG_STORY)) {
             getLoaderManager().restartLoader(ARTICLE_LOADER, null, this);
         }
     }

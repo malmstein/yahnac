@@ -25,7 +25,7 @@ public class HNewsActivity extends ActionBarActivity {
     private LollipopUiHelper lollipopUiHelper;
     private Navigator navigator;
 
-    private WizMerlin merlin;
+    protected WizMerlin merlin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,18 @@ public class HNewsActivity extends ActionBarActivity {
         lollipopUiHelper.setSystemBarsColorOnLollipopAndLater();
         navigator = new Navigator(this);
         merlin = WizMerlin.newInstance(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        merlin.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        merlin.onStop();
     }
 
     @Override
@@ -102,4 +114,7 @@ public class HNewsActivity extends ActionBarActivity {
         return navigator;
     }
 
+    public WizMerlin getMerlin() {
+        return merlin;
+    }
 }

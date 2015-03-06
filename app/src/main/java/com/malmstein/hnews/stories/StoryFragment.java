@@ -3,7 +3,6 @@ package com.malmstein.hnews.stories;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.malmstein.hnews.HNewsFragment;
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.data.DataRepository;
 import com.malmstein.hnews.data.HNewsContract;
@@ -29,7 +29,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public abstract class StoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
+public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
 
     protected StoriesAdapter storiesAdapter;
     protected Subscription subscription;
@@ -86,7 +86,7 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     private void maybeUpdateContent() {
         DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.shouldUpdateContent(getType())) {
+        if (dataRepository.shouldUpdateContent(getType(), getMerlin())) {
             startRefreshing();
             onRefresh();
         }
@@ -142,28 +142,33 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void subscribeToStories() {
-        DataRepository dataRepository = Inject.dataRepository();
-        subscription = dataRepository
-                .observeStories(getType(), nextUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onCompleted() {
-                        if (!subscription.isUnsubscribed()) {
-                            subscription.unsubscribe();
+        if (getMerlin().detectsWorkingNetworkConnection()) {
+            DataRepository dataRepository = Inject.dataRepository();
+            subscription = dataRepository
+                    .observeStories(getType(), nextUrl)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<String>() {
+                        @Override
+                        public void onCompleted() {
+                            if (!subscription.isUnsubscribed()) {
+                                subscription.unsubscribe();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
+                        }
 
-                    @Override
-                    public void onNext(String moreItemsUrl) {
-                        nextUrl = moreItemsUrl;
-                    }
-                });
+                        @Override
+                        public void onNext(String moreItemsUrl) {
+                            nextUrl = moreItemsUrl;
+                        }
+                    });
+        } else {
+            // TODO maybe show snackbar?
+            stopRefreshing();
+        }
     }
 
 }

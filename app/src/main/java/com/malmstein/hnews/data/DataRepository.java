@@ -22,17 +22,15 @@ public class DataRepository {
 
     private final HNewsApi api;
     private final DataPersister dataPersister;
-    private final WizMerlin merlin;
     private final RefreshSharedPreferences refreshPreferences;
 
-    public DataRepository(DataPersister dataPersister, WizMerlin merlin) {
+    public DataRepository(DataPersister dataPersister) {
         this.dataPersister = dataPersister;
-        this.merlin = merlin;
         this.api = new HNewsApi();
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
     }
 
-    public boolean shouldUpdateContent(Story.TYPE type) {
+    public boolean shouldUpdateContent(Story.TYPE type, WizMerlin merlin) {
         if (merlin.detectsWorkingNetworkConnection()) {
             RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
             RefreshTimestamp now = RefreshTimestamp.now();
@@ -48,45 +46,26 @@ public class DataRepository {
     }
 
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
-        if (merlin.detectsWorkingNetworkConnection()) {
-            return api.getStories(type, nextUrl)
-                    .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
-                        @Override
-                        public Observable<String> call(final StoriesJsoup stories) {
-                            return Observable.create(new Observable.OnSubscribe<String>() {
-                                @Override
-                                public void call(Subscriber<? super String> subscriber) {
-                                    refreshPreferences.saveRefreshTick(type);
-                                    dataPersister.persistStories(stories.getStories());
-                                    subscriber.onNext(stories.getNextUrl());
-                                    subscriber.onCompleted();
-                                }
-                            });
-                        }
-                    });
-        }else{
-            return Observable.create(new Observable.OnSubscribe<String>() {
-                @Override
-                public void call(Subscriber<? super String> subscriber) {
-                    subscriber.onNext("");
-                    subscriber.onCompleted();
-                }
-            });
-        }
+        return api.getStories(type, nextUrl)
+                .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(final StoriesJsoup stories) {
+                        return Observable.create(new Observable.OnSubscribe<String>() {
+                            @Override
+                            public void call(Subscriber<? super String> subscriber) {
+                                refreshPreferences.saveRefreshTick(type);
+                                dataPersister.persistStories(stories.getStories());
+                                subscriber.onNext(stories.getNextUrl());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+
     }
 
     public Observable<Integer> observeComments(final Long storyId) {
-        if (merlin.detectsWorkingNetworkConnection()) {
-            return getComments(storyId);
-        } else {
-            return Observable.create(new Observable.OnSubscribe<Integer>() {
-                @Override
-                public void call(Subscriber<? super Integer> subscriber) {
-                    subscriber.onNext(0);
-                    subscriber.onCompleted();
-                }
-            });
-        }
+        return getComments(storyId);
     }
 
     private Observable<Integer> getComments(final Long storyId) {

@@ -2,7 +2,6 @@ package com.malmstein.hnews.inject;
 
 import com.malmstein.hnews.analytics.CrashAnalytics;
 import com.malmstein.hnews.base.DeveloperError;
-import com.malmstein.hnews.connectivity.WizMerlin;
 import com.malmstein.hnews.data.DataPersister;
 import com.malmstein.hnews.data.DataRepository;
 
@@ -11,12 +10,10 @@ public class Inject {
     private static Inject INSTANCE;
     private final DataRepository dataRepository;
     private final CrashAnalytics crashAnalytics;
-    private final WizMerlin merlin;
 
-    private Inject(DataRepository dataRepository, CrashAnalytics crashAnalytics, WizMerlin merlin) {
+    private Inject(DataRepository dataRepository, CrashAnalytics crashAnalytics) {
         this.dataRepository = dataRepository;
         this.crashAnalytics = crashAnalytics;
-        this.merlin = merlin;
     }
 
     public static void using(DependenciesFactory factory) {
@@ -24,9 +21,8 @@ public class Inject {
 
         DataRepository dataRepository = factory.createDataRepository(dataPersister);
         CrashAnalytics crashAnalytics = factory.createCrashAnalytics();
-        WizMerlin merlin = factory.createWizMerlin();
 
-        INSTANCE = new Inject(dataRepository, crashAnalytics, merlin);
+        INSTANCE = new Inject(dataRepository, crashAnalytics);
     }
 
     private static Inject instance() {
@@ -42,10 +38,6 @@ public class Inject {
 
     public static CrashAnalytics crashAnalytics() {
         return instance().crashAnalytics;
-    }
-
-    public static WizMerlin merlin() {
-        return instance().merlin;
     }
 
 }

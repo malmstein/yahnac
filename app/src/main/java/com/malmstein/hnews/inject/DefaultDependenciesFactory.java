@@ -23,17 +23,12 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
 
     @Override
     public DataRepository createDataRepository(DataPersister dataPersister) {
-        return new DataRepository(dataPersister, createWizMerlin());
+        return new DataRepository(dataPersister);
     }
 
     @Override
     public CrashAnalytics createCrashAnalytics() {
         return new CrashlyticsAnalytics();
-    }
-
-    @Override
-    public WizMerlin createWizMerlin() {
-        return WizMerlin.newInstance(context);
     }
 
 }

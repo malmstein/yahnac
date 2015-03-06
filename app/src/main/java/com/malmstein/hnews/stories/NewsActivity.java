@@ -16,7 +16,6 @@ import com.malmstein.hnews.R;
 import com.malmstein.hnews.comments.CommentsFragment;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.StoriesPagerAdapter;
-import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.hnews.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
@@ -66,7 +65,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+            navigate().toSettings();
             return true;
         }
 
@@ -128,7 +127,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.story_fragment_root,
-                        ArticleFragment.from(story.getId(), story.getTitle()),
+                        ArticleFragment.from(story),
                         CommentsFragment.TAG)
                 .commit();
     }

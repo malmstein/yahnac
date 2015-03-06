@@ -5,6 +5,9 @@ buildscript {
         maven {
             url 'http://download.crashlytics.com/maven'
         }
+        maven {
+            url "http://ci.novoda.com/maven/releases"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.1.0-rc1'
@@ -18,6 +21,9 @@ allprojects {
         jcenter()
         maven {
             url 'http://download.crashlytics.com/maven'
+        }
+        maven {
+            url "http://ci.novoda.com/maven/releases"
         }
     }
 }

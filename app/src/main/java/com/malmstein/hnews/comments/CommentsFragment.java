@@ -121,28 +121,33 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     }
 
     private void getComments() {
-        DataRepository dataRepository = Inject.dataRepository();
-        subscription = dataRepository
-                .observeComments(getStory().getId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
-                    @Override
-                    public void onCompleted() {
-                        if (!subscription.isUnsubscribed()) {
-                            subscription.unsubscribe();
+        if (getMerlin().detectsWorkingNetworkConnection()){
+            DataRepository dataRepository = Inject.dataRepository();
+            subscription = dataRepository
+                    .observeComments(getStory().getId())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onCompleted() {
+                            if (!subscription.isUnsubscribed()) {
+                                subscription.unsubscribe();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getCommentsFrom " + getStory().getId(), e);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getCommentsFrom " + getStory().getId(), e);
+                        }
 
-                    @Override
-                    public void onNext(Integer header) {
+                        @Override
+                        public void onNext(Integer header) {
 
-                    }
-                });
+                        }
+                    });
+        } else {
+            // TODO maybe show a snackbar toast?
+            stopRefreshing();
+        }
     }
 
     private void startRefreshing() {
