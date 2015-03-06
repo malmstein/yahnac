@@ -33,7 +33,7 @@ public class DataRepository {
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
-        if (merlin.detectsWorkingNetworkConnection()){
+        if (merlin.detectsWorkingNetworkConnection()) {
             RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
             RefreshTimestamp now = RefreshTimestamp.now();
             long elapsedTime = now.getMillis() - lastUpdate.getMillis();
@@ -48,25 +48,45 @@ public class DataRepository {
     }
 
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
-        return api.getStories(type, nextUrl)
-                .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(final StoriesJsoup stories) {
-                        return Observable.create(new Observable.OnSubscribe<String>() {
-                            @Override
-                            public void call(Subscriber<? super String> subscriber) {
-                                refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(stories.getStories());
-                                subscriber.onNext(stories.getNextUrl());
-                                subscriber.onCompleted();
-                            }
-                        });
-                    }
-                });
+        if (merlin.detectsWorkingNetworkConnection()) {
+            return api.getStories(type, nextUrl)
+                    .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
+                        @Override
+                        public Observable<String> call(final StoriesJsoup stories) {
+                            return Observable.create(new Observable.OnSubscribe<String>() {
+                                @Override
+                                public void call(Subscriber<? super String> subscriber) {
+                                    refreshPreferences.saveRefreshTick(type);
+                                    dataPersister.persistStories(stories.getStories());
+                                    subscriber.onNext(stories.getNextUrl());
+                                    subscriber.onCompleted();
+                                }
+                            });
+                        }
+                    });
+        }else{
+            return Observable.create(new Observable.OnSubscribe<String>() {
+                @Override
+                public void call(Subscriber<? super String> subscriber) {
+                    subscriber.onNext("");
+                    subscriber.onCompleted();
+                }
+            });
+        }
     }
 
-    public Observable<Integer> observeComments(Long storyId) {
-        return getComments(storyId);
+    public Observable<Integer> observeComments(final Long storyId) {
+        if (merlin.detectsWorkingNetworkConnection()) {
+            return getComments(storyId);
+        } else {
+            return Observable.create(new Observable.OnSubscribe<Integer>() {
+                @Override
+                public void call(Subscriber<? super Integer> subscriber) {
+                    subscriber.onNext(0);
+                    subscriber.onCompleted();
+                }
+            });
+        }
     }
 
     private Observable<Integer> getComments(final Long storyId) {

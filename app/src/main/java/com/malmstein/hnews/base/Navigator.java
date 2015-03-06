@@ -43,13 +43,10 @@ public class Navigator {
     }
 
     public void toComments(Story story) {
-        if (merlin.detectsWorkingNetworkConnection()) {
-            Intent commentIntent = new Intent(activity, CommentsActivity.class);
-            commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
+        Intent commentIntent = new Intent(activity, CommentsActivity.class);
+        commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
 
-            ActivityCompat.startActivity(activity, commentIntent, null);
-        }
-
+        ActivityCompat.startActivity(activity, commentIntent, null);
     }
 
 }
