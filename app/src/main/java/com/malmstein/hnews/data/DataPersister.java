@@ -3,6 +3,8 @@ package com.malmstein.hnews.data;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
+import com.malmstein.hnews.base.HNewsDate;
+
 import java.util.Vector;
 
 public class DataPersister {
@@ -13,7 +15,13 @@ public class DataPersister {
         this.contentResolver = contentResolver;
     }
 
-    public int persistStories(Vector<ContentValues> topStories, boolean overwrite) {
+    public int persistStories(Vector<ContentValues> topStories) {
+
+        String timestampTwoDaysAgo = String.valueOf(HNewsDate.now().twoDaysAgo().getTimeInMillis());
+        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
+                HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " <= ?",
+                new String[]{timestampTwoDaysAgo});
+
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);
 
@@ -29,6 +37,5 @@ public class DataPersister {
         commentsVector.toArray(cvArray);
         return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
     }
-
 
 }

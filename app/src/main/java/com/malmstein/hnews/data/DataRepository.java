@@ -1,7 +1,6 @@
 package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
-import android.text.TextUtils;
 
 import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
@@ -50,7 +49,7 @@ public class DataRepository {
                             @Override
                             public void call(Subscriber<? super String> subscriber) {
                                 refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(stories.getStories(), !TextUtils.isEmpty(nextUrl));
+                                dataPersister.persistStories(stories.getStories());
                                 subscriber.onNext(stories.getNextUrl());
                                 subscriber.onCompleted();
                             }
