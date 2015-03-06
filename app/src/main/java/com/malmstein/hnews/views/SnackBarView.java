@@ -88,7 +88,7 @@ public class SnackBarView extends LinearLayout {
         croutonContainer.setBackgroundDrawable(background);
     }
 
-    public ShowCroutonAction showCrouton(CharSequence message) {
+    public ShowCroutonAction showSnackBar(CharSequence message) {
         return new ShowCroutonAction(this, message);
     }
 

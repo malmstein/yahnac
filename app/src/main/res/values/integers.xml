@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- generic crouton -->
+  <integer name="crouton_background_alpha">0xEA</integer>
+  <integer name="crouton_animation_duration">400</integer>
+  <integer name="crouton_timeout_duration">1300</integer>
+
+  <!-- feed crouton -->
+  <integer name="feed_crouton_background_alpha">@integer/crouton_background_alpha</integer>
+  <integer name="feed_crouton_animation_duration">@integer/crouton_animation_duration</integer>
+  <integer name="feed_crouton_timeout_duration">@integer/crouton_timeout_duration</integer>
+
+</resources>

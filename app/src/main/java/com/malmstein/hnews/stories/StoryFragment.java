@@ -20,6 +20,7 @@ import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.ScrollManager;
 import com.malmstein.hnews.presenters.StoriesAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
+import com.malmstein.hnews.views.SnackBarView;
 import com.malmstein.hnews.views.ViewDelegate;
 import com.malmstein.hnews.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
@@ -38,6 +39,10 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
     private DelegatedSwipeRefreshLayout refreshLayout;
     private String nextUrl;
 
+    private SnackBarView snackbarView;
+    private int croutonBackgroundAlpha;
+    private long croutonAnimationDuration;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -50,6 +55,10 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
+        snackbarView = Views.findById(rootView, R.id.feed_page_snackbar);
+
+        this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
+        this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
 
         setupRefreshLayout();
         setupStoriesList();
@@ -121,8 +130,15 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onLoadMoreItems() {
-        //show a snack bar with loading message
+        showLoadingSnackbar();
         subscribeToStories();
+    }
+
+    public void showLoadingSnackbar() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_text_loading))
+                .withBackgroundColor(R.color.orange, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
     }
 
     private void subscribeToStories() {
@@ -149,4 +165,5 @@ public abstract class StoryFragment extends Fragment implements SwipeRefreshLayo
                     }
                 });
     }
+
 }
