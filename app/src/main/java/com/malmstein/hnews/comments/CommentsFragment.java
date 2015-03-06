@@ -98,7 +98,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
 
-        startRefreshing();
         getComments();
     }
 
@@ -122,6 +121,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     private void getComments() {
         if (getMerlin().detectsWorkingNetworkConnection()){
+            startRefreshing();
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
                     .observeComments(getStory().getId())
@@ -144,9 +144,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
                         }
                     });
-        } else {
-            // TODO maybe show a snackbar toast?
-            stopRefreshing();
         }
     }
 
