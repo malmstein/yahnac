@@ -5,12 +5,13 @@ import android.support.v4.app.FragmentManager;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.stories.AskHNFragment;
+import com.malmstein.yahnac.stories.BookmarksFragment;
 import com.malmstein.yahnac.stories.ShowHNFragment;
 import com.malmstein.yahnac.stories.TopStoriesFragment;
 
 public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
 
-    private String[] categories = {"Top Stories", "Newest", "Best", "Show HN", "Ask HN"};
+    private String[] categories = {"Bookmarks", "Top Stories", "Newest", "Best", "Show HN", "Ask HN"};
 
     private static final String TAG_TEMPLATE = BuildConfig.APPLICATION_ID + ".FEED_FRAGMENT#";
 
@@ -20,16 +21,18 @@ public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                return TopStoriesFragment.from(TopStoriesFragment.QUERY.top);
+                return new BookmarksFragment();
             case 1:
-                return TopStoriesFragment.from(TopStoriesFragment.QUERY.newest);
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.top);
             case 2:
-                return TopStoriesFragment.from(TopStoriesFragment.QUERY.best);
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.newest);
             case 3:
-                return new ShowHNFragment();
+                return TopStoriesFragment.from(TopStoriesFragment.QUERY.best);
             case 4:
+                return new ShowHNFragment();
+            case 5:
                 return new AskHNFragment();
             default:
                 return new TopStoriesFragment();
