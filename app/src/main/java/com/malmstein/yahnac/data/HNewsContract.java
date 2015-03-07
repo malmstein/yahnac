@@ -41,6 +41,16 @@ public class HNewsContract {
             ItemEntry.COLUMN_HEADER,
     };
 
+    public static final String[] BOOKMARK_COLUMNS = {
+            ItemEntry._ID,
+            ItemEntry.COLUMN_ITEM_ID,
+            ItemEntry.COLUMN_BY,
+            ItemEntry.COLUMN_DOMAIN,
+            ItemEntry.COLUMN_URL,
+            ItemEntry.COLUMN_TITLE,
+            ItemEntry.COLUMN_TIMESTAMP,
+    };
+
     public static final int COLUMN_ID = 0;
     public static final int COLUMN_ITEM_ID = 1;
     public static final int COLUMN_TYPE = 2;
