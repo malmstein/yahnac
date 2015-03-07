@@ -12,6 +12,8 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.comments.CommentsFragment;
+import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
@@ -90,6 +92,18 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     @Override
     public void onExternalLinkClicked(Story story) {
         navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+    }
+
+    @Override
+    public void onAddBookmark(Story story) {
+        DataPersister persister = Inject.dataPersister();
+        persister.addBookmark(story);
+    }
+
+    @Override
+    public void onRemoveBookmark(Story story) {
+        DataPersister persister = Inject.dataPersister();
+        persister.removeBookmark(story);
     }
 
     private boolean isTwoPaneLayout() {

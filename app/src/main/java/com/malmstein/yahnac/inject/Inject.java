@@ -10,19 +10,20 @@ public class Inject {
     private static Inject INSTANCE;
     private final DataRepository dataRepository;
     private final CrashAnalytics crashAnalytics;
+    private final DataPersister persister;
 
-    private Inject(DataRepository dataRepository, CrashAnalytics crashAnalytics) {
+    private Inject(DataRepository dataRepository, CrashAnalytics crashAnalytics, DataPersister persister) {
         this.dataRepository = dataRepository;
         this.crashAnalytics = crashAnalytics;
+        this.persister = persister;
     }
 
     public static void using(DependenciesFactory factory) {
         DataPersister dataPersister = factory.createDatabasePersister();
-
         DataRepository dataRepository = factory.createDataRepository(dataPersister);
         CrashAnalytics crashAnalytics = factory.createCrashAnalytics();
 
-        INSTANCE = new Inject(dataRepository, crashAnalytics);
+        INSTANCE = new Inject(dataRepository, crashAnalytics, dataPersister);
     }
 
     private static Inject instance() {
@@ -38,6 +39,10 @@ public class Inject {
 
     public static CrashAnalytics crashAnalytics() {
         return instance().crashAnalytics;
+    }
+
+    public static DataPersister dataPersister() {
+        return instance().persister;
     }
 
 }
