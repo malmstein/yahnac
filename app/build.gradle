@@ -9,7 +9,7 @@ android {
         applicationId "com.malmstein.yahnac"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 6
+        versionCode 7
         versionName "0.4"
 
         Calendar instance = Calendar.getInstance()
