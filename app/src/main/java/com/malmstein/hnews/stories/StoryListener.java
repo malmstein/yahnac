@@ -13,4 +13,6 @@ public interface StoryListener {
 
     void onContentClicked(Story story);
 
+    void onExternalLinkClicked(Story story);
+
 }

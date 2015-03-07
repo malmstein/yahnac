@@ -1,10 +1,8 @@
 package com.malmstein.hnews.stories;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -87,25 +85,23 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         showOrNavigateTo(story);
     }
 
+    @Override
+    public void onExternalLinkClicked(Story story) {
+        navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+    }
+
     private boolean isTwoPaneLayout() {
         return findViewById(R.id.story_fragment_root) != null;
     }
 
     private void showOrNavigateTo(Story story) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean preferInternalBrowser = preferences.getBoolean(getString(R.string.pref_enable_browser_key), Boolean.valueOf(getString(R.string.pref_enable_browser_default)));
-
         if (story.isHackerNewsLocalItem()) {
             navigate().toComments(story);
         } else {
-            if (preferInternalBrowser) {
-                if (isTwoPaneLayout()) {
-                    showInnerBrowserFragment(story);
-                } else {
-                    navigate().toInnerBrowser(story);
-                }
+            if (isTwoPaneLayout()) {
+                showInnerBrowserFragment(story);
             } else {
-                navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+                navigate().toInnerBrowser(story);
             }
         }
     }
@@ -131,7 +127,5 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                         CommentsFragment.TAG)
                 .commit();
     }
-
-
 
 }

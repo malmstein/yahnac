@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
 import com.malmstein.hnews.BuildConfig;
 import com.malmstein.hnews.R;
@@ -14,9 +13,6 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        addPreferencesFromResource(R.xml.general_settings);
-        PreferenceManager.setDefaultValues(getActivity(), R.xml.general_settings, false);
 
         addPreferencesFromResource(R.xml.about_settings);
         addPreferenceClickListenerForSoftwareLicenses();

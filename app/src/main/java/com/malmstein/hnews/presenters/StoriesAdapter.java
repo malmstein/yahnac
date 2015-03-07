@@ -42,11 +42,17 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.domain.setVisibility(View.GONE);
         }
 
-
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onContentClicked(story);
+            }
+        });
+
+        holder.external_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onExternalLinkClicked(story);
             }
         });
 
@@ -89,6 +95,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final TextView timeAgo;
         public final TextView score;
         public final View card;
+        public final View external_action;
         public final ImageButton share_action;
         public final View comments_action;
         public final TextView comments_text;
@@ -101,6 +108,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             timeAgo = Views.findById(view, R.id.article_time);
             score = Views.findById(view, R.id.article_score);
             card = Views.findById(view, R.id.article_card_root);
+            external_action = Views.findById(view, R.id.article_external_action);
             share_action = Views.findById(view, R.id.article_share_action);
             comments_action = Views.findById(view, R.id.article_comments);
             comments_text = Views.findById(view, R.id.article_comments_label);
