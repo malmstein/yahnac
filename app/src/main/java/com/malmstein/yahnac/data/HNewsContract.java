@@ -11,6 +11,7 @@ public class HNewsContract {
 
     public static final String PATH_ITEM = "item";
     public static final String PATH_COMMENT = "comment";
+    public static final String PATH_BOOKMARKS = "bookmarks";
 
     public static final int FALSE_BOOLEAN = 0;
     public static final int TRUE_BOOLEAN = 1;
@@ -62,6 +63,7 @@ public class HNewsContract {
 
         public static final Uri CONTENT_STORY_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
         public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
+        public static final Uri CONTENT_BOOKMARKS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_BOOKMARKS).build();
 
         public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
         public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
@@ -100,6 +102,10 @@ public class HNewsContract {
 
         public static Uri buildCommentsUri() {
             return CONTENT_COMMENTS_URI.buildUpon().build();
+        }
+
+        public static Uri buildBookmarksUri() {
+            return CONTENT_BOOKMARKS_URI.buildUpon().build();
         }
     }
 

@@ -33,14 +33,14 @@ public class BookmarksFragment extends StoryFragment implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyNewsUri = ItemEntry.buildStoriesUri();
+        Uri storyNewsUri = ItemEntry.buildBookmarksUri();
 
         return new CursorLoader(
                 getActivity(),
                 storyNewsUri,
                 STORY_COLUMNS,
-                ItemEntry.COLUMN_TYPE + " = ?",
-                new String[]{Story.TYPE.show.name()},
+                null,
+                null,
                 getOrder());
     }
 

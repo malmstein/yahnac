@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class HNewsProvider extends ContentProvider {
@@ -16,6 +17,31 @@ public class HNewsProvider extends ContentProvider {
     private static final int STORY = 100;
     private static final int STORY_ITEM = 101;
     private static final int COMMENT = 102;
+    private static final int BOOKMARKS = 103;
+
+    private static final SQLiteQueryBuilder sBookmarksSettingQueryBuilder;
+
+    static {
+        sBookmarksSettingQueryBuilder = new SQLiteQueryBuilder();
+        sBookmarksSettingQueryBuilder.setTables(
+                HNewsContract.ItemEntry.TABLE_ITEM_NAME + " INNER JOIN " +
+                        HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME +
+                        " ON " + HNewsContract.ItemEntry.TABLE_ITEM_NAME +
+                        "." + HNewsContract.ItemEntry.COLUMN_ITEM_ID +
+                        " = " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME +
+                        "." + HNewsContract.ItemEntry.COLUMN_ITEM_ID);
+    }
+
+    private Cursor getBookmarks(String selection, String[] projection, String[] selectionArgs, String sortOrder) {
+        return sBookmarksSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     @Override
     public boolean onCreate() {
@@ -62,6 +88,10 @@ public class HNewsProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
+            }
+            case BOOKMARKS: {
+                retCursor = getBookmarks(selection, selectionArgs, projection, sortOrder);
                 break;
             }
             default:
@@ -261,6 +291,7 @@ public class HNewsProvider extends ContentProvider {
         matcher.addURI(authority, HNewsContract.PATH_ITEM, STORY);
         matcher.addURI(authority, HNewsContract.PATH_ITEM + "/*", STORY_ITEM);
         matcher.addURI(authority, HNewsContract.PATH_COMMENT, COMMENT);
+        matcher.addURI(authority, HNewsContract.PATH_BOOKMARKS, BOOKMARKS);
 
         return matcher;
     }

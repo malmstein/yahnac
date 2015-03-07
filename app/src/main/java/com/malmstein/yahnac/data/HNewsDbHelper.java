@@ -43,7 +43,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);
