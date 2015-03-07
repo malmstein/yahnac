@@ -3,6 +3,7 @@ package com.malmstein.hnews.comments;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +33,7 @@ import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.presenters.CommentsAdapter;
 import com.malmstein.hnews.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.hnews.views.ViewDelegate;
-import com.malmstein.hnews.views.recyclerview.FeedRecyclerItemDecoration;
+import com.malmstein.hnews.views.recyclerview.CommentRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;
@@ -171,10 +172,11 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         commentsList.setAdapter(commentsAdapter);
     }
 
-    private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
+    private CommentRecyclerItemDecoration createItemDecoration(Resources resources) {
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_padding_infra_spans);
-        return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
+        Drawable divider = resources.getDrawable(R.drawable.divider_horizontal_bright);
+        return new CommentRecyclerItemDecoration(divider, verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     private void stopRefreshing() {
