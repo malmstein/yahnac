@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 
 public class HNewsContract {
 
-    public static final String CONTENT_AUTHORITY = "com.malmstein.hnews";
+    public static final String CONTENT_AUTHORITY = "com.malmstein.yahnac";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEM = "item";

@@ -10,7 +10,7 @@
   <string name="action_about">About</string>
   <string name="action_share">Share</string>
 
-  <string name="content_authority">com.malmstein.hnews</string>
+  <string name="content_authority">com.malmstein.yahnac</string>
 
   <string name="story_by">by %s</string>
   <string name="story_points">%d points</string>
