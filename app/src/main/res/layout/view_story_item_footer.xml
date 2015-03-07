@@ -13,6 +13,11 @@
     style="@style/HNews.FeedAction"
     android:src="@drawable/ic_share" />
 
+  <ImageButton
+    android:id="@+id/article_bookmark"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/selector_bookmark" />
+
   <LinearLayout
     android:id="@+id/article_comments"
     android:layout_width="wrap_content"
