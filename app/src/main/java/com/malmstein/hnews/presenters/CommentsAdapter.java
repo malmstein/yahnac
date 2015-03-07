@@ -59,6 +59,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public final View comment_header;
         public final TextView text;
         public final TextView author;
         public final TextView when;
@@ -66,6 +67,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
         public HeaderViewHolder(View view) {
             super(view);
+            comment_header = Views.findById(view, R.id.comment_header);
             text = Views.findById(view, R.id.comment_header_text);
             author = Views.findById(view, R.id.comment_header_by);
             when = Views.findById(view, R.id.comment_header_when);
@@ -74,9 +76,11 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
         public void bind(Comment comment) {
             text.setText(Html.fromHtml(comment.getText()));
+            text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader()) {
-                author.setVisibility(View.GONE);
-                when.setVisibility(View.GONE);
+                comment_header.setVisibility(View.GONE);
+                root.setPadding(0, 0, 0, 0);
+                text.setTextAppearance(text.getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());
