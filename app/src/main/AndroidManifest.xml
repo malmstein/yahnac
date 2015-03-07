@@ -44,7 +44,7 @@
 
     <activity
       android:name="com.malmstein.hnews.settings.SettingsActivity"
-      android:label="@string/title_settings"
+      android:label="@string/title_about"
       android:parentActivityName=".stories.NewsActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"

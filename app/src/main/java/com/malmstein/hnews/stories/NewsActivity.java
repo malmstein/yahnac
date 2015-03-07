@@ -62,7 +62,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_about) {
             navigate().toSettings();
             return true;
         }
