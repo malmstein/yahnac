@@ -20,13 +20,33 @@
       android:orientation="vertical"
       android:padding="@dimen/default_padding">
 
-      <TextView
-        android:id="@+id/article_title"
+      <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/black"
-        tools:text="This is the article title" />
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/article_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_toLeftOf="@+id/article_score"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          android:textColor="@color/black"
+          tools:text="This is the article title" />
+
+        <TextView
+          android:id="@+id/article_score"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:textColor="@color/light_grey"
+          android:paddingLeft="@dimen/card_content_padding"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          tools:text="123 points" />
+
+      </RelativeLayout>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +77,6 @@
             android:paddingLeft="@dimen/card_content_padding"
             tools:text="user" />
 
-
           <TextView
             android:id="@+id/article_domain"
             android:layout_width="match_parent"
@@ -71,15 +90,12 @@
 
       </LinearLayout>
 
-
     </LinearLayout>
 
     <include
       layout="@layout/view_story_item_footer"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
-
-
 
   </LinearLayout>
 
