@@ -6,11 +6,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.malmstein.hnews"
+        applicationId "com.malmstein.yahnac"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 5
-        versionName "0.3"
+        versionCode 7
+        versionName "0.4"
 
         Calendar instance = Calendar.getInstance()
         instance.setTimeInMillis(System.currentTimeMillis())
@@ -33,7 +33,7 @@ android {
         release {
             debuggable false
             jniDebuggable false
-            minifyEnabled true
+            minifyEnabled false
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -55,10 +55,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
+
     compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.novoda:notils:2.2.8'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.crashlytics.android:crashlytics:1.1.11'
+
+    compile 'com.novoda:notils:2.2.8'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
 }

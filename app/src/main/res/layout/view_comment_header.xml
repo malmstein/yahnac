@@ -3,16 +3,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/comment_header_root"
-  style="@style/HNewsButton.Borderless"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical">
 
   <LinearLayout
+    android:id="@+id/comment_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/default_padding">
 
     <TextView
       android:id="@+id/comment_header_by"
@@ -33,7 +34,7 @@
 
   </LinearLayout>
 
-  <com.malmstein.hnews.views.CommentTextView
+  <com.malmstein.yahnac.views.CommentTextView
     android:id="@+id/comment_header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

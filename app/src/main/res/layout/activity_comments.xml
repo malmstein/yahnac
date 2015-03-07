@@ -6,18 +6,18 @@
   android:orientation="vertical"
   tools:context=".CommentsActivity">
 
-  <com.malmstein.hnews.views.toolbar.AppBarContainer
+  <com.malmstein.yahnac.views.toolbar.AppBarContainer
     style="@style/HNews.AppBar.CommentsContainer"
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.malmstein.hnews.views.StoryHeaderView
+    <com.malmstein.yahnac.views.StoryHeaderView
       android:id="@+id/story_header_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
-  </com.malmstein.hnews.views.toolbar.AppBarContainer>
+  </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
   <FrameLayout
     android:id="@+id/comments_fragment_root"

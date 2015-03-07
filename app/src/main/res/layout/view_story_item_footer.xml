@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.malmstein.hnews.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malmstein.yahnac.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   style="@style/HNews.FeedFooter"
   android:layout_width="match_parent"
@@ -8,37 +8,47 @@
   android:orientation="horizontal"
   android:layout_below="@id/article_text_root">
 
-  <TextView
+  <ImageButton
     android:id="@+id/article_share_action"
-    style="@style/HNewsButton.Borderless"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:textColor="@color/black"
-    android:textAllCaps="true"
-    android:textAppearance="@style/TextAppearance.AppCompat.Button"
-    android:focusable="false"
-    android:text="@string/action_share" />
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/ic_share" />
 
-  <TextView
-    android:id="@+id/article_comments_action"
-    style="@style/HNewsButton.Borderless"
+  <LinearLayout
+    android:id="@+id/article_comments"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:textColor="@color/dark_orange"
-    android:textAllCaps="true"
+    android:orientation="horizontal"
     android:layout_marginLeft="@dimen/card_content_padding"
-    android:focusable="false"
-    android:textAppearance="@style/TextAppearance.AppCompat.Button"
-    tools:text="26 COMMENTS" />
+    android:background="@drawable/selector_card_button">
 
-  <TextView
-    android:id="@+id/article_score"
+    <ImageButton
+      android:id="@+id/article_comments_action"
+      style="@style/HNews.FeedImage"
+      android:src="@drawable/ic_comment_outline_grey"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent" />
+
+    <TextView
+      android:id="@+id/article_comments_label"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:gravity="center_vertical"
+      android:lines="1"
+      android:textColor="@color/dark_orange"
+      tools:text="26 comments" />
+
+  </LinearLayout>
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:gravity="right|center_vertical"
-    android:layout_height="match_parent"
-    android:textAllCaps="true"
-    android:textColor="@color/light_grey"
-    android:paddingRight="@dimen/default_padding"
-    tools:text="123" />
+    android:layout_height="wrap_content"
+    android:gravity="right">
 
-</com.malmstein.hnews.views.FooterWithTopDividerLayout>
+    <ImageButton
+      android:id="@+id/article_external_action"
+      style="@style/HNews.FeedAction"
+      android:src="@drawable/ic_exit_to_app" />
+
+  </LinearLayout>
+
+</com.malmstein.yahnac.views.FooterWithTopDividerLayout>

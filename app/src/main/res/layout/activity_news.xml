@@ -6,19 +6,19 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <com.malmstein.hnews.views.toolbar.AppBarContainer
+  <com.malmstein.yahnac.views.toolbar.AppBarContainer
     style="@style/HNews.AppBar.NewsContainer"
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout
+    <com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout
       android:id="@+id/sliding_tabs"
       style="@style/HNews.Feed.TabStrip"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
-  </com.malmstein.hnews.views.toolbar.AppBarContainer>
+  </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
   <FrameLayout
     android:id="@+id/feed_main_content"

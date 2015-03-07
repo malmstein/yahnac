@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/snackbar_shadow_height"
+    android:background="@drawable/shape_snackbar_shadow" />
+
+  <FrameLayout
+    android:id="@+id/crouton_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/snackbar_background">
+
+    <TextView
+      android:id="@+id/crouton_text"
+      style="?croutonTextStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="@dimen/snackbar_height"
+      tools:text="Crouton message"/>
+
+  </FrameLayout>
+
+</merge>

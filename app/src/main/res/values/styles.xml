@@ -50,10 +50,6 @@
     <item name="android:minHeight">@dimen/feed_item_article_footer_height</item>
   </style>
 
-  <style name="HNewsButton" parent="android:Widget.Holo.Button" />
-
-  <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless"></style>
-
   <style name="HNews.TabStrip" parent="None">
     <item name="android:clipToPadding">false</item>
     <item name="android:paddingLeft">@dimen/appbar_tab_left_padding</item>

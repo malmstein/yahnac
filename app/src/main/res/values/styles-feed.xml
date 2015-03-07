@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="HNewsButton" parent="android:Widget.Holo.Button" />
+
+  <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
+    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+  </style>
+
+  <style name="HNews.FeedAction" parent="None">
+    <item name="android:layout_width">@dimen/feed_action_button_width</item>
+    <item name="android:layout_height">@dimen/feed_action_button_height</item>
+    <item name="android:adjustViewBounds">true</item>
+    <item name="android:background">@drawable/selector_card_button</item>
+  </style>
+
+  <style name="HNews.FeedImage" parent="None">
+    <item name="android:layout_width">@dimen/feed_action_button_width</item>
+    <item name="android:layout_height">@dimen/feed_action_button_height</item>
+    <item name="android:background">@android:color/transparent</item>
+    <item name="android:paddingLeft">@dimen/card_content_padding</item>
+    <item name="android:paddingRight">@dimen/card_content_padding</item>
+  </style>
+
+  <style name="HNews.FeedComments" parent="None">
+    <item name="android:layout_gravity">center_vertical</item>
+    <item name="android:textColor">@color/dark_orange</item>
+    <item name="android:paddingLeft">@dimen/card_content_padding</item>
+    <item name="android:paddingRight">@dimen/card_content_padding</item>
+  </style>
+
+</resources>
