@@ -12,7 +12,7 @@
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:orientation="vertical">
 
-  <com.malmstein.hnews.views.CommentTextView
+  <com.malmstein.yahnac.views.CommentTextView
     android:id="@+id/story_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.malmstein.hnews;
+package com.malmstein.yahnac;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

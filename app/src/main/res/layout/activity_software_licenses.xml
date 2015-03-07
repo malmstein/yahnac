@@ -6,7 +6,7 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <com.malmstein.hnews.views.toolbar.AppBarContainer
+  <com.malmstein.yahnac.views.toolbar.AppBarContainer
     style="@style/HNews.AppBar.NewsContainer"
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:tag="@string/software_licenses_fragment_tag"
-    class="com.malmstein.hnews.settings.SoftwareLicensesFragment"
+    class="com.malmstein.yahnac.settings.SoftwareLicensesFragment"
     tools:layout="@layout/fragment_software_licenses" />
 
 </LinearLayout>

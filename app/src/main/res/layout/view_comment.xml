@@ -33,7 +33,7 @@
 
   </LinearLayout>
 
-  <com.malmstein.hnews.views.CommentTextView
+  <com.malmstein.yahnac.views.CommentTextView
     android:id="@+id/comment_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

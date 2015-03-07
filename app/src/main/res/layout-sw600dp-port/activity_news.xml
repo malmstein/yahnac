@@ -6,19 +6,19 @@
   android:orientation="vertical"
   tools:context=".TopStoriesActivity">
 
-  <com.malmstein.hnews.views.toolbar.AppBarContainer
+  <com.malmstein.yahnac.views.toolbar.AppBarContainer
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:appBarLayout="@layout/include_app_bar">
 
-    <com.malmstein.hnews.views.sliding_tabs.SlidingTabLayout
+    <com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout
       android:id="@+id/sliding_tabs"
       style="@style/HNews.Feed.TabStrip"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
-  </com.malmstein.hnews.views.toolbar.AppBarContainer>
+  </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
   <android.support.v4.view.ViewPager
     android:id="@+id/news_pager"

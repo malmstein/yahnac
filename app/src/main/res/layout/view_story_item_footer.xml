@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.malmstein.hnews.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malmstein.yahnac.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   style="@style/HNews.FeedFooter"
   android:layout_width="match_parent"
@@ -51,4 +51,4 @@
 
   </LinearLayout>
 
-</com.malmstein.hnews.views.FooterWithTopDividerLayout>
+</com.malmstein.yahnac.views.FooterWithTopDividerLayout>

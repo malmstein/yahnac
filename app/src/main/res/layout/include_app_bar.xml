@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malmstein.hnews.views.toolbar.HNToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malmstein.yahnac.views.toolbar.HNToolbar xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/toolbar"
   style="@style/HNews.AppBar"
