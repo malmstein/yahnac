@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "hnews.db";
 
     public HNewsDbHelper(Context context) {
@@ -41,14 +41,21 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.ItemEntry.COLUMN_HEADER + " BOOLEAN" +
                 " );";
 
+        final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME + " (" +
+                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                " );";
+
         db.execSQL(SQL_CREATE_STORIES_TABLE);
         db.execSQL(SQL_CREATE_COMMENTS_TABLE);
+        db.execSQL(SQL_CREATE_BOOKMARKS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME);
         onCreate(db);
     }
 }
