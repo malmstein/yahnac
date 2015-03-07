@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="feed_action_button_height">48dp</dimen>
+  <dimen name="feed_action_button_width">48dp</dimen>
+
+  <dimen name="feed_linking_widget_content_padding">12dp</dimen>
+  <dimen name="feed_linking_widget_content_padding_left">@dimen/feed_linking_widget_content_padding</dimen>
+  <dimen name="feed_linking_widget_content_padding_top">@dimen/feed_linking_widget_content_padding</dimen>
+  <dimen name="feed_linking_widget_content_padding_right">@dimen/feed_linking_widget_content_padding</dimen>
+  <dimen name="feed_linking_widget_content_padding_bottom">@dimen/feed_linking_widget_content_padding</dimen>
+
+</resources>

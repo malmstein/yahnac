@@ -86,7 +86,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private void maybeUpdateContent() {
         DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.shouldUpdateContent(getType(), getMerlin())) {
+        if (dataRepository.shouldUpdateContent(getType())) {
             startRefreshing();
             onRefresh();
         }

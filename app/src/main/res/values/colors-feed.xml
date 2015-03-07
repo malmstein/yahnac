@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <color name="feed_card_background">#F6F6EF</color>
+  <color name="feed_tabs_text_selected">@color/white</color>
+  <color name="feed_tabs_text_normal">#99FFFFFF</color>
+  <color name="feed_tabs_selected_indicator">#FFFFFF</color>
+  <color name="feed_item_footer_divider">#EEEEEE</color>
+
+  <color name="feed_empty_text">#cbcbcb</color>
+
+  <color name="feed_linking_action_icon_color">#FFDADADA</color>
+
+</resources>

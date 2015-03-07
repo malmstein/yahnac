@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import com.malmstein.hnews.HNewsActivity;
 import com.malmstein.hnews.comments.CommentsActivity;
 import com.malmstein.hnews.comments.CommentsFragment;
+import com.malmstein.hnews.connectivity.NetworkDetector;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.settings.SettingsActivity;
 import com.malmstein.hnews.stories.ArticleActivity;
@@ -20,8 +21,13 @@ public class Navigator {
         this.activity = activity;
     }
 
+    protected boolean isOnline() {
+        NetworkDetector networkDetector = new NetworkDetector(activity);
+        return networkDetector.isDataConnectionAvailable();
+    }
+
     public void toExternalBrowser(Uri articleUri) {
-        if (activity.getMerlin().detectsWorkingNetworkConnection()) {
+        if (isOnline()) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW);
             browserIntent.setData(articleUri);
 
@@ -30,7 +36,7 @@ public class Navigator {
     }
 
     public void toInnerBrowser(Story story) {
-        if (activity.getMerlin().detectsWorkingNetworkConnection()) {
+        if (isOnline()) {
             Intent articleIntent = new Intent(activity, ArticleActivity.class);
             articleIntent.putExtra(ArticleFragment.ARG_STORY, story);
 

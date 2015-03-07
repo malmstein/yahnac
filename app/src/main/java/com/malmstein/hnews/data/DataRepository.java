@@ -29,15 +29,12 @@ public class DataRepository {
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
     }
 
-    public boolean shouldUpdateContent(Story.TYPE type, WizMerlin merlin) {
-        if (merlin.detectsWorkingNetworkConnection()) {
-            RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
-            RefreshTimestamp now = RefreshTimestamp.now();
-            long elapsedTime = now.getMillis() - lastUpdate.getMillis();
-            return elapsedTime > maxMillisWithoutUpgrade;
-        } else {
-            return false;
-        }
+    public boolean shouldUpdateContent(Story.TYPE type) {
+        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
+        RefreshTimestamp now = RefreshTimestamp.now();
+        long elapsedTime = now.getMillis() - lastUpdate.getMillis();
+        return elapsedTime > maxMillisWithoutUpgrade;
+
     }
 
     public Observable<String> observeStories(Story.TYPE type, String nextUrl) {

@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.malmstein.hnews.R;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.stories.StoryListener;
+import com.novoda.notils.caster.Views;
 
 public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHolder> {
 
@@ -64,7 +66,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
             holder.timeAgo.setText(story.getTimeAgo());
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
-            holder.comments_action.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
+            holder.comments_text.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,20 +89,22 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final TextView timeAgo;
         public final TextView score;
         public final View card;
-        public final TextView share_action;
-        public final TextView comments_action;
+        public final ImageButton share_action;
+        public final View comments_action;
+        public final TextView comments_text;
         public final TextView domain;
 
         public ViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.article_title);
-            user = (TextView) view.findViewById(R.id.article_user);
-            timeAgo = (TextView) view.findViewById(R.id.article_time);
-            score = (TextView) view.findViewById(R.id.article_score);
-            card = view.findViewById(R.id.article_card_root);
-            share_action = (TextView) view.findViewById(R.id.article_share_action);
-            comments_action = (TextView) view.findViewById(R.id.article_comments_action);
-            domain = (TextView) view.findViewById(R.id.article_domain);
+            title = Views.findById(view, R.id.article_title);
+            user = Views.findById(view, R.id.article_user);
+            timeAgo = Views.findById(view, R.id.article_time);
+            score = Views.findById(view, R.id.article_score);
+            card = Views.findById(view, R.id.article_card_root);
+            share_action = Views.findById(view, R.id.article_share_action);
+            comments_action = Views.findById(view, R.id.article_comments);
+            comments_text = Views.findById(view, R.id.article_comments_label);
+            domain = Views.findById(view, R.id.article_domain);
         }
     }
 

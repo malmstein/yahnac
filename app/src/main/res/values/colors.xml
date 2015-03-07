@@ -13,13 +13,6 @@
   <color name="light_grey">#9e9e9e</color>
 
   <color name="selectable_pressed">#ffe0b2</color>
-
-  <color name="feed_card_background">#F6F6EF</color>
-  <color name="feed_tabs_text_selected">@color/white</color>
-  <color name="feed_tabs_text_normal">#99FFFFFF</color>
-  <color name="feed_tabs_selected_indicator">#FFFFFF</color>
-  <color name="feed_item_footer_divider">#EEEEEE</color>
-
-  <color name="feed_empty_text">#cbcbcb</color>
+  <color name="selectable_button_pressed">#9e9e9e</color>
 
 </resources>
