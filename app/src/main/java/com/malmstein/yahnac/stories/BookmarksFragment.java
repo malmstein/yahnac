@@ -22,6 +22,7 @@ public class BookmarksFragment extends StoryFragment implements LoaderManager.Lo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        disableRefresh();
         getLoaderManager().initLoader(STORY_LOADER, null, this);
     }
 

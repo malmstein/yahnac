@@ -118,6 +118,10 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         refreshLayout.setRefreshing(false);
     }
 
+    protected void disableRefresh() {
+        refreshLayout.setEnabled(false);
+    }
+
     @Override
     public boolean isReadyForPull() {
         return ViewCompat.canScrollVertically(storiesList, -1);
