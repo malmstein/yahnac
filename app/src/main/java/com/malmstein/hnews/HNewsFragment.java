@@ -2,7 +2,7 @@ package com.malmstein.hnews;
 
 import android.support.v4.app.Fragment;
 
-import com.malmstein.hnews.connectivity.WizMerlin;
+import com.malmstein.hnews.connectivity.NetworkDetector;
 import com.malmstein.hnews.views.toolbar.HNToolbar;
 
 public class HNewsFragment extends Fragment {
@@ -11,8 +11,8 @@ public class HNewsFragment extends Fragment {
         return ((HNewsActivity) getActivity()).getAppBar();
     }
 
-    public WizMerlin getMerlin() {
-        return ((HNewsActivity) getActivity()).getMerlin();
+    protected boolean isOnline() {
+        NetworkDetector networkDetector = new NetworkDetector(getActivity());
+        return networkDetector.isDataConnectionAvailable();
     }
-
 }

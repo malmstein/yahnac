@@ -142,7 +142,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     private void subscribeToStories() {
-        if (getMerlin().detectsWorkingNetworkConnection()) {
+        if (isOnline()) {
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
                     .observeStories(getType(), nextUrl)

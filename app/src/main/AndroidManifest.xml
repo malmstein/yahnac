@@ -65,17 +65,6 @@
       android:exported="true"
       android:syncable="true" />
 
-    <!-- Merlin Service & Receiver TODO: remove when updated to v5 -->
-    <service
-      android:exported="false"
-      android:name="com.novoda.merlin.service.MerlinService" />
-
-    <receiver android:name="com.novoda.merlin.receiver.ConnectivityReceiver">
-      <intent-filter>
-        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-      </intent-filter>
-    </receiver>
-
     <meta-data
       android:name="com.crashlytics.ApiKey"
       android:value="a4b08494f63a11e820d5674cf1efb6e70ccf6686" />

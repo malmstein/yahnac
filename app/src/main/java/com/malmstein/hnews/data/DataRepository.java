@@ -2,7 +2,6 @@ package com.malmstein.hnews.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.hnews.connectivity.WizMerlin;
 import com.malmstein.hnews.model.StoriesJsoup;
 import com.malmstein.hnews.model.Story;
 import com.malmstein.hnews.updater.RefreshSharedPreferences;

@@ -97,7 +97,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
-
         getComments();
     }
 
@@ -120,7 +119,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     }
 
     private void getComments() {
-        if (getMerlin().detectsWorkingNetworkConnection()){
+        if (isOnline()){
             startRefreshing();
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
