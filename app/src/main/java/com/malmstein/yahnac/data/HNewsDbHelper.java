@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "hnews.db";
 
     public HNewsDbHelper(Context context) {
@@ -44,6 +44,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME + " (" +
                 HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_DOMAIN + " TEXT," +
                 HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +

@@ -44,6 +44,7 @@ public class HNewsContract {
     public static final String[] BOOKMARK_COLUMNS = {
             ItemEntry._ID,
             ItemEntry.COLUMN_ITEM_ID,
+            ItemEntry.COLUMN_TYPE,
             ItemEntry.COLUMN_BY,
             ItemEntry.COLUMN_DOMAIN,
             ItemEntry.COLUMN_URL,
