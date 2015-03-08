@@ -64,6 +64,7 @@ public class HNewsContract {
     public static final int COLUMN_TIME_AGO = 9;
     public static final int COLUMN_RANK = 10;
     public static final int COLUMN_TIMESTAMP = 11;
+    public static final int COLUMN_BOOKMARK = 12;
 
     public static final int COLUMN_LEVEL = 2;
     public static final int COLUMN_TEXT = 4;
@@ -98,6 +99,7 @@ public class HNewsContract {
         public static final String COLUMN_LEVEL = "level";
         public static final String COLUMN_DOMAIN = "domain";
         public static final String COLUMN_HEADER = "header";
+        public static final String COLUMN_BOOKMARK = "bookmark";
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);

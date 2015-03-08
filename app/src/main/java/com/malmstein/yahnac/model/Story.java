@@ -31,9 +31,11 @@ public class Story implements Serializable {
     private final String domain;
     private final int comments;
     private final String type;
-    private final String order;
+    private final Long timestamp;
+    private final int rank;
+    private final int bookmark;
 
-    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, int comments, String order) {
+    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, int comments, Long timestamp, int rank, int bookmark) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -44,7 +46,9 @@ public class Story implements Serializable {
         this.url = url;
         this.domain = domain;
         this.comments = comments;
-        this.order = order;
+        this.timestamp = timestamp;
+        this.rank = rank;
+        this.bookmark = bookmark;
     }
 
     public Long getInternalId() {
@@ -99,21 +103,25 @@ public class Story implements Serializable {
         return !TextUtils.isEmpty(domain);
     }
 
-    public String getOrder() {
-        return order;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public String getCommentsUrl() {
         return COMMENT_URL_BASE + getId();
     }
 
-    public boolean isHackerNewsLocalItem(){
+    public int getRank() {
+        return rank;
+    }
+
+    public boolean isHackerNewsLocalItem() {
         boolean isLocalItem = false;
-        if (getType().equals(TYPE.ask)){
+        if (getType().equals(TYPE.ask)) {
             isLocalItem = true;
         }
 
-        if (url.startsWith(ASK_URL_BASE)){
+        if (url.startsWith(ASK_URL_BASE)) {
             isLocalItem = true;
         }
 
@@ -121,7 +129,7 @@ public class Story implements Serializable {
     }
 
     public boolean isBookmark() {
-        return false;
+        return bookmark == 0 ? false : true;
     }
 
     public static Story from(Cursor cursor) {
@@ -135,8 +143,10 @@ public class Story implements Serializable {
         int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
         String title = cursor.getString(HNewsContract.COLUMN_TITLE);
         String time = cursor.getString(HNewsContract.COLUMN_TIME_AGO);
-        String order = cursor.getString(HNewsContract.COLUMN_TIMESTAMP);
+        Long timestamp = cursor.getLong(HNewsContract.COLUMN_TIMESTAMP);
+        int rank = cursor.getInt(HNewsContract.COLUMN_RANK);
+        int bookmark = cursor.getInt(HNewsContract.COLUMN_BOOKMARK);
 
-        return new Story(internalId, by, id, type, time, score, title, url, domain, comments, order);
+        return new Story(internalId, by, id, type, time, score, title, url, domain, comments, timestamp, rank, bookmark);
     }
 }
