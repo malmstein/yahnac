@@ -44,6 +44,7 @@ public class DataPersister {
 
         storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, story.getInternalId());
         storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, story.getSubmitter());
+        storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, story.getType());
         storyValues.put(HNewsContract.ItemEntry.COLUMN_DOMAIN, story.getDomain());
         storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, story.getUrl());
         storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, story.getTitle());
