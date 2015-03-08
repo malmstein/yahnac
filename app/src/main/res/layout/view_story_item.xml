@@ -25,25 +25,25 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <com.malmstein.yahnac.views.fonts.YahnacTextView
+          style="@style/HNews.Subhead"
           android:id="@+id/article_title"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"
           android:layout_toLeftOf="@+id/article_score"
-          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
           android:textColor="@color/black"
           tools:text="This is the article title" />
 
-        <TextView
+        <com.malmstein.yahnac.views.fonts.YahnacTextView
+          style="@style/HNews.Subhead"
           android:id="@+id/article_score"
+          android:textColor="@color/light_grey"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentRight="true"
           android:layout_alignParentTop="true"
-          android:textColor="@color/light_grey"
           android:paddingLeft="@dimen/card_content_padding"
-          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
           tools:text="123 points" />
 
       </RelativeLayout>
@@ -60,29 +60,29 @@
           android:layout_height="wrap_content"
           android:orientation="horizontal">
 
-          <TextView
+          <com.malmstein.yahnac.views.fonts.YahnacTextView
+            style="@style/HNews.Body1"
             android:id="@+id/article_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/light_grey"
             tools:text="1h ago" />
 
-          <TextView
+          <com.malmstein.yahnac.views.fonts.YahnacTextView
+            style="@style/HNews.Body1"
             android:id="@+id/article_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/light_grey"
             android:paddingLeft="@dimen/card_content_padding"
             tools:text="user" />
 
-          <TextView
+          <com.malmstein.yahnac.views.fonts.YahnacTextView
+            style="@style/HNews.Body1"
             android:id="@+id/article_domain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/light_grey"
             tools:text="(domain)" />
 

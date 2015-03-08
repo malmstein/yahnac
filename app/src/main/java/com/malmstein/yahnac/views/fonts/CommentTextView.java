@@ -1,4 +1,4 @@
-package com.malmstein.yahnac.views;
+package com.malmstein.yahnac.views.fonts;
 
 import android.content.Context;
 import android.content.res.Resources;
