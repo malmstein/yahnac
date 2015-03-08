@@ -19,24 +19,24 @@ public class DataPersister {
     public int persistStories(Vector<ContentValues> topStories) {
 
         String timestampTwoDaysAgo = String.valueOf(HNewsDate.now().twoDaysAgo().getTimeInMillis());
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_STORY_URI,
-                HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " <= ?",
+        contentResolver.delete(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                HNewsContract.StoryEntry.COLUMN_TIMESTAMP + " <= ?",
                 new String[]{timestampTwoDaysAgo});
 
         ContentValues[] cvArray = new ContentValues[topStories.size()];
         topStories.toArray(cvArray);
 
-        return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_STORY_URI, cvArray);
+        return contentResolver.bulkInsert(HNewsContract.StoryEntry.CONTENT_STORY_URI, cvArray);
     }
 
     public int persistComments(Vector<ContentValues> commentsVector, Long storyId) {
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI,
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+        contentResolver.delete(HNewsContract.CommentsEntry.CONTENT_COMMENTS_URI,
+                HNewsContract.CommentsEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{storyId.toString()});
 
         ContentValues[] cvArray = new ContentValues[commentsVector.size()];
         commentsVector.toArray(cvArray);
-        return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
+        return contentResolver.bulkInsert(HNewsContract.CommentsEntry.CONTENT_COMMENTS_URI, cvArray);
     }
 
     public void onBookmarkClicked(Story story) {
@@ -50,20 +50,20 @@ public class DataPersister {
     private void addBookmark(Story story) {
         ContentValues storyValues = new ContentValues();
 
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, story.getInternalId());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, story.getSubmitter());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, story.getType());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_DOMAIN, story.getDomain());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, story.getUrl());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, story.getTitle());
-        storyValues.put(HNewsContract.ItemEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
+        storyValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getInternalId());
+        storyValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
+        storyValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
+        storyValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
+        storyValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
+        storyValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
+        storyValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
 
-        contentResolver.insert(HNewsContract.ItemEntry.CONTENT_BOOKMARKS_URI, storyValues);
+        contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, storyValues);
     }
 
     private void removeBookmark(Story story) {
-        contentResolver.delete(HNewsContract.ItemEntry.CONTENT_BOOKMARKS_URI,
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
+        contentResolver.delete(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI,
+                HNewsContract.BookmarkEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{story.getInternalId().toString()});
     }
 

@@ -103,8 +103,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     protected abstract Story.TYPE getType();
 
     protected String getOrder() {
-        return HNewsContract.ItemEntry.COLUMN_RANK + " ASC" +
-                ", " + HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " ASC";
+        return HNewsContract.StoryEntry.RANK + " ASC" +
+                ", " + HNewsContract.StoryEntry.TIMESTAMP + " ASC";
     }
 
     protected void startRefreshing() {

@@ -28,6 +28,7 @@ import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
@@ -39,9 +40,6 @@ import com.novoda.notils.caster.Views;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-
-import static com.malmstein.yahnac.data.HNewsContract.COMMENT_COLUMNS;
-import static com.malmstein.yahnac.data.HNewsContract.ItemEntry;
 
 public class CommentsFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
@@ -186,13 +184,13 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri commentsUri = ItemEntry.buildCommentsUri();
+        Uri commentsUri = HNewsContract.CommentsEntry.buildCommentsUri();
 
         return new CursorLoader(
                 getActivity(),
                 commentsUri,
-                COMMENT_COLUMNS,
-                ItemEntry.COLUMN_ITEM_ID + " = ?",
+                HNewsContract.CommentsEntry.COMMENT_COLUMNS,
+                HNewsContract.StoryEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{String.valueOf(getStory().getId())},
                 null
         );

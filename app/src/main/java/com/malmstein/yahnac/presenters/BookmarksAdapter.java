@@ -32,7 +32,7 @@ public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.Vie
 
     @Override
     public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
-        final Story story = Story.from(cursor);
+        final Story story = Story.fromBookmark(cursor);
 
         holder.title.setText(story.getTitle());
         if (story.hasDomain()) {
@@ -112,7 +112,7 @@ public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.Vie
             card = Views.findById(view, R.id.article_card_root);
             external_action = Views.findById(view, R.id.article_external_action);
             share_action = Views.findById(view, R.id.article_share_action);
-            comments_action = Views.findById(view, R.id.article_comments);
+            comments_action = Views.findById(view, R.id.article_comments_action);
             bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             domain = Views.findById(view, R.id.article_domain);
         }

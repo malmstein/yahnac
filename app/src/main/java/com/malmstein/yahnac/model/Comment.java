@@ -33,14 +33,14 @@ public class Comment {
     }
 
     public static Comment from(Cursor cursor) {
-        Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
-        Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
-        String by = cursor.getString(HNewsContract.COLUMN_BY);
+        Long internalId = cursor.getLong(HNewsContract.CommentsEntry.COLUMN_ID);
+        Long id = cursor.getLong(HNewsContract.CommentsEntry.COLUMN_ITEM_ID);
+        String by = cursor.getString(HNewsContract.CommentsEntry.COLUMN_BY);
 
-        int level = cursor.getInt(HNewsContract.COLUMN_LEVEL);
-        String text = cursor.getString(HNewsContract.COLUMN_TEXT);
-        String timeText = cursor.getString(HNewsContract.COLUMN_TIME_TEXT);
-        boolean isHeader = cursor.getInt(HNewsContract.COLUMN_HEADER) == HNewsContract.TRUE_BOOLEAN;
+        int level = cursor.getInt(HNewsContract.CommentsEntry.COLUMN_LEVEL);
+        String text = cursor.getString(HNewsContract.CommentsEntry.COLUMN_TEXT);
+        String timeText = cursor.getString(HNewsContract.CommentsEntry.COLUMN_TIME_AGO);
+        boolean isHeader = cursor.getInt(HNewsContract.CommentsEntry.COLUMN_HEADER) == HNewsContract.TRUE_BOOLEAN;
 
         return new Comment(internalId, by, id, level, text, timeText, isHeader);
     }

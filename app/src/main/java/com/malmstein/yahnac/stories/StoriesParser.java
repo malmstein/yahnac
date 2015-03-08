@@ -46,17 +46,17 @@ public class StoriesParser {
 
             ContentValues storyValues = new ContentValues();
 
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, item_id);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TYPE, type.name());
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_BY, submitter);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, ago);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_COMMENTS, comments);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_DOMAIN, domain);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_URL, url);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_SCORE, points);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TITLE, title);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_RANK, rank);
-            storyValues.put(HNewsContract.ItemEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
+            storyValues.put(HNewsContract.StoryEntry.ITEM_ID, item_id);
+            storyValues.put(HNewsContract.StoryEntry.TYPE, type.name());
+            storyValues.put(HNewsContract.StoryEntry.BY, submitter);
+            storyValues.put(HNewsContract.StoryEntry.TIME_AGO, ago);
+            storyValues.put(HNewsContract.StoryEntry.COMMENTS, comments);
+            storyValues.put(HNewsContract.StoryEntry.DOMAIN, domain);
+            storyValues.put(HNewsContract.StoryEntry.URL, url);
+            storyValues.put(HNewsContract.StoryEntry.SCORE, points);
+            storyValues.put(HNewsContract.StoryEntry.TITLE, title);
+            storyValues.put(HNewsContract.StoryEntry.RANK, rank);
+            storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
 
             storiesList.add(storyValues);
         }

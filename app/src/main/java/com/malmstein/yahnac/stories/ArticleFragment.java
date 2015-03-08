@@ -29,7 +29,6 @@ import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.model.Story;
 
-import static com.malmstein.yahnac.data.HNewsContract.STORY_COLUMNS;
 
 public class ArticleFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -148,12 +147,12 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyUri = HNewsContract.ItemEntry.buildStoryUriWith(getItemId());
+        Uri storyUri = HNewsContract.StoryEntry.buildStoryUriWith(getItemId());
 
         return new CursorLoader(
                 getActivity(),
                 storyUri,
-                STORY_COLUMNS,
+                HNewsContract.StoryEntry.STORY_COLUMNS,
                 null,
                 null,
                 null
@@ -163,7 +162,7 @@ public class ArticleFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            articleUrl = data.getString(data.getColumnIndex(HNewsContract.ItemEntry.COLUMN_URL));
+            articleUrl = data.getString(data.getColumnIndex(HNewsContract.StoryEntry.URL));
             webView.loadUrl(articleUrl);
             getActivity().setTitle(getStoryTitle());
             if (mShareActionProvider != null) {

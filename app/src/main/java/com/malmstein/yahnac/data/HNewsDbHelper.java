@@ -16,41 +16,41 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        final String SQL_CREATE_STORIES_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_ITEM_NAME + " (" +
-                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_COMMENTS + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_DOMAIN + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_SCORE + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIME_AGO + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_RANK + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " INTEGER" +
-                HNewsContract.ItemEntry.COLUMN_BOOKMARK + " INTEGER DEFAULT 0" +
+        final String SQL_CREATE_STORIES_TABLE = "CREATE TABLE " + HNewsContract.TABLE_ITEM_NAME + " (" +
+                HNewsContract.StoryEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.StoryEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.StoryEntry.COLUMN_TYPE + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_COMMENTS + " INTEGER," +
+                HNewsContract.StoryEntry.COLUMN_DOMAIN + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_URL + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_SCORE + " INTEGER," +
+                HNewsContract.StoryEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_TIME_AGO + " TEXT," +
+                HNewsContract.StoryEntry.COLUMN_RANK + " INTEGER," +
+                HNewsContract.StoryEntry.COLUMN_TIMESTAMP + " INTEGER" +
+                HNewsContract.StoryEntry.COLUMN_BOOKMARK + " INTEGER DEFAULT 0" +
                 " );";
 
-        final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME + " (" +
-                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_LEVEL + " INTEGER," +
-                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TEXT + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIME_AGO + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_HEADER + " BOOLEAN" +
+        final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_COMMENTS_NAME + " (" +
+                HNewsContract.CommentsEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.CommentsEntry.COLUMN_ITEM_ID + " INTEGER," +
+                HNewsContract.CommentsEntry.COLUMN_LEVEL + " INTEGER," +
+                HNewsContract.CommentsEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.CommentsEntry.COLUMN_TEXT + " TEXT," +
+                HNewsContract.CommentsEntry.COLUMN_TIME_AGO + " TEXT," +
+                HNewsContract.CommentsEntry.COLUMN_HEADER + " BOOLEAN" +
                 " );";
 
-        final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME + " (" +
-                HNewsContract.ItemEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
-                HNewsContract.ItemEntry.COLUMN_TYPE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_DOMAIN + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_URL + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " INTEGER" +
+        final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_BOOKMARKS_NAME + " (" +
+                HNewsContract.BookmarkEntry._ID + " INTEGER PRIMARY KEY," +
+                HNewsContract.BookmarkEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.BookmarkEntry.COLUMN_TYPE + " TEXT," +
+                HNewsContract.BookmarkEntry.COLUMN_BY + " TEXT," +
+                HNewsContract.BookmarkEntry.COLUMN_DOMAIN + " TEXT," +
+                HNewsContract.BookmarkEntry.COLUMN_URL + " TEXT," +
+                HNewsContract.BookmarkEntry.COLUMN_TITLE + " TEXT," +
+                HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP + " INTEGER" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);
@@ -60,9 +60,9 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_ITEM_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_COMMENTS_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.ItemEntry.TABLE_BOOKMARKS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_ITEM_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_COMMENTS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_BOOKMARKS_NAME);
         onCreate(db);
     }
 }
