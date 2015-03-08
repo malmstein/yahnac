@@ -20,7 +20,7 @@ public class DataPersister {
 
         String timestampTwoDaysAgo = String.valueOf(HNewsDate.now().twoDaysAgo().getTimeInMillis());
         contentResolver.delete(HNewsContract.StoryEntry.CONTENT_STORY_URI,
-                HNewsContract.StoryEntry.COLUMN_TIMESTAMP + " <= ?",
+                HNewsContract.StoryEntry.TIMESTAMP + " <= ?",
                 new String[]{timestampTwoDaysAgo});
 
         ContentValues[] cvArray = new ContentValues[topStories.size()];
@@ -31,7 +31,7 @@ public class DataPersister {
 
     public int persistComments(Vector<ContentValues> commentsVector, Long storyId) {
         contentResolver.delete(HNewsContract.CommentsEntry.CONTENT_COMMENTS_URI,
-                HNewsContract.CommentsEntry.COLUMN_ITEM_ID + " = ?",
+                HNewsContract.CommentsEntry.ITEM_ID + " = ?",
                 new String[]{storyId.toString()});
 
         ContentValues[] cvArray = new ContentValues[commentsVector.size()];
@@ -63,7 +63,7 @@ public class DataPersister {
 
     private void removeBookmark(Story story) {
         contentResolver.delete(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI,
-                HNewsContract.BookmarkEntry.COLUMN_ITEM_ID + " = ?",
+                HNewsContract.BookmarkEntry.ITEM_ID + " = ?",
                 new String[]{story.getInternalId().toString()});
     }
 

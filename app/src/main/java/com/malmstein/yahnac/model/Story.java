@@ -146,7 +146,7 @@ public class Story implements Serializable {
         Long timestamp = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIMESTAMP);
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
 //        int bookmark = cursor.getInt(HNewsContract.COLUMN_BOOKMARK);
-        int bookmark = 1;
+        int bookmark = 0;
 
         return new Story(internalId, by, id, type, time, score, title, url, domain, comments, timestamp, rank, bookmark);
     }
