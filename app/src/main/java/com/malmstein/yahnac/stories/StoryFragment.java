@@ -85,10 +85,12 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     private void maybeUpdateContent() {
-        DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.shouldUpdateContent(getType())) {
-            startRefreshing();
-            onRefresh();
+        if (isOnline()) {
+            DataRepository dataRepository = Inject.dataRepository();
+            if (dataRepository.shouldUpdateContent(getType())) {
+                startRefreshing();
+                onRefresh();
+            }
         }
     }
 
