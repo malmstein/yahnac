@@ -129,7 +129,7 @@ public class Story implements Serializable {
     }
 
     public boolean isBookmark() {
-        return false;
+        return bookmark == HNewsContract.TRUE_BOOLEAN;
     }
 
     public static Story from(Cursor cursor) {
@@ -146,7 +146,7 @@ public class Story implements Serializable {
         Long timestamp = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIMESTAMP);
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
 //        int bookmark = cursor.getInt(HNewsContract.COLUMN_BOOKMARK);
-        int bookmark = 0;
+        int bookmark = 1;
 
         return new Story(internalId, by, id, type, time, score, title, url, domain, comments, timestamp, rank, bookmark);
     }
@@ -160,7 +160,7 @@ public class Story implements Serializable {
         String url = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_URL);
         String title = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TITLE);
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
-        int bookmark = 0;
+        int bookmark = HNewsContract.TRUE_BOOLEAN;
 
         return new Story(internalId, by, id, type, "", 0, title, url, domain, 0, timestamp, 0, bookmark);
     }

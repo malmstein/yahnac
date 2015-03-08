@@ -36,7 +36,7 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.COLUMN_TYPE + " = ?",
+                HNewsContract.StoryEntry.TYPE + " = ?",
                 new String[]{Story.TYPE.show.name()},
                 getOrder());
     }

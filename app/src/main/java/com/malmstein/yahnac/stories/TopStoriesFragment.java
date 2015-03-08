@@ -56,7 +56,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.COLUMN_TYPE + " = ?",
+                HNewsContract.StoryEntry.TYPE + " = ?",
                 new String[]{getType().name()},
                 getOrder());
     }

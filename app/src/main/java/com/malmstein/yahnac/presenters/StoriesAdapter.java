@@ -55,6 +55,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             }
         });
 
+        holder.bookmark_action.setSelected(story.isBookmark());
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
