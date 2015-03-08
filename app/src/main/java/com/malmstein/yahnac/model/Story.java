@@ -120,6 +120,10 @@ public class Story implements Serializable {
         return isLocalItem;
     }
 
+    public boolean isBookmark() {
+        return false;
+    }
+
     public static Story from(Cursor cursor) {
         Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
         Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);

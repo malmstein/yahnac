@@ -39,7 +39,15 @@ public class DataPersister {
         return contentResolver.bulkInsert(HNewsContract.ItemEntry.CONTENT_COMMENTS_URI, cvArray);
     }
 
-    public void addBookmark(Story story) {
+    public void onBookmarkClicked(Story story) {
+        if (story.isBookmark()) {
+            removeBookmark(story);
+        } else {
+            addBookmark(story);
+        }
+    }
+
+    private void addBookmark(Story story) {
         ContentValues storyValues = new ContentValues();
 
         storyValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, story.getInternalId());
@@ -53,7 +61,7 @@ public class DataPersister {
         contentResolver.insert(HNewsContract.ItemEntry.CONTENT_BOOKMARKS_URI, storyValues);
     }
 
-    public void removeBookmark(Story story){
+    private void removeBookmark(Story story) {
         contentResolver.delete(HNewsContract.ItemEntry.CONTENT_BOOKMARKS_URI,
                 HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
                 new String[]{story.getInternalId().toString()});

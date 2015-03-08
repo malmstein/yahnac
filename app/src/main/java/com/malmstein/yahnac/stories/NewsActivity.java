@@ -99,15 +99,9 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     }
 
     @Override
-    public void onAddBookmark(Story story) {
+    public void onBookmarkClicked(Story story) {
         DataPersister persister = Inject.dataPersister();
-        persister.addBookmark(story);
-    }
-
-    @Override
-    public void onRemoveBookmark(Story story) {
-        DataPersister persister = Inject.dataPersister();
-        persister.removeBookmark(story);
+        persister.onBookmarkClicked(story);
     }
 
     private boolean isTwoPaneLayout() {

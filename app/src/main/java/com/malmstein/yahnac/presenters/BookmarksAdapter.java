@@ -13,11 +13,11 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
 
-public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHolder> {
+public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.ViewHolder> {
 
     private final StoryListener listener;
 
-    public StoriesAdapter(Cursor cursor, StoryListener listener) {
+    public BookmarksAdapter(Cursor cursor, StoryListener listener) {
         super(cursor);
         this.listener = listener;
     }
@@ -64,14 +64,9 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
 
         if (story.isStoryAJob()) {
             holder.user.setVisibility(View.GONE);
-            holder.timeAgo.setVisibility(View.GONE);
-            holder.score.setVisibility(View.GONE);
             holder.comments_action.setVisibility(View.GONE);
         } else {
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
-            holder.timeAgo.setText(story.getTimeAgo());
-            holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
-            holder.comments_text.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -95,7 +90,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_story_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_bookmark_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -103,28 +98,22 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final TextView user;
-        public final TextView timeAgo;
-        public final TextView score;
         public final View card;
         public final View external_action;
         public final View share_action;
         public final View comments_action;
         public final View bookmark_action;
-        public final TextView comments_text;
         public final TextView domain;
 
         public ViewHolder(View view) {
             super(view);
             title = Views.findById(view, R.id.article_title);
             user = Views.findById(view, R.id.article_user);
-            timeAgo = Views.findById(view, R.id.article_time);
-            score = Views.findById(view, R.id.article_score);
             card = Views.findById(view, R.id.article_card_root);
             external_action = Views.findById(view, R.id.article_external_action);
             share_action = Views.findById(view, R.id.article_share_action);
-            bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             comments_action = Views.findById(view, R.id.article_comments);
-            comments_text = Views.findById(view, R.id.article_comments_label);
+            bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             domain = Views.findById(view, R.id.article_domain);
         }
     }
