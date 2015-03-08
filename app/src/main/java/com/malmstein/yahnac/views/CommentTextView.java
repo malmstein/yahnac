@@ -7,14 +7,14 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.views.fonts.YahnacTextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommentTextView extends TextView {
+public class CommentTextView extends YahnacTextView {
 
     public static final Pattern PATTERN_HASHTAGS = Pattern.compile("\\B(#\\w{2,})");
     public static final Pattern PATTERN_USER_HANDLES = Pattern.compile("\\B(@\\w{2,})");
@@ -22,11 +22,6 @@ public class CommentTextView extends TextView {
             Pattern.compile("\\b((?:(?:https?|ftp)://)[\\w\\-+&@#/%=~_|$?!:,.]*[\\w+&@#/%=~_|\\$])\\b");
 
     private int mHighlightColor, mUrlHighlightColor;
-
-    public CommentTextView(Context context) {
-        super(context);
-        init();
-    }
 
     public CommentTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);

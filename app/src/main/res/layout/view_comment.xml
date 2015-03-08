@@ -14,19 +14,19 @@
     android:orientation="horizontal"
     android:paddingTop="@dimen/default_padding">
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
       android:id="@+id/comment_by"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
       android:textColor="@color/light_grey"
       tools:text="by user" />
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
       android:id="@+id/comment_when"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
       android:textColor="@color/light_grey"
       android:paddingLeft="@dimen/card_content_padding"
       tools:text="2 hours ago" />
@@ -34,13 +34,12 @@
   </LinearLayout>
 
   <com.malmstein.yahnac.views.CommentTextView
+    style="@style/HNews.Body1"
     android:id="@+id/comment_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/card_content_padding"
-    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-    android:textColor="@color/black"
-    tools:text="This is a comment" />
+    tools:text="This is a comment"/>
 
 </LinearLayout>
 
