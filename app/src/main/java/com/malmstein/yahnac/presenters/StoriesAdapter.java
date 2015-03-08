@@ -36,7 +36,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         final Story story = Story.from(cursor);
 
         holder.title.setText(story.getTitle());
-        if (story.hasDomain()){
+        if (story.hasDomain()) {
             holder.domain.setText(story.getDomain());
         } else {
             holder.domain.setVisibility(View.GONE);
@@ -46,13 +46,6 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             @Override
             public void onClick(View v) {
                 listener.onContentClicked(story);
-            }
-        });
-
-        holder.external_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onExternalLinkClicked(story);
             }
         });
 
@@ -77,6 +70,18 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                 @Override
                 public void onClick(View v) {
                     listener.onCommentsClicked(v, story);
+                }
+            });
+        }
+
+        if (story.isHackerNewsLocalItem()) {
+            holder.external_action.setVisibility(View.GONE);
+        } else {
+            holder.external_action.setVisibility(View.VISIBLE);
+            holder.external_action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onExternalLinkClicked(story);
                 }
             });
         }

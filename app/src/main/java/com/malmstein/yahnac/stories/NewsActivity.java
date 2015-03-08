@@ -91,7 +91,11 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     @Override
     public void onExternalLinkClicked(Story story) {
-        navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+        if (story.isHackerNewsLocalItem()) {
+            navigate().toComments(story);
+        } else {
+            navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+        }
     }
 
     @Override
