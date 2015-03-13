@@ -35,8 +35,7 @@
     <activity
       android:name="com.malmstein.yahnac.comments.CommentsActivity"
       android:label="@string/title_comments"
-      android:parentActivityName="com.malmstein.yahnac.stories.NewsActivity"
-      android:theme="@style/Theme.HNews.Comments">
+      android:parentActivityName="com.malmstein.yahnac.stories.NewsActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value="com.malmstein.yahnac.stories.NewsActivity" />

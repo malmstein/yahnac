@@ -22,10 +22,5 @@
     <item name="android:windowSharedElementExitTransition">@transition/change_transform</item>
   </style>
 
-  <style name="Theme.HNews.Comments">
-    <item name="android:windowSharedElementEnterTransition">@transition/change_transform</item>
-  </style>
-
-
 
 </resources>
