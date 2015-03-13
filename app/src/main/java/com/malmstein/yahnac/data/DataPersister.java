@@ -59,12 +59,16 @@ public class DataPersister {
         storyValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
 
         contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, storyValues);
+
+        //TODO add flag to current story
     }
 
     private void removeBookmark(Story story) {
         contentResolver.delete(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI,
                 HNewsContract.BookmarkEntry.ITEM_ID + " = ?",
                 new String[]{story.getInternalId().toString()});
+
+        //TODO remove flag to current story
     }
 
 }

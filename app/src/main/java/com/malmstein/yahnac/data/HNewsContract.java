@@ -41,6 +41,7 @@ public class HNewsContract {
                 StoryEntry.TIME_AGO,
                 StoryEntry.RANK,
                 StoryEntry.TIMESTAMP,
+                StoryEntry.BOOKMARK,
         };
 
         public static final String ITEM_ID = "item_id";

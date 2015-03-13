@@ -49,6 +49,7 @@ public class CommentsParser {
             commentValues.put(HNewsContract.CommentsEntry.TEXT, text);
             commentValues.put(HNewsContract.CommentsEntry.LEVEL, level);
             commentValues.put(HNewsContract.CommentsEntry.TIME_AGO, timeAgo);
+            commentValues.put(HNewsContract.CommentsEntry.HEADER, System.currentTimeMillis());
 
             commentsList.add(commentValues);
         }

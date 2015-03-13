@@ -190,7 +190,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
                 getActivity(),
                 commentsUri,
                 HNewsContract.CommentsEntry.COMMENT_COLUMNS,
-                HNewsContract.StoryEntry.COLUMN_ITEM_ID + " = ?",
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
                 new String[]{String.valueOf(getStory().getId())},
                 null
         );

@@ -242,7 +242,7 @@ public class HNewsProvider extends ContentProvider {
             case STORY:
 
                 final String updateRows = "UPDATE " + HNewsContract.TABLE_ITEM_NAME +
-                        " SET " + HNewsContract.StoryEntry.COLUMN_RANK +
+                        " SET " + HNewsContract.StoryEntry.RANK +
                         " = 1000";
                 db.execSQL(updateRows);
 
@@ -260,7 +260,7 @@ public class HNewsProvider extends ContentProvider {
                                 null);
 
                         if (exists.moveToLast()) {
-                            long _id = db.update(HNewsContract.TABLE_ITEM_NAME, value, HNewsContract.StoryEntry.COLUMN_ITEM_ID + " = ?",
+                            long _id = db.update(HNewsContract.TABLE_ITEM_NAME, value, HNewsContract.StoryEntry.ITEM_ID + " = ?",
                                     new String[]{value.getAsString(HNewsContract.StoryEntry.ITEM_ID)});
 
                             if (_id != -1) {

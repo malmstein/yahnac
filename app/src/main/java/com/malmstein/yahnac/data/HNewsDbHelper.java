@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "hnews.db";
 
     public HNewsDbHelper(Context context) {
@@ -18,39 +18,39 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_STORIES_TABLE = "CREATE TABLE " + HNewsContract.TABLE_ITEM_NAME + " (" +
                 HNewsContract.StoryEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.StoryEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
-                HNewsContract.StoryEntry.COLUMN_TYPE + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_COMMENTS + " INTEGER," +
-                HNewsContract.StoryEntry.COLUMN_DOMAIN + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_URL + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_SCORE + " INTEGER," +
-                HNewsContract.StoryEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_TIME_AGO + " TEXT," +
-                HNewsContract.StoryEntry.COLUMN_RANK + " INTEGER," +
-                HNewsContract.StoryEntry.COLUMN_TIMESTAMP + " INTEGER" +
-                HNewsContract.StoryEntry.COLUMN_BOOKMARK + " INTEGER DEFAULT 0" +
+                HNewsContract.StoryEntry.ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.StoryEntry.TYPE + " TEXT," +
+                HNewsContract.StoryEntry.BY + " TEXT," +
+                HNewsContract.StoryEntry.COMMENTS + " INTEGER," +
+                HNewsContract.StoryEntry.DOMAIN + " TEXT," +
+                HNewsContract.StoryEntry.URL + " TEXT," +
+                HNewsContract.StoryEntry.SCORE + " INTEGER," +
+                HNewsContract.StoryEntry.TITLE + " TEXT," +
+                HNewsContract.StoryEntry.TIME_AGO + " TEXT," +
+                HNewsContract.StoryEntry.RANK + " INTEGER," +
+                HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
+                HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_COMMENTS_NAME + " (" +
                 HNewsContract.CommentsEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.CommentsEntry.COLUMN_ITEM_ID + " INTEGER," +
-                HNewsContract.CommentsEntry.COLUMN_LEVEL + " INTEGER," +
-                HNewsContract.CommentsEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.CommentsEntry.COLUMN_TEXT + " TEXT," +
-                HNewsContract.CommentsEntry.COLUMN_TIME_AGO + " TEXT," +
-                HNewsContract.CommentsEntry.COLUMN_HEADER + " BOOLEAN" +
+                HNewsContract.CommentsEntry.ITEM_ID + " INTEGER," +
+                HNewsContract.CommentsEntry.LEVEL + " INTEGER," +
+                HNewsContract.CommentsEntry.BY + " TEXT," +
+                HNewsContract.CommentsEntry.TEXT + " TEXT," +
+                HNewsContract.CommentsEntry.TIME_AGO + " TEXT," +
+                HNewsContract.CommentsEntry.HEADER + " INTEGER DEFAULT 0" +
                 " );";
 
         final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_BOOKMARKS_NAME + " (" +
                 HNewsContract.BookmarkEntry._ID + " INTEGER PRIMARY KEY," +
-                HNewsContract.BookmarkEntry.COLUMN_ITEM_ID + " INTEGER UNIQUE NOT NULL," +
-                HNewsContract.BookmarkEntry.COLUMN_TYPE + " TEXT," +
-                HNewsContract.BookmarkEntry.COLUMN_BY + " TEXT," +
-                HNewsContract.BookmarkEntry.COLUMN_DOMAIN + " TEXT," +
-                HNewsContract.BookmarkEntry.COLUMN_URL + " TEXT," +
-                HNewsContract.BookmarkEntry.COLUMN_TITLE + " TEXT," +
-                HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP + " INTEGER" +
+                HNewsContract.BookmarkEntry.ITEM_ID + " INTEGER UNIQUE NOT NULL," +
+                HNewsContract.BookmarkEntry.TYPE + " TEXT," +
+                HNewsContract.BookmarkEntry.BY + " TEXT," +
+                HNewsContract.BookmarkEntry.DOMAIN + " TEXT," +
+                HNewsContract.BookmarkEntry.URL + " TEXT," +
+                HNewsContract.BookmarkEntry.TITLE + " TEXT," +
+                HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);
