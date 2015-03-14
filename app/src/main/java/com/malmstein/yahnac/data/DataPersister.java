@@ -50,7 +50,7 @@ public class DataPersister {
     private void addBookmark(Story story) {
         ContentValues storyValues = new ContentValues();
 
-        storyValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getInternalId());
+        storyValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
         storyValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
         storyValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
         storyValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
@@ -66,7 +66,7 @@ public class DataPersister {
     private void removeBookmark(Story story) {
         contentResolver.delete(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI,
                 HNewsContract.BookmarkEntry.ITEM_ID + " = ?",
-                new String[]{story.getInternalId().toString()});
+                new String[]{story.getId().toString()});
 
         //TODO remove flag to current story
     }
