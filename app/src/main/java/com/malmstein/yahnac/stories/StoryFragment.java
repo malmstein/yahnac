@@ -20,7 +20,6 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.ScrollManager;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
-import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
@@ -39,7 +38,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private DelegatedSwipeRefreshLayout refreshLayout;
     private String nextUrl;
 
-    private SnackBarView snackbarView;
     private int croutonBackgroundAlpha;
     private long croutonAnimationDuration;
 
@@ -55,7 +53,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
-        snackbarView = Views.findById(rootView, R.id.feed_page_snackbar);
 
         this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
@@ -136,16 +133,16 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     @Override
     public void onLoadMoreItems() {
-        showLoadingSnackbar();
+//        showLoadingSnackbar();
         subscribeToStories();
     }
 
-    public void showLoadingSnackbar() {
-        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_text_loading))
-                .withBackgroundColor(R.color.orange, croutonBackgroundAlpha)
-                .withAnimationDuration(croutonAnimationDuration)
-                .animating();
-    }
+//    public void showLoadingSnackbar() {
+//        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_text_loading))
+//                .withBackgroundColor(R.color.orange, croutonBackgroundAlpha)
+//                .withAnimationDuration(croutonAnimationDuration)
+//                .animating();
+//    }
 
     private void subscribeToStories() {
         if (isOnline()) {

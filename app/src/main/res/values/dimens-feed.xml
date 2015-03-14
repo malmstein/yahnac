@@ -10,4 +10,7 @@
   <dimen name="feed_linking_widget_content_padding_right">@dimen/feed_linking_widget_content_padding</dimen>
   <dimen name="feed_linking_widget_content_padding_bottom">@dimen/feed_linking_widget_content_padding</dimen>
 
+  <dimen name="empty_view_logo_padding">16dp</dimen>
+  <dimen name="empty_view_text">18sp</dimen>
+
 </resources>

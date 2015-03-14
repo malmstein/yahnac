@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
@@ -35,6 +36,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
     private SnackBarView snackbarView;
     private int croutonBackgroundAlpha;
     private long croutonAnimationDuration;
+    private TextView emptyView;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -53,7 +55,8 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
         View rootView = inflater.inflate(R.layout.fragment_bookmarks_feed, container, false);
 
         bookmarksList = Views.findById(rootView, R.id.list_bookmarks);
-        snackbarView = Views.findById(rootView, R.id.feed_page_snackbar);
+        snackbarView = Views.findById(rootView, R.id.bookmark_page_snackbar);
+        emptyView = Views.findById(rootView, R.id.feed_empty_placeholder);
 
         this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
@@ -98,7 +101,12 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        bookmarksAdapter.swapCursor(data);
+        if (data.getCount() > 0){
+            emptyView.setVisibility(View.GONE);
+            bookmarksAdapter.swapCursor(data);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
