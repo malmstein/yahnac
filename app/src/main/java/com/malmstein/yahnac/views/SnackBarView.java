@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
 public class SnackBarView extends LinearLayout {
@@ -27,7 +27,7 @@ public class SnackBarView extends LinearLayout {
 
     private CroutonAutoHideRunnable croutonAutoHideRunnable;
     private long dismissAnimationDuration;
-    private FrameLayout croutonContainer;
+    private LinearLayout croutonContainer;
 
     public SnackBarView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -55,7 +55,7 @@ public class SnackBarView extends LinearLayout {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         layoutInflater.inflate(R.layout.merge_snackbar, this, true);
 
-        croutonContainer = (FrameLayout) findViewById(R.id.crouton_container);
+        croutonContainer = Views.findById(this, R.id.crouton_container);
         croutonContainer.setBackgroundColor(DEFAULT_BG_COLOR);
 
         croutonText = (TextView) findViewById(R.id.crouton_text);

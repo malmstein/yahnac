@@ -4,6 +4,7 @@
   <string name="feed_loading_text">Fetching stories, you can also swipe to refresh the content</string>
 
   <string name="feed_snackbar_text_loading">Loading more stories</string>
+  <string name="feed_snackbar_text_undo">Undo</string>
   <string name="feed_snackbar_added_bookmark">Story added to bookmarks</string>
   <string name="feed_snackbar_removed_bookmark">Story removed from bookmarks</string>
 

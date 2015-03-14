@@ -114,12 +114,46 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     public void onBookmarkClicked(Story story) {
         DataPersister persister = Inject.dataPersister();
         if (story.isBookmark()) {
-            showRemovedBookmarkSnackbar();
-            persister.removeBookmark(story);
+            removeBookmark(persister, story);
         } else {
-            showAddedBookmarkSnackbar();
-            persister.addBookmark(story);
+            addBookmark(persister, story);
         }
+    }
+
+    private void removeBookmark(DataPersister persister, Story story) {
+        persister.removeBookmark(story);
+        showRemovedBookmarkSnackbar(persister, story);
+    }
+
+    private void addBookmark(DataPersister persister, Story story) {
+        persister.addBookmark(story);
+        showAddedBookmarkSnackbar(persister, story);
+    }
+
+    private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_added_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeBookmark(persister, story);
+                    }
+                })
+                .animating();
+    }
+
+    private void showRemovedBookmarkSnackbar(final DataPersister persister, final Story story) {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_removed_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addBookmark(persister, story);
+                    }
+                })
+                .animating();
     }
 
     private boolean isTwoPaneLayout() {
@@ -158,22 +192,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                         ArticleFragment.from(story),
                         CommentsFragment.TAG)
                 .commit();
-    }
-
-    private void showAddedBookmarkSnackbar() {
-        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_added_bookmark))
-                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
-                .withAnimationDuration(croutonAnimationDuration)
-                .withAutohideDelay(2000)
-                .animating();
-    }
-
-    private void showRemovedBookmarkSnackbar() {
-        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_removed_bookmark))
-                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
-                .withAnimationDuration(croutonAnimationDuration)
-                .withAutohideDelay(2000)
-                .animating();
     }
 
 }

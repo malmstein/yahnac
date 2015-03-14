@@ -4,8 +4,6 @@
   <style name="HNews.Crouton" parent="None">
     <item name="android:paddingLeft">@dimen/snackbar_padding_left</item>
     <item name="android:paddingRight">@dimen/snackbar_padding_left</item>
-    <item name="android:paddingTop">@dimen/snackbar_padding_top</item>
-    <item name="android:paddingBottom">@dimen/snackbar_padding_bottom</item>
   </style>
 
   <style name="HNews.CroutonLabel" parent="None">
@@ -19,10 +17,10 @@
   <style name="HNews.CroutonAction" parent="HNews.FeedAction">
     <item name="android:textSize">@dimen/snackbar_label_action</item>
     <item name="android:textColor">@color/orange</item>
-    <item name="android:gravity">center_vertical</item>
-    <item name="android:layout_gravity">right</item>
     <item name="android:clickable">true</item>
     <item name="android:textAllCaps">true</item>
+    <item name="android:paddingLeft">@dimen/snackbar_padding_left</item>
+    <item name="android:text">@string/feed_snackbar_text_undo</item>
     <item name="fontAsset">robotoMedium</item>
   </style>
 </resources>
