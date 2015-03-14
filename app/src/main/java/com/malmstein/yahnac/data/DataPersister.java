@@ -40,19 +40,25 @@ public class DataPersister {
     }
 
     public void addBookmark(Story story) {
+        ContentValues bookmarkValues = new ContentValues();
+
+        bookmarkValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
+
+        contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, bookmarkValues);
+
         ContentValues storyValues = new ContentValues();
+        storyValues.put(HNewsContract.StoryEntry.BOOKMARK, HNewsContract.TRUE_BOOLEAN);
 
-        storyValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
-        storyValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
-        storyValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
-        storyValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
-        storyValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
-        storyValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
-        storyValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
-
-        contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, storyValues);
-
-        //TODO add flag to current story
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                storyValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
     }
 
     public void removeBookmark(Story story) {
@@ -60,7 +66,13 @@ public class DataPersister {
                 HNewsContract.BookmarkEntry.ITEM_ID + " = ?",
                 new String[]{story.getId().toString()});
 
-        //TODO remove flag to current story
+        ContentValues storyValues = new ContentValues();
+        storyValues.put(HNewsContract.StoryEntry.BOOKMARK, HNewsContract.FALSE_BOOLEAN);
+
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                storyValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
     }
 
 }
