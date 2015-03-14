@@ -133,16 +133,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     @Override
     public void onLoadMoreItems() {
-//        showLoadingSnackbar();
-        subscribeToStories();
+//        subscribeToStories();
     }
-
-//    public void showLoadingSnackbar() {
-//        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_text_loading))
-//                .withBackgroundColor(R.color.orange, croutonBackgroundAlpha)
-//                .withAnimationDuration(croutonAnimationDuration)
-//                .animating();
-//    }
 
     private void subscribeToStories() {
         if (isOnline()) {
@@ -169,7 +161,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
                         }
                     });
         } else {
-            // TODO maybe show snackbar?
             stopRefreshing();
         }
     }

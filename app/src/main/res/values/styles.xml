@@ -88,9 +88,4 @@
     <item name="appBarLayout">@layout/include_app_bar</item>
   </style>
 
-  <style name="HNews.AppBar.CommentsContainer" parent="None">
-    <item name="appBarShadowHeight">@dimen/app_bar_shadow_height</item>
-    <item name="appBarLayout">@layout/include_app_bar</item>
-  </style>
-
 </resources>
