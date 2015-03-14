@@ -14,6 +14,14 @@
   </style>
 
 
+  <style name="HNews.Toolbar.Overlay" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:windowActionBarOverlay">true</item>
+    <item name="windowActionBarOverlay">true</item>
+    <item name="android:background">@color/orange</item>
+    <item name="background">@color/orange</item>
+  </style>
+
+
   <style name="HNews.AppBar" parent="Widget.AppCompat.Toolbar">
     <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
