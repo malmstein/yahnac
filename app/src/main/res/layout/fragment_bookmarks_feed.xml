@@ -15,11 +15,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
-  <com.malmstein.yahnac.views.SnackBarView
-    android:id="@+id/bookmark_page_snackbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:visibility="invisible" />
-
 </RelativeLayout>

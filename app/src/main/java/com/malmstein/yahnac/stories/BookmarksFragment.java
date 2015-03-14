@@ -20,7 +20,6 @@ import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.presenters.BookmarksAdapter;
-import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
@@ -32,10 +31,6 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
     private RecyclerView bookmarksList;
     private RecyclerView.LayoutManager bookmarksLayoutManager;
     private StoryListener listener;
-
-    private SnackBarView snackbarView;
-    private int croutonBackgroundAlpha;
-    private long croutonAnimationDuration;
     private TextView emptyView;
 
     @Override
@@ -55,11 +50,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
         View rootView = inflater.inflate(R.layout.fragment_bookmarks_feed, container, false);
 
         bookmarksList = Views.findById(rootView, R.id.list_bookmarks);
-        snackbarView = Views.findById(rootView, R.id.bookmark_page_snackbar);
         emptyView = Views.findById(rootView, R.id.feed_empty_placeholder);
-
-        this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
-        this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
 
         setupStoriesList();
 

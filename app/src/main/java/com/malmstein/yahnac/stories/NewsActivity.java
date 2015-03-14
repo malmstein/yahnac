@@ -16,6 +16,7 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
+import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.yahnac.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
@@ -30,16 +31,27 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     private SlidingTabLayout slidingTabs;
     private StoriesPagerAdapter headersAdapter;
 
+    private SnackBarView snackbarView;
+    private int croutonAnimationDuration;
+    private int croutonBackgroundAlpha;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        setupCategories();
-        setupTabsAndHeaders();
+        setupHeaders();
+        setupTabs();
+        setupSnackbar();
     }
 
-    private void setupCategories() {
+    private void setupSnackbar() {
+        snackbarView = Views.findById(this, R.id.snackbar);
+        croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
+        croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    }
+
+    private void setupHeaders() {
         headersAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
         headersPager = Views.findById(this, R.id.news_pager);
         headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
@@ -47,7 +59,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         headersPager.setCurrentItem(INITIAL_PAGE);
     }
 
-    private void setupTabsAndHeaders() {
+    private void setupTabs() {
         appBarContainer = Views.findById(this, R.id.app_bar_container);
         appBarContainer.setAppBar(getAppBar());
         setTitle(getString(R.string.title_app));
@@ -101,7 +113,13 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     @Override
     public void onBookmarkClicked(Story story) {
         DataPersister persister = Inject.dataPersister();
-        persister.onBookmarkClicked(story);
+        if (story.isBookmark()) {
+            showRemovedBookmarkSnackbar();
+            persister.removeBookmark(story);
+        } else {
+            showAddedBookmarkSnackbar();
+            persister.addBookmark(story);
+        }
     }
 
     private boolean isTwoPaneLayout() {
@@ -140,6 +158,22 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                         ArticleFragment.from(story),
                         CommentsFragment.TAG)
                 .commit();
+    }
+
+    private void showAddedBookmarkSnackbar() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_added_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withAutohideDelay(2000)
+                .animating();
+    }
+
+    private void showRemovedBookmarkSnackbar() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_removed_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withAutohideDelay(2000)
+                .animating();
     }
 
 }

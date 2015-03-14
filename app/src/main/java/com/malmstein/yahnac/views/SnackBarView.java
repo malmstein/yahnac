@@ -20,8 +20,10 @@ public class SnackBarView extends LinearLayout {
     public static final int DEFAULT_BG_COLOR = 0xEA333333;
 
     private TextView croutonText;
+    private TextView croutonUndo;
 
     private OnClickListener onTextClickListener;
+    private OnClickListener onUndoClickListener;
 
     private CroutonAutoHideRunnable croutonAutoHideRunnable;
     private long dismissAnimationDuration;
@@ -62,6 +64,16 @@ public class SnackBarView extends LinearLayout {
             public void onClick(View v) {
                 if (onTextClickListener != null) {
                     onTextClickListener.onClick(SnackBarView.this);
+                }
+            }
+        });
+
+        croutonUndo = (TextView) findViewById(R.id.crouton_undo);
+        croutonUndo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onUndoClickListener != null) {
+                    onUndoClickListener.onClick(SnackBarView.this);
                 }
             }
         });
@@ -191,7 +203,11 @@ public class SnackBarView extends LinearLayout {
 
         public ShowCroutonAction withTextClickListener(OnClickListener l) {
             crouton.onTextClickListener = l;
-            crouton.croutonText.setBackgroundDrawable(crouton.getResources().getDrawable(R.drawable.selector_snackbar));
+            return this;
+        }
+
+        public ShowCroutonAction withUndoClickListener(OnClickListener l) {
+            crouton.onUndoClickListener = l;
             return this;
         }
 

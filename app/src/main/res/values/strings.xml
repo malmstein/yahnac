@@ -21,7 +21,5 @@
   </plurals>
 
   <string name="empty_view_text">No saved bookmarks yet! You can easily add them from any list of stories</string>
-  <string name="feed_loading_text">Fetching stories, you can also swipe to refresh the content</string>
-  <string name="feed_snackbar_text_loading">Loading more stories</string>
 
 </resources>

@@ -16,13 +16,27 @@
     android:layout_height="wrap_content"
     tools:background="@color/snackbar_background">
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
       android:id="@+id/crouton_text"
-      style="?croutonTextStyle"
-      android:layout_width="match_parent"
+      style="@style/HNews.Crouton"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:minHeight="@dimen/snackbar_height"
-      tools:text="Crouton message"/>
+      android:paddingLeft="@dimen/default_padding"
+      android:paddingRight="@dimen/default_padding"
+      android:paddingTop="@dimen/card_content_padding"
+      android:paddingBottom="@dimen/card_content_padding"
+      tools:text="Crouton message" />
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      android:id="@+id/crouton_undo"
+      style="@style/HNewsButton.Borderless"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="right"
+      android:minHeight="@dimen/snackbar_height"
+      tools:text="UNDO" />
+
 
   </FrameLayout>
 

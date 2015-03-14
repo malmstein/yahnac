@@ -39,15 +39,7 @@ public class DataPersister {
         return contentResolver.bulkInsert(HNewsContract.CommentsEntry.CONTENT_COMMENTS_URI, cvArray);
     }
 
-    public void onBookmarkClicked(Story story) {
-        if (story.isBookmark()) {
-            removeBookmark(story);
-        } else {
-            addBookmark(story);
-        }
-    }
-
-    private void addBookmark(Story story) {
+    public void addBookmark(Story story) {
         ContentValues storyValues = new ContentValues();
 
         storyValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
@@ -63,7 +55,7 @@ public class DataPersister {
         //TODO add flag to current story
     }
 
-    private void removeBookmark(Story story) {
+    public void removeBookmark(Story story) {
         contentResolver.delete(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI,
                 HNewsContract.BookmarkEntry.ITEM_ID + " = ?",
                 new String[]{story.getId().toString()});
