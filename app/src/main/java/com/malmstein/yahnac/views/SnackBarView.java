@@ -165,7 +165,7 @@ public class SnackBarView extends LinearLayout {
 
         private static final int DISMISS_ANIMATION_SPEEDUP_FACTOR = 3;
         public static final long DEFAULT_ANIMATION_DURATION_MS = 500;
-        public static final long DEFAULT_AUTOHIDE_DELAY_MS = 5000;
+        public static final long DEFAULT_AUTOHIDE_DELAY_MS = 3500;
 
         protected SnackBarView crouton;
         protected long animationDuration;
