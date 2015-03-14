@@ -137,6 +137,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                 .withUndoClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        snackbarView.hideCrouton();
                         removeBookmark(persister, story);
                     }
                 })
@@ -150,6 +151,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                 .withUndoClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        snackbarView.hideCrouton();
                         addBookmark(persister, story);
                     }
                 })
