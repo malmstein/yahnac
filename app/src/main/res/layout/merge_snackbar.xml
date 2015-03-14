@@ -11,32 +11,26 @@
     android:background="@drawable/shape_snackbar_shadow" />
 
   <FrameLayout
+    style="@style/HNews.Crouton"
     android:id="@+id/crouton_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/snackbar_height"
     tools:background="@color/snackbar_background">
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
       android:id="@+id/crouton_text"
-      style="@style/HNews.Crouton"
+      style="@style/HNews.CroutonLabel"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minHeight="@dimen/snackbar_height"
-      android:paddingLeft="@dimen/default_padding"
-      android:paddingRight="@dimen/default_padding"
-      android:paddingTop="@dimen/card_content_padding"
-      android:paddingBottom="@dimen/card_content_padding"
+      android:layout_height="match_parent"
+      android:layout_marginRight="@dimen/snackbar_padding_left"
       tools:text="Crouton message" />
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
       android:id="@+id/crouton_undo"
-      style="@style/HNewsButton.Borderless"
+      style="@style/HNews.CroutonAction"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="right"
-      android:minHeight="@dimen/snackbar_height"
+      android:layout_height="match_parent"
       tools:text="UNDO" />
-
 
   </FrameLayout>
 
