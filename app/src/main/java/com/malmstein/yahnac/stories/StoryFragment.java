@@ -38,9 +38,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private DelegatedSwipeRefreshLayout refreshLayout;
     private String nextUrl;
 
-    private int croutonBackgroundAlpha;
-    private long croutonAnimationDuration;
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -53,9 +50,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
-
-        this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
-        this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
 
         setupRefreshLayout();
         setupStoriesList();
