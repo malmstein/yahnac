@@ -17,7 +17,6 @@ import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.presenters.ScrollManager;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
@@ -28,7 +27,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
+public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     protected StoriesAdapter storiesAdapter;
     protected Subscription subscription;
@@ -37,9 +36,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
     private String nextUrl;
-
-    private int croutonBackgroundAlpha;
-    private long croutonAnimationDuration;
 
     @Override
     public void onAttach(Activity activity) {
@@ -53,9 +49,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
-
-        this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
-        this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
 
         setupRefreshLayout();
         setupStoriesList();
@@ -75,7 +68,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         storiesLayoutManager = new LinearLayoutManager(getActivity());
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
-        storiesList.setOnScrollListener(new ScrollManager(this));
 
         storiesAdapter = new StoriesAdapter(null, listener);
         storiesList.setAdapter(storiesAdapter);
@@ -117,10 +109,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         refreshLayout.setRefreshing(false);
     }
 
-    protected void disableRefresh() {
-        refreshLayout.setEnabled(false);
-    }
-
     @Override
     public boolean isReadyForPull() {
         return ViewCompat.canScrollVertically(storiesList, -1);
@@ -129,11 +117,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     @Override
     public void onRefresh() {
         subscribeToStories();
-    }
-
-    @Override
-    public void onLoadMoreItems() {
-//        subscribeToStories();
     }
 
     private void subscribeToStories() {

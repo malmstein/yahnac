@@ -2,25 +2,16 @@ package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.tasks.FetchCommentsTask;
 import com.malmstein.yahnac.tasks.FetchStoriesTask;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Vector;
 
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class HNewsApi {
@@ -29,86 +20,6 @@ public class HNewsApi {
         return Observable.create(
                 new StoriesUpdateOnSubscribe(storyType, nextUrl))
                 .subscribeOn(Schedulers.io());
-    }
-
-    public void getStories(Story.TYPE type) {
-
-        Vector<ContentValues> storiesList = new Vector<>();
-
-        Observable.create(new Observable.OnSubscribe<Long>() {
-            @Override
-            public void call(final Subscriber<? super Long> subscriber) {
-                Firebase topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-                topStories.addChildEventListener(new ChildEventListener() {
-
-                    @Override
-                    public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                        Long itemId = (Long) snapshot.getValue();
-                        subscriber.onNext(itemId);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-
-                });
-            }
-        }).flatMap(new Func1<Long, Observable<Vector<ContentValues>>>() {
-            @Override
-            public Observable<Vector<ContentValues>> call(Long aLong) {
-                Observable.create(new Observable.OnSubscribe<Object>() {
-                    @Override
-                    public void call(Subscriber<? super Object> subscriber) {
-                        Firebase item = new Firebase("https://hacker-news.firebaseio.com/v0/item/" + itemId);
-                        item.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                                return persistStory(newItem);
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
-                        });
-                    }
-                });
-            }
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Vector<ContentValues>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Vector<ContentValues> contentValueses) {
-
-                    }
-                });
-
     }
 
     private static class StoriesUpdateOnSubscribe implements Observable.OnSubscribe<StoriesJsoup> {
