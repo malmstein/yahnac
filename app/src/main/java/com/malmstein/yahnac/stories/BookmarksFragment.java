@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.HNewsContract;
-import com.malmstein.yahnac.presenters.BookmarksAdapter;
+import com.malmstein.yahnac.presenters.RecyclerViewAdapter;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
@@ -27,7 +27,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
 
     private static final int BOOKMARKS_LOADER = 0;
 
-    private BookmarksAdapter bookmarksAdapter;
+    private RecyclerViewAdapter bookmarksAdapter;
     private RecyclerView bookmarksList;
     private RecyclerView.LayoutManager bookmarksLayoutManager;
     private StoryListener listener;
@@ -63,7 +63,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
         bookmarksList.addItemDecoration(createItemDecoration(getResources()));
         bookmarksList.setLayoutManager(bookmarksLayoutManager);
 
-        bookmarksAdapter = new BookmarksAdapter(null, listener);
+        bookmarksAdapter = new RecyclerViewAdapter(null, listener);
         bookmarksList.setAdapter(bookmarksAdapter);
     }
 
@@ -92,9 +92,9 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data.getCount() > 0){
+        bookmarksAdapter.swapCursor(data);
+        if (bookmarksAdapter.getItemCount() > 0){
             emptyView.setVisibility(View.GONE);
-            bookmarksAdapter.swapCursor(data);
         } else {
             emptyView.setVisibility(View.VISIBLE);
         }
