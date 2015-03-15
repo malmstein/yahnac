@@ -41,6 +41,24 @@ public class DataRepository {
         return getStories(type, nextUrl);
     }
 
+    private Observable<String> getStories(final Story.TYPE type) {
+        return api.getStories(type)
+                .flatMap(new Func1<Vector<ContentValues>, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(final Vector<ContentValues> stories) {
+                        return Observable.create(new Observable.OnSubscribe<String>() {
+                            @Override
+                            public void call(Subscriber<? super String> subscriber) {
+                                refreshPreferences.saveRefreshTick(type);
+                                dataPersister.persistStories(stories);
+                                subscriber.onNext(stories.toString());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
+
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
         return api.getStories(type, nextUrl)
                 .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
