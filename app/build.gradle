@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.malmstein.yahnac"
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 7
         versionName "0.4"
 
@@ -52,9 +52,9 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v13:21.0.3'
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:recyclerview-v7:21.0.+'
-    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:recyclerview-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
