@@ -48,9 +48,6 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        storiesAdapter.swapCursor(null);
-        stopRefreshing();
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
 }

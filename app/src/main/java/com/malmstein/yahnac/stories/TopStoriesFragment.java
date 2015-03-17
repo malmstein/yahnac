@@ -68,10 +68,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        storiesAdapter.swapCursor(null);
-        stopRefreshing();
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
     public enum QUERY {
         top,
