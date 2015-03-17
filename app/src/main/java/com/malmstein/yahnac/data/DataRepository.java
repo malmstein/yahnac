@@ -46,12 +46,8 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                Vector<ContentValues> storiesList = new Vector<>();
-                                for (ContentValues story : stories) {
-                                    stories.add(story);
-                                }
                                 refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(storiesList);
+                                dataPersister.persistStories(stories);
                                 subscriber.onNext(stories.size());
                                 subscriber.onCompleted();
                             }
