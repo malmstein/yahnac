@@ -30,7 +30,7 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
 
     protected String getOrder() {
         return HNewsContract.StoryEntry.RANK + " ASC" +
-                ", " + HNewsContract.StoryEntry.TIMESTAMP + " ASC";
+                ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
     }
 
     @Override

@@ -130,6 +130,8 @@ public class HNewsApi {
                 return new Firebase("https://hacker-news.firebaseio.com/v0/showstories");
             case ask:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/askstories");
+            case jobs:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/jobstories");
             default:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
         }

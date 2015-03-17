@@ -18,7 +18,8 @@ public class Story implements Serializable {
         new_story,
         best_story,
         show,
-        ask
+        ask,
+        jobs
     }
 
     private final Long internalId;
