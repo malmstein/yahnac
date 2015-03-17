@@ -11,6 +11,7 @@ import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.tasks.FetchCommentsTask;
 import com.malmstein.yahnac.tasks.FetchStoriesTask;
+import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,46 +21,23 @@ import java.util.Vector;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class HNewsApi {
 
-    private Observable<String> getStories(final Story.TYPE type) {
-        Observable<List<Object>> listObservable = Observable.create(new Observable.OnSubscribe<Long>() {
+    public void getStories(final Story.TYPE type, final DataPersister persister, final RefreshSharedPreferences preferences) {
+
+        Observable<List<Vector<ContentValues>>> listObservable = Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
-            public void call(final Subscriber<? super Long> subscriber) {
+            public void call(final Subscriber<? super DataSnapshot> subscriber) {
                 Firebase ref = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-                ref.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Long storyId = (Long) dataSnapshot.getValue();
-                        subscriber.onNext(storyId);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {}
-                });
-            }
-        }).flatMap(new Func1<Long, Observable<Vector<ContentValues>>>() {
-            @Override
-            public Observable<Vector<ContentValues>> call(Long storyId) {
-                Firebase ref = new Firebase("https://hacker-news.firebaseio.com/item/" + storyId);
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                         return
+                        subscriber.onNext(dataSnapshot);
+                        subscriber.onCompleted();
                     }
 
                     @Override
@@ -67,34 +45,89 @@ public class HNewsApi {
 
                     }
                 });
-            })
-        }).toList();
-
-        Observable.zip(listObservable, another, new Func2<List<Object>, Object, Object>() {
-            @Override
-            public Object call(List<Object> objects, Object o) {
-                return null;
             }
-        }).subscribeOn(Schedulers.io()).subscribe(new PersisterObserver());
+        }).flatMap(new Func1<DataSnapshot, Observable<Vector<ContentValues>>>() {
+            @Override
+            public Observable<Vector<ContentValues>> call(DataSnapshot dataSnapshot) {
+                Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
 
-        return api.getStories(type, nextUrl)
-                .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
+
+                final Vector<ContentValues> storiesList = new Vector<>();
+                Firebase ref = new Firebase("https://hacker-news.firebaseio.com/item/" + 0);
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public Observable<String> call(final StoriesJsoup stories) {
-                        return Observable.create(new Observable.OnSubscribe<String>() {
-                            @Override
-                            public void call(Subscriber<? super String> subscriber) {
-                                refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(stories.getStories());
-                                subscriber.onNext(stories.getNextUrl());
-                                subscriber.onCompleted();
-                            }
-                        });
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
+                        storiesList.add(mapStory(newItem));
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
                     }
                 });
+                return Observable.create(new Observable.OnSubscribe<Vector<ContentValues>>() {
+                    @Override
+                    public void call(Subscriber<? super Vector<ContentValues>> subscriber) {
+                        subscriber.onNext(storiesList);
+                    }
+                });
+            }
+        }).toList();
+
+        Observable.zip(listObservable, listObservable, new Func2<List<Vector<ContentValues>>, List<Vector<ContentValues>>, Vector<ContentValues>>() {
+            @Override
+            public Vector<ContentValues> call(List<Vector<ContentValues>> objects, List<Vector<ContentValues>> o) {
+                final Vector<ContentValues> storiesList = new Vector<>();
+
+                preferences.saveRefreshTick(type);
+//                persister.persistStories(stories.getStories());
+
+                return storiesList;
+            }
+        }).subscribeOn(Schedulers.io()).subscribe(new Observer<Object>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+        });
 
     }
 
+
+
+    private ContentValues mapStory(Map<String, Object> map) {
+
+        String by = (String) map.get("by");
+        Long id = (Long) map.get("id");
+        String type = (String) map.get("type");
+        long time = (long) map.get("time");
+        long score = (Long) map.get("score");
+        String title = (String) map.get("title");
+        String url = (String) map.get("url");
+
+        ContentValues storyValues = new ContentValues();
+
+        storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
+        storyValues.put(HNewsContract.StoryEntry.BY, by);
+        storyValues.put(HNewsContract.StoryEntry.TYPE, type);
+        storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, time * 1000);
+        storyValues.put(HNewsContract.StoryEntry.SCORE, score);
+        storyValues.put(HNewsContract.StoryEntry.TITLE, title);
+        storyValues.put(HNewsContract.StoryEntry.URL, url);
+
+        return storyValues;
+    }
 
     Observable<StoriesJsoup> getStories(Story.TYPE storyType, String nextUrl) {
         return Observable.create(
@@ -170,16 +203,7 @@ public class HNewsApi {
         }
     }
 
-    public void getStories(Story.TYPE type) {
 
-        Vector<ContentValues> storiesList = new Vector<>();
-
-        Observable.create(new StoriesObserver(type))
-                .concatWith(new StoryObserver())
-                .flatMap(itemFunc)
-                .observeOn(AndroidSchedulers.mainThread());
-
-    }
 
     private static class StoriesObserver implements Observable.OnSubscribe<Long> {
 
@@ -221,37 +245,6 @@ public class HNewsApi {
                 }
 
             });
-        }
-    }
-
-    private Func1 itemFunc = new Func1<Long, Observable<Vector<ContentValues>>>() {
-        @Override
-        public Observable<Vector<ContentValues>> call(Long itemId) {
-            Firebase item = new Firebase("https://hacker-news.firebaseio.com/v0/item/" + itemId);
-            item.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-        }
-    };
-
-    private static class StoryObserver implements Observable.OnSubscribe<Map<String, Object>> {
-
-        public StoryObserver(Map<String, Object> newItem) {
-
-        }
-
-        @Override
-        public void call(Subscriber<? super Map<String, Object>> subscriber) {
-
         }
     }
 

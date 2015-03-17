@@ -2,26 +2,17 @@ package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.tasks.FetchCommentsTask;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshTimestamp;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
-import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
 
 public class DataRepository {
 
@@ -46,30 +37,15 @@ public class DataRepository {
 
     }
 
-    public Observable<String> observeStories(Story.TYPE type) {
-        return api.getStories(type);
+    public void getStories(Story.TYPE type){
+        api.getStories(type, dataPersister, refreshPreferences);
+    }
+
+    public Observable<String> observeStories(Story.TYPE type, String nextUrl) {
+        return getStories(type, nextUrl);
     }
 
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
-        Observable<List<Object>> listObservable = Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(Subscriber<? super Object> subscriber) {
-                subscriber.onNext(1);
-            }
-        }).flatMap(new Func1<Object, Observable<?>>() {
-            @Override
-            public Observable<?> call(Object o) {
-                return api.getFor(o);
-            }
-        }).toList();
-
-        Observable.zip(listObservable, another, new Func2<List<Object>, Object, Object>() {
-            @Override
-            public Object call(List<Object> objects, Object o) {
-                return null;
-            }
-        }).subscribeOn(Schedulers.io()).subscribe(new PersisterObserver());
-
         return api.getStories(type, nextUrl)
                 .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
                     @Override
@@ -88,31 +64,6 @@ public class DataRepository {
 
     }
 
-    private static class PersisterObserver implements Observable.OnSubscribe<Vector<ContentValues>> {
-
-        private Subscriber<? super Vector<ContentValues>> subscriber;
-
-        private PersisterObserver(Long storyId) {
-            this.storyId = storyId;
-        }
-
-        @Override
-        public void call(Subscriber<? super Vector<ContentValues>> subscriber) {
-            this.subscriber = subscriber;
-            dataPersister.persistStories(stories.getStories());
-            subscriber.onCompleted();
-        }
-
-        private void startFetchingComments() {
-            Vector<ContentValues> commentsList = new Vector<>();
-            try {
-                commentsList = new FetchCommentsTask(storyId).execute();
-            } catch (IOException e) {
-                subscriber.onError(e);
-            }
-            subscriber.onNext(commentsList);
-        }
-    }
 
     public Observable<Integer> observeComments(final Long storyId) {
         return getComments(storyId);

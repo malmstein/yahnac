@@ -24,9 +24,7 @@ import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
-import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
 
@@ -133,27 +131,29 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private void subscribeToStories() {
         if (isOnline()) {
             DataRepository dataRepository = Inject.dataRepository();
-            subscription = dataRepository
-                    .observeStories(getType(), nextUrl)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
-                        @Override
-                        public void onCompleted() {
-                            if (!subscription.isUnsubscribed()) {
-                                subscription.unsubscribe();
-                            }
-                        }
+            dataRepository.getStories(getType());
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
-                        }
-
-                        @Override
-                        public void onNext(String moreItemsUrl) {
-                            nextUrl = moreItemsUrl;
-                        }
-                    });
+//            subscription = dataRepository
+//                    .observeStories(getType(), nextUrl)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<String>() {
+//                        @Override
+//                        public void onCompleted() {
+//                            if (!subscription.isUnsubscribed()) {
+//                                subscription.unsubscribe();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
+//                        }
+//
+//                        @Override
+//                        public void onNext(String moreItemsUrl) {
+//                            nextUrl = moreItemsUrl;
+//                        }
+//                    });
         } else {
             stopRefreshing();
         }
