@@ -7,6 +7,7 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshTimestamp;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
@@ -37,8 +38,26 @@ public class DataRepository {
 
     }
 
-    public void getStories(Story.TYPE type){
-        api.getStories(type, dataPersister, refreshPreferences);
+    public Observable<Integer> getStories(final Story.TYPE type){
+        return api.getStories(type)
+                .flatMap(new Func1<List<ContentValues>, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(final List<ContentValues> stories) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                            @Override
+                            public void call(Subscriber<? super Integer> subscriber) {
+                                Vector<ContentValues> storiesList = new Vector<>();
+                                for (ContentValues story : stories) {
+                                    stories.add(story);
+                                }
+                                refreshPreferences.saveRefreshTick(type);
+                                dataPersister.persistStories(storiesList);
+                                subscriber.onNext(stories.size());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
     }
 
     public Observable<String> observeStories(Story.TYPE type, String nextUrl) {

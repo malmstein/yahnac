@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
@@ -24,7 +25,9 @@ import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
+import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
 
@@ -131,29 +134,27 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private void subscribeToStories() {
         if (isOnline()) {
             DataRepository dataRepository = Inject.dataRepository();
-            dataRepository.getStories(getType());
+            subscription = dataRepository
+                    .getStories(getType())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onCompleted() {
+                            if (!subscription.isUnsubscribed()) {
+                                subscription.unsubscribe();
+                            }
+                        }
 
-//            subscription = dataRepository
-//                    .observeStories(getType(), nextUrl)
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<String>() {
-//                        @Override
-//                        public void onCompleted() {
-//                            if (!subscription.isUnsubscribed()) {
-//                                subscription.unsubscribe();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
-//                        }
-//
-//                        @Override
-//                        public void onNext(String moreItemsUrl) {
-//                            nextUrl = moreItemsUrl;
-//                        }
-//                    });
+                        @Override
+                        public void onError(Throwable e) {
+                            Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getStoriesFrom " + getType().toString(), e);
+                        }
+
+                        @Override
+                        public void onNext(Integer total) {
+                            Toast.makeText(getActivity(), "total items:" + total, Toast.LENGTH_LONG);
+                        }
+                    });
         } else {
             stopRefreshing();
         }
