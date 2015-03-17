@@ -29,7 +29,7 @@ public class HNewsApi {
 
     public void getStories(final Story.TYPE type, final DataPersister persister, final RefreshSharedPreferences preferences) {
 
-        Observable<List<Vector<ContentValues>>> listObservable = Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
+        Observable<List<ContentValues>> listObservable = Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
             public void call(final Subscriber<? super DataSnapshot> subscriber) {
                 Firebase ref = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
@@ -46,46 +46,60 @@ public class HNewsApi {
                     }
                 });
             }
-        }).flatMap(new Func1<DataSnapshot, Observable<Vector<ContentValues>>>() {
+        }).flatMap(new Func1<DataSnapshot, Observable<Long>>() {
             @Override
-            public Observable<Vector<ContentValues>> call(DataSnapshot dataSnapshot) {
-                Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-
-
-                final Vector<ContentValues> storiesList = new Vector<>();
-                Firebase ref = new Firebase("https://hacker-news.firebaseio.com/item/" + 0);
-                ref.addValueEventListener(new ValueEventListener() {
+            public Observable<Long> call(final DataSnapshot dataSnapshot) {
+                return Observable.create(new Observable.OnSubscribe<Long>() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                        storiesList.add(mapStory(newItem));
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
+                    public void call(Subscriber<? super Long> subscriber) {
+                        for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                            Long id = (Long) dataSnapshot.child(String.valueOf(i)).getValue();
+                            subscriber.onNext(id);
+                        }
+                        subscriber.onCompleted();
                     }
                 });
-                return Observable.create(new Observable.OnSubscribe<Vector<ContentValues>>() {
+            }
+        }).flatMap(new Func1<Long, Observable<ContentValues>>() {
+            @Override
+            public Observable<ContentValues> call(final Long id) {
+                return Observable.create(new Observable.OnSubscribe<ContentValues>() {
                     @Override
-                    public void call(Subscriber<? super Vector<ContentValues>> subscriber) {
-                        subscriber.onNext(storiesList);
+                    public void call(final Subscriber<? super ContentValues> subscriber) {
+                        Firebase ref = new Firebase("https://hacker-news.firebaseio.com/item/" + id);
+                        ref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
+                                subscriber.onNext(mapStory(newItem));
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
                     }
                 });
             }
         }).toList();
 
-        Observable.zip(listObservable, listObservable, new Func2<List<Vector<ContentValues>>, List<Vector<ContentValues>>, Vector<ContentValues>>() {
+        Observable.zip(listObservable, listObservable, new Func2<List<ContentValues>, List<ContentValues>, Vector<ContentValues>>() {
             @Override
-            public Vector<ContentValues> call(List<Vector<ContentValues>> objects, List<Vector<ContentValues>> o) {
+            public Vector<ContentValues> call(List<ContentValues> topStories, List<ContentValues> newStories) {
                 final Vector<ContentValues> storiesList = new Vector<>();
 
-                preferences.saveRefreshTick(type);
-//                persister.persistStories(stories.getStories());
+                for (ContentValues story : topStories){
+                    storiesList.add(story);
+                }
+
+                for (ContentValues story : newStories) {
+                    storiesList.add(story);
+                }
 
                 return storiesList;
             }
-        }).subscribeOn(Schedulers.io()).subscribe(new Observer<Object>() {
+        }).subscribeOn(Schedulers.io()).subscribe(new Observer<Vector<ContentValues>>() {
             @Override
             public void onCompleted() {
 
@@ -97,14 +111,13 @@ public class HNewsApi {
             }
 
             @Override
-            public void onNext(Object o) {
-
+            public void onNext(Vector<ContentValues> stories) {
+                preferences.saveRefreshTick(type);
+                persister.persistStories(stories);
             }
         });
 
     }
-
-
 
     private ContentValues mapStory(Map<String, Object> map) {
 
@@ -202,8 +215,6 @@ public class HNewsApi {
             subscriber.onNext(commentsList);
         }
     }
-
-
 
     private static class StoriesObserver implements Observable.OnSubscribe<Long> {
 
