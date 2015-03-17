@@ -30,7 +30,7 @@ public class HNewsApi {
         return Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
             public void call(final Subscriber<? super DataSnapshot> subscriber) {
-                Firebase topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+                Firebase topStories = getStoryFirebase(type);
                 topStories.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -90,7 +90,12 @@ public class HNewsApi {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
-        String type = (String) map.get("type");
+        String type;
+        if (rootType == Story.TYPE.best_story || rootType == Story.TYPE.new_story){
+            type = Story.TYPE.top_story.name();
+        } else {
+            type = rootType.name();
+        }
         Long time = (Long) map.get("time");
         Long score = (Long) map.get("score");
         String title = (String) map.get("title");
@@ -101,7 +106,7 @@ public class HNewsApi {
 
         storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
         storyValues.put(HNewsContract.StoryEntry.BY, by);
-        storyValues.put(HNewsContract.StoryEntry.TYPE, rootType.name());
+        storyValues.put(HNewsContract.StoryEntry.TYPE, type);
         storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, time * 1000);
         storyValues.put(HNewsContract.StoryEntry.SCORE, score);
         storyValues.put(HNewsContract.StoryEntry.TITLE, title);
@@ -110,6 +115,23 @@ public class HNewsApi {
         storyValues.put(HNewsContract.StoryEntry.RANK, rank);
 
         return storyValues;
+    }
+
+    private Firebase getStoryFirebase(Story.TYPE type){
+        switch (type){
+            case top_story:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+            case new_story:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+            case best_story:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+            case show:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/showstories");
+            case ask:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/askstories");
+            default:
+                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+        }
     }
 
     Observable<StoriesJsoup> getStories(Story.TYPE storyType, String nextUrl) {

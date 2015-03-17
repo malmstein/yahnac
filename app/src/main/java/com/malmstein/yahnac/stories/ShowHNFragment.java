@@ -28,6 +28,11 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
         return Story.TYPE.show;
     }
 
+    protected String getOrder() {
+        return HNewsContract.StoryEntry.RANK + " ASC" +
+                ", " + HNewsContract.StoryEntry.TIMESTAMP + " ASC";
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri storyNewsUri = HNewsContract.StoryEntry.buildStoriesUri();

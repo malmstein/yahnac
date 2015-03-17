@@ -31,6 +31,9 @@ public class DataRepository {
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
+        if (type == Story.TYPE.new_story || type == Story.TYPE.best_story) {
+            return false;
+        }
         RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
         RefreshTimestamp now = RefreshTimestamp.now();
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
@@ -38,7 +41,7 @@ public class DataRepository {
 
     }
 
-    public Observable<Integer> getStories(final Story.TYPE type){
+    public Observable<Integer> getStories(final Story.TYPE type) {
         return api.getStories(type)
                 .flatMap(new Func1<List<ContentValues>, Observable<Integer>>() {
                     @Override
@@ -60,7 +63,6 @@ public class DataRepository {
         return getStories(type, nextUrl);
     }
 
-
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
         return api.getStories(type, nextUrl)
                 .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
@@ -79,7 +81,6 @@ public class DataRepository {
                 });
 
     }
-
 
     public Observable<Integer> observeComments(final Long storyId) {
         return getComments(storyId);

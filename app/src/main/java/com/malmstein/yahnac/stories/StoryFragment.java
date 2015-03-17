@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataRepository;
-import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
@@ -36,7 +35,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private RecyclerView.LayoutManager storiesLayoutManager;
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private String nextUrl;
 
     @Override
     public void onAttach(Activity activity) {
@@ -91,11 +89,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     protected abstract Story.TYPE getType();
-
-    protected String getOrder() {
-        return HNewsContract.StoryEntry.RANK + " ASC" +
-                ", " + HNewsContract.StoryEntry.TIMESTAMP + " ASC";
-    }
 
     protected void startRefreshing() {
         refreshLayout.postOnAnimation(new Runnable() {
