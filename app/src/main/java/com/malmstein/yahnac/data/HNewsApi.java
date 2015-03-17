@@ -1,6 +1,7 @@
 package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
+import android.util.Pair;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -43,32 +44,34 @@ public class HNewsApi {
                     }
                 });
             }
-        }).flatMap(new Func1<DataSnapshot, Observable<Long>>() {
+        }).flatMap(new Func1<DataSnapshot, Observable<Pair<Integer, Long>>>() {
             @Override
-            public Observable<Long> call(final DataSnapshot dataSnapshot) {
-                return Observable.create(new Observable.OnSubscribe<Long>() {
+            public Observable<Pair<Integer, Long>> call(final DataSnapshot dataSnapshot) {
+                return Observable.create(new Observable.OnSubscribe<Pair<Integer, Long>>() {
                     @Override
-                    public void call(Subscriber<? super Long> subscriber) {
+                    public void call(Subscriber<? super Pair<Integer, Long>> subscriber) {
                         for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
                             Long id = (Long) dataSnapshot.child(String.valueOf(i)).getValue();
-                            subscriber.onNext(id);
+                            Integer rank = Integer.valueOf(dataSnapshot.child(String.valueOf(i)).getKey());
+                            Pair<Integer, Long> storyRoot = new Pair<>(rank, id);
+                            subscriber.onNext(storyRoot);
                         }
                         subscriber.onCompleted();
                     }
                 });
             }
-        }).flatMap(new Func1<Long, Observable<ContentValues>>() {
+        }).flatMap(new Func1<Pair<Integer, Long>, Observable<ContentValues>>() {
             @Override
-            public Observable<ContentValues> call(final Long id) {
+            public Observable<ContentValues> call(final Pair<Integer, Long> storyRoot) {
                 return Observable.create(new Observable.OnSubscribe<ContentValues>() {
                     @Override
                     public void call(final Subscriber<? super ContentValues> subscriber) {
-                        Firebase story = new Firebase("https://hacker-news.firebaseio.com/v0/item/" + id);
+                        final Firebase story = new Firebase("https://hacker-news.firebaseio.com/v0/item/" + storyRoot.second);
                         story.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                                subscriber.onNext(mapStory(newItem, type));
+                                subscriber.onNext(mapStory(newItem, type, storyRoot.first));
                                 subscriber.onCompleted();
                             }
 
@@ -83,7 +86,7 @@ public class HNewsApi {
         }).toList();
     }
 
-    private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType) {
+    private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
@@ -104,6 +107,7 @@ public class HNewsApi {
         storyValues.put(HNewsContract.StoryEntry.TITLE, title);
         storyValues.put(HNewsContract.StoryEntry.COMMENTS, descendants);
         storyValues.put(HNewsContract.StoryEntry.URL, url);
+        storyValues.put(HNewsContract.StoryEntry.RANK, rank);
 
         return storyValues;
     }
