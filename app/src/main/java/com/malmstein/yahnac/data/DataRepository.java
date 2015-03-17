@@ -64,6 +64,7 @@ public class DataRepository {
         return getStories(type, nextUrl);
     }
 
+
     private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
         return api.getStories(type, nextUrl)
                 .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
