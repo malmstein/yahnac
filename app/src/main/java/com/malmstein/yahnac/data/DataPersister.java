@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import com.malmstein.yahnac.base.HNewsDate;
 import com.malmstein.yahnac.model.Story;
 
+import java.util.List;
 import java.util.Vector;
 
 public class DataPersister {
@@ -16,7 +17,7 @@ public class DataPersister {
         this.contentResolver = contentResolver;
     }
 
-    public int persistStories(Vector<ContentValues> topStories) {
+    public int persistStories(List<ContentValues> topStories) {
 
         String timestampTwoDaysAgo = String.valueOf(HNewsDate.now().twoDaysAgo().getTimeInMillis());
         contentResolver.delete(HNewsContract.StoryEntry.CONTENT_STORY_URI,
