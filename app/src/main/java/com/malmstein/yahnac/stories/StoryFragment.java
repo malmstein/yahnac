@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
@@ -68,7 +69,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
 
-        storiesAdapter = new StoriesAdapter(null, listener);
+        storiesAdapter = new StoriesAdapter(null, listener, new TimeAgo(getActivity().getResources()));
         storiesList.setAdapter(storiesAdapter);
     }
 

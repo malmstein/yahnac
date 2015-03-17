@@ -54,7 +54,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 return HNewsContract.StoryEntry.RANK + " ASC" +
                         ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
             case newest:
-                return HNewsContract.StoryEntry.TIMESTAMP + " DESC";
+                return HNewsContract.StoryEntry.TIME_AGO + " DESC";
             case best:
                 return HNewsContract.StoryEntry.SCORE + " DESC" +
                         ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";

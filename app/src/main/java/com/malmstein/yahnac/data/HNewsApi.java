@@ -107,12 +107,13 @@ public class HNewsApi {
         storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
         storyValues.put(HNewsContract.StoryEntry.BY, by);
         storyValues.put(HNewsContract.StoryEntry.TYPE, type);
-        storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, time * 1000);
+        storyValues.put(HNewsContract.StoryEntry.TIME_AGO, time * 1000);
         storyValues.put(HNewsContract.StoryEntry.SCORE, score);
         storyValues.put(HNewsContract.StoryEntry.TITLE, title);
         storyValues.put(HNewsContract.StoryEntry.COMMENTS, descendants);
         storyValues.put(HNewsContract.StoryEntry.URL, url);
         storyValues.put(HNewsContract.StoryEntry.RANK, rank);
+        storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
 
         return storyValues;
     }

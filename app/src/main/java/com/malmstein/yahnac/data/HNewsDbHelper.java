@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "hnews.db";
 
     public HNewsDbHelper(Context context) {
@@ -26,7 +26,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.StoryEntry.URL + " TEXT," +
                 HNewsContract.StoryEntry.SCORE + " INTEGER," +
                 HNewsContract.StoryEntry.TITLE + " TEXT," +
-                HNewsContract.StoryEntry.TIME_AGO + " TEXT," +
+                HNewsContract.StoryEntry.TIME_AGO + " INTEGER," +
                 HNewsContract.StoryEntry.RANK + " INTEGER," +
                 HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
                 HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0" +

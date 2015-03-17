@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
@@ -16,10 +17,12 @@ import com.novoda.notils.caster.Views;
 public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHolder> {
 
     private final StoryListener listener;
+    private final TimeAgo timeAgo;
 
-    public StoriesAdapter(Cursor cursor, StoryListener listener) {
+    public StoriesAdapter(Cursor cursor, StoryListener listener, TimeAgo timeAgo) {
         super(cursor);
         this.listener = listener;
+        this.timeAgo = timeAgo;
     }
 
     private Intent createShareIntent(String url) {
@@ -70,7 +73,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.comments_action.setVisibility(View.GONE);
         } else {
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
-            holder.timeAgo.setText(story.getTimeAgo());
+            holder.timeAgo.setText(timeAgo.timeAgo(story.getTimeAgo()));
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
             holder.comments_text.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
