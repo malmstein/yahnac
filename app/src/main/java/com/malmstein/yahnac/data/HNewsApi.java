@@ -2,7 +2,6 @@ package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -69,7 +68,7 @@ public class HNewsApi {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                                subscriber.onNext(mapStory(newItem));
+                                subscriber.onNext(mapStory(newItem, type));
                                 subscriber.onCompleted();
                             }
 
@@ -84,24 +83,26 @@ public class HNewsApi {
         }).toList();
     }
 
-    private ContentValues mapStory(Map<String, Object> map) {
+    private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType) {
 
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
         String type = (String) map.get("type");
-        long time = (long) map.get("time");
-        long score = (Long) map.get("score");
+        Long time = (Long) map.get("time");
+        Long score = (Long) map.get("score");
         String title = (String) map.get("title");
         String url = (String) map.get("url");
+        Long descendants = (Long) map.get("descendants");
 
         ContentValues storyValues = new ContentValues();
 
         storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
         storyValues.put(HNewsContract.StoryEntry.BY, by);
-        storyValues.put(HNewsContract.StoryEntry.TYPE, type);
+        storyValues.put(HNewsContract.StoryEntry.TYPE, rootType.name());
         storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, time * 1000);
         storyValues.put(HNewsContract.StoryEntry.SCORE, score);
         storyValues.put(HNewsContract.StoryEntry.TITLE, title);
+        storyValues.put(HNewsContract.StoryEntry.COMMENTS, descendants);
         storyValues.put(HNewsContract.StoryEntry.URL, url);
 
         return storyValues;
@@ -178,49 +179,6 @@ public class HNewsApi {
                 subscriber.onError(e);
             }
             subscriber.onNext(commentsList);
-        }
-    }
-
-    private static class StoriesObserver implements Observable.OnSubscribe<Long> {
-
-        private final Story.TYPE type;
-
-        public StoriesObserver(Story.TYPE type) {
-            this.type = type;
-        }
-
-        @Override
-        public void call(final Subscriber<? super Long> subscriber) {
-            Firebase topStories = new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-            topStories.addChildEventListener(new ChildEventListener() {
-
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                    Long itemId = (Long) snapshot.getValue();
-                    subscriber.onNext(itemId);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-
-            });
         }
     }
 
