@@ -1,8 +1,5 @@
 package com.malmstein.yahnac.settings;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.malmstein.yahnac.HNewsActivity;
@@ -25,9 +22,4 @@ public class SettingsActivity extends HNewsActivity {
         setupSubActivityWithTitle();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public Intent getParentActivityIntent() {
-        return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    }
 }

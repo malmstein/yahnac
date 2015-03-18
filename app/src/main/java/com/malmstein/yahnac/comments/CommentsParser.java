@@ -44,11 +44,12 @@ public class CommentsParser {
 
             ContentValues commentValues = new ContentValues();
 
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_BY, author);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, storyId);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, text);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_LEVEL, level);
-            commentValues.put(HNewsContract.ItemEntry.COLUMN_TIME_AGO, timeAgo);
+            commentValues.put(HNewsContract.CommentsEntry.BY, author);
+            commentValues.put(HNewsContract.CommentsEntry.ITEM_ID, storyId);
+            commentValues.put(HNewsContract.CommentsEntry.TEXT, text);
+            commentValues.put(HNewsContract.CommentsEntry.LEVEL, level);
+            commentValues.put(HNewsContract.CommentsEntry.TIME_AGO, timeAgo);
+            commentValues.put(HNewsContract.CommentsEntry.HEADER, System.currentTimeMillis());
 
             commentsList.add(commentValues);
         }
@@ -92,9 +93,9 @@ public class CommentsParser {
 
                 ContentValues commentValues = new ContentValues();
 
-                commentValues.put(HNewsContract.ItemEntry.COLUMN_ITEM_ID, storyId);
-                commentValues.put(HNewsContract.ItemEntry.COLUMN_TEXT, header);
-                commentValues.put(HNewsContract.ItemEntry.COLUMN_HEADER, HNewsContract.TRUE_BOOLEAN);
+                commentValues.put(HNewsContract.CommentsEntry.ITEM_ID, storyId);
+                commentValues.put(HNewsContract.CommentsEntry.TEXT, header);
+                commentValues.put(HNewsContract.CommentsEntry.HEADER, HNewsContract.TRUE_BOOLEAN);
 
                 commentsList.add(commentValues);
 

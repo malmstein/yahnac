@@ -7,6 +7,7 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshTimestamp;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
@@ -30,11 +31,32 @@ public class DataRepository {
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
+        if (type == Story.TYPE.new_story || type == Story.TYPE.best_story) {
+            return false;
+        }
         RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
         RefreshTimestamp now = RefreshTimestamp.now();
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
         return elapsedTime > maxMillisWithoutUpgrade;
 
+    }
+
+    public Observable<Integer> getStories(final Story.TYPE type) {
+        return api.getStories(type)
+                .flatMap(new Func1<List<ContentValues>, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(final List<ContentValues> stories) {
+                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                            @Override
+                            public void call(Subscriber<? super Integer> subscriber) {
+                                refreshPreferences.saveRefreshTick(type);
+                                dataPersister.persistStories(stories);
+                                subscriber.onNext(stories.size());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
     }
 
     public Observable<String> observeStories(Story.TYPE type, String nextUrl) {

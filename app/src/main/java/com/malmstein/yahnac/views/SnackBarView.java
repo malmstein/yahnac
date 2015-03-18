@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
 public class SnackBarView extends LinearLayout {
@@ -20,12 +20,13 @@ public class SnackBarView extends LinearLayout {
     public static final int DEFAULT_BG_COLOR = 0xEA333333;
 
     private TextView croutonText;
+    private TextView croutonUndo;
 
-    private OnClickListener onTextClickListener;
+    private OnClickListener onUndoClickListener;
 
     private CroutonAutoHideRunnable croutonAutoHideRunnable;
     private long dismissAnimationDuration;
-    private FrameLayout croutonContainer;
+    private LinearLayout croutonContainer;
 
     public SnackBarView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -53,15 +54,23 @@ public class SnackBarView extends LinearLayout {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         layoutInflater.inflate(R.layout.merge_snackbar, this, true);
 
-        croutonContainer = (FrameLayout) findViewById(R.id.crouton_container);
+        croutonContainer = Views.findById(this, R.id.crouton_container);
         croutonContainer.setBackgroundColor(DEFAULT_BG_COLOR);
 
         croutonText = (TextView) findViewById(R.id.crouton_text);
         croutonText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onTextClickListener != null) {
-                    onTextClickListener.onClick(SnackBarView.this);
+                hideCrouton(true);
+            }
+        });
+
+        croutonUndo = (TextView) findViewById(R.id.crouton_undo);
+        croutonUndo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onUndoClickListener != null) {
+                    onUndoClickListener.onClick(SnackBarView.this);
                 }
             }
         });
@@ -93,11 +102,6 @@ public class SnackBarView extends LinearLayout {
     }
 
     public void hideCrouton() {
-        hideCrouton(true);
-    }
-
-    public void hideCrouton(long animationDuration) {
-        dismissAnimationDuration = animationDuration;
         hideCrouton(true);
     }
 
@@ -161,7 +165,7 @@ public class SnackBarView extends LinearLayout {
 
         private static final int DISMISS_ANIMATION_SPEEDUP_FACTOR = 3;
         public static final long DEFAULT_ANIMATION_DURATION_MS = 500;
-        public static final long DEFAULT_AUTOHIDE_DELAY_MS = 5000;
+        public static final long DEFAULT_AUTOHIDE_DELAY_MS = 3500;
 
         protected SnackBarView crouton;
         protected long animationDuration;
@@ -169,7 +173,6 @@ public class SnackBarView extends LinearLayout {
         private long dismissAnimationDuration;
 
         protected ShowCroutonAction(SnackBarView crouton, CharSequence message) {
-            crouton.onTextClickListener = null;
             crouton.croutonText.setText(message);
             crouton.croutonText.setBackground(null);
             crouton.croutonContainer.setBackgroundColor(DEFAULT_BG_COLOR);
@@ -179,19 +182,13 @@ public class SnackBarView extends LinearLayout {
             this.autohideDelay = DEFAULT_AUTOHIDE_DELAY_MS;
         }
 
-        public ShowCroutonAction withBackgroundColor(int color) {
-            crouton.croutonContainer.setBackgroundColor(color);
-            return this;
-        }
-
         public ShowCroutonAction withBackgroundColor(int baseColor, int alpha) {
             crouton.croutonContainer.setBackgroundColor(computeBackgroundColor(baseColor, alpha));
             return this;
         }
 
-        public ShowCroutonAction withTextClickListener(OnClickListener l) {
-            crouton.onTextClickListener = l;
-            crouton.croutonText.setBackgroundDrawable(crouton.getResources().getDrawable(R.drawable.selector_snackbar));
+        public ShowCroutonAction withUndoClickListener(OnClickListener l) {
+            crouton.onUndoClickListener = l;
             return this;
         }
 
@@ -200,22 +197,8 @@ public class SnackBarView extends LinearLayout {
             return this;
         }
 
-        public ShowCroutonAction withAutohideDelay(long delay) {
-            this.autohideDelay = delay;
-            return this;
-        }
-
-        public ShowCroutonAction withDismissAnimationDuration(long duration) {
-            this.dismissAnimationDuration = duration;
-            return this;
-        }
-
         public void animating() {
             show(true);
-        }
-
-        public void withoutAnimating() {
-            show(false);
         }
 
         private void show(boolean animate) {

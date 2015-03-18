@@ -10,17 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.data.DataRepository;
-import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.presenters.ScrollManager;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
-import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
@@ -29,7 +28,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ScrollManager.Listener {
+public abstract class StoryFragment extends HNewsFragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     protected StoriesAdapter storiesAdapter;
     protected Subscription subscription;
@@ -37,11 +36,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private RecyclerView.LayoutManager storiesLayoutManager;
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private String nextUrl;
-
-    private SnackBarView snackbarView;
-    private int croutonBackgroundAlpha;
-    private long croutonAnimationDuration;
 
     @Override
     public void onAttach(Activity activity) {
@@ -55,10 +49,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
         refreshLayout = Views.findById(rootView, R.id.feed_refresh);
         storiesList = Views.findById(rootView, R.id.list_news);
-        snackbarView = Views.findById(rootView, R.id.feed_page_snackbar);
-
-        this.croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
-        this.croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
 
         setupRefreshLayout();
         setupStoriesList();
@@ -78,17 +68,18 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         storiesLayoutManager = new LinearLayoutManager(getActivity());
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
-        storiesList.setOnScrollListener(new ScrollManager(this));
 
-        storiesAdapter = new StoriesAdapter(null, listener);
+        storiesAdapter = new StoriesAdapter(null, listener, new TimeAgo(getActivity().getResources()));
         storiesList.setAdapter(storiesAdapter);
     }
 
     private void maybeUpdateContent() {
-        DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.shouldUpdateContent(getType())) {
-            startRefreshing();
-            onRefresh();
+        if (isOnline()) {
+            DataRepository dataRepository = Inject.dataRepository();
+            if (dataRepository.shouldUpdateContent(getType())) {
+                startRefreshing();
+                onRefresh();
+            }
         }
     }
 
@@ -99,11 +90,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     protected abstract Story.TYPE getType();
-
-    protected String getOrder() {
-        return HNewsContract.ItemEntry.COLUMN_RANK + " ASC" +
-                ", " + HNewsContract.ItemEntry.COLUMN_TIMESTAMP + " ASC";
-    }
 
     protected void startRefreshing() {
         refreshLayout.postOnAnimation(new Runnable() {
@@ -128,26 +114,13 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         subscribeToStories();
     }
 
-    @Override
-    public void onLoadMoreItems() {
-        showLoadingSnackbar();
-        subscribeToStories();
-    }
-
-    public void showLoadingSnackbar() {
-        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_text_loading))
-                .withBackgroundColor(R.color.orange, croutonBackgroundAlpha)
-                .withAnimationDuration(croutonAnimationDuration)
-                .animating();
-    }
-
     private void subscribeToStories() {
         if (isOnline()) {
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
-                    .observeStories(getType(), nextUrl)
+                    .getStories(getType())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
+                    .subscribe(new Observer<Integer>() {
                         @Override
                         public void onCompleted() {
                             if (!subscription.isUnsubscribed()) {
@@ -161,12 +134,11 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
                         }
 
                         @Override
-                        public void onNext(String moreItemsUrl) {
-                            nextUrl = moreItemsUrl;
+                        public void onNext(Integer total) {
+                            Toast.makeText(getActivity(), "total items:" + total, Toast.LENGTH_LONG);
                         }
                     });
         } else {
-            // TODO maybe show snackbar?
             stopRefreshing();
         }
     }

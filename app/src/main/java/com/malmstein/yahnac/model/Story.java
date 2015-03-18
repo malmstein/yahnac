@@ -18,22 +18,25 @@ public class Story implements Serializable {
         new_story,
         best_story,
         show,
-        ask
+        ask,
+        jobs
     }
 
     private final Long internalId;
     private final String by;
     private final Long id;
-    private final String timeAgo;
+    private final Long timeAgo;
     private final int score;
     private final String title;
     private final String url;
     private final String domain;
     private final int comments;
     private final String type;
-    private final String order;
+    private final Long timestamp;
+    private final int rank;
+    private final int bookmark;
 
-    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, int comments, String order) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, String domain, int comments, Long timestamp, int rank, int bookmark) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -44,11 +47,9 @@ public class Story implements Serializable {
         this.url = url;
         this.domain = domain;
         this.comments = comments;
-        this.order = order;
-    }
-
-    public Long getInternalId() {
-        return internalId;
+        this.timestamp = timestamp;
+        this.rank = rank;
+        this.bookmark = bookmark;
     }
 
     public String getSubmitter() {
@@ -67,7 +68,7 @@ public class Story implements Serializable {
         return id;
     }
 
-    public String getTimeAgo() {
+    public Long getTimeAgo() {
         return timeAgo;
     }
 
@@ -99,40 +100,64 @@ public class Story implements Serializable {
         return !TextUtils.isEmpty(domain);
     }
 
-    public String getOrder() {
-        return order;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public String getCommentsUrl() {
         return COMMENT_URL_BASE + getId();
     }
 
-    public boolean isHackerNewsLocalItem(){
+    public int getRank() {
+        return rank;
+    }
+
+    public boolean isHackerNewsLocalItem() {
         boolean isLocalItem = false;
-        if (getType().equals(TYPE.ask)){
+        if (getType().equals(TYPE.ask)) {
             isLocalItem = true;
         }
 
-        if (url.startsWith(ASK_URL_BASE)){
+        if (url.startsWith(ASK_URL_BASE)) {
             isLocalItem = true;
         }
 
         return isLocalItem;
     }
 
-    public static Story from(Cursor cursor) {
-        Long internalId = cursor.getLong(HNewsContract.COLUMN_ID);
-        Long id = cursor.getLong(HNewsContract.COLUMN_ITEM_ID);
-        String type = cursor.getString(HNewsContract.COLUMN_TYPE);
-        String by = cursor.getString(HNewsContract.COLUMN_BY);
-        int comments = cursor.getInt(HNewsContract.COLUMN_COMMENTS);
-        String domain = cursor.getString(HNewsContract.COLUMN_DOMAIN);
-        String url = cursor.getString(HNewsContract.COLUMN_URL);
-        int score = cursor.getInt(HNewsContract.COLUMN_SCORE);
-        String title = cursor.getString(HNewsContract.COLUMN_TITLE);
-        String time = cursor.getString(HNewsContract.COLUMN_TIME_AGO);
-        String order = cursor.getString(HNewsContract.COLUMN_TIMESTAMP);
+    public boolean isBookmark() {
+        return bookmark == HNewsContract.TRUE_BOOLEAN;
+    }
 
-        return new Story(internalId, by, id, type, time, score, title, url, domain, comments, order);
+    public static Story from(Cursor cursor) {
+        Long internalId = cursor.getLong(HNewsContract.StoryEntry.COLUMN_ID);
+        Long id = cursor.getLong(HNewsContract.StoryEntry.COLUMN_ITEM_ID);
+        String type = cursor.getString(HNewsContract.StoryEntry.COLUMN_TYPE);
+        String by = cursor.getString(HNewsContract.StoryEntry.COLUMN_BY);
+        int comments = cursor.getInt(HNewsContract.StoryEntry.COLUMN_COMMENTS);
+        String domain = cursor.getString(HNewsContract.StoryEntry.COLUMN_DOMAIN);
+        String url = cursor.getString(HNewsContract.StoryEntry.COLUMN_URL);
+        int score = cursor.getInt(HNewsContract.StoryEntry.COLUMN_SCORE);
+        String title = cursor.getString(HNewsContract.StoryEntry.COLUMN_TITLE);
+        Long time = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIME_AGO);
+        Long timestamp = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIMESTAMP);
+        int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
+        int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
+
+        return new Story(internalId, by, id, type, time, score, title, url, domain, comments, timestamp, rank, bookmark);
+    }
+
+    public static Story fromBookmark(Cursor cursor) {
+        Long internalId = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_ID);
+        Long id = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_ITEM_ID);
+        String type = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TYPE);
+        String by = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_BY);
+        String domain = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_DOMAIN);
+        String url = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_URL);
+        String title = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TITLE);
+        Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
+        int bookmark = HNewsContract.TRUE_BOOLEAN;
+
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, domain, 0, timestamp, 0, bookmark);
     }
 }

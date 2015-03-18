@@ -29,4 +29,18 @@
     <item name="android:paddingRight">@dimen/card_content_padding</item>
   </style>
 
+  <style name="HNews.EmptyView" parent="None">
+    <item name="android:text">@string/empty_view_text</item>
+    <item name="android:textSize">@dimen/empty_view_text</item>
+    <item name="android:textColor">@color/feed_empty_text</item>
+    <item name="android:visibility">gone</item>
+    <item name="android:gravity">center</item>
+    <item name="android:padding">@dimen/activity_horizontal_margin</item>
+    <item name="fontAsset">robotoRegular</item>
+  </style>
+
+  <style name="HNews.EmptyView.Loading">
+    <item name="android:text">@string/feed_loading_text</item>
+  </style>
+
 </resources>

@@ -5,13 +5,17 @@
   style="@style/HNews.FeedFooter"
   android:layout_width="match_parent"
   android:layout_height="@dimen/button_root_height"
-  android:orientation="horizontal"
-  android:layout_below="@id/article_text_root">
+  android:orientation="horizontal">
 
   <ImageButton
     android:id="@+id/article_share_action"
     style="@style/HNews.FeedAction"
     android:src="@drawable/ic_share" />
+
+  <ImageButton
+    android:id="@+id/article_bookmark_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/selector_bookmark" />
 
   <LinearLayout
     android:id="@+id/article_comments"
@@ -28,13 +32,14 @@
       android:layout_width="wrap_content"
       android:layout_height="match_parent" />
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body1"
       android:id="@+id/article_comments_label"
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       android:gravity="center_vertical"
-      android:lines="1"
       android:textColor="@color/dark_orange"
+      android:paddingRight="@dimen/card_content_padding"
       tools:text="26 comments" />
 
   </LinearLayout>

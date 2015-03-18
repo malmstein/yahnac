@@ -18,7 +18,6 @@ build-log.xml
 # Local configuration file (sdk path, etc)
 local.properties
 
-.idea/
 .project
 .classpath
 .settings
@@ -27,18 +26,18 @@ build/
 classes/
 gen-external-apklibs/
 tmp/
-team-props/
 
 # IDEA Ignores
+.idea/
 *.iml
 *.ipr
 *.iws
 .idea/
 .gradle/
+.idea/workspace.xml
 
 # Android
 local.properties
-hnews.properties
 
 # MAC
 *.DS_Store
@@ -49,7 +48,9 @@ hnews.properties
 # generated every build
 crashlytics.properties
 crashlytics-build.properties
-app/src/main/assets/crashlytics-build.properties
+
+# generated every build
+crashlytics.properties
 com_crashlytics_export_strings.xml
 
 app/build

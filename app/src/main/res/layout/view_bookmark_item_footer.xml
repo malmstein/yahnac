@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.malmstein.yahnac.views.FooterWithTopDividerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/HNews.FeedFooter"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/button_root_height"
+  android:orientation="horizontal">
+
+  <ImageButton
+    android:id="@+id/article_share_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/ic_share" />
+
+  <ImageButton
+    android:id="@+id/article_bookmark_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/selector_bookmark" />
+
+  <ImageButton
+    android:id="@+id/article_comments_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/ic_comment_outline_grey" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right">
+
+    <ImageButton
+      android:id="@+id/article_external_action"
+      style="@style/HNews.FeedAction"
+      android:src="@drawable/ic_exit_to_app" />
+
+  </LinearLayout>
+
+</com.malmstein.yahnac.views.FooterWithTopDividerLayout>

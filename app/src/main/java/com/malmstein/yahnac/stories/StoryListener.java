@@ -15,4 +15,6 @@ public interface StoryListener {
 
     void onExternalLinkClicked(Story story);
 
+    void onBookmarkClicked(Story story);
+
 }

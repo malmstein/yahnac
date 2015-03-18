@@ -4,14 +4,25 @@
 
   <declare-styleable name="AppBarContainer">
     <attr name="appBarShadowHeight" format="dimension" />
-    <attr name="appBarColor" format="color"/>
-    <attr name="appBarLayout" format="reference"/>
+    <attr name="appBarColor" format="color" />
+    <attr name="appBarLayout" format="reference" />
     <attr name="includeInsetInHideableHeight" format="boolean" />
   </declare-styleable>
 
   <declare-styleable name="FooterWithTopDividerLayout">
     <attr name="dividerHeight" format="dimension" />
     <attr name="dividerColor" format="color" />
+  </declare-styleable>
+
+  <!-- Be sure to sync this file with the FontType class -->
+  <declare-styleable name="CustomTextAppearance">
+    <attr name="fontAsset" format="enum">
+      <enum name="none" value="-1" />
+      <enum name="robotoLight" value="0" />
+      <enum name="robotoBold" value="1" />
+      <enum name="robotoRegular" value="2" />
+      <enum name="robotoMedium" value="3" />
+    </attr>
   </declare-styleable>
 
 </resources>

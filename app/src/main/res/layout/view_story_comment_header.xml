@@ -12,12 +12,11 @@
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:orientation="vertical">
 
-  <com.malmstein.yahnac.views.CommentTextView
+  <com.malmstein.yahnac.views.fonts.CommentTextView
+    style="@style/HNews.Title"
     android:id="@+id/story_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-    android:textColor="@color/white"
     tools:text="This is the title of a story or the question of an ASK post" />
 
   <LinearLayout
@@ -26,19 +25,19 @@
     android:orientation="horizontal"
     android:paddingTop="@dimen/card_content_padding">
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
       android:id="@+id/story_by"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
       android:textColor="@color/white"
       tools:text="by user" />
 
-    <TextView
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
       android:id="@+id/story_when"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
       android:textColor="@color/white"
       android:paddingLeft="@dimen/card_content_padding"
       tools:text="2 hours ago" />

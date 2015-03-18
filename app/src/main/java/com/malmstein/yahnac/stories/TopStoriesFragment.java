@@ -10,11 +10,9 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.malmstein.yahnac.base.DeveloperError;
+import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.ViewDelegate;
-
-import static com.malmstein.yahnac.data.HNewsContract.ItemEntry;
-import static com.malmstein.yahnac.data.HNewsContract.STORY_COLUMNS;
 
 public class TopStoriesFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
@@ -40,9 +38,26 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
             case top:
                 return Story.TYPE.top_story;
             case newest:
-                return Story.TYPE.new_story;
+                return Story.TYPE.top_story;
             case best:
-                return Story.TYPE.best_story;
+                return Story.TYPE.top_story;
+            default:
+                new DeveloperError("Bad Query type");
+                return null;
+        }
+    }
+
+    protected String getOrder() {
+        QUERY query = (QUERY) getArguments().get("query");
+        switch (query) {
+            case top:
+                return HNewsContract.StoryEntry.RANK + " ASC" +
+                        ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
+            case newest:
+                return HNewsContract.StoryEntry.TIME_AGO + " DESC";
+            case best:
+                return HNewsContract.StoryEntry.SCORE + " DESC" +
+                        ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
             default:
                 new DeveloperError("Bad Query type");
                 return null;
@@ -51,13 +66,13 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyNewsUri = ItemEntry.buildStoriesUri();
+        Uri storyNewsUri = HNewsContract.StoryEntry.buildStoriesUri();
 
         return new CursorLoader(
                 getActivity(),
                 storyNewsUri,
-                STORY_COLUMNS,
-                ItemEntry.COLUMN_TYPE + " = ?",
+                HNewsContract.StoryEntry.STORY_COLUMNS,
+                HNewsContract.StoryEntry.TYPE + " = ?",
                 new String[]{getType().name()},
                 getOrder());
     }
@@ -70,8 +85,6 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        storiesAdapter.swapCursor(null);
-        stopRefreshing();
     }
 
     public enum QUERY {

@@ -9,11 +9,9 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.ViewDelegate;
-
-import static com.malmstein.yahnac.data.HNewsContract.ItemEntry;
-import static com.malmstein.yahnac.data.HNewsContract.STORY_COLUMNS;
 
 public class ShowHNFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
@@ -30,15 +28,20 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
         return Story.TYPE.show;
     }
 
+    protected String getOrder() {
+        return HNewsContract.StoryEntry.RANK + " ASC" +
+                ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyNewsUri = ItemEntry.buildStoriesUri();
+        Uri storyNewsUri = HNewsContract.StoryEntry.buildStoriesUri();
 
         return new CursorLoader(
                 getActivity(),
                 storyNewsUri,
-                STORY_COLUMNS,
-                ItemEntry.COLUMN_TYPE + " = ?",
+                HNewsContract.StoryEntry.STORY_COLUMNS,
+                HNewsContract.StoryEntry.TYPE + " = ?",
                 new String[]{Story.TYPE.show.name()},
                 getOrder());
     }
@@ -50,9 +53,6 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        storiesAdapter.swapCursor(null);
-        stopRefreshing();
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
 }

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.model.Story;
 import com.novoda.notils.caster.Views;
 
@@ -45,8 +46,10 @@ public class StoryHeaderView extends LinearLayout {
     }
 
     public void updateWith(Story story){
+
+        TimeAgo timeAgo = new TimeAgo(getContext().getResources());
         text.setText(Html.fromHtml(story.getTitle()));
         author.setText(getResources().getString(R.string.story_by, story.getSubmitter()));
-        when.setText(story.getTimeAgo());
+        when.setText(timeAgo.timeAgo(story.getTimeAgo()));
     }
 }

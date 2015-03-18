@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
@@ -17,10 +17,12 @@ import com.novoda.notils.caster.Views;
 public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHolder> {
 
     private final StoryListener listener;
+    private final TimeAgo timeAgo;
 
-    public StoriesAdapter(Cursor cursor, StoryListener listener) {
+    public StoriesAdapter(Cursor cursor, StoryListener listener, TimeAgo timeAgo) {
         super(cursor);
         this.listener = listener;
+        this.timeAgo = timeAgo;
     }
 
     private Intent createShareIntent(String url) {
@@ -36,7 +38,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         final Story story = Story.from(cursor);
 
         holder.title.setText(story.getTitle());
-        if (story.hasDomain()){
+        if (story.hasDomain()) {
             holder.domain.setText(story.getDomain());
         } else {
             holder.domain.setVisibility(View.GONE);
@@ -49,17 +51,18 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             }
         });
 
-        holder.external_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onExternalLinkClicked(story);
-            }
-        });
-
         holder.share_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onShareClicked(createShareIntent(story.getUrl()));
+            }
+        });
+
+        holder.bookmark_action.setSelected(story.isBookmark());
+        holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onBookmarkClicked(story);
             }
         });
 
@@ -70,13 +73,25 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.comments_action.setVisibility(View.GONE);
         } else {
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
-            holder.timeAgo.setText(story.getTimeAgo());
+            holder.timeAgo.setText(timeAgo.timeAgo(story.getTimeAgo()));
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
             holder.comments_text.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onCommentsClicked(v, story);
+                }
+            });
+        }
+
+        if (story.isHackerNewsLocalItem()) {
+            holder.external_action.setVisibility(View.GONE);
+        } else {
+            holder.external_action.setVisibility(View.VISIBLE);
+            holder.external_action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onExternalLinkClicked(story);
                 }
             });
         }
@@ -96,8 +111,9 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final TextView score;
         public final View card;
         public final View external_action;
-        public final ImageButton share_action;
+        public final View share_action;
         public final View comments_action;
+        public final View bookmark_action;
         public final TextView comments_text;
         public final TextView domain;
 
@@ -110,6 +126,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             card = Views.findById(view, R.id.article_card_root);
             external_action = Views.findById(view, R.id.article_external_action);
             share_action = Views.findById(view, R.id.article_share_action);
+            bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             comments_action = Views.findById(view, R.id.article_comments);
             comments_text = Views.findById(view, R.id.article_comments_label);
             domain = Views.findById(view, R.id.article_domain);

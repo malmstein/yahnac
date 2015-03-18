@@ -13,11 +13,18 @@
     <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
   </style>
 
+
   <style name="HNews.Toolbar.Overlay" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     <item name="android:windowActionBarOverlay">true</item>
     <item name="windowActionBarOverlay">true</item>
     <item name="android:background">@color/orange</item>
     <item name="background">@color/orange</item>
+  </style>
+
+
+  <style name="HNews.AppBar" parent="Widget.AppCompat.Toolbar">
+    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
   </style>
 
   <style name="HNews.DropDownListView" parent="Widget.AppCompat.ListView.DropDown">
@@ -69,26 +76,6 @@
     <item name="android:lines">1</item>
   </style>
 
-  <!-- Empty view -->
-  <style name="EmptyView">
-    <item name="android:text">@string/empty_view_text</item>
-    <item name="android:textSize">@dimen/empty_view_text</item>
-    <item name="android:textColor">@color/feed_empty_text</item>
-    <item name="android:visibility">gone</item>
-    <item name="android:gravity">center</item>
-  </style>
-
-  <style name="HNews.Feed.EmptyView" parent="EmptyView" />
-
-  <style name="HNews.Feed.EmptyView.Loading">
-    <item name="android:text">@string/feed_loading_text</item>
-  </style>
-
-  <style name="HNews.AppBar" parent="Widget.AppCompat.Toolbar">
-    <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-  </style>
-
   <style name="HNews.AppBar.Subtitle" parent="None">
     <item name="android:gravity">bottom</item>
     <item name="android:textColor">@color/white</item>
@@ -99,11 +86,6 @@
   <style name="HNews.AppBar.NewsContainer" parent="None">
     <item name="appBarShadowHeight">@dimen/app_bar_shadow_height</item>
     <item name="appBarLayout">@layout/include_app_bar</item>
-  </style>
-
-  <style name="HNews.AppBar.CommentsContainer" parent="None">
-    <item name="appBarShadowHeight">@dimen/app_bar_shadow_height</item>
-    <item name="appBarLayout">@layout/include_transparent_app_bar</item>
   </style>
 
 </resources>

@@ -25,36 +25,19 @@
 
     <activity
       android:name="com.malmstein.yahnac.stories.ArticleActivity"
-      android:parentActivityName="com.malmstein.yahnac.stories.NewsActivity"
-      android:configChanges="keyboardHidden|orientation|screenSize">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.malmstein.yahnac.stories.NewsActivity" />
-    </activity>
+      android:configChanges="keyboardHidden|orientation|screenSize"/>
 
     <activity
       android:name="com.malmstein.yahnac.comments.CommentsActivity"
-      android:label="@string/title_comments"
-      android:parentActivityName="com.malmstein.yahnac.stories.NewsActivity"
-      android:theme="@style/Theme.HNews.Comments">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.malmstein.yahnac.stories.NewsActivity" />
-    </activity>
+      android:label="@string/title_comments" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"
-      android:label="@string/title_about"
-      android:parentActivityName="com.malmstein.yahnac.stories.NewsActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value="com.malmstein.yahnac.stories.NewsActivity" />
-    </activity>
+      android:label="@string/title_about"/>
 
     <activity
       android:name="com.malmstein.yahnac.settings.SoftwareLicensesActivity"
-      android:label="@string/activity_software_licenses_label"
-      android:parentActivityName="com.malmstein.yahnac.settings.SettingsActivity" />
+      android:label="@string/activity_software_licenses_label"/>
 
     <provider
       android:authorities="com.malmstein.yahnac"

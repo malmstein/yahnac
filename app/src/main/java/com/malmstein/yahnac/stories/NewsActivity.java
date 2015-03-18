@@ -12,8 +12,11 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.comments.CommentsFragment;
+import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
+import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.malmstein.yahnac.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
@@ -21,29 +24,42 @@ import com.novoda.notils.caster.Views;
 public class NewsActivity extends HNewsActivity implements StoryListener {
 
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
+    public static final int INITIAL_PAGE = 1;
 
     private AppBarContainer appBarContainer;
     private ViewPager headersPager;
     private SlidingTabLayout slidingTabs;
     private StoriesPagerAdapter headersAdapter;
 
+    private SnackBarView snackbarView;
+    private int croutonAnimationDuration;
+    private int croutonBackgroundAlpha;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        setupCategories();
-        setupTabsAndHeaders();
+        setupHeaders();
+        setupTabs();
+        setupSnackbar();
     }
 
-    private void setupCategories() {
+    private void setupSnackbar() {
+        snackbarView = Views.findById(this, R.id.snackbar);
+        croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
+        croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    }
+
+    private void setupHeaders() {
         headersAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
         headersPager = Views.findById(this, R.id.news_pager);
         headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
         headersPager.setAdapter(headersAdapter);
+        headersPager.setCurrentItem(INITIAL_PAGE);
     }
 
-    private void setupTabsAndHeaders() {
+    private void setupTabs() {
         appBarContainer = Views.findById(this, R.id.app_bar_container);
         appBarContainer.setAppBar(getAppBar());
         setTitle(getString(R.string.title_app));
@@ -87,7 +103,59 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     @Override
     public void onExternalLinkClicked(Story story) {
-        navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+        if (story.isHackerNewsLocalItem()) {
+            navigate().toComments(story);
+        } else {
+            navigate().toExternalBrowser(Uri.parse(story.getUrl()));
+        }
+    }
+
+    @Override
+    public void onBookmarkClicked(Story story) {
+        DataPersister persister = Inject.dataPersister();
+        if (story.isBookmark()) {
+            removeBookmark(persister, story);
+        } else {
+            addBookmark(persister, story);
+        }
+    }
+
+    private void removeBookmark(DataPersister persister, Story story) {
+        persister.removeBookmark(story);
+        showRemovedBookmarkSnackbar(persister, story);
+    }
+
+    private void addBookmark(DataPersister persister, Story story) {
+        persister.addBookmark(story);
+        showAddedBookmarkSnackbar(persister, story);
+    }
+
+    private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_added_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbarView.hideCrouton();
+                        removeBookmark(persister, story);
+                    }
+                })
+                .animating();
+    }
+
+    private void showRemovedBookmarkSnackbar(final DataPersister persister, final Story story) {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_removed_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbarView.hideCrouton();
+                        addBookmark(persister, story);
+                    }
+                })
+                .animating();
     }
 
     private boolean isTwoPaneLayout() {

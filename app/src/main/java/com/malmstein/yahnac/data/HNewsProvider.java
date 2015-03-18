@@ -16,6 +16,7 @@ public class HNewsProvider extends ContentProvider {
     private static final int STORY = 100;
     private static final int STORY_ITEM = 101;
     private static final int COMMENT = 102;
+    private static final int BOOKMARK = 103;
 
     @Override
     public boolean onCreate() {
@@ -30,7 +31,7 @@ public class HNewsProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case STORY: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        HNewsContract.ItemEntry.TABLE_ITEM_NAME,
+                        HNewsContract.TABLE_ITEM_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -42,9 +43,9 @@ public class HNewsProvider extends ContentProvider {
             }
             case STORY_ITEM: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        HNewsContract.ItemEntry.TABLE_ITEM_NAME,
+                        HNewsContract.TABLE_ITEM_NAME,
                         projection,
-                        HNewsContract.ItemEntry._ID + " = '" + ContentUris.parseId(uri) + "'",
+                        HNewsContract.StoryEntry._ID + " = '" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -54,7 +55,19 @@ public class HNewsProvider extends ContentProvider {
             }
             case COMMENT: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        HNewsContract.ItemEntry.TABLE_COMMENTS_NAME,
+                        HNewsContract.TABLE_COMMENTS_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case BOOKMARK: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        HNewsContract.TABLE_BOOKMARKS_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -77,11 +90,11 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY:
-                return HNewsContract.ItemEntry.CONTENT_STORY_TYPE;
+                return HNewsContract.CONTENT_STORY_TYPE;
             case STORY_ITEM:
-                return HNewsContract.ItemEntry.CONTENT_STORY_ITEM_TYPE;
+                return HNewsContract.CONTENT_STORY_ITEM_TYPE;
             case COMMENT:
-                return HNewsContract.ItemEntry.CONTENT_COMMENT_TYPE;
+                return HNewsContract.CONTENT_COMMENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -95,25 +108,25 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY: {
-                Cursor exists = db.query(HNewsContract.ItemEntry.TABLE_ITEM_NAME,
-                        new String[]{HNewsContract.ItemEntry.COLUMN_ITEM_ID},
-                        HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                        new String[]{values.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)},
+                Cursor exists = db.query(HNewsContract.TABLE_ITEM_NAME,
+                        new String[]{HNewsContract.StoryEntry.ITEM_ID},
+                        HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                        new String[]{values.getAsString(HNewsContract.StoryEntry.ITEM_ID)},
                         null,
                         null,
                         null);
                 if (exists.moveToLast()) {
-                    long _id = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, values, HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                            new String[]{values.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)});
+                    long _id = db.update(HNewsContract.TABLE_ITEM_NAME, values, HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                            new String[]{values.getAsString(HNewsContract.StoryEntry.ITEM_ID)});
                     if (_id > 0) {
-                        returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                        returnUri = HNewsContract.StoryEntry.buildStoryUriWith(_id);
                     } else {
                         throw new android.database.SQLException("Failed to insert row into " + uri);
                     }
                 } else {
-                    long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, values);
+                    long _id = db.insert(HNewsContract.TABLE_ITEM_NAME, null, values);
                     if (_id > 0) {
-                        returnUri = HNewsContract.ItemEntry.buildStoryUriWith(_id);
+                        returnUri = HNewsContract.StoryEntry.buildStoryUriWith(_id);
                     } else {
                         throw new android.database.SQLException("Failed to insert row into " + uri);
                     }
@@ -122,9 +135,19 @@ public class HNewsProvider extends ContentProvider {
                 break;
             }
             case COMMENT: {
-                long _id = db.insert(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, null, values);
+                long _id = db.insert(HNewsContract.TABLE_COMMENTS_NAME, null, values);
                 if (_id > 0) {
-                    returnUri = HNewsContract.ItemEntry.buildCommentUriWith(_id);
+                    returnUri = HNewsContract.CommentsEntry.buildCommentUriWith(_id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
+
+            case BOOKMARK: {
+                long _id = db.insert(HNewsContract.TABLE_BOOKMARKS_NAME, null, values);
+                if (_id > 0) {
+                    returnUri = HNewsContract.BookmarkEntry.buildBookmarksUriWith(_id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -145,11 +168,15 @@ public class HNewsProvider extends ContentProvider {
         switch (match) {
             case STORY:
                 rowsDeleted = db.delete(
-                        HNewsContract.ItemEntry.TABLE_ITEM_NAME, selection, selectionArgs);
+                        HNewsContract.TABLE_ITEM_NAME, selection, selectionArgs);
                 break;
             case COMMENT:
                 rowsDeleted = db.delete(
-                        HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, selection, selectionArgs);
+                        HNewsContract.TABLE_COMMENTS_NAME, selection, selectionArgs);
+                break;
+            case BOOKMARK:
+                rowsDeleted = db.delete(
+                        HNewsContract.TABLE_BOOKMARKS_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -168,11 +195,15 @@ public class HNewsProvider extends ContentProvider {
 
         switch (match) {
             case STORY:
-                rowsUpdated = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, values, selection,
+                rowsUpdated = db.update(HNewsContract.TABLE_ITEM_NAME, values, selection,
                         selectionArgs);
                 break;
             case COMMENT:
-                rowsUpdated = db.update(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, values, selection,
+                rowsUpdated = db.update(HNewsContract.TABLE_COMMENTS_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case BOOKMARK:
+                rowsUpdated = db.update(HNewsContract.TABLE_BOOKMARKS_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -196,7 +227,7 @@ public class HNewsProvider extends ContentProvider {
                 returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(HNewsContract.ItemEntry.TABLE_COMMENTS_NAME, null, value);
+                        long _id = db.insert(HNewsContract.TABLE_COMMENTS_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -210,9 +241,11 @@ public class HNewsProvider extends ContentProvider {
 
             case STORY:
 
-                final String updateRows = "UPDATE " + HNewsContract.ItemEntry.TABLE_ITEM_NAME +
-                        " SET " + HNewsContract.ItemEntry.COLUMN_RANK +
-                        " = 1000";
+                final String updateRows = "UPDATE " + HNewsContract.TABLE_ITEM_NAME +
+                        " SET " + HNewsContract.StoryEntry.RANK +
+                        " = 1000" +
+                        " WHERE " + HNewsContract.StoryEntry.TYPE +
+                        " = '" + values[0].get(HNewsContract.StoryEntry.TYPE) + "'";
                 db.execSQL(updateRows);
 
                 db.beginTransaction();
@@ -220,23 +253,23 @@ public class HNewsProvider extends ContentProvider {
                 try {
                     for (ContentValues value : values) {
 
-                        Cursor exists = db.query(HNewsContract.ItemEntry.TABLE_ITEM_NAME,
-                                new String[]{HNewsContract.ItemEntry.COLUMN_ITEM_ID},
-                                HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                                new String[]{value.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)},
+                        Cursor exists = db.query(HNewsContract.TABLE_ITEM_NAME,
+                                new String[]{HNewsContract.StoryEntry.ITEM_ID},
+                                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                                new String[]{value.getAsString(HNewsContract.StoryEntry.ITEM_ID)},
                                 null,
                                 null,
                                 null);
 
                         if (exists.moveToLast()) {
-                            long _id = db.update(HNewsContract.ItemEntry.TABLE_ITEM_NAME, value, HNewsContract.ItemEntry.COLUMN_ITEM_ID + " = ?",
-                                    new String[]{value.getAsString(HNewsContract.ItemEntry.COLUMN_ITEM_ID)});
+                            long _id = db.update(HNewsContract.TABLE_ITEM_NAME, value, HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                                    new String[]{value.getAsString(HNewsContract.StoryEntry.ITEM_ID)});
 
                             if (_id != -1) {
                                 returnCount++;
                             }
                         } else {
-                            long _id = db.insert(HNewsContract.ItemEntry.TABLE_ITEM_NAME, null, value);
+                            long _id = db.insert(HNewsContract.TABLE_ITEM_NAME, null, value);
                             if (_id != -1) {
                                 returnCount++;
                             }
@@ -261,6 +294,7 @@ public class HNewsProvider extends ContentProvider {
         matcher.addURI(authority, HNewsContract.PATH_ITEM, STORY);
         matcher.addURI(authority, HNewsContract.PATH_ITEM + "/*", STORY_ITEM);
         matcher.addURI(authority, HNewsContract.PATH_COMMENT, COMMENT);
+        matcher.addURI(authority, HNewsContract.PATH_BOOKMARKS, BOOKMARK);
 
         return matcher;
     }
