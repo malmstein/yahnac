@@ -11,6 +11,12 @@ You can use this app keep you up to date with the latest news from Hacker News:
   - Best Stories
   - Show HN
   - Ask HN
+  - Jobs
+
+## Data source
+
+The application is using the new [HackerNews API](https://github.com/HackerNews/API) for fetching all the stories.
+Unfortunately, the API is not ready yet fetching comments properly so the solution for now is to scrape the website.
 
 ## Tests
 

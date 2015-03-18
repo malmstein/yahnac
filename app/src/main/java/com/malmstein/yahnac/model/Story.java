@@ -18,13 +18,14 @@ public class Story implements Serializable {
         new_story,
         best_story,
         show,
-        ask
+        ask,
+        jobs
     }
 
     private final Long internalId;
     private final String by;
     private final Long id;
-    private final String timeAgo;
+    private final Long timeAgo;
     private final int score;
     private final String title;
     private final String url;
@@ -35,7 +36,7 @@ public class Story implements Serializable {
     private final int rank;
     private final int bookmark;
 
-    public Story(Long internalId, String by, Long id, String type, String timeAgo, int score, String title, String url, String domain, int comments, Long timestamp, int rank, int bookmark) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, String domain, int comments, Long timestamp, int rank, int bookmark) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -49,10 +50,6 @@ public class Story implements Serializable {
         this.timestamp = timestamp;
         this.rank = rank;
         this.bookmark = bookmark;
-    }
-
-    public Long getInternalId() {
-        return internalId;
     }
 
     public String getSubmitter() {
@@ -71,7 +68,7 @@ public class Story implements Serializable {
         return id;
     }
 
-    public String getTimeAgo() {
+    public Long getTimeAgo() {
         return timeAgo;
     }
 
@@ -142,7 +139,7 @@ public class Story implements Serializable {
         String url = cursor.getString(HNewsContract.StoryEntry.COLUMN_URL);
         int score = cursor.getInt(HNewsContract.StoryEntry.COLUMN_SCORE);
         String title = cursor.getString(HNewsContract.StoryEntry.COLUMN_TITLE);
-        String time = cursor.getString(HNewsContract.StoryEntry.COLUMN_TIME_AGO);
+        Long time = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIME_AGO);
         Long timestamp = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIMESTAMP);
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
         int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
@@ -161,6 +158,6 @@ public class Story implements Serializable {
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
         int bookmark = HNewsContract.TRUE_BOOLEAN;
 
-        return new Story(internalId, by, id, type, "", 0, title, url, domain, 0, timestamp, 0, bookmark);
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, domain, 0, timestamp, 0, bookmark);
     }
 }

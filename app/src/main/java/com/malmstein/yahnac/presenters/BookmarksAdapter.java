@@ -13,26 +13,41 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
 
-public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.ViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
 
+public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.ViewHolder> {
+
+    private List<Story> items;
     private final StoryListener listener;
 
     public BookmarksAdapter(Cursor cursor, StoryListener listener) {
-        super(cursor);
+        items = new ArrayList<>();
+        if (cursor != null) {
+            for (int i = 0; cursor.moveToNext(); i++) {
+                add(Story.fromBookmark(cursor), i);
+            }
+        }
         this.listener = listener;
     }
 
-    private Intent createShareIntent(String url) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-        return shareIntent;
+    public void swapCursor(Cursor cursor) {
+        removeAll();
+        for (int i = 0; cursor.moveToNext(); i++) {
+            add(Story.fromBookmark(cursor), i);
+        }
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
-        final Story story = Story.fromBookmark(cursor);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_bookmark_item, parent, false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Story story = items.get(position);
 
         holder.title.setText(story.getTitle());
         if (story.hasDomain()) {
@@ -55,7 +70,7 @@ public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.Vie
             }
         });
 
-//        holder.bookmark_action.setSelected(story.isBookmark());
+        holder.bookmark_action.setSelected(story.isBookmark());
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,13 +105,28 @@ public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.Vie
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_bookmark_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    public int getItemCount() {
+        return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private void add(Story item, int position) {
+        items.add(position, item);
+        notifyDataSetChanged();
+    }
+
+    private void removeAll() {
+        for (Story item : items) {
+            remove(item);
+        }
+    }
+
+    private void remove(Story item) {
+        int position = items.indexOf(item);
+        items.remove(position);
+        notifyDataSetChanged();
+    }
+
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final TextView user;
         public final View card;
@@ -119,4 +149,11 @@ public class BookmarksAdapter extends CursorRecyclerAdapter<BookmarksAdapter.Vie
         }
     }
 
+    private Intent createShareIntent(String url) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        return shareIntent;
+    }
 }

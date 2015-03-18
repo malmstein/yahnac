@@ -243,7 +243,9 @@ public class HNewsProvider extends ContentProvider {
 
                 final String updateRows = "UPDATE " + HNewsContract.TABLE_ITEM_NAME +
                         " SET " + HNewsContract.StoryEntry.RANK +
-                        " = 1000";
+                        " = 1000" +
+                        " WHERE " + HNewsContract.StoryEntry.TYPE +
+                        " = '" + values[0].get(HNewsContract.StoryEntry.TYPE) + "'";
                 db.execSQL(updateRows);
 
                 db.beginTransaction();

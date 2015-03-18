@@ -33,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void swapCursor(Cursor cursor) {
         removeAll();
-        if (cursor != null){
+        if (cursor != null) {
             for (int i = 0; cursor.moveToNext(); i++) {
                 add(Story.fromBookmark(cursor), i);
             }

@@ -28,6 +28,11 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
         return Story.TYPE.ask;
     }
 
+    protected String getOrder() {
+        return HNewsContract.StoryEntry.RANK + " ASC" +
+                ", " + HNewsContract.StoryEntry.TIMESTAMP + " DESC";
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri storyNewsUri = HNewsContract.StoryEntry.buildStoriesUri();
@@ -48,9 +53,6 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        storiesAdapter.swapCursor(null);
-        stopRefreshing();
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
 }

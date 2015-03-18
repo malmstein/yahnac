@@ -10,11 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.data.DataRepository;
-import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
@@ -35,7 +36,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private RecyclerView.LayoutManager storiesLayoutManager;
     private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private String nextUrl;
 
     @Override
     public void onAttach(Activity activity) {
@@ -69,7 +69,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
 
-        storiesAdapter = new StoriesAdapter(null, listener);
+        storiesAdapter = new StoriesAdapter(null, listener, new TimeAgo(getActivity().getResources()));
         storiesList.setAdapter(storiesAdapter);
     }
 
@@ -90,11 +90,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     protected abstract Story.TYPE getType();
-
-    protected String getOrder() {
-        return HNewsContract.StoryEntry.RANK + " ASC" +
-                ", " + HNewsContract.StoryEntry.TIMESTAMP + " ASC";
-    }
 
     protected void startRefreshing() {
         refreshLayout.postOnAnimation(new Runnable() {
@@ -123,9 +118,9 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         if (isOnline()) {
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository
-                    .observeStories(getType(), nextUrl)
+                    .getStories(getType())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
+                    .subscribe(new Observer<Integer>() {
                         @Override
                         public void onCompleted() {
                             if (!subscription.isUnsubscribed()) {
@@ -139,8 +134,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
                         }
 
                         @Override
-                        public void onNext(String moreItemsUrl) {
-                            nextUrl = moreItemsUrl;
+                        public void onNext(Integer total) {
+                            Toast.makeText(getActivity(), "total items:" + total, Toast.LENGTH_LONG);
                         }
                     });
         } else {

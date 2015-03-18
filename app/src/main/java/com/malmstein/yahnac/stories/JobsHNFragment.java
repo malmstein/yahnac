@@ -13,7 +13,7 @@ import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.ViewDelegate;
 
-public class ShowHNFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public class JobsHNFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     private static final int STORY_LOADER = 0;
 
@@ -25,7 +25,7 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
 
     @Override
     protected Story.TYPE getType() {
-        return Story.TYPE.show;
+        return Story.TYPE.jobs;
     }
 
     protected String getOrder() {
@@ -42,7 +42,7 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
                 HNewsContract.StoryEntry.TYPE + " = ?",
-                new String[]{Story.TYPE.show.name()},
+                new String[]{Story.TYPE.jobs.name()},
                 getOrder());
     }
 

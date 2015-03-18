@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.firebase.client.Firebase;
 import com.malmstein.yahnac.base.StrictModeManager;
 import com.malmstein.yahnac.inject.DefaultDependenciesFactory;
 import com.malmstein.yahnac.inject.Inject;
@@ -20,6 +21,7 @@ public class HNewsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+        Firebase.setAndroidContext(this);
         Inject.using(new DefaultDependenciesFactory(this));
         startup();
     }
