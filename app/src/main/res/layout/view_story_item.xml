@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/HNews.Card"
   xmlns:tools="http://schemas.android.com/tools"
+  style="@style/HNews.Card"
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
 
@@ -20,33 +20,13 @@
       android:orientation="vertical"
       android:padding="@dimen/default_padding">
 
-      <RelativeLayout
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        style="@style/HNews.Subhead"
+        android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.malmstein.yahnac.views.fonts.YahnacTextView
-          style="@style/HNews.Subhead"
-          android:id="@+id/article_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentLeft="true"
-          android:layout_toLeftOf="@+id/article_score"
-          android:textColor="@color/black"
-          tools:text="This is the article title" />
-
-        <com.malmstein.yahnac.views.fonts.YahnacTextView
-          style="@style/HNews.Subhead"
-          android:id="@+id/article_score"
-          android:textColor="@color/light_grey"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentRight="true"
-          android:layout_alignParentTop="true"
-          android:paddingLeft="@dimen/card_content_padding"
-          tools:text="123 points" />
-
-      </RelativeLayout>
+        android:textColor="@color/black"
+        tools:text="This is the article title" />
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -79,12 +59,12 @@
 
           <com.malmstein.yahnac.views.fonts.YahnacTextView
             style="@style/HNews.Body1"
-            android:id="@+id/article_domain"
+            android:id="@+id/article_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:textColor="@color/light_grey"
-            tools:text="(domain)" />
+            tools:text="12 points" />
 
         </LinearLayout>
 
