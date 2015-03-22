@@ -13,6 +13,12 @@
     android:id="@+id/action_article"
     android:title="@string/action_comments"
     android:icon="@drawable/ic_public"
-    android:orderInCategory="100"
     app:showAsAction="ifRoom" />
+
+  <item
+    android:id="@+id/action_bookmark"
+    android:title="@string/action_comments"
+    android:icon="@drawable/ic_bookmark_outline_white"
+    app:showAsAction="ifRoom" />
+
 </menu>

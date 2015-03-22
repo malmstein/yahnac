@@ -109,6 +109,13 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
             MenuItem comments = menu.findItem(R.id.action_article);
             comments.setVisible(false);
         }
+
+        MenuItem bookmarks = menu.findItem(R.id.action_bookmark);
+        if (getStory().isBookmark()) {
+            bookmarks.setIcon(R.drawable.ic_bookmark_white);
+        } else {
+            bookmarks.setIcon(R.drawable.ic_bookmark_outline_white);
+        }
     }
 
     @Override
