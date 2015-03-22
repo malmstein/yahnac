@@ -25,19 +25,21 @@
 
     <activity
       android:name="com.malmstein.yahnac.stories.ArticleActivity"
-      android:configChanges="keyboardHidden|orientation|screenSize"/>
+      android:configChanges="keyboardHidden|orientation|screenSize"
+      android:launchMode="singleInstance" />
 
     <activity
       android:name="com.malmstein.yahnac.comments.CommentsActivity"
-      android:label="@string/title_comments" />
+      android:label="@string/title_comments"
+      android:launchMode="singleInstance" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"
-      android:label="@string/title_about"/>
+      android:label="@string/title_about" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SoftwareLicensesActivity"
-      android:label="@string/activity_software_licenses_label"/>
+      android:label="@string/activity_software_licenses_label" />
 
     <provider
       android:authorities="com.malmstein.yahnac"
