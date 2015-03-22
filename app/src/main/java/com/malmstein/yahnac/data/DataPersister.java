@@ -76,4 +76,16 @@ public class DataPersister {
                 new String[]{String.valueOf(story.getId())});
     }
 
+    public void markStoryAsRead(Story story) {
+        ContentValues bookmarkValues = new ContentValues();
+
+        bookmarkValues.put(HNewsContract.StoryEntry.READ, HNewsContract.TRUE_BOOLEAN);
+
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                bookmarkValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
+
+    }
+
 }

@@ -10,13 +10,11 @@ public class HNewsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_ITEM = "item";
-    public static final String PATH_COMMENT = "comment";
-    public static final String PATH_BOOKMARKS = "bookmarks";
-
     public static final String CONTENT_STORY_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
-    public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
     public static final String CONTENT_STORY_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
-
+    public static final String PATH_COMMENT = "comment";
+    public static final String CONTENT_COMMENT_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
+    public static final String PATH_BOOKMARKS = "bookmarks";
     public static final String TABLE_ITEM_NAME = "item";
     public static final String TABLE_COMMENTS_NAME = "comment";
     public static final String TABLE_BOOKMARKS_NAME = "bookmarks";
@@ -42,6 +40,7 @@ public class HNewsContract {
                 StoryEntry.RANK,
                 StoryEntry.TIMESTAMP,
                 StoryEntry.BOOKMARK,
+                StoryEntry.READ,
         };
 
         public static final String ITEM_ID = "item_id";
@@ -56,6 +55,7 @@ public class HNewsContract {
         public static final String RANK = "rank";
         public static final String TIMESTAMP = "timestamp";
         public static final String BOOKMARK = "bookmark";
+        public static final String READ = "read";
 
         public static final int COLUMN_ID = 0;
         public static final int COLUMN_ITEM_ID = 1;
@@ -70,6 +70,7 @@ public class HNewsContract {
         public static final int COLUMN_RANK = 10;
         public static final int COLUMN_TIMESTAMP = 11;
         public static final int COLUMN_BOOKMARK = 12;
+        public static final int COLUMN_READ = 13;
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
