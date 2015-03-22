@@ -9,11 +9,25 @@
     style="@style/HNews.AppBar.NewsContainer"
     android:id="@+id/app_bar_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content" />
 
-  <FrameLayout
-    android:id="@+id/article_fragment_root"
+  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <WebView
+      android:id="@+id/article_webview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+    <ProgressBar
+      android:id="@+id/article_progress"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_marginTop="-8dp" />
+
+  </RelativeLayout>
 
 </LinearLayout>

@@ -44,10 +44,8 @@ import rx.android.schedulers.AndroidSchedulers;
 public class CommentsFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     public static final String TAG = "CommentsFragment";
-    private static final int COMMENTS_LOADER = 0;
-
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
-
+    private static final int COMMENTS_LOADER = 0;
     private ShareActionProvider mShareActionProvider;
 
     private DelegatedSwipeRefreshLayout refreshLayout;
@@ -101,7 +99,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_share, menu);
+        inflater.inflate(R.menu.menu_article, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         if (mShareActionProvider != null) {
