@@ -3,7 +3,6 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +10,6 @@ import android.view.View;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.comments.CommentsFragment;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
@@ -92,12 +90,19 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     @Override
     public void onCommentsClicked(View v, Story story) {
-        showOrNavigateToCommentsOf(story);
+        navigate().toComments(story);
     }
 
     @Override
     public void onContentClicked(Story story) {
-        showOrNavigateTo(story);
+        DataPersister persister = Inject.dataPersister();
+        persister.markStoryAsRead(story);
+        if (story.isHackerNewsLocalItem()) {
+            navigate().toComments(story);
+        } else {
+            navigate().toInnerBrowser(story);
+
+        }
     }
 
     @Override
@@ -155,46 +160,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                     }
                 })
                 .animating();
-    }
-
-    private boolean isTwoPaneLayout() {
-        return findViewById(R.id.story_fragment_root) != null;
-    }
-
-    private void showOrNavigateTo(Story story) {
-        DataPersister persister = Inject.dataPersister();
-        persister.markStoryAsRead(story);
-        if (story.isHackerNewsLocalItem()) {
-            navigate().toComments(story);
-        } else {
-            if (isTwoPaneLayout()) {
-                showInnerBrowserFragment(story);
-            } else {
-                navigate().toInnerBrowser(story);
-            }
-        }
-    }
-
-    private void showOrNavigateToCommentsOf(Story story) {
-        if (isTwoPaneLayout()) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.story_fragment_root,
-                            CommentsFragment.from(story),
-                            CommentsFragment.TAG)
-                    .commit();
-        } else {
-            navigate().toComments(story);
-        }
-    }
-
-    public void showInnerBrowserFragment(Story story) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.story_fragment_root,
-                        ArticleFragment.from(story),
-                        CommentsFragment.TAG)
-                .commit();
     }
 
 }
