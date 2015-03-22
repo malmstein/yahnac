@@ -99,12 +99,26 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_article, menu);
+        inflater.inflate(R.menu.menu_comments, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(createShareArticleIntent());
         }
+        if (getStory().isHackerNewsLocalItem()) {
+            MenuItem comments = menu.findItem(R.id.action_article);
+            comments.setVisible(false);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_article) {
+            navigate().toInnerBrowser(getStory());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private Intent createShareArticleIntent() {
