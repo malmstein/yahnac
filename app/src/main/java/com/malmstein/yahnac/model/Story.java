@@ -19,14 +19,14 @@ public class Story implements Serializable {
     private final int score;
     private final String title;
     private final String url;
-    private final String domain;
     private final int comments;
     private final String type;
     private final Long timestamp;
     private final int rank;
     private final int bookmark;
+    private final int read;
 
-    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, String domain, int comments, Long timestamp, int rank, int bookmark) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -35,11 +35,11 @@ public class Story implements Serializable {
         this.score = score;
         this.title = title;
         this.url = url;
-        this.domain = domain;
         this.comments = comments;
         this.timestamp = timestamp;
         this.rank = rank;
         this.bookmark = bookmark;
+        this.read = read;
     }
 
     public static Story from(Cursor cursor) {
@@ -56,8 +56,9 @@ public class Story implements Serializable {
         Long timestamp = cursor.getLong(HNewsContract.StoryEntry.COLUMN_TIMESTAMP);
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
         int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
+        int read = cursor.getInt(HNewsContract.StoryEntry.COLUMN_READ);
 
-        return new Story(internalId, by, id, type, time, score, title, url, domain, comments, timestamp, rank, bookmark);
+        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read);
     }
 
     public static Story fromBookmark(Cursor cursor) {
@@ -65,13 +66,12 @@ public class Story implements Serializable {
         Long id = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_ITEM_ID);
         String type = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TYPE);
         String by = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_BY);
-        String domain = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_DOMAIN);
         String url = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_URL);
         String title = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TITLE);
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
         int bookmark = HNewsContract.TRUE_BOOLEAN;
 
-        return new Story(internalId, by, id, type, (long) 0, 0, title, url, domain, 0, timestamp, 0, bookmark);
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0);
     }
 
     public String getSubmitter() {
@@ -114,14 +114,6 @@ public class Story implements Serializable {
         return comments;
     }
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public boolean hasDomain() {
-        return !TextUtils.isEmpty(domain);
-    }
-
     public Long getTimestamp() {
         return timestamp;
     }
@@ -149,6 +141,10 @@ public class Story implements Serializable {
 
     public boolean isBookmark() {
         return bookmark == HNewsContract.TRUE_BOOLEAN;
+    }
+
+    public boolean isRead() {
+        return read == HNewsContract.TRUE_BOOLEAN;
     }
 
     public enum TYPE {

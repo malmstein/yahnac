@@ -23,9 +23,8 @@ import com.novoda.notils.caster.Views;
 
 public class NewsActivity extends HNewsActivity implements StoryListener {
 
-    private static final int OFFSCREEN_PAGE_LIMIT = 1;
     public static final int INITIAL_PAGE = 1;
-
+    private static final int OFFSCREEN_PAGE_LIMIT = 1;
     private AppBarContainer appBarContainer;
     private ViewPager headersPager;
     private SlidingTabLayout slidingTabs;
@@ -163,6 +162,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     }
 
     private void showOrNavigateTo(Story story) {
+        DataPersister persister = Inject.dataPersister();
+        persister.markStoryAsRead(story);
         if (story.isHackerNewsLocalItem()) {
             navigate().toComments(story);
         } else {

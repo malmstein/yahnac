@@ -32,7 +32,6 @@ public class HNewsContract {
                 StoryEntry.TYPE,
                 StoryEntry.BY,
                 StoryEntry.COMMENTS,
-                StoryEntry.DOMAIN,
                 StoryEntry.URL,
                 StoryEntry.SCORE,
                 StoryEntry.TITLE,
@@ -47,7 +46,6 @@ public class HNewsContract {
         public static final String TYPE = "type";
         public static final String BY = "by";
         public static final String COMMENTS = "comments";
-        public static final String DOMAIN = "domain";
         public static final String URL = "url";
         public static final String SCORE = "score";
         public static final String TITLE = "title";
@@ -62,15 +60,14 @@ public class HNewsContract {
         public static final int COLUMN_TYPE = 2;
         public static final int COLUMN_BY = 3;
         public static final int COLUMN_COMMENTS = 4;
-        public static final int COLUMN_DOMAIN = 5;
-        public static final int COLUMN_URL = 6;
-        public static final int COLUMN_SCORE = 7;
-        public static final int COLUMN_TITLE = 8;
-        public static final int COLUMN_TIME_AGO = 9;
-        public static final int COLUMN_RANK = 10;
-        public static final int COLUMN_TIMESTAMP = 11;
-        public static final int COLUMN_BOOKMARK = 12;
-        public static final int COLUMN_READ = 13;
+        public static final int COLUMN_URL = 5;
+        public static final int COLUMN_SCORE = 6;
+        public static final int COLUMN_TITLE = 7;
+        public static final int COLUMN_TIME_AGO = 8;
+        public static final int COLUMN_RANK = 9;
+        public static final int COLUMN_TIMESTAMP = 10;
+        public static final int COLUMN_BOOKMARK = 11;
+        public static final int COLUMN_READ = 12;
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
@@ -91,7 +88,6 @@ public class HNewsContract {
                 BookmarkEntry.ITEM_ID,
                 BookmarkEntry.TYPE,
                 BookmarkEntry.BY,
-                BookmarkEntry.DOMAIN,
                 BookmarkEntry.URL,
                 BookmarkEntry.TITLE,
                 BookmarkEntry.TIMESTAMP,
@@ -100,7 +96,6 @@ public class HNewsContract {
         public static final String ITEM_ID = "item_id";
         public static final String TYPE = "type";
         public static final String BY = "by";
-        public static final String DOMAIN = "domain";
         public static final String URL = "url";
         public static final String TITLE = "title";
         public static final String TIMESTAMP = "timestamp";
@@ -109,10 +104,9 @@ public class HNewsContract {
         public static final int COLUMN_ITEM_ID = 1;
         public static final int COLUMN_TYPE = 2;
         public static final int COLUMN_BY = 3;
-        public static final int COLUMN_DOMAIN = 4;
-        public static final int COLUMN_URL = 5;
-        public static final int COLUMN_TITLE = 6;
-        public static final int COLUMN_TIMESTAMP = 7;
+        public static final int COLUMN_URL = 4;
+        public static final int COLUMN_TITLE = 5;
+        public static final int COLUMN_TIMESTAMP = 6;
 
         public static Uri buildBookmarksUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_BOOKMARKS_URI, id);
