@@ -97,7 +97,6 @@ public class ArticleFragment extends Fragment {
 
     private void setupWebView() {
         WebSettings webSettings = webView.getSettings();
-        webSettings.setBuiltInZoomControls(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setJavaScriptEnabled(true);

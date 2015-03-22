@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+  <integer name="feed_columns">1</integer>
+
   <!-- generic crouton -->
   <integer name="crouton_background_alpha">0xEA</integer>
   <integer name="crouton_animation_duration">400</integer>

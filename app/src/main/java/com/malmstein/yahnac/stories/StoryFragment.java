@@ -5,8 +5,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +65,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private void setupStoriesList() {
         storiesList.setHasFixedSize(true);
-        storiesLayoutManager = new LinearLayoutManager(getActivity());
+        storiesLayoutManager = createLayoutManager(getResources());
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
 
@@ -87,6 +87,11 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
         return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
+    }
+
+    private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
+        int spans = resources.getInteger(R.integer.feed_columns);
+        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
     protected abstract Story.TYPE getType();
