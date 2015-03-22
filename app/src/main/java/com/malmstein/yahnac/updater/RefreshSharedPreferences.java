@@ -10,11 +10,13 @@ import com.malmstein.yahnac.model.Story;
 public class RefreshSharedPreferences {
 
     private static final String PREFERENCE_NAME = BuildConfig.APPLICATION_ID + ".REFRESH_PREFERENCES";
+
     private static final String KEY_REFRESH_TIME_TOP_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_TOP_STORY";
     private static final String KEY_REFRESH_TIME_NEW_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_NEW_STORY";
     private static final String KEY_REFRESH_TIME_BEST_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_BEST_STORY";
     private static final String KEY_REFRESH_TIME_SHOW_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_SHOW_STORY";
     private static final String KEY_REFRESH_TIME_ASK_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_ASK_STORY";
+    private static final String KEY_REFRESH_TIME_JOB_STORY = BuildConfig.APPLICATION_ID + ".KEY_REFRESH_TIME_JOB_STORY";
 
     private final SharedPreferences preferences;
 
@@ -44,6 +46,9 @@ public class RefreshSharedPreferences {
             case ask:
                 preferences.edit().putLong(KEY_REFRESH_TIME_ASK_STORY, RefreshTimestamp.now().getMillis()).apply();
                 break;
+            case jobs:
+                preferences.edit().putLong(KEY_REFRESH_TIME_JOB_STORY, RefreshTimestamp.now().getMillis()).apply();
+                break;
         }
 
     }
@@ -60,6 +65,8 @@ public class RefreshSharedPreferences {
                 return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_SHOW_STORY, 0));
             case ask:
                 return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_ASK_STORY, 0));
+            case jobs:
+                return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_JOB_STORY, 0));
             default:
                 return RefreshTimestamp.now();
         }
