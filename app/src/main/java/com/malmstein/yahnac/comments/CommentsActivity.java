@@ -46,6 +46,12 @@ public class CommentsActivity extends HNewsActivity {
         }
     }
 
+    private void setupSnackbar() {
+        snackbarView = Views.findById(this, R.id.snackbar);
+        croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
+        croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_comments, menu);
@@ -61,9 +67,9 @@ public class CommentsActivity extends HNewsActivity {
 
         MenuItem bookmarks = menu.findItem(R.id.action_bookmark);
         if (getStory().isBookmark()) {
-            bookmarks.setIcon(R.drawable.ic_bookmark_white);
+            checkBookmarkMenuItem(bookmarks);
         } else {
-            bookmarks.setIcon(R.drawable.ic_bookmark_outline_white);
+            uncheckBookmarkMenuItem(bookmarks);
         }
         return true;
     }
@@ -84,18 +90,21 @@ public class CommentsActivity extends HNewsActivity {
 
     }
 
-    private void setupSnackbar() {
-        snackbarView = Views.findById(this, R.id.snackbar);
-        croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
-        croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    private void checkBookmarkMenuItem(MenuItem bookmarks) {
+        bookmarks.setChecked(true);
+        bookmarks.setIcon(R.drawable.ic_bookmark_white);
+    }
+
+    private void uncheckBookmarkMenuItem(MenuItem bookmarks) {
+        bookmarks.setChecked(false);
+        bookmarks.setIcon(R.drawable.ic_bookmark_outline_white);
     }
 
     private void onBookmarkClicked(MenuItem item) {
         DataPersister persister = Inject.dataPersister();
         if (item.isChecked()) {
             removeBookmark(persister, getStory());
-            item.setChecked(false);
-            item.setIcon(R.drawable.ic_bookmark_outline_white);
+            uncheckBookmarkMenuItem(item);
         } else {
             addBookmark(persister, getStory());
             item.setChecked(true);
