@@ -18,8 +18,8 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<Story> items;
     private final StoryListener listener;
+    private List<Story> items;
 
     public RecyclerViewAdapter(Cursor cursor, StoryListener listener) {
         items = new ArrayList<>();
@@ -52,12 +52,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final Story story = items.get(position);
 
         holder.title.setText(story.getTitle());
-        if (story.hasDomain()) {
-            holder.domain.setText(story.getDomain());
-        } else {
-            holder.domain.setVisibility(View.GONE);
-        }
-
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +122,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
+    private Intent createShareIntent(String url) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        return shareIntent;
+    }
+
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final TextView user;
@@ -149,13 +151,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             domain = Views.findById(view, R.id.article_domain);
         }
-    }
-
-    private Intent createShareIntent(String url) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-        return shareIntent;
     }
 }

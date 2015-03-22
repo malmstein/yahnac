@@ -48,7 +48,6 @@ public class Story implements Serializable {
         String type = cursor.getString(HNewsContract.StoryEntry.COLUMN_TYPE);
         String by = cursor.getString(HNewsContract.StoryEntry.COLUMN_BY);
         int comments = cursor.getInt(HNewsContract.StoryEntry.COLUMN_COMMENTS);
-        String domain = cursor.getString(HNewsContract.StoryEntry.COLUMN_DOMAIN);
         String url = cursor.getString(HNewsContract.StoryEntry.COLUMN_URL);
         int score = cursor.getInt(HNewsContract.StoryEntry.COLUMN_SCORE);
         String title = cursor.getString(HNewsContract.StoryEntry.COLUMN_TITLE);

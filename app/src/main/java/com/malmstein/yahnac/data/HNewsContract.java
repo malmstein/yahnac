@@ -18,7 +18,6 @@ public class HNewsContract {
     public static final String TABLE_ITEM_NAME = "item";
     public static final String TABLE_COMMENTS_NAME = "comment";
     public static final String TABLE_BOOKMARKS_NAME = "bookmarks";
-
     public static final int FALSE_BOOLEAN = 0;
     public static final int TRUE_BOOLEAN = 1;
 

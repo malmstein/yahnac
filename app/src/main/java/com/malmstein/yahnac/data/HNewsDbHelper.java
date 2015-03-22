@@ -47,7 +47,6 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.BookmarkEntry.ITEM_ID + " INTEGER UNIQUE NOT NULL," +
                 HNewsContract.BookmarkEntry.TYPE + " TEXT," +
                 HNewsContract.BookmarkEntry.BY + " TEXT," +
-                HNewsContract.BookmarkEntry.DOMAIN + " TEXT," +
                 HNewsContract.BookmarkEntry.URL + " TEXT," +
                 HNewsContract.BookmarkEntry.TITLE + " TEXT," +
                 HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER" +

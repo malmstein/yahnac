@@ -46,7 +46,6 @@ public class DataPersister {
         bookmarkValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
         bookmarkValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
-        bookmarkValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
         bookmarkValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
