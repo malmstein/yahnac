@@ -15,7 +15,7 @@ import com.malmstein.yahnac.views.ViewDelegate;
 
 public class ShowHNFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
-    private static final int STORY_LOADER = 0;
+    private static final int STORY_LOADER = 1003;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

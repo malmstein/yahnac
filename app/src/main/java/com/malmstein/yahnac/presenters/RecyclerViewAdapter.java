@@ -111,14 +111,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     private void removeAll() {
-        for (Story item : items) {
-            remove(item);
-        }
-    }
-
-    private void remove(Story item) {
-        int position = items.indexOf(item);
-        items.remove(position);
+        items.removeAll(items);
         notifyDataSetChanged();
     }
 

@@ -45,7 +45,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     public static final String TAG = "CommentsFragment";
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
-    private static final int COMMENTS_LOADER = 0;
+    private static final int COMMENTS_LOADER = 1006;
     private ShareActionProvider mShareActionProvider;
 
     private DelegatedSwipeRefreshLayout refreshLayout;

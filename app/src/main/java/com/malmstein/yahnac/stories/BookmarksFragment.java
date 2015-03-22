@@ -9,8 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,7 @@ import com.novoda.notils.caster.Views;
 
 public class BookmarksFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int BOOKMARKS_LOADER = 0;
+    private static final int BOOKMARKS_LOADER = 1000;
 
     private RecyclerViewAdapter bookmarksAdapter;
     private RecyclerView bookmarksList;
@@ -36,7 +36,18 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(BOOKMARKS_LOADER, null, this);
+
+        if (getLoaderManager().getLoader(BOOKMARKS_LOADER) != null) {
+            getLoaderManager().restartLoader(BOOKMARKS_LOADER, null, this);
+        } else {
+            getLoaderManager().initLoader(BOOKMARKS_LOADER, null, this);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -59,12 +70,17 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
 
     private void setupStoriesList() {
         bookmarksList.setHasFixedSize(true);
-        bookmarksLayoutManager = new LinearLayoutManager(getActivity());
+        bookmarksLayoutManager = createLayoutManager(getResources());
         bookmarksList.addItemDecoration(createItemDecoration(getResources()));
         bookmarksList.setLayoutManager(bookmarksLayoutManager);
 
         bookmarksAdapter = new RecyclerViewAdapter(null, listener);
         bookmarksList.setAdapter(bookmarksAdapter);
+    }
+
+    private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
+        int spans = resources.getInteger(R.integer.feed_columns);
+        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
     private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
@@ -93,7 +109,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         bookmarksAdapter.swapCursor(data);
-        if (bookmarksAdapter.getItemCount() > 0){
+        if (bookmarksAdapter.getItemCount() > 0) {
             emptyView.setVisibility(View.GONE);
         } else {
             emptyView.setVisibility(View.VISIBLE);
@@ -102,7 +118,7 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        bookmarksAdapter.swapCursor(null);
+
     }
 
 }

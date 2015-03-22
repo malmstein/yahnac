@@ -16,7 +16,7 @@ import com.malmstein.yahnac.views.ViewDelegate;
 
 public class TopStoriesFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
-    private static final int STORY_LOADER = 0;
+    private static final int STORY_LOADER = 1001;
 
     public static TopStoriesFragment from(QUERY query) {
         Bundle bundle = new Bundle();
