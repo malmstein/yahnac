@@ -1,6 +1,5 @@
 package com.malmstein.yahnac.comments;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -10,16 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,7 +40,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     public static final String TAG = "CommentsFragment";
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
     private static final int COMMENTS_LOADER = 1006;
-    private ShareActionProvider mShareActionProvider;
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private RecyclerView commentsList;
@@ -97,47 +90,8 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         getComments();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_comments, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareArticleIntent());
-        }
-        if (getStory().isHackerNewsLocalItem()) {
-            MenuItem comments = menu.findItem(R.id.action_article);
-            comments.setVisible(false);
-        }
-
-        MenuItem bookmarks = menu.findItem(R.id.action_bookmark);
-        if (getStory().isBookmark()) {
-            bookmarks.setIcon(R.drawable.ic_bookmark_white);
-        } else {
-            bookmarks.setIcon(R.drawable.ic_bookmark_outline_white);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_article) {
-            navigate().toInnerBrowser(getStory());
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private Intent createShareArticleIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getStory().getCommentsUrl());
-        return shareIntent;
-    }
-
     private void getComments() {
-        if (isOnline()){
+        if (isOnline()) {
             startRefreshing();
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository

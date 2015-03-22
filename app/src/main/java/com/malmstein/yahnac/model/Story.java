@@ -23,8 +23,8 @@ public class Story implements Serializable {
     private final String type;
     private final Long timestamp;
     private final int rank;
-    private final int bookmark;
     private final int read;
+    private int bookmark;
 
     public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read) {
         this.internalId = internalId;
@@ -144,6 +144,14 @@ public class Story implements Serializable {
 
     public boolean isRead() {
         return read == HNewsContract.TRUE_BOOLEAN;
+    }
+
+    public void toggleBookmark() {
+        if (bookmark == HNewsContract.FALSE_BOOLEAN) {
+            bookmark = HNewsContract.TRUE_BOOLEAN;
+        } else {
+            bookmark = HNewsContract.FALSE_BOOLEAN;
+        }
     }
 
     public enum TYPE {

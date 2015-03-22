@@ -18,6 +18,7 @@
   <item
     android:id="@+id/action_bookmark"
     android:title="@string/action_comments"
+    android:checkable="true"
     android:icon="@drawable/ic_bookmark_outline_white"
     app:showAsAction="ifRoom" />
 
