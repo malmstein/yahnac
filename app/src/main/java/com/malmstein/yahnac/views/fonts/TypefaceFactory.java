@@ -11,7 +11,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
-class TypefaceFactory {
+ public class TypefaceFactory {
 
     private static final Map<FontType, SoftReference<Typeface>> FONT_CACHE = new HashMap<FontType, SoftReference<Typeface>>();
     private static final int INVALID_FONT_ID = -1;

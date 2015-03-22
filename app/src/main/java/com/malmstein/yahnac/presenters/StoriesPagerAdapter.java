@@ -8,6 +8,7 @@ import com.malmstein.yahnac.stories.AskHNFragment;
 import com.malmstein.yahnac.stories.BookmarksFragment;
 import com.malmstein.yahnac.stories.JobsHNFragment;
 import com.malmstein.yahnac.stories.ShowHNFragment;
+import com.malmstein.yahnac.stories.StoryFragment;
 import com.malmstein.yahnac.stories.TopStoriesFragment;
 
 public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
@@ -56,4 +57,9 @@ public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return categories[position];
     }
+
+    public void updateProfressViewOffset(int currentItem, int topInset) {
+        ((StoryFragment) getItem(currentItem)).updateProgressViewOffset(topInset);
+    }
+
 }

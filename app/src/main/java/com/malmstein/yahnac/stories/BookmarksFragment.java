@@ -45,12 +45,6 @@ public class BookmarksFragment extends HNewsFragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (StoryListener) getActivity();

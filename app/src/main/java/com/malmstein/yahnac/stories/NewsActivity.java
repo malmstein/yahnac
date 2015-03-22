@@ -15,17 +15,17 @@ import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
-import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
+import com.malmstein.yahnac.views.sliding_tabs.YahnacTabStrip;
 import com.malmstein.yahnac.views.toolbar.AppBarContainer;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener {
+public class NewsActivity extends HNewsActivity implements StoryListener, AppBarContainer.Listener {
 
     public static final int INITIAL_PAGE = 1;
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
     private AppBarContainer appBarContainer;
     private ViewPager headersPager;
-    private SlidingTabLayout slidingTabs;
+    private YahnacTabStrip slidingTabs;
     private StoriesPagerAdapter headersAdapter;
 
     private SnackBarView snackbarView;
@@ -40,6 +40,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         setupHeaders();
         setupTabs();
         setupSnackbar();
+        setupAppBar();
     }
 
     private void setupSnackbar() {
@@ -57,14 +58,17 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     }
 
     private void setupTabs() {
-        appBarContainer = Views.findById(this, R.id.app_bar_container);
+        AppBarContainer appBarContainer = getAppBarContainer();
+        appBarContainer.setListener(this);
         appBarContainer.setAppBar(getAppBar());
-        setTitle(getString(R.string.title_app));
 
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
-        slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
-        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
         slidingTabs.setViewPager(headersPager);
+    }
+
+    private void setupAppBar() {
+        setTitle(getString(R.string.title_app));
+
     }
 
     @Override
@@ -101,7 +105,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
             navigate().toComments(story);
         } else {
             navigate().toInnerBrowser(story);
-
         }
     }
 
@@ -121,6 +124,15 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
             removeBookmark(persister, story);
         } else {
             addBookmark(persister, story);
+        }
+    }
+
+    @Override
+    public void onQuickReturnVisibilityChangeHint(boolean visible) {
+        if (visible) {
+            getAppBarContainer().showAppBar();
+        } else {
+            getAppBarContainer().hideAppBar();
         }
     }
 
@@ -160,6 +172,18 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                     }
                 })
                 .animating();
+    }
+
+    @Override
+    public void onTopInsetChanged(int topInset) {
+        View target = findViewById(R.id.feed_main_content);
+        target.setPadding(
+                target.getPaddingLeft(),
+                topInset,
+                target.getPaddingRight(),
+                target.getPaddingBottom());
+
+        headersAdapter.updateProfressViewOffset(headersPager.getCurrentItem(), topInset);
     }
 
 }

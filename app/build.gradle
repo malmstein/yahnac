@@ -59,6 +59,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.crashlytics.android:crashlytics:1.1.11'
+    compile 'com.jpardogo.materialtabstrip:library:1.0.8'
 
     compile 'com.novoda:notils:2.2.8'
 

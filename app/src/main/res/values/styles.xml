@@ -59,7 +59,20 @@
 
   <style name="HNews.TabStrip" parent="None">
     <item name="android:clipToPadding">false</item>
+    <item name="android:paddingTop">@dimen/appbar_tab_indicator_height</item>
     <item name="android:paddingLeft">@dimen/appbar_tab_left_padding</item>
+    <item name="android:textSize">@dimen/appbar_tab_title_text</item>
+    <item name="android:textColor">@color/tab_text_color</item>
+    <item name="fontAsset">robotoMedium</item>
+    <item name="pstsTabBackground">?android:selectableItemBackground</item>
+    <item name="pstsShouldExpand">false</item>
+    <item name="pstsIndicatorColor">@color/white</item>
+    <item name="pstsIndicatorHeight">@dimen/appbar_tab_indicator_height</item>
+    <item name="pstsTabPaddingLeftRight">@dimen/appbar_tab_horizontal_padding</item>
+    <item name="pstsTextAllCaps">true</item>
+    <item name="pstsTextStyle">normal</item>
+    <item name="pstsTextSelectedStyle">normal</item>
+    <item name="pstsTextAlpha">.9</item>
   </style>
 
   <style name="HNews.Feed.TabStrip" parent="HNews.TabStrip" />
