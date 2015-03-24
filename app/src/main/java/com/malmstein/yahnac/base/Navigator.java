@@ -11,7 +11,6 @@ import com.malmstein.yahnac.connectivity.NetworkDetector;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
-import com.malmstein.yahnac.stories.ArticleFragment;
 
 public class Navigator {
 
@@ -38,7 +37,7 @@ public class Navigator {
     public void toInnerBrowser(Story story) {
         if (isOnline()) {
             Intent articleIntent = new Intent(activity, ArticleActivity.class);
-            articleIntent.putExtra(ArticleFragment.ARG_STORY, story);
+            articleIntent.putExtra(ArticleActivity.ARG_STORY, story);
 
             ActivityCompat.startActivity(activity, articleIntent, null);
         }

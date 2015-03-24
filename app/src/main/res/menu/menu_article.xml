@@ -2,10 +2,22 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   tools:context=".MainActivity">
+
+  <item
+    android:id="@+id/action_share"
+    android:title="@string/action_share"
+    app:showAsAction="always"
+    app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+
   <item
     android:id="@+id/action_comments"
     android:title="@string/action_comments"
     android:icon="@drawable/ic_mode_comment"
-    android:orderInCategory="100"
+    app:showAsAction="ifRoom" />
+
+  <item
+    android:id="@+id/action_bookmark"
+    android:title="@string/action_bookmark"
+    android:icon="@drawable/ic_bookmark_outline_white"
     app:showAsAction="ifRoom" />
 </menu>

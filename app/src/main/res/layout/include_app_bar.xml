@@ -4,5 +4,5 @@
   android:id="@+id/toolbar"
   style="@style/HNews.AppBar"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="@dimen/abc_action_bar_default_height_material"
   tools:showIn="@layout/activity_news" />

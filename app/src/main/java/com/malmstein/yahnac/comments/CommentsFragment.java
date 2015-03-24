@@ -1,6 +1,5 @@
 package com.malmstein.yahnac.comments;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -10,16 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -44,11 +38,8 @@ import rx.android.schedulers.AndroidSchedulers;
 public class CommentsFragment extends HNewsFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
     public static final String TAG = "CommentsFragment";
-    private static final int COMMENTS_LOADER = 0;
-
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
-
-    private ShareActionProvider mShareActionProvider;
+    private static final int COMMENTS_LOADER = 1006;
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private RecyclerView commentsList;
@@ -99,26 +90,8 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         getComments();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_share, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareArticleIntent());
-        }
-    }
-
-    private Intent createShareArticleIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getStory().getCommentsUrl());
-        return shareIntent;
-    }
-
     private void getComments() {
-        if (isOnline()){
+        if (isOnline()) {
             startRefreshing();
             DataRepository dataRepository = Inject.dataRepository();
             subscription = dataRepository

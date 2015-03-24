@@ -46,7 +46,6 @@ public class DataPersister {
         bookmarkValues.put(HNewsContract.BookmarkEntry.ITEM_ID, story.getId());
         bookmarkValues.put(HNewsContract.BookmarkEntry.BY, story.getSubmitter());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TYPE, story.getType());
-        bookmarkValues.put(HNewsContract.BookmarkEntry.DOMAIN, story.getDomain());
         bookmarkValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
@@ -74,6 +73,18 @@ public class DataPersister {
                 storyValues,
                 HNewsContract.StoryEntry.ITEM_ID + " = ?",
                 new String[]{String.valueOf(story.getId())});
+    }
+
+    public void markStoryAsRead(Story story) {
+        ContentValues bookmarkValues = new ContentValues();
+
+        bookmarkValues.put(HNewsContract.StoryEntry.READ, HNewsContract.TRUE_BOOLEAN);
+
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                bookmarkValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
+
     }
 
 }

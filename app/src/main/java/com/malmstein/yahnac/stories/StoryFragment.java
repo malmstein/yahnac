@@ -5,10 +5,11 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
+import com.malmstein.yahnac.views.quickreturn.RecyclerViewQuickReturnHinter;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
@@ -32,15 +34,27 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     protected StoriesAdapter storiesAdapter;
     protected Subscription subscription;
+
     private RecyclerView storiesList;
     private RecyclerView.LayoutManager storiesLayoutManager;
-    private StoryListener listener;
     private DelegatedSwipeRefreshLayout refreshLayout;
+    private int refreshViewOffset;
+
+    private RecyclerViewQuickReturnHinter quickReturnHinter;
+    private StoryListener listener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (StoryListener) getActivity();
+        quickReturnHinter = createQuickReturnHinter(listener);
+    }
+
+    private RecyclerViewQuickReturnHinter createQuickReturnHinter(StoryListener listener) {
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(getActivity());
+        int longScrollSlop = viewConfiguration.getScaledTouchSlop();
+        int shortScrollSlop = longScrollSlop / 2;
+        return new RecyclerViewQuickReturnHinter(longScrollSlop, shortScrollSlop, listener);
     }
 
     @Override
@@ -61,16 +75,20 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setViewDelegate(this);
+        refreshViewOffset = getResources().getDimensionPixelSize(R.dimen.feed_refresh_top_padding);
+        refreshLayout.setProgressViewOffset(false, 0, refreshViewOffset);
     }
 
     private void setupStoriesList() {
         storiesList.setHasFixedSize(true);
-        storiesLayoutManager = new LinearLayoutManager(getActivity());
+        storiesLayoutManager = createLayoutManager(getResources());
         storiesList.addItemDecoration(createItemDecoration(getResources()));
         storiesList.setLayoutManager(storiesLayoutManager);
 
         storiesAdapter = new StoriesAdapter(null, listener, new TimeAgo(getActivity().getResources()));
         storiesList.setAdapter(storiesAdapter);
+
+        updateOnScrollListener();
     }
 
     private void maybeUpdateContent() {
@@ -83,10 +101,26 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         }
     }
 
+    private void updateOnScrollListener() {
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                quickReturnHinter.onScrolled(recyclerView, dx, dy);
+            }
+        };
+        storiesList.setOnScrollListener(onScrollListener);
+    }
+
     private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
         return new FeedRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
+    }
+
+    private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
+        int spans = resources.getInteger(R.integer.feed_columns);
+        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
     protected abstract Story.TYPE getType();
@@ -143,4 +177,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         }
     }
 
+    public void updateProgressViewOffset(int topInset) {
+        refreshLayout.setProgressViewOffset(false, 0, topInset + refreshViewOffset);
+    }
 }

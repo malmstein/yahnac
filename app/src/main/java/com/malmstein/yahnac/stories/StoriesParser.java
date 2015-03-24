@@ -14,12 +14,57 @@ import org.jsoup.select.Elements;
 
 public class StoriesParser {
 
-    private Document document;
     static Vector<ContentValues> storiesList = new Vector<>();
+    private Document document;
 
     public StoriesParser(Document document) {
         this.document = document;
         storiesList.clear();
+    }
+
+    public static String parseAgo(Element secondLine) {
+        String ago;
+        Elements secondLineElements = secondLine.select("a[href*=item]");
+        if (secondLineElements.size() == 0) {
+            ago = secondLine.text();
+        } else {
+            ago = secondLineElements.get(0).text();
+        }
+        return ago;
+    }
+
+    public static int parseComments(Element secondLine) {
+        int comments = 0;
+        Elements secondLineElements = secondLine.select("a[href*=item]");
+        if (secondLineElements.size() > 0) {
+            String commentsLine = secondLineElements.get(1).text().replaceAll("comments", "").replaceAll("comment", "");
+            commentsLine = commentsLine.trim();
+            if (commentsLine.equals("discuss")) {
+                //no comments yet
+                comments = 0;
+            } else {
+                try {
+                    comments = Integer.valueOf(commentsLine);
+                } catch (Exception e) {
+                    comments = 0;
+                }
+            }
+        }
+        return comments;
+
+    }
+
+    public static int parseItemId(Element secondLine) {
+        int item_id;
+
+        String item_i = secondLine.select("a[href*=item]").attr("href");
+        String item_txt = item_i.replace("item?id=", "");
+        if (item_txt.equals("")) {
+            return 0;
+        }
+        item_id = Integer.valueOf(item_txt);
+
+        return item_id;
     }
 
     public StoriesJsoup parse(Story.TYPE type) {
@@ -51,7 +96,6 @@ public class StoriesParser {
             storyValues.put(HNewsContract.StoryEntry.BY, submitter);
             storyValues.put(HNewsContract.StoryEntry.TIME_AGO, ago);
             storyValues.put(HNewsContract.StoryEntry.COMMENTS, comments);
-            storyValues.put(HNewsContract.StoryEntry.DOMAIN, domain);
             storyValues.put(HNewsContract.StoryEntry.URL, url);
             storyValues.put(HNewsContract.StoryEntry.SCORE, points);
             storyValues.put(HNewsContract.StoryEntry.TITLE, title);
@@ -75,7 +119,7 @@ public class StoriesParser {
         String line = firstLine.select("td[class=title]>span").text();
         int start = line.indexOf("(");
         int end = line.indexOf(")");
-        if (end == -1){
+        if (end == -1) {
             return "";
         }
         String domain = line.substring(start, end + 1);
@@ -95,51 +139,6 @@ public class StoriesParser {
     public String parseSubmitter(Element secondLine) {
         String submitter = secondLine.select("a[href*=user]").text();
         return submitter;
-    }
-
-    public static String parseAgo(Element secondLine) {
-        String ago;
-        Elements secondLineElements = secondLine.select("a[href*=item]");
-        if (secondLineElements.size() == 0) {
-            ago = secondLine.text();
-        } else {
-            ago = secondLineElements.get(0).text();
-        }
-        return ago;
-    }
-
-    public static int parseComments(Element secondLine) {
-        int comments = 0;
-        Elements secondLineElements = secondLine.select("a[href*=item]");
-        if (secondLineElements.size() > 0) {
-            String commentsLine = secondLineElements.get(1).text().replaceAll("comments", "").replaceAll("comment", "");
-            commentsLine = commentsLine.trim();
-            if (commentsLine.equals("discuss")){
-                //no comments yet
-                comments = 0;
-            } else {
-                try{
-                    comments = Integer.valueOf(commentsLine);
-                } catch (Exception e){
-                    comments = 0;
-                }
-            }
-        }
-        return comments;
-
-    }
-
-    public static int parseItemId(Element secondLine) {
-        int item_id;
-
-        String item_i = secondLine.select("a[href*=item]").attr("href");
-        String item_txt = item_i.replace("item?id=", "");
-        if (item_txt.equals("")) {
-            return 0;
-        }
-        item_id = Integer.valueOf(item_txt);
-
-        return item_id;
     }
 
     public String parseNextPageUrl() {
