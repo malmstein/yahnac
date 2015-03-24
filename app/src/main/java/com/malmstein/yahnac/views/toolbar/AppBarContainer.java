@@ -1,21 +1,17 @@
 package com.malmstein.yahnac.views.toolbar;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowInsets;
 import android.widget.LinearLayout;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.views.InsetColorDrawable;
 import com.malmstein.yahnac.views.quickreturn.TranslateUiShowHideAnimator;
-
 import com.novoda.notils.exception.DeveloperError;
 
 public class AppBarContainer extends LinearLayout implements TranslateUiShowHideAnimator.TranslationAmountProvider {
@@ -25,9 +21,6 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
     private TranslateUiShowHideAnimator showHideAnimator;
     private InsetColorDrawable background;
     private int shadowHeightPx;
-    private int topInset;
-    private boolean includeInsetInHideableHeight;
-    private Listener listener;
 
     public AppBarContainer(Context context) {
         this(context, null);
@@ -56,7 +49,6 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
 
                 int appBarLayoutId = a.getResourceId(R.styleable.AppBarContainer_appBarLayout, R.layout.include_app_bar);
                 initAppBar(appBarLayoutId);
-                includeInsetInHideableHeight = a.getBoolean(R.styleable.AppBarContainer_includeInsetInHideableHeight, false);
             } finally {
                 a.recycle();
             }
@@ -113,11 +105,7 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
 
     @Override
     public int getHideableHeightPx() {
-        int hideableHeight = appBar.getHeight();
-        if (includeInsetInHideableHeight) {
-            hideableHeight += topInset;
-        }
-        return hideableHeight;
+        return appBar.getHeight();
     }
 
     public void showAppBar() {
@@ -146,64 +134,6 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
         return showHideAnimator.isAnimating();
     }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public int getTopInset() {
-        return topInset;
-    }
-
-    protected void setTopInset(int topInset) {
-        int currentTopInset = this.topInset;
-        int realPaddingTop = getPaddingTop() - currentTopInset;
-        super.setPadding(getPaddingLeft(), realPaddingTop + topInset, getPaddingRight(), getPaddingBottom());
-        this.topInset = topInset;
-        if (listener != null) {
-            listener.onTopInsetChanged(topInset);
-        }
-    }
-
-    @Override
-    protected boolean fitSystemWindows(Rect insets) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            setTopInset(insets.top);
-            return false;
-        }
-        // If we're on Lollipop or later, we get insets in onApplyWindowInsets
-        return super.fitSystemWindows(insets);
-    }
-
-    @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-        if (insets.hasSystemWindowInsets()) {
-            Rect systemWindowInsets = getSystemWindowInsetsRectFrom(insets);
-            setTopInset(systemWindowInsets.top);
-            return insets;
-        }
-        return super.onApplyWindowInsets(insets);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static Rect getSystemWindowInsetsRectFrom(WindowInsets insets) {
-        return new Rect(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(),
-                insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
-    }
-
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        super.setPadding(left, top, right, bottom);
-        topInset = 0;
-    }
-
-    @Override
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void setPaddingRelative(int start, int top, int end, int bottom) {
-        super.setPaddingRelative(start, top, end, bottom);
-        topInset = 0;
-    }
-
     private class FadeAndTranslateUiShowHideAnimator extends TranslateUiShowHideAnimator {
 
         public FadeAndTranslateUiShowHideAnimator(AppBarContainer appBarContainer) {
@@ -227,12 +157,6 @@ public class AppBarContainer extends LinearLayout implements TranslateUiShowHide
             super.onHideAnimationUpdate(value, view, location);
             setAppBarChildrenAlpha(1f - value);
         }
-
-    }
-
-    public interface Listener {
-
-        void onTopInsetChanged(int topInset);
 
     }
 

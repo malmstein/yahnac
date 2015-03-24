@@ -27,10 +27,10 @@
   <dimen name="feed_refresh_top_padding">64dp</dimen>
 
   <dimen name="appbar_tab_height">48dp</dimen>
-  <dimen name="appbar_tab_left_padding">48dp</dimen>
+  <dimen name="appbar_tab_left_padding">4dp</dimen>
   <dimen name="appbar_tab_title_text">14sp</dimen>
   <dimen name="appbar_tab_indicator_horizontal_padding">12dp</dimen>
-  <dimen name="appbar_tab_indicator_height">3dp</dimen>
+  <dimen name="appbar_tab_indicator_height">48dp</dimen>
   <dimen name="appbar_tab_horizontal_padding">12dp</dimen>
 
   <dimen name="app_bar_shadow_height">4dp</dimen>

@@ -3,6 +3,7 @@
 
   <style name="HNews.List" parent="None">
     <item name="android:choiceMode">singleChoice</item>
+    <item name="android:clipToPadding">false</item>
   </style>
 
 </resources>
