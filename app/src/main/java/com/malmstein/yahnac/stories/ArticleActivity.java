@@ -62,10 +62,9 @@ public class ArticleActivity extends HNewsActivity {
         webViewProgress = Views.findById(this, R.id.article_progress);
 
         WebSettings webSettings = webView.getSettings();
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
         webSettings.setSupportZoom(true);
+        webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
 
@@ -190,6 +189,12 @@ public class ArticleActivity extends HNewsActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            String javascript = "javascript:document.getElementsByName('viewport')[0].setAttribute('content', 'initial-scale=1.0,maximum-scale=10.0');";
+            view.loadUrl(javascript);
         }
     }
 
