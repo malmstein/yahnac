@@ -14,7 +14,7 @@
       android:id="@+id/list_news"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:paddingTop="@dimen/appbar_tab_height"/>
+      android:paddingTop="@dimen/abc_action_bar_default_height_material"/>
 
   </com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout>
 

@@ -14,7 +14,6 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
-import com.malmstein.yahnac.views.MaterialConfigurator;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
@@ -40,11 +39,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
         setupTabs();
         setupSnackbar();
         setupAppBar();
-
-        new MaterialConfigurator()
-                .withStatusBarOnTopOf(R.id.app_bar_container)
-                .withStatusBarColor(R.color.dark_orange)
-                .materialize(this);
     }
 
     private void setupSnackbar() {
