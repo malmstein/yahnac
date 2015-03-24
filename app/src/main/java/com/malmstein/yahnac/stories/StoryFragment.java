@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -25,6 +25,7 @@ import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.quickreturn.RecyclerViewQuickReturnHinter;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.logger.simple.Log;
 
 import rx.Observer;
 import rx.Subscription;
@@ -120,7 +121,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
         int spans = resources.getInteger(R.integer.feed_columns);
-        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
+        return new StaggeredGridLayoutManager2(spans, RecyclerView.VERTICAL);
     }
 
     protected abstract Story.TYPE getType();
@@ -180,4 +181,18 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     public void updateProgressViewOffset(int topInset) {
         refreshLayout.setProgressViewOffset(false, 0, topInset + refreshViewOffset);
     }
+
+    public boolean shouldBeScrolledToTop() {
+        return ViewCompat.canScrollVertically(storiesList, 1);
+    }
+
+    public void scrollToTopWithOffset(int px) {
+        RecyclerView.LayoutManager layoutManager = storiesList.getLayoutManager();
+        if (layoutManager instanceof StaggeredGridLayoutManager2) {
+            ((StaggeredGridLayoutManager2) layoutManager).scrollToPositionWithOffset(0, -px);
+        } else {
+            Log.w("Only StaggeredGridLayoutManager2 supports scrolling to position with offset!");
+        }
+    }
+
 }

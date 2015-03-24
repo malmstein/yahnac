@@ -76,7 +76,7 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment)object;
+        Fragment fragment = (Fragment) object;
 
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
@@ -96,14 +96,14 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment)object;
+        Fragment fragment = (Fragment) object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
                 mCurrentPrimaryItem.setUserVisibleHint(false);
             }
             if (fragment != null) {
-                fragment.setUserVisibleHint(true);
+                fragment.setMenuVisibility(true);
                 fragment.setUserVisibleHint(true);
             }
             mCurrentPrimaryItem = fragment;
@@ -121,7 +121,7 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return ((Fragment)object).getView() == view;
+        return ((Fragment) object).getView() == view;
     }
 
     @Override
@@ -133,7 +133,7 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
             mSavedState.toArray(fss);
             state.putParcelableArray("states", fss);
         }
-        for (int i=0; i<mFragments.size(); i++) {
+        for (int i = 0; i < mFragments.size(); i++) {
             Fragment f = mFragments.get(i);
             if (f != null) {
                 if (state == null) {
@@ -149,18 +149,18 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
         if (state != null) {
-            Bundle bundle = (Bundle)state;
+            Bundle bundle = (Bundle) state;
             bundle.setClassLoader(loader);
             Parcelable[] fss = bundle.getParcelableArray("states");
             mSavedState.clear();
             mFragments.clear();
             if (fss != null) {
-                for (int i=0; i<fss.length; i++) {
-                    mSavedState.add((Fragment.SavedState)fss[i]);
+                for (int i = 0; i < fss.length; i++) {
+                    mSavedState.add((Fragment.SavedState) fss[i]);
                 }
             }
             Iterable<String> keys = bundle.keySet();
-            for (String key: keys) {
+            for (String key : keys) {
                 if (key.startsWith("f")) {
                     int index = Integer.parseInt(key.substring(1));
                     Fragment f = mFragmentManager.getFragment(bundle, key);
@@ -179,5 +179,9 @@ public abstract class TaggedFragmentStatePagerAdapter extends PagerAdapter {
     }
 
     public abstract String getTag(int position);
+
+    public Fragment getPrimaryItem() {
+        return mCurrentPrimaryItem;
+    }
 
 }

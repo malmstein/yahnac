@@ -3,6 +3,7 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,8 +59,9 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
     private void setupTabs() {
         slidingTabs = Views.findById(this, R.id.sliding_tabs);
         slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
-        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
         slidingTabs.setViewPager(headersPager);
+        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
+        slidingTabs.setOnPageChangeListener(new StoryOnPageChangeListener());
     }
 
     private void setupAppBar() {
@@ -170,5 +172,51 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
                 .animating();
     }
 
+    private class StoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
 
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (positionOffset == 0) {
+                return;
+            }
+            scrollFeedsAccordingToAppBarVisibility();
+        }
+
+        private void scrollFeedsAccordingToAppBarVisibility() {
+            Fragment currentFragment = headersAdapter.getPrimaryItem();
+            int px = getAppBarContainer().isAppBarShowing() ? 0 : getAppBarContainer().getHideableHeightPx();
+            for (int i = 0; i < headersAdapter.getCount(); i++) {
+                if (i == 0){
+                    BookmarksFragment fragment = getBookmarkFragmentAt(i);
+                    if (fragment == null || fragment == currentFragment) {
+                        continue;
+                    }
+                    if (fragment.shouldBeScrolledToTop()) {
+                        fragment.scrollToTopWithOffset(px);
+                    }
+                } else {
+                    StoryFragment fragment = getStoryFragmentAt(i);
+                    if (fragment == null || fragment == currentFragment) {
+                        continue;
+                    }
+                    if (fragment.shouldBeScrolledToTop()) {
+                        fragment.scrollToTopWithOffset(px);
+                    }
+                }
+
+            }
+        }
+
+        private StoryFragment getStoryFragmentAt(int position) {
+            String tag = headersAdapter.getTag(position);
+            return (StoryFragment) getSupportFragmentManager().findFragmentByTag(tag);
+        }
+
+        private BookmarksFragment getBookmarkFragmentAt(int position) {
+            String tag = headersAdapter.getTag(position);
+            return (BookmarksFragment) getSupportFragmentManager().findFragmentByTag(tag);
+        }
+
+
+    }
 }
