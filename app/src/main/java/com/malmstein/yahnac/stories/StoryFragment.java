@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
@@ -170,7 +169,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
                         @Override
                         public void onNext(Integer total) {
-                            Toast.makeText(getActivity(), "total items:" + total, Toast.LENGTH_LONG);
+
                         }
                     });
         } else {

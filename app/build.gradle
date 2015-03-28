@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 14
-        versionName "1.0.0"
+        versionName "1.0.1"
 
         Calendar instance = Calendar.getInstance()
         instance.setTimeInMillis(System.currentTimeMillis())
