@@ -7,6 +7,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.tasks.FetchCommentsTask;
@@ -34,7 +35,11 @@ public class HNewsApi {
                 topStories.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        subscriber.onNext(dataSnapshot);
+                        if (dataSnapshot != null) {
+                            subscriber.onNext(dataSnapshot);
+                        } else {
+                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: getStories is empty for " + type.name());
+                        }
                         subscriber.onCompleted();
                     }
 
@@ -71,7 +76,11 @@ public class HNewsApi {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
-                                subscriber.onNext(mapStory(newItem, type, storyRoot.first));
+                                if (newItem != null) {
+                                    subscriber.onNext(mapStory(newItem, type, storyRoot.first));
+                                } else {
+                                    Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onDataChange is empty in " + storyRoot.second );
+                                }
                                 subscriber.onCompleted();
                             }
 
