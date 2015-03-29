@@ -35,6 +35,8 @@ public class ArticleActivity extends HNewsActivity {
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
 
+    private Menu menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,7 @@ public class ArticleActivity extends HNewsActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_article, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
@@ -122,10 +125,13 @@ public class ArticleActivity extends HNewsActivity {
             uncheckBookmarkMenuItem(item);
         } else {
             addBookmark(persister, getStory());
-            item.setChecked(true);
-            item.setIcon(R.drawable.ic_bookmark_white);
+            checkBookmarkMenuItem(item);
         }
         getStory().toggleBookmark();
+    }
+
+    private MenuItem getBookmarkMenuItem() {
+        return this.menu.findItem(R.id.action_bookmark);
     }
 
     private void checkBookmarkMenuItem(MenuItem bookmarks) {
@@ -140,11 +146,13 @@ public class ArticleActivity extends HNewsActivity {
 
     private void removeBookmark(DataPersister persister, Story story) {
         persister.removeBookmark(story);
+        uncheckBookmarkMenuItem(getBookmarkMenuItem());
         showRemovedBookmarkSnackbar(persister, story);
     }
 
     private void addBookmark(DataPersister persister, Story story) {
         persister.addBookmark(story);
+        checkBookmarkMenuItem(getBookmarkMenuItem());
         showAddedBookmarkSnackbar(persister, story);
     }
 
