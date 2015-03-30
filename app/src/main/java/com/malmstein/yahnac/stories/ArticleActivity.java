@@ -122,8 +122,7 @@ public class ArticleActivity extends HNewsActivity {
             uncheckBookmarkMenuItem(item);
         } else {
             addBookmark(persister, getStory());
-            item.setChecked(true);
-            item.setIcon(R.drawable.ic_bookmark_white);
+            checkBookmarkMenuItem(item);
         }
         getStory().toggleBookmark();
     }
@@ -157,6 +156,7 @@ public class ArticleActivity extends HNewsActivity {
                     public void onClick(View v) {
                         snackbarView.hideCrouton();
                         removeBookmark(persister, story);
+                        invalidateOptionsMenu();
                     }
                 })
                 .animating();
@@ -171,6 +171,7 @@ public class ArticleActivity extends HNewsActivity {
                     public void onClick(View v) {
                         snackbarView.hideCrouton();
                         addBookmark(persister, story);
+                        invalidateOptionsMenu();
                     }
                 })
                 .animating();
