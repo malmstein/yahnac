@@ -6,11 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.malmstein.yahnac.R;
 
-public class FooterWithTopDividerLayout extends LinearLayout {
+public class FooterWithTopDividerLayout extends RelativeLayout {
 
     private static final int HEIGHT_NONE = 0;
 
