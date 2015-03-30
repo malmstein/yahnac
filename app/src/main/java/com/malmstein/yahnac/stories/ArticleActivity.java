@@ -35,8 +35,6 @@ public class ArticleActivity extends HNewsActivity {
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
 
-    private Menu menu;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +83,6 @@ public class ArticleActivity extends HNewsActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_article, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
@@ -130,10 +127,6 @@ public class ArticleActivity extends HNewsActivity {
         getStory().toggleBookmark();
     }
 
-    private MenuItem getBookmarkMenuItem() {
-        return this.menu.findItem(R.id.action_bookmark);
-    }
-
     private void checkBookmarkMenuItem(MenuItem bookmarks) {
         bookmarks.setChecked(true);
         bookmarks.setIcon(R.drawable.ic_bookmark_white);
@@ -146,13 +139,11 @@ public class ArticleActivity extends HNewsActivity {
 
     private void removeBookmark(DataPersister persister, Story story) {
         persister.removeBookmark(story);
-        uncheckBookmarkMenuItem(getBookmarkMenuItem());
         showRemovedBookmarkSnackbar(persister, story);
     }
 
     private void addBookmark(DataPersister persister, Story story) {
         persister.addBookmark(story);
-        checkBookmarkMenuItem(getBookmarkMenuItem());
         showAddedBookmarkSnackbar(persister, story);
     }
 
@@ -165,6 +156,7 @@ public class ArticleActivity extends HNewsActivity {
                     public void onClick(View v) {
                         snackbarView.hideCrouton();
                         removeBookmark(persister, story);
+                        invalidateOptionsMenu();
                     }
                 })
                 .animating();
@@ -179,6 +171,7 @@ public class ArticleActivity extends HNewsActivity {
                     public void onClick(View v) {
                         snackbarView.hideCrouton();
                         addBookmark(persister, story);
+                        invalidateOptionsMenu();
                     }
                 })
                 .animating();
