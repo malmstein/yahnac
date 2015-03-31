@@ -23,6 +23,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     public static final int INITIAL_PAGE = 1;
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
+    private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private AppBarContainer appBarContainer;
     private ViewPager headersPager;
     private SlidingTabLayout slidingTabs;
@@ -85,7 +86,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     @Override
     public void onShareClicked(Intent shareIntent) {
-        startActivity(shareIntent);
+        Intent chooserIntent = Intent.createChooser(shareIntent, SHARE_DIALOG_DEFAULT_TITLE);
+        startActivity(chooserIntent);
     }
 
     @Override
