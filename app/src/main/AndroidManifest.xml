@@ -24,13 +24,11 @@
 
     <activity
       android:name="com.malmstein.yahnac.stories.ArticleActivity"
-      android:configChanges="keyboardHidden|orientation|screenSize"
-      android:launchMode="singleInstance" />
+      android:configChanges="keyboardHidden|orientation|screenSize" />
 
     <activity
       android:name="com.malmstein.yahnac.comments.CommentsActivity"
-      android:label="@string/title_comments"
-      android:launchMode="singleInstance" />
+      android:label="@string/title_comments" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"
