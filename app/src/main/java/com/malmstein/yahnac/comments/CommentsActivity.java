@@ -80,6 +80,7 @@ public class CommentsActivity extends HNewsActivity {
         switch (item.getItemId()) {
             case R.id.action_article:
                 navigate().toInnerBrowser(getStory());
+                finish();
                 return true;
             case R.id.action_bookmark:
                 onBookmarkClicked(item);

@@ -105,6 +105,7 @@ public class ArticleActivity extends HNewsActivity {
         switch (item.getItemId()) {
             case R.id.action_comments:
                 navigate().toComments(getStory());
+                finish();
                 return true;
             case R.id.action_bookmark:
                 onBookmarkClicked(item);
