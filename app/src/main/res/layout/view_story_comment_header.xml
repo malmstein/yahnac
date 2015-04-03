@@ -26,7 +26,7 @@
     android:paddingTop="@dimen/card_content_padding">
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
-      style="@style/HNews.Body1"
+      style="@style/HNews.Title"
       android:id="@+id/story_by"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
