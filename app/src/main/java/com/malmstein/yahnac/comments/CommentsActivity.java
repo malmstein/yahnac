@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import com.novoda.notils.caster.Views;
 
 public class CommentsActivity extends HNewsActivity {
 
+    public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
+
     private ShareActionProvider mShareActionProvider;
     private StoryHeaderView storyHeaderView;
     private SnackBarView snackbarView;
@@ -34,6 +37,8 @@ public class CommentsActivity extends HNewsActivity {
         setContentView(R.layout.activity_comments);
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
+
+        ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
         setupSubActivityWithTitle();
         setupStoryHeader();

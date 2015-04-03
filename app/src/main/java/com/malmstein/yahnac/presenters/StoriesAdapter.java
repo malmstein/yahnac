@@ -34,7 +34,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
+    public void onBindViewHolderCursor(final ViewHolder holder, Cursor cursor) {
         final Story story = Story.from(cursor);
 
         holder.title.setTextColor(story.isRead() ?
@@ -78,7 +78,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onCommentsClicked(v, story);
+                    listener.onCommentsClicked(holder.title, story);
                 }
             });
         }

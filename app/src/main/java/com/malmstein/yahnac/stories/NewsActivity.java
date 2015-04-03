@@ -94,7 +94,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
 
     @Override
     public void onCommentsClicked(View v, Story story) {
-        navigate().toComments(story);
+        navigate().toComments(v, story);
     }
 
     @Override

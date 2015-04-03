@@ -3,6 +3,9 @@ package com.malmstein.yahnac.base;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.view.View;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.comments.CommentsActivity;
@@ -41,6 +44,16 @@ public class Navigator {
 
             ActivityCompat.startActivity(activity, articleIntent, null);
         }
+    }
+
+    public void toComments(View v, Story story) {
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity, new Pair<>(v, CommentsActivity.VIEW_NAME_HEADER_TITLE));
+
+        Intent commentIntent = new Intent(activity, CommentsActivity.class);
+        commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
+
+        ActivityCompat.startActivity(activity, commentIntent, activityOptions.toBundle());
     }
 
     public void toComments(Story story) {
