@@ -47,6 +47,15 @@ public class ArticleActivity extends HNewsActivity {
         setupWebView();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        setTitle(getStory().getTitle());
+        webViewProgress.setVisibility(View.VISIBLE);
+        webView.loadUrl(getStory().getUrl());
+    }
+
     private Story getStory() {
         return (Story) getIntent().getExtras().getSerializable(ARG_STORY);
     }
