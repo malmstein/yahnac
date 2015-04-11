@@ -24,6 +24,13 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom" />
 
+    <ImageButton
+      android:id="@+id/fab_login"
+      style="@style/HNews.FloatingActionButton.Login"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom"/>
+
   </FrameLayout>
 
   <com.malmstein.yahnac.views.toolbar.AppBarContainer
