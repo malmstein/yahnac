@@ -24,13 +24,6 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom" />
 
-    <com.malmstein.yahnac.views.FloatingActionButton
-      android:id="@+id/fab_login"
-      style="@style/HNews.FloatingActionButton.Login"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="end|bottom" />
-
   </FrameLayout>
 
   <com.malmstein.yahnac.views.toolbar.AppBarContainer
@@ -47,6 +40,22 @@
       android:layout_height="wrap_content" />
 
   </com.malmstein.yahnac.views.toolbar.AppBarContainer>
+
+  <com.malmstein.yahnac.views.FloatingActionButton
+    android:id="@+id/fab_login"
+    style="@style/HNews.FloatingActionButton.Login"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end|bottom" />
+
+  <FrameLayout
+    android:id="@+id/feed_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+  </FrameLayout>
+
 
 </FrameLayout>
 
