@@ -24,12 +24,12 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom" />
 
-    <ImageButton
+    <com.malmstein.yahnac.views.FloatingActionButton
       android:id="@+id/fab_login"
       style="@style/HNews.FloatingActionButton.Login"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="end|bottom"/>
+      android:layout_gravity="end|bottom" />
 
   </FrameLayout>
 

@@ -15,11 +15,12 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
+import com.malmstein.yahnac.views.FloatingActionButton;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener{
+public class NewsActivity extends HNewsActivity implements StoryListener {
 
     public static final int INITIAL_PAGE = 1;
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
@@ -32,15 +33,22 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
+        setupViews();
+    }
+
+    private void setupViews() {
         setupHeaders();
         setupTabs();
         setupSnackbar();
         setupAppBar();
+        setupFab();
     }
 
     private void setupSnackbar() {
@@ -67,7 +75,10 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
 
     private void setupAppBar() {
         setTitle(getString(R.string.title_app));
+    }
 
+    private void setupFab(){
+        fab = Views.findById(this, R.id.fab_login);
     }
 
     @Override
@@ -131,8 +142,10 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
     public void onQuickReturnVisibilityChangeHint(boolean visible) {
         if (visible) {
             getAppBarContainer().showAppBar();
+            fab.showAnimated();
         } else {
             getAppBarContainer().hideAppBar();
+            fab.hideAnimated();
         }
     }
 
@@ -188,7 +201,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
             Fragment currentFragment = headersAdapter.getPrimaryItem();
             int px = getAppBarContainer().isAppBarShowing() ? 0 : getAppBarContainer().getHideableHeightPx();
             for (int i = 0; i < headersAdapter.getCount(); i++) {
-                if (i == 0){
+                if (i == 0) {
                     BookmarksFragment fragment = getBookmarkFragmentAt(i);
                     if (fragment == null || fragment == currentFragment) {
                         continue;
@@ -218,7 +231,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
             String tag = headersAdapter.getTag(position);
             return (BookmarksFragment) getSupportFragmentManager().findFragmentByTag(tag);
         }
-
 
     }
 }
