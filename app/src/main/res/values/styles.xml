@@ -84,4 +84,14 @@
     <item name="appBarLayout">@layout/include_app_bar</item>
   </style>
 
+  <style name="HNews.FloatingActionButton" parent="None">
+    <item name="android:background">@drawable/shape_fab_background</item>
+    <item name="android:layout_gravity">bottom|right</item>
+    <item name="android:layout_marginRight">@dimen/fab_margin</item>
+    <item name="android:layout_marginBottom">@dimen/fab_margin</item>
+    <item name="android:minWidth">@dimen/fab_min_size</item>
+    <item name="android:minHeight">@dimen/fab_min_size</item>
+  </style>
+
+
 </resources>

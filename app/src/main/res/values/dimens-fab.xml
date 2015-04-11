@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="fab_margin">16dp</dimen>
+  <dimen name="fab_min_size">56dp</dimen>
+  <dimen name="fab_text_size">16sp</dimen>
+  <dimen name="fab_elevation">4dp</dimen>
+
+</resources>
