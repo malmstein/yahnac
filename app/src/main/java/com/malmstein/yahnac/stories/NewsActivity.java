@@ -1,7 +1,5 @@
 package com.malmstein.yahnac.stories;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,14 +8,11 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 
 import com.malmstein.yahnac.HNewsActivity;
-import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
-import com.malmstein.yahnac.login.LoginFragment;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.FloatingActionButton;
@@ -87,46 +82,10 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoginBox();
-            }
-        });
-    }
-
-    @Override
-    public void onBackPressed() {
-        hideLoginBox();
-    }
-
-    private void showLoginBox() {
-        View root = Views.findById(this, R.id.feed_login);
-        root.setVisibility(View.VISIBLE);
-        int cx = (fab.getLeft() + fab.getRight()) / 2;
-        int cy = (fab.getTop() + fab.getBottom()) / 2;
-        HNewsFragment fragment = LoginFragment.newInstance(cx, cy);
-        getSupportFragmentManager().beginTransaction().add(R.id.feed_login, fragment).commit();
-        fab.hideAnimated();
-    }
-
-    private void hideLoginBox() {
-        // previously visible view
-        final View myView = findViewById(R.id.feed_login);
-
-        // get the center for the clipping circle
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-        // get the initial radius for the clipping circle
-        int initialRadius = myView.getWidth();
-
-        // create the animation (the final radius is zero)
-        Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-
-        // make the view invisible when the animation is done
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                myView.setVisibility(View.INVISIBLE);
+                int cx = (fab.getLeft() + fab.getRight()) / 2;
+                int cy = (fab.getTop() + fab.getBottom()) / 2;
+                fab.hideAnimated();
+                navigate().toLogin(cx, cy);
             }
         });
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <FrameLayout
+    android:id="@+id/login_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/appbar_tab_height" />
+
+  <com.malmstein.yahnac.views.toolbar.AppBarContainer
+    style="@style/HNews.AppBar.NewsContainer"
+    android:id="@+id/app_bar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/Base.TextAppearance.AppCompat.Subhead"
+      android:textColor="@color/white"
+      android:layout_width="match_parent"
+      android:text="Add your account"
+      android:gravity="bottom"
+      android:layout_height="200dp"
+      android:background="@color/orange"
+      android:paddingTop="16dp"
+      android:paddingRight="16dp"
+      android:paddingBottom="16dp"
+      android:paddingLeft="32dp" />
+
+  </com.malmstein.yahnac.views.toolbar.AppBarContainer>
+
+</FrameLayout>
