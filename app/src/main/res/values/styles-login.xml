@@ -31,7 +31,7 @@
     <item name="android:paddingLeft">@dimen/form_padding</item>
     <item name="android:text">@string/action_login</item>
     <item name="android:textAllCaps">true</item>
-    <item name="android:textColor">@color/orange</item>
+    <item name="android:textColor">@color/black</item>
   </style>
 
 </resources>
