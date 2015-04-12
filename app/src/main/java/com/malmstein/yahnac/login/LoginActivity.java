@@ -21,7 +21,7 @@ public class LoginActivity extends HNewsActivity {
     private EditText usernameView;
     private EditText passwordView;
 
-    private InputFieldValidator inputFieldValidator;
+    private InputFieldValidator inputFieldValidator = new InputFieldValidator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

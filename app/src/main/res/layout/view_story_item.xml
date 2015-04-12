@@ -45,7 +45,7 @@
             android:id="@+id/article_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/grey"
             tools:text="1h ago" />
 
           <com.malmstein.yahnac.views.fonts.YahnacTextView
@@ -53,7 +53,7 @@
             android:id="@+id/article_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/grey"
             android:paddingLeft="@dimen/card_content_padding"
             tools:text="user" />
 
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/grey"
             tools:text="12 points" />
 
         </LinearLayout>

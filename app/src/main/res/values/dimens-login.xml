@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="form_side_padding">32dp</dimen>
+  <dimen name="form_padding">16dp</dimen>
+  <dimen name="header_height">100dp</dimen>
+
+</resources>

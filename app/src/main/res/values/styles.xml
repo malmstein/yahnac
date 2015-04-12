@@ -25,10 +25,10 @@
 
   <style name="HNews.DropDownListView" parent="Widget.AppCompat.ListView.DropDown">
     <item name="android:listSelector">@drawable/selectable_background</item>
-    <item name="android:divider">@color/light_grey</item>
+    <item name="android:divider">@color/grey</item>
     <item name="android:dividerHeight">1dp</item>
 
-    <item name="divider">@color/light_grey</item>
+    <item name="divider">@color/grey</item>
   </style>
 
   <style name="HNews.List" parent="None">

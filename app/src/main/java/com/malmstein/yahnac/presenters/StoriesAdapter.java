@@ -38,7 +38,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         final Story story = Story.from(cursor);
 
         holder.title.setTextColor(story.isRead() ?
-                holder.title.getResources().getColor(R.color.light_grey) :
+                holder.title.getResources().getColor(R.color.grey) :
                 holder.title.getResources().getColor(R.color.black));
 
         holder.title.setText(story.getTitle());

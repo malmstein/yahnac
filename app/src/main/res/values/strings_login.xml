@@ -4,4 +4,11 @@
   <string name="login_username_not_valid">Please enter a valid email address</string>
   <string name="login_password_not_valid">Please enter a valid password</string>
 
+  <string name="hint_username">Enter your username</string>
+  <string name="hint_password">Enter your password</string>
+
+  <string name="title_add_account">Add your account</string>
+
+  <string name="action_login">Login</string>
+
 </resources>

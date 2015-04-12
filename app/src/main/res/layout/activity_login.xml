@@ -13,41 +13,25 @@
     android:layout_height="wrap_content">
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
-      style="@style/Base.TextAppearance.AppCompat.Subhead"
-      android:textColor="@color/white"
+      style="@style/HNews.Login.Header"
       android:layout_width="match_parent"
-      android:text="Add your account"
       android:gravity="bottom"
-      android:layout_height="140dp"
-      android:background="@color/orange"
-      android:paddingTop="16dp"
-      android:paddingRight="16dp"
-      android:paddingBottom="16dp"
-      android:paddingLeft="32dp" />
+      android:layout_height="@dimen/header_height" />
 
   </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
   <EditText
-    android:layout_marginLeft="@dimen/form_padding"
-    android:layout_marginRight="@dimen/form_padding"
-    android:layout_marginTop="@dimen/form_padding"
-    android:layout_marginBottom="@dimen/default_padding"
+    style="@style/HNews.Login.EditText.Username"
     android:id="@+id/login_username"
-    android:inputType="text"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Enter your username" />
+    android:layout_height="wrap_content" />
 
   <EditText
-    android:layout_marginLeft="@dimen/form_padding"
-    android:layout_marginRight="@dimen/form_padding"
+    style="@style/HNews.Login.EditText.Password"
     android:layout_marginTop="@dimen/default_padding"
-    android:layout_marginBottom="@dimen/default_padding"
     android:id="@+id/login_password"
-    android:inputType="textPassword"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Enter your password" />
+    android:layout_height="wrap_content" />
 
   <FrameLayout
     android:layout_gravity="bottom"
@@ -63,17 +47,12 @@
 
       <Button
         android:id="@+id/login_action"
-        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        style="@style/HNews.Login.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:gravity="center"
-        android:paddingTop="@dimen/card_content_padding"
-        android:paddingBottom="@dimen/card_content_padding"
-        android:paddingLeft="@dimen/card_content_padding"
-        android:paddingRight="32dp"
-        android:text="LOGIN"
-        android:background="@drawable/selector_card_button" />
+        android:minHeight="@dimen/abc_action_bar_default_height_material"
+        android:layout_marginRight="@dimen/form_padding"
+        android:gravity="center" />
 
     </LinearLayout>
 
