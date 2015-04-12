@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
+  android:id="@+id/login_root"
   android:layout_height="match_parent"
   android:layout_width="match_parent"
+  android:orientation="vertical"
   xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <FrameLayout
-    android:id="@+id/login_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/appbar_tab_height" />
 
   <com.malmstein.yahnac.views.toolbar.AppBarContainer
     style="@style/HNews.AppBar.NewsContainer"
@@ -22,7 +18,7 @@
       android:layout_width="match_parent"
       android:text="Add your account"
       android:gravity="bottom"
-      android:layout_height="200dp"
+      android:layout_height="140dp"
       android:background="@color/orange"
       android:paddingTop="16dp"
       android:paddingRight="16dp"
@@ -31,4 +27,57 @@
 
   </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
-</FrameLayout>
+  <EditText
+    android:layout_marginLeft="@dimen/form_padding"
+    android:layout_marginRight="@dimen/form_padding"
+    android:layout_marginTop="@dimen/form_padding"
+    android:layout_marginBottom="@dimen/default_padding"
+    android:id="@+id/login_username"
+    android:inputType="text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter your username" />
+
+  <EditText
+    android:layout_marginLeft="@dimen/form_padding"
+    android:layout_marginRight="@dimen/form_padding"
+    android:layout_marginTop="@dimen/default_padding"
+    android:layout_marginBottom="@dimen/default_padding"
+    android:id="@+id/login_password"
+    android:inputType="textPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter your password" />
+
+  <FrameLayout
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+      android:layout_gravity="bottom"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/light_grey"
+      android:gravity="right">
+
+      <Button
+        android:id="@+id/login_action"
+        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:gravity="center"
+        android:paddingTop="@dimen/card_content_padding"
+        android:paddingBottom="@dimen/card_content_padding"
+        android:paddingLeft="@dimen/card_content_padding"
+        android:paddingRight="32dp"
+        android:text="LOGIN"
+        android:background="@drawable/selector_card_button" />
+
+    </LinearLayout>
+
+  </FrameLayout>
+
+
+</LinearLayout>

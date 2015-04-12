@@ -84,7 +84,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
             public void onClick(View v) {
                 int cx = (fab.getLeft() + fab.getRight()) / 2;
                 int cy = (fab.getTop() + fab.getBottom()) / 2;
-                fab.hideAnimated();
                 navigate().toLogin(cx, cy);
             }
         });

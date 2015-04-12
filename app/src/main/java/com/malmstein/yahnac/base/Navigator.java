@@ -12,7 +12,6 @@ import com.malmstein.yahnac.comments.CommentsActivity;
 import com.malmstein.yahnac.comments.CommentsFragment;
 import com.malmstein.yahnac.connectivity.NetworkDetector;
 import com.malmstein.yahnac.login.LoginActivity;
-import com.malmstein.yahnac.login.LoginFragment;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
@@ -72,8 +71,8 @@ public class Navigator {
 
     public void toLogin(int cx, int cy) {
         Intent loginIntent = new Intent(activity, LoginActivity.class);
-        loginIntent.putExtra(LoginFragment.EXTRA_CX, cx);
-        loginIntent.putExtra(LoginFragment.EXTRA_CY, cy);
+        loginIntent.putExtra(LoginActivity.EXTRA_CX, cx);
+        loginIntent.putExtra(LoginActivity.EXTRA_CY, cy);
 
         ActivityCompat.startActivity(activity, loginIntent, null);
         activity.overridePendingTransition(0, 0);
