@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="login_username_not_valid">Please enter a valid email address</string>
+  <string name="login_password_not_valid">Please enter a valid password</string>
+
+</resources>

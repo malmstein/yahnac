@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsFragment;
@@ -17,6 +18,11 @@ public class LoginFragment extends HNewsFragment {
 
     public static final String EXTRA_CX = BuildConfig.APPLICATION_ID + "EXTRA_CX";
     public static final String EXTRA_CY = BuildConfig.APPLICATION_ID + "EXTRA_CY";
+
+    private EditText usernameView;
+    private EditText passwordView;
+
+    private InputFieldValidator inputFieldValidator;
 
     public LoginFragment() {
     }
@@ -47,15 +53,43 @@ public class LoginFragment extends HNewsFragment {
             }
         });
 
-        TextView login = Views.findById(rootView, R.id.login_action);
+        usernameView = Views.findById(rootView, R.id.login_username);
+        passwordView = Views.findById(rootView, R.id.login_password);
+
+        Button login = Views.findById(rootView, R.id.login_action);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (validate()) {
+
+                }
 
             }
         });
 
         return rootView;
+    }
+
+    protected String getPassword() {
+        return passwordView.getText().toString();
+    }
+
+    protected String getUsername() {
+        return usernameView.getText().toString();
+    }
+
+    private boolean validate() {
+        boolean isUsernameValid = inputFieldValidator.isValid(getUsername());
+        boolean isPasswordValid = inputFieldValidator.isValid(getPassword());
+        if (!isPasswordValid) {
+            passwordView.setError(getString(R.string.login_password_not_valid));
+            passwordView.requestFocus();
+        }
+        if (!isUsernameValid) {
+            usernameView.setError(getString(R.string.login_username_not_valid));
+            usernameView.requestFocus();
+        }
+        return isUsernameValid && isPasswordValid;
     }
 
 }

@@ -56,7 +56,7 @@
       android:background="@color/light_grey"
       android:gravity="right">
 
-      <com.malmstein.yahnac.views.fonts.YahnacTextView
+      <Button
         android:id="@+id/login_action"
         style="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
@@ -67,7 +67,8 @@
         android:paddingBottom="@dimen/card_content_padding"
         android:paddingLeft="@dimen/card_content_padding"
         android:paddingRight="32dp"
-        android:text="LOGIN"/>
+        android:text="LOGIN"
+        android:background="@drawable/selector_card_button"/>
 
     </LinearLayout>
 
