@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.Story;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshTimestamp;
 
@@ -23,11 +24,13 @@ public class DataRepository {
     private final HNewsApi api;
     private final DataPersister dataPersister;
     private final RefreshSharedPreferences refreshPreferences;
+    private final LoginSharedPreferences loginSharedPreferences;
 
     public DataRepository(DataPersister dataPersister) {
         this.dataPersister = dataPersister;
         this.api = new HNewsApi();
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
+        this.loginSharedPreferences = LoginSharedPreferences.newInstance().newInstance();
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
@@ -83,7 +86,9 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Login.Status>() {
                             @Override
                             public void call(Subscriber<? super Login.Status> subscriber) {
-                                dataPersister.persistComments(commentsJsoup, storyId);
+                                if (login.getStatus() == Login.Status.SUCCESSFUL){
+                                    loginSharedPreferences.saveLogin(login);
+                                }
                                 subscriber.onNext(login.getStatus());
                                 subscriber.onCompleted();
                             }

@@ -12,6 +12,7 @@ import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.views.AnimationFactory;
 import com.novoda.notils.caster.Views;
 
@@ -75,12 +76,12 @@ public class LoginActivity extends HNewsActivity {
     }
 
     private void login() {
-        startRefreshing();
+
         DataRepository dataRepository = Inject.dataRepository();
         subscription = dataRepository
-                .observeComments(getStory().getId())
+                .observeLogin(getUsername(), getPassword())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
+                .subscribe(new Observer<Login.Status>() {
                     @Override
                     public void onCompleted() {
                         if (!subscription.isUnsubscribed()) {
@@ -90,12 +91,17 @@ public class LoginActivity extends HNewsActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getCommentsFrom " + getStory().getId(), e);
+                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: login: " + getUsername(), e);
                     }
 
                     @Override
-                    public void onNext(Integer header) {
-
+                    public void onNext(Login.Status status) {
+                        if (status == Login.Status.SUCCESSFUL) {
+                            finish();
+                        } else {
+                            usernameView.setError(getString(R.string.login_username_not_valid));
+                            passwordView.setError(getString(R.string.login_password_not_valid));
+                        }
                     }
                 });
 

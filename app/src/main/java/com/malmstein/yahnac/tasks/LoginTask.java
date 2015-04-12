@@ -19,8 +19,8 @@ import org.jsoup.nodes.Document;
 
 public class LoginTask {
 
-    static String LOGIN_PAGE_URL = "https://news.ycombinator.com/login";
-    static String LOGIN_URL = "https://news.ycombinator.com/x";
+    private String LOGIN_PAGE_URL = "https://news.ycombinator.com/login";
+    private String LOGIN_URL = "https://news.ycombinator.com/x";
 
     private final String username;
     private final String password;
