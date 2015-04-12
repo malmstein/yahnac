@@ -8,10 +8,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.tasks.FetchCommentsTask;
 import com.malmstein.yahnac.tasks.FetchStoriesTask;
+import com.malmstein.yahnac.tasks.LoginTask;
 import com.novoda.notils.logger.simple.Log;
 
 import java.io.IOException;
@@ -220,4 +222,37 @@ public class HNewsApi {
         }
     }
 
+    Observable<Login> login(String username, String password) {
+        return Observable.create(
+                new LoginOnSubscribe(username, password))
+                .subscribeOn(Schedulers.io());
+    }
+
+    private static class LoginOnSubscribe implements Observable.OnSubscribe<Login> {
+
+        private final String username;
+        private final String password;
+        private Subscriber<? super Login> subscriber;
+
+        private LoginOnSubscribe(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        public void call(Subscriber<? super Login> subscriber) {
+            this.subscriber = subscriber;
+            attemptLogin();
+            subscriber.onCompleted();
+        }
+
+        private void attemptLogin() {
+            try {
+                Login login = new LoginTask(username, password).execute();
+                subscriber.onNext(login);
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
 }

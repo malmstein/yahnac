@@ -10,8 +10,14 @@ import android.widget.EditText;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.views.AnimationFactory;
 import com.novoda.notils.caster.Views;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class LoginActivity extends HNewsActivity {
 
@@ -22,6 +28,8 @@ public class LoginActivity extends HNewsActivity {
     private EditText passwordView;
 
     private InputFieldValidator inputFieldValidator = new InputFieldValidator();
+
+    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +67,38 @@ public class LoginActivity extends HNewsActivity {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-
+                    login();
                 }
 
             }
         });
+    }
+
+    private void login() {
+        startRefreshing();
+        DataRepository dataRepository = Inject.dataRepository();
+        subscription = dataRepository
+                .observeComments(getStory().getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: getCommentsFrom " + getStory().getId(), e);
+                    }
+
+                    @Override
+                    public void onNext(Integer header) {
+
+                    }
+                });
+
     }
 
     protected String getPassword() {

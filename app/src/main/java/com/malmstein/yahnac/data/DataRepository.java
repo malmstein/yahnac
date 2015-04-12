@@ -2,7 +2,7 @@ package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.model.StoriesJsoup;
+import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshTimestamp;
@@ -59,34 +59,7 @@ public class DataRepository {
                 });
     }
 
-    public Observable<String> observeStories(Story.TYPE type, String nextUrl) {
-        return getStories(type, nextUrl);
-    }
-
-    private Observable<String> getStories(final Story.TYPE type, final String nextUrl) {
-        return api.getStories(type, nextUrl)
-                .flatMap(new Func1<StoriesJsoup, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(final StoriesJsoup stories) {
-                        return Observable.create(new Observable.OnSubscribe<String>() {
-                            @Override
-                            public void call(Subscriber<? super String> subscriber) {
-                                refreshPreferences.saveRefreshTick(type);
-                                dataPersister.persistStories(stories.getStories());
-                                subscriber.onNext(stories.getNextUrl());
-                                subscriber.onCompleted();
-                            }
-                        });
-                    }
-                });
-
-    }
-
     public Observable<Integer> observeComments(final Long storyId) {
-        return getComments(storyId);
-    }
-
-    private Observable<Integer> getComments(final Long storyId) {
         return api.getCommentsFromStory(storyId)
                 .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
                     @Override
@@ -101,5 +74,24 @@ public class DataRepository {
                     }
                 });
     }
+
+    public Observable<Login.Status> observeLogin(final String username, final String password) {
+        return api.login(username, password)
+                .flatMap(new Func1<Login, Observable<Login.Status>>() {
+                    @Override
+                    public Observable<Login.Status> call(final Login login) {
+                        return Observable.create(new Observable.OnSubscribe<Login.Status>() {
+                            @Override
+                            public void call(Subscriber<? super Login.Status> subscriber) {
+                                dataPersister.persistComments(commentsJsoup, storyId);
+                                subscriber.onNext(login.getStatus());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
+
+
 
 }
