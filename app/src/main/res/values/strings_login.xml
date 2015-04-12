@@ -8,6 +8,7 @@
   <string name="hint_password">Enter your password</string>
 
   <string name="title_add_account">Add your account</string>
+  <string name="title_checking_account">Checking account...</string>
 
   <string name="action_login">Login</string>
 

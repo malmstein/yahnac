@@ -48,7 +48,7 @@ public class LoginTask {
 
             HttpResponse response = httpclient.execute(httppost);
             Header[] cookies = response.getHeaders("Set-Cookie");
-            if (cookies.length > 1) {
+            if (cookies.length > 0) {
                 String cookie = null;
                 for (int i = 0; i < cookies.length; i++) {
                     cookie += cookies[i].getValue() + ';';

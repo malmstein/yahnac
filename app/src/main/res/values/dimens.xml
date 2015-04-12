@@ -36,4 +36,6 @@
   <dimen name="app_bar_shadow_height">4dp</dimen>
   <dimen name="app_bar_shadow_no_height">0dp</dimen>
   <dimen name="toolbar_elevation">6dp</dimen>
+
+  <dimen name="progressbar_fix">-8dp</dimen>
 </resources>

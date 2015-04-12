@@ -4,7 +4,6 @@
   <style name="HNews.Login.Header" parent="@style/Base.TextAppearance.AppCompat.Title">
     <item name="android:textColor">@color/white</item>
     <item name="android:text">@string/title_add_account</item>
-    <item name="android:paddingBottom">@dimen/form_padding</item>
     <item name="android:paddingLeft">@dimen/form_side_padding</item>
     <item name="android:background">@color/orange</item>
   </style>

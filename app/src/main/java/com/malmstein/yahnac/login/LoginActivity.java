@@ -2,10 +2,14 @@ package com.malmstein.yahnac.login;
 
 import android.animation.Animator;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsActivity;
@@ -27,6 +31,8 @@ public class LoginActivity extends HNewsActivity {
 
     private EditText usernameView;
     private EditText passwordView;
+    private TextView titleView;
+    private ProgressBar progressBar;
 
     private InputFieldValidator inputFieldValidator = new InputFieldValidator();
 
@@ -62,6 +68,18 @@ public class LoginActivity extends HNewsActivity {
 
         usernameView = Views.findById(this, R.id.login_username);
         passwordView = Views.findById(this, R.id.login_password);
+        passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (validate()) {
+                        login();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         Button login = Views.findById(this, R.id.login_action);
         login.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +88,15 @@ public class LoginActivity extends HNewsActivity {
                 if (validate()) {
                     login();
                 }
-
             }
         });
+
+        titleView = Views.findById(this, R.id.login_title);
+        progressBar = Views.findById(this, R.id.login_progress);
     }
 
     private void login() {
-
+        showProgress();
         DataRepository dataRepository = Inject.dataRepository();
         subscription = dataRepository
                 .observeLogin(getUsername(), getPassword())
@@ -99,12 +119,23 @@ public class LoginActivity extends HNewsActivity {
                         if (status == Login.Status.SUCCESSFUL) {
                             finish();
                         } else {
+                            hideProgress();
                             usernameView.setError(getString(R.string.login_username_not_valid));
                             passwordView.setError(getString(R.string.login_password_not_valid));
                         }
                     }
                 });
 
+    }
+
+    private void showProgress() {
+        titleView.setText(R.string.title_checking_account);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        titleView.setText(R.string.title_add_account);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     protected String getPassword() {
