@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".NewsActivity"
-  android:background="@color/orange">
+  android:orientation="vertical"
+  android:background="@color/app_background">
 
-</RelativeLayout>
+  <com.malmstein.yahnac.views.fonts.YahnacTextView
+    style="@style/Base.TextAppearance.AppCompat.Subhead"
+    android:textColor="@color/white"
+    android:layout_width="match_parent"
+    android:text="Add your account"
+    android:gravity="bottom"
+    android:layout_height="200dp"
+    android:background="@color/orange"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="32dp" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingRight="32dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="32dp"
+    android:orientation="vertical">
+
+    <EditText
+      android:id="@+id/login_username"
+      android:inputType="text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Enter your username" />
+
+    <EditText
+      android:id="@+id/login_password"
+      android:inputType="textPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Enter your password" />
+
+  </LinearLayout>
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+      android:layout_gravity="bottom"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/light_grey"
+      android:gravity="right">
+
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        android:id="@+id/login_action"
+        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:gravity="center"
+        android:paddingTop="@dimen/card_content_padding"
+        android:paddingBottom="@dimen/card_content_padding"
+        android:paddingLeft="@dimen/card_content_padding"
+        android:paddingRight="32dp"
+        android:text="LOGIN"/>
+
+    </LinearLayout>
+
+  </FrameLayout>
+
+</LinearLayout>

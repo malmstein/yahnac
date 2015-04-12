@@ -104,6 +104,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         int cy = (fab.getTop() + fab.getBottom()) / 2;
         HNewsFragment fragment = LoginFragment.newInstance(cx, cy);
         getSupportFragmentManager().beginTransaction().add(R.id.feed_login, fragment).commit();
+        fab.hideAnimated();
     }
 
     private void hideLoginBox() {

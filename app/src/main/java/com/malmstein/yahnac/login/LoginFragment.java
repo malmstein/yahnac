@@ -4,13 +4,14 @@ import android.animation.Animator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.views.AnimationFactory;
+import com.novoda.notils.caster.Views;
 
 public class LoginFragment extends HNewsFragment {
 
@@ -36,15 +37,21 @@ public class LoginFragment extends HNewsFragment {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 v.removeOnLayoutChangeListener(this);
-                int cx = getArguments().getInt("cx");
-                int cy = getArguments().getInt("cy");
 
+                int cx = getArguments().getInt(EXTRA_CX);
+                int cy = getArguments().getInt(EXTRA_CY);
                 int radius = (int) Math.hypot(right, bottom);
 
-                Animator reveal = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, radius);
-                reveal.setInterpolator(new DecelerateInterpolator(2f));
-                reveal.setDuration(1000);
+                Animator reveal = AnimationFactory.createRevealAnimation(v, cx, cy, radius);
                 reveal.start();
+            }
+        });
+
+        TextView login = Views.findById(rootView, R.id.login_action);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
