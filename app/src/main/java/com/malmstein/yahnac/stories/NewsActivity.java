@@ -12,6 +12,7 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
@@ -43,12 +44,17 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
         setupViews();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupFab();
+    }
+
     private void setupViews() {
         setupHeaders();
         setupTabs();
         setupSnackbar();
         setupAppBar();
-        setupFab();
     }
 
     private void setupSnackbar() {
@@ -79,14 +85,19 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
 
     private void setupFab() {
         fab = Views.findById(this, R.id.fab_login);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int cx = (fab.getLeft() + fab.getRight()) / 2;
-                int cy = (fab.getTop() + fab.getBottom()) / 2;
-                navigate().toLogin(cx, cy);
-            }
-        });
+        DataRepository dataRepository = Inject.dataRepository();
+        if (dataRepository.isLoggedIn()){
+            fab.setVisibility(View.GONE);
+        } else {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int cx = (fab.getLeft() + fab.getRight()) / 2;
+                    int cy = (fab.getTop() + fab.getBottom()) / 2;
+                    navigate().toLogin(cx, cy);
+                }
+            });
+        }
     }
 
     @Override

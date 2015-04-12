@@ -41,7 +41,10 @@ public class DataRepository {
         RefreshTimestamp now = RefreshTimestamp.now();
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
         return elapsedTime > maxMillisWithoutUpgrade;
+    }
 
+    public boolean isLoggedIn(){
+        return loginSharedPreferences.getLogin().getStatus() == Login.Status.SUCCESSFUL;
     }
 
     public Observable<Integer> getStories(final Story.TYPE type) {
