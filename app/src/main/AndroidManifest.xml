@@ -14,7 +14,8 @@
     android:theme="@style/Theme.HNews">
     <activity
       android:name="com.malmstein.yahnac.stories.NewsActivity"
-      android:label="@string/title_launcher">
+      android:label="@string/title_launcher"
+      android:theme="@style/Theme.HNews.News">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -29,9 +30,6 @@
     <activity
       android:name="com.malmstein.yahnac.comments.CommentsActivity"
       android:label="@string/title_comments" />
-
-    <activity
-      android:name="com.malmstein.yahnac.login.LoginActivity" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"

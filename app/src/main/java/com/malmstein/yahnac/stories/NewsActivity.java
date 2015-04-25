@@ -3,6 +3,7 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.FloatingActionButton;
@@ -21,7 +23,7 @@ import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener {
+public class NewsActivity extends HNewsActivity implements StoryListener, LoginDialog.Listener {
 
     public static final int INITIAL_PAGE = 1;
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
@@ -86,15 +88,15 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
     private void setupFab() {
         fab = Views.findById(this, R.id.fab_login);
         DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.isLoggedIn()){
+        if (dataRepository.isLoggedIn()) {
             fab.setVisibility(View.GONE);
         } else {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int cx = (fab.getLeft() + fab.getRight()) / 2;
-                    int cy = (fab.getTop() + fab.getBottom()) / 2;
-                    navigate().toLogin(cx, cy);
+                    fab.hideAnimated();
+                    DialogFragment loginDialog = new LoginDialog();
+                    loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
                 }
             });
         }
@@ -204,6 +206,16 @@ public class NewsActivity extends HNewsActivity implements StoryListener {
                     }
                 })
                 .animating();
+    }
+
+    @Override
+    public void onLoginSucceed() {
+
+    }
+
+    @Override
+    public void onLoginCancelled() {
+       fab.showAnimated();
     }
 
     private class StoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
