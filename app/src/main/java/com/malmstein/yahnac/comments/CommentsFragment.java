@@ -21,8 +21,8 @@ import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.DeveloperError;
-import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.data.HNewsContract;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
@@ -93,8 +93,8 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void getComments() {
         if (isOnline()) {
             startRefreshing();
-            DataRepository dataRepository = Inject.dataRepository();
-            subscription = dataRepository
+            Provider provider = Inject.provider();
+            subscription = provider
                     .observeComments(getStory().getId())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {

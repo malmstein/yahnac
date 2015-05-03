@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Login;
 import com.novoda.notils.caster.Views;
@@ -125,8 +125,8 @@ public class LoginDialog extends DialogFragment {
 
     private void login() {
         showProgress();
-        DataRepository dataRepository = Inject.dataRepository();
-        subscription = dataRepository
+        Provider provider = Inject.provider();
+        subscription = provider
                 .observeLogin(getUsername(), getPassword())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Login.Status>() {

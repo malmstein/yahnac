@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.TimeAgo;
-import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
@@ -93,8 +93,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private void maybeUpdateContent() {
         if (isOnline()) {
-            DataRepository dataRepository = Inject.dataRepository();
-            if (dataRepository.shouldUpdateContent(getType())) {
+            Provider provider = Inject.provider();
+            if (provider.shouldUpdateContent(getType())) {
                 startRefreshing();
                 onRefresh();
             }
@@ -150,8 +150,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private void subscribeToStories() {
         if (isOnline()) {
-            DataRepository dataRepository = Inject.dataRepository();
-            subscription = dataRepository
+            Provider provider = Inject.provider();
+            subscription = provider
                     .getStories(getType())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {

@@ -13,7 +13,7 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
-import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
@@ -87,8 +87,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
 
     private void setupFab() {
         fab = Views.findById(this, R.id.fab_login);
-        DataRepository dataRepository = Inject.dataRepository();
-        if (dataRepository.isLoggedIn()) {
+        Provider provider = Inject.provider();
+        if (provider.isLoggedIn()) {
             fab.setVisibility(View.GONE);
         } else {
             fab.setOnClickListener(new View.OnClickListener() {

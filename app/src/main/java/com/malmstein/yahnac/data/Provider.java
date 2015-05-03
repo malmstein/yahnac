@@ -16,7 +16,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
 
-public class DataRepository {
+public class Provider {
 
     private static final long MILLIS_IN_AMINUTE = TimeUnit.MINUTES.toMillis(1);
     private static final long maxMillisWithoutUpgrade = 60 * MILLIS_IN_AMINUTE;
@@ -26,7 +26,7 @@ public class DataRepository {
     private final RefreshSharedPreferences refreshPreferences;
     private final LoginSharedPreferences loginSharedPreferences;
 
-    public DataRepository(DataPersister dataPersister) {
+    public Provider(DataPersister dataPersister) {
         this.dataPersister = dataPersister;
         this.api = new HNewsApi();
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
@@ -89,9 +89,9 @@ public class DataRepository {
                         return Observable.create(new Observable.OnSubscribe<Login.Status>() {
                             @Override
                             public void call(Subscriber<? super Login.Status> subscriber) {
-                                if (login.getStatus() == Login.Status.SUCCESSFUL){
-                                    loginSharedPreferences.saveLogin(login);
-                                }
+//                                if (login.getStatus() == Login.Status.SUCCESSFUL){
+//                                    loginSharedPreferences.saveLogin(login);
+//                                }
                                 subscriber.onNext(login.getStatus());
                                 subscriber.onCompleted();
                             }
