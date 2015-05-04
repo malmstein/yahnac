@@ -43,7 +43,7 @@ public class Provider {
         return elapsedTime > maxMillisWithoutUpgrade;
     }
 
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return loginSharedPreferences.getLogin().getStatus() == Login.Status.SUCCESSFUL;
     }
 
@@ -89,9 +89,7 @@ public class Provider {
                         return Observable.create(new Observable.OnSubscribe<Login.Status>() {
                             @Override
                             public void call(Subscriber<? super Login.Status> subscriber) {
-//                                if (login.getStatus() == Login.Status.SUCCESSFUL){
-//                                    loginSharedPreferences.saveLogin(login);
-//                                }
+                                loginSharedPreferences.saveLogin(login);
                                 subscriber.onNext(login.getStatus());
                                 subscriber.onCompleted();
                             }
@@ -99,7 +97,5 @@ public class Provider {
                     }
                 });
     }
-
-
 
 }

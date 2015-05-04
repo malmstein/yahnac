@@ -145,6 +145,7 @@ public class LoginDialog extends DialogFragment {
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
+                            dismiss();
                             listener.onLoginSucceed();
                         } else {
                             hideProgress();
