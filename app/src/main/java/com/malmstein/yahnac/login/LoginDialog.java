@@ -139,7 +139,7 @@ public class LoginDialog extends DialogFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("DataRepository: login: " + getUsername(), e);
+                        Inject.crashAnalytics().logSomethingWentWrong("Provider: login: " + getUsername(), e);
                     }
 
                     @Override
