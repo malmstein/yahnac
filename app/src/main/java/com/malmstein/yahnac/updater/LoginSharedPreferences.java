@@ -46,4 +46,11 @@ public class LoginSharedPreferences {
         }
     }
 
+    public boolean isLoggedIn() {
+        return getLogin().getStatus() == Login.Status.SUCCESSFUL;
+    }
+
+    public String getCookie() {
+        return getLogin().getCookie();
+    }
 }

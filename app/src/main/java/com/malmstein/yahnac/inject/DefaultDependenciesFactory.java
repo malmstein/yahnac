@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.malmstein.yahnac.analytics.CrashAnalytics;
 import com.malmstein.yahnac.analytics.CrashlyticsAnalytics;
+import com.malmstein.yahnac.data.ConnectionProvider;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
 
@@ -28,6 +29,11 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     @Override
     public CrashAnalytics createCrashAnalytics() {
         return new CrashlyticsAnalytics();
+    }
+
+    @Override
+    public ConnectionProvider createConnection() {
+        return new ConnectionProvider();
     }
 
 }
