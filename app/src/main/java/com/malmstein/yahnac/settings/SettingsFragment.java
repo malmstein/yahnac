@@ -9,10 +9,12 @@ import android.preference.PreferenceFragment;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 
 public class SettingsFragment extends PreferenceFragment {
 
     private Listener listener;
+    private LoginSharedPreferences loginSharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,10 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        loginSharedPreferences = LoginSharedPreferences.newInstance();
+        logoutNotification.setEnabled(loginSharedPreferences.isLoggedIn());
+
     }
 
     private void addPreferenceClickListenerForSoftwareLicenses() {
