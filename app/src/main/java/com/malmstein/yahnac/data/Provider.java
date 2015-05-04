@@ -30,7 +30,7 @@ public class Provider {
         this.dataPersister = dataPersister;
         this.api = new HNewsApi();
         this.refreshPreferences = RefreshSharedPreferences.newInstance();
-        this.loginSharedPreferences = LoginSharedPreferences.newInstance().newInstance();
+        this.loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {

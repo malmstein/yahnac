@@ -1,6 +1,7 @@
 package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
+import android.text.TextUtils;
 import android.util.Pair;
 
 import com.firebase.client.DataSnapshot;
@@ -13,13 +14,14 @@ import com.malmstein.yahnac.model.StoriesJsoup;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.tasks.FetchCommentsTask;
 import com.malmstein.yahnac.tasks.FetchStoriesTask;
-import com.malmstein.yahnac.tasks.LoginTask;
 import com.novoda.notils.logger.simple.Log;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+import org.jsoup.Connection;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -81,7 +83,7 @@ public class HNewsApi {
                                 if (newItem != null) {
                                     subscriber.onNext(mapStory(newItem, type, storyRoot.first));
                                 } else {
-                                    Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onDataChange is empty in " + storyRoot.second );
+                                    Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onDataChange is empty in " + storyRoot.second);
                                 }
                                 subscriber.onCompleted();
                             }
@@ -102,7 +104,7 @@ public class HNewsApi {
         String by = (String) map.get("by");
         Long id = (Long) map.get("id");
         String type;
-        if (rootType == Story.TYPE.best_story || rootType == Story.TYPE.new_story){
+        if (rootType == Story.TYPE.best_story || rootType == Story.TYPE.new_story) {
             type = Story.TYPE.top_story.name();
         } else {
             type = rootType.name();
@@ -129,8 +131,8 @@ public class HNewsApi {
         return storyValues;
     }
 
-    private Firebase getStoryFirebase(Story.TYPE type){
-        switch (type){
+    private Firebase getStoryFirebase(Story.TYPE type) {
+        switch (type) {
             case top_story:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
             case new_story:
@@ -151,6 +153,18 @@ public class HNewsApi {
     Observable<StoriesJsoup> getStories(Story.TYPE storyType, String nextUrl) {
         return Observable.create(
                 new StoriesUpdateOnSubscribe(storyType, nextUrl))
+                .subscribeOn(Schedulers.io());
+    }
+
+    Observable<Vector<ContentValues>> getCommentsFromStory(Long storyId) {
+        return Observable.create(
+                new CommentsUpdateOnSubscribe(storyId))
+                .subscribeOn(Schedulers.io());
+    }
+
+    Observable<Login> login(String username, String password) {
+        return Observable.create(
+                new LoginOnSubscribe(username, password))
                 .subscribeOn(Schedulers.io());
     }
 
@@ -189,12 +203,6 @@ public class HNewsApi {
 
     }
 
-    Observable<Vector<ContentValues>> getCommentsFromStory(Long storyId) {
-        return Observable.create(
-                new CommentsUpdateOnSubscribe(storyId))
-                .subscribeOn(Schedulers.io());
-    }
-
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
 
         private final Long storyId;
@@ -222,12 +230,6 @@ public class HNewsApi {
         }
     }
 
-    Observable<Login> login(String username, String password) {
-        return Observable.create(
-                new LoginOnSubscribe(username, password))
-                .subscribeOn(Schedulers.io());
-    }
-
     private static class LoginOnSubscribe implements Observable.OnSubscribe<Login> {
 
         private final String username;
@@ -248,8 +250,19 @@ public class HNewsApi {
 
         private void attemptLogin() {
             try {
-                Login login = new LoginTask(username, password).execute();
-                subscriber.onNext(login);
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+                Connection.Response response = connectionProvider
+                        .loginConnection(username, password)
+                        .execute();
+
+                String cookie = response.cookie("user");
+
+                if (!TextUtils.isEmpty(cookie)) {
+                    subscriber.onNext(new Login(username, cookie, Login.Status.SUCCESSFUL));
+                } else {
+                    subscriber.onNext(new Login(username, null, Login.Status.WRONG_CREDENTIALS));
+                }
+
             } catch (IOException e) {
                 subscriber.onError(e);
             }

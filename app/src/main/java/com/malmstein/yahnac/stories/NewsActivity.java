@@ -13,11 +13,11 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
-import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.views.FloatingActionButton;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
@@ -35,6 +35,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
     private SnackBarView snackbarView;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
+
+    private LoginSharedPreferences loginSharedPreferences;
 
     private FloatingActionButton fab;
 
@@ -87,8 +89,8 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
 
     private void setupFab() {
         fab = Views.findById(this, R.id.fab_login);
-        Provider provider = Inject.provider();
-        if (provider.isLoggedIn()) {
+        loginSharedPreferences = LoginSharedPreferences.newInstance();
+        if (loginSharedPreferences.isLoggedIn()) {
             fab.setVisibility(View.GONE);
         } else {
             fab.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +217,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
 
     @Override
     public void onLoginCancelled() {
-       fab.showAnimated();
+        fab.showAnimated();
     }
 
     private class StoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
