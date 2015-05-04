@@ -89,10 +89,13 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
 
     private void setupFab() {
         fab = Views.findById(this, R.id.fab_login);
-        loginSharedPreferences = LoginSharedPreferences.newInstance();
+        if (loginSharedPreferences == null) {
+            loginSharedPreferences = LoginSharedPreferences.newInstance();
+        }
         if (loginSharedPreferences.isLoggedIn()) {
             fab.setVisibility(View.GONE);
         } else {
+            fab.setVisibility(View.VISIBLE);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -212,7 +215,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener, LoginD
 
     @Override
     public void onLoginSucceed() {
-
+        fab.setVisibility(View.GONE);
     }
 
     @Override
