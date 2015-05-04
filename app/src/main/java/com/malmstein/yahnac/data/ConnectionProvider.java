@@ -12,6 +12,8 @@ public class ConnectionProvider {
     public static final String LOGIN_URL_EXTENSION = "/login?go_to=news";
     public static final String LOGIN_BASE_URL = "/login";
 
+    public static final String COMMENTS_BASE_URL = "/item?id=";
+
     public static final String USER_AGENT = System.getProperty("http.agent");
     public static final int TIMEOUT_MILLIS = 40 * 1000;
 
@@ -40,6 +42,10 @@ public class ConnectionProvider {
         } else {
             return authorisedConnection(baseUrlExtension, loginSharedPreferences.getCookie());
         }
+    }
+
+    public Connection commentsConnection(Long storyId) {
+        return connection(COMMENTS_BASE_URL + storyId);
     }
 
     public Connection loginConnection(String username, String password) {
