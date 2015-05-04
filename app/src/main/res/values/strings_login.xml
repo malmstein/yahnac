@@ -11,5 +11,8 @@
 
   <string name="action_login">Login</string>
   <string name="action_cancel">Cancel</string>
+  <string name="action_logout">Logout</string>
+
+  <string name="confirm_logout_message">This will log you out of Hacker News.</string>
 
 </resources>

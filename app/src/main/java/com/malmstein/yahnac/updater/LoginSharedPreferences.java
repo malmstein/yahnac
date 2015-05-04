@@ -30,8 +30,7 @@ public class LoginSharedPreferences {
             preferences.edit().putString(KEY_COOKIE, login.getCookie()).apply();
             preferences.edit().putString(KEY_USERNAME, login.getUsername()).apply();
         } else {
-            preferences.edit().putString(KEY_COOKIE, EMPTY_VALUE).apply();
-            preferences.edit().putString(KEY_USERNAME, EMPTY_VALUE).apply();
+            logout();
         }
 
     }
@@ -52,5 +51,10 @@ public class LoginSharedPreferences {
 
     public String getCookie() {
         return getLogin().getCookie();
+    }
+
+    public void logout() {
+        preferences.edit().putString(KEY_COOKIE, EMPTY_VALUE).apply();
+        preferences.edit().putString(KEY_USERNAME, EMPTY_VALUE).apply();
     }
 }
