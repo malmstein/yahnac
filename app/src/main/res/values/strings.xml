@@ -24,4 +24,7 @@
 
   <string name="empty_view_text">No saved bookmarks yet! You can easily add them from any list of stories</string>
 
+  <string name="navigation_drawer_open_content_description">Open navigation drawer</string>
+  <string name="navigation_drawer_closed_content_description">Close navigation drawer</string>
+
 </resources>

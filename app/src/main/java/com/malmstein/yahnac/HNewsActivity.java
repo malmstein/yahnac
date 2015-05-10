@@ -92,7 +92,7 @@ public class HNewsActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
     }
 
-    protected Navigator navigate(){
+    public Navigator navigate() {
         if (navigator == null){
             navigator = new Navigator(this);
         }

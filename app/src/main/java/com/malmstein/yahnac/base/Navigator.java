@@ -14,6 +14,7 @@ import com.malmstein.yahnac.connectivity.NetworkDetector;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
+import com.malmstein.yahnac.stories.NewsActivity;
 
 public class Navigator {
 
@@ -68,5 +69,9 @@ public class Navigator {
         ActivityCompat.startActivity(activity, settingsIntent, null);
     }
 
-
+    public void toNews() {
+        Intent newsIntent = new Intent(activity, NewsActivity.class);
+        activity.finish();
+        ActivityCompat.startActivity(activity, newsIntent, null);
+    }
 }

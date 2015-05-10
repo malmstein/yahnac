@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.malmstein.yahnac.HNewsActivity;
+import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
@@ -23,7 +23,7 @@ import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener, LoginDialog.Listener {
+public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener {
 
     public static final int INITIAL_PAGE = 1;
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
