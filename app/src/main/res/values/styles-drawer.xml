@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="SunMobile.NavigationDrawer" parent="None" />
+
+  <style name="SunMobile.NavigationDrawer.Header" />
+
+  <style name="SunMobile.NavigationDrawer.Header.Section">
+    <item name="android:drawableBottom">@drawable/shape_navigation_drawer_header_separator</item>
+  </style>
+
+  <style name="SunMobile.NavigationDrawer.Header.Section.Material" />
+
+</resources>

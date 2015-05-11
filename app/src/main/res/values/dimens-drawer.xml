@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="navigation_drawer_width">304dp</dimen>
+  <dimen name="navigation_drawer_list_thick_divider_height">3dp</dimen>
+  <dimen name="navigation_drawer_space_height">8dp</dimen>
+  <dimen name="navigation_drawer_list_material_divider_height">1dp</dimen>
+
+</resources>
