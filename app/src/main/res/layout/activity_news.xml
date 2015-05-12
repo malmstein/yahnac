@@ -9,45 +9,51 @@
   tools:context=".NewsActivity">
 
   <FrameLayout
-    android:id="@+id/feed_main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/appbar_tab_height">
+    android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-      android:id="@+id/news_pager"
+    <FrameLayout
+      android:id="@+id/feed_main_content"
       android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+      android:layout_height="match_parent"
+      android:layout_marginTop="@dimen/appbar_tab_height">
 
-    <com.malmstein.yahnac.views.SnackBarView
-      android:id="@+id/snackbar"
+      <android.support.v4.view.ViewPager
+        android:id="@+id/news_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+      <com.malmstein.yahnac.views.SnackBarView
+        android:id="@+id/snackbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+    </FrameLayout>
+
+    <com.malmstein.yahnac.views.toolbar.AppBarContainer
+      app:appBarLayout="@layout/include_app_bar"
+      android:id="@+id/app_bar_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="bottom" />
+      android:fitsSystemWindows="true">
+
+      <com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        style="@style/HNews.Feed.TabStrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </com.malmstein.yahnac.views.toolbar.AppBarContainer>
+
+    <com.malmstein.yahnac.views.FloatingActionButton
+      android:id="@+id/fab_login"
+      style="@style/HNews.FloatingActionButton.Login"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom" />
 
   </FrameLayout>
-
-  <com.malmstein.yahnac.views.toolbar.AppBarContainer
-    app:appBarLayout="@layout/include_app_bar"
-    android:id="@+id/app_bar_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
-
-    <com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout
-      android:id="@+id/sliding_tabs"
-      style="@style/HNews.Feed.TabStrip"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-
-  </com.malmstein.yahnac.views.toolbar.AppBarContainer>
-
-  <com.malmstein.yahnac.views.FloatingActionButton
-    android:id="@+id/fab_login"
-    style="@style/HNews.FloatingActionButton.Login"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="end|bottom" />
 
   <include layout="@layout/navigation_drawer_list" />
 
