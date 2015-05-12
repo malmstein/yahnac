@@ -16,4 +16,9 @@
   <dimen name="navigation_drawer_list_divider_height">0dp</dimen>
   <dimen name="navigation_drawer_max_width">400dp</dimen>
 
+  <dimen name="navigation_drawer_item_horizontal_padding">16dp</dimen>
+  <dimen name="navigation_drawer_item_vertical_padding">14dp</dimen>
+
+  <dimen name="navigation_drawer_icon_padding_big">32dp</dimen>
+
 </resources>

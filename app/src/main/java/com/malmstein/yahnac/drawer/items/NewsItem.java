@@ -4,7 +4,7 @@ public class NewsItem implements NavDrawerItem {
 
     @Override
     public ItemType getType() {
-        return ItemType.CATEGORY;
+        return ItemType.ITEM;
     }
 
 }

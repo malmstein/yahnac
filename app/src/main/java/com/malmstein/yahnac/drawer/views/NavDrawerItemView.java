@@ -45,6 +45,12 @@ public class NavDrawerItemView extends YahnacTextView implements NavDrawerItemVi
         bindClickToSettings(listener);
     }
 
+    private void bindAsNews(NavDrawerListener listener) {
+        setText(R.string.navigation_drawer_news);
+        setCompoundDrawable(R.drawable.ic_app_settings);
+        bindClickToNews(listener);
+    }
+
     private void setCompoundDrawable(int drawableResourceId) {
         Drawable drawable = getResources().getDrawable(drawableResourceId);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
@@ -62,13 +68,7 @@ public class NavDrawerItemView extends YahnacTextView implements NavDrawerItemVi
         });
     }
 
-    private void bindAsNews(NavDrawerListener listener) {
-        setText(R.string.navigation_drawer_news);
-        setCompoundDrawable(R.drawable.ic_app_settings);
-        bindClickToFaq(listener);
-    }
-
-    private void bindClickToFaq(final NavDrawerListener listener) {
+    private void bindClickToNews(final NavDrawerListener listener) {
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

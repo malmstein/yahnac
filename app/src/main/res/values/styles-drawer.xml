@@ -41,4 +41,22 @@
     <item name="android:textSize">@dimen/navigation_drawer_menu_item_text</item>
   </style>
 
+  <style name="Yahnac.NavigationDrawer.List.Item">
+    <item name="android:paddingLeft">@dimen/navigation_drawer_item_horizontal_padding</item>
+    <item name="android:paddingTop">@dimen/navigation_drawer_item_vertical_padding</item>
+    <item name="android:paddingRight">@dimen/navigation_drawer_item_horizontal_padding</item>
+    <item name="android:paddingBottom">@dimen/navigation_drawer_item_vertical_padding</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:textColor">@color/navigation_drawer_text</item>
+    <item name="android:textSize">@dimen/navigation_drawer_list_item_text</item>
+    <item name="android:background">@drawable/selector_navigation_drawer_item</item>
+    <item name="fontAsset">robotoRegular</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.Item.Footer" parent="Yahnac.NavigationDrawer.List.Item" />
+
+  <style name="Yahnac.NavigationDrawer.Item.Footer.Material">
+    <item name="android:drawablePadding">@dimen/navigation_drawer_icon_padding_big</item>
+  </style>
+
 </resources>

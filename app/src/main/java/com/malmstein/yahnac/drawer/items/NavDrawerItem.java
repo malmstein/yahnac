@@ -8,8 +8,7 @@ public interface NavDrawerItem {
         HEADER,
         SPACE,
         SECTION_HEADER,
-        CATEGORY,
-        FOOTER
+        ITEM
     }
 
 }

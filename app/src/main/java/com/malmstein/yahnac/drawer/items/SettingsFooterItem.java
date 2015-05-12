@@ -4,7 +4,7 @@ public class SettingsFooterItem implements NavDrawerItem {
 
     @Override
     public ItemType getType() {
-        return ItemType.FOOTER;
+        return ItemType.ITEM;
     }
 
 }

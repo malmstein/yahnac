@@ -23,8 +23,8 @@ public class NavDrawerItemHolderFactory {
                 return createSpaceViewHolder(parent);
             case SECTION_HEADER:
                 return createSectionHeaderViewHolder(parent);
-            case CATEGORY:
-                return createCategoryViewHolder(parent);
+            case ITEM:
+                return createFooterViewHolder(parent);
             default:
                 throw new DeveloperError(String.format("Item of type '%s' is not supported in HoloNavDrawerItemHolderFactory", type));
         }
@@ -42,7 +42,7 @@ public class NavDrawerItemHolderFactory {
         return (NavDrawerItemViewHolder) layoutInflater.inflate(R.layout.view_navdrawer_material_section_header, parent, false);
     }
 
-    private NavDrawerItemViewHolder createCategoryViewHolder(ViewGroup parent) {
-        return (NavDrawerItemViewHolder) layoutInflater.inflate(R.layout.view_navdrawer_material_category_item, parent, false);
+    private NavDrawerItemViewHolder createFooterViewHolder(ViewGroup parent) {
+        return (NavDrawerItemViewHolder) layoutInflater.inflate(R.layout.view_navdrawer_material_item, parent, false);
     }
 }

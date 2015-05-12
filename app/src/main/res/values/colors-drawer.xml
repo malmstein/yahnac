@@ -7,4 +7,7 @@
   <color name="navigation_drawer_divider">#D3D3D3</color>
   <color name="navigation_drawer_background">#F7F7F7</color>
 
+  <color name="navigation_drawer_text_default">#4C4C4C</color>
+  <color name="navigation_drawer_text_selected">#FFFFFF</color>
+
 </resources>
