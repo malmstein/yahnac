@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
@@ -30,6 +29,7 @@ import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.CommentRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.exception.DeveloperError;
 
 import rx.Observer;
 import rx.Subscription;

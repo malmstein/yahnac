@@ -12,13 +12,13 @@ import android.view.View;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.exception.DeveloperError;
 
 public class CommentsActivity extends HNewsActivity {
 

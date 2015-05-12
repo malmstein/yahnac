@@ -1,6 +1,5 @@
 package com.malmstein.yahnac;
 
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -11,8 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.newsuk.thesun.base.inject.Inject;
-import com.newsuk.thesun.base.navigation.drawer.NavDrawerAdapter;
+import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.drawer.NavDrawerAdapter;
 import com.novoda.notils.caster.Views;
 
 public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
@@ -27,20 +26,14 @@ public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
         super.setContentView(layoutResID);
 
         drawer = Views.findById(this, R.id.navigation_drawer);
-        drawerListener = ActionBarDrawerListener.from(this, drawer, Inject.usageAnalytics());
+        drawerListener = ActionBarDrawerListener.from(this, drawer);
         drawer.setDrawerListener(drawerListener);
 
         NavDrawerAdapter drawerAdapter = createNavDrawerAdapter(LayoutInflater.from(this), drawerListener);
-        editionWatcher = EditionWatcher.newInstance(Inject.feedProvider(), Inject.feedRepository(), createListenerFor(drawerAdapter));
         ListView drawerList = Views.findById(drawer, R.id.drawer_list);
         drawerList.setAdapter(drawerAdapter);
 
         setFullscreenLayoutOnLollipopAndLater();
-    }
-
-    @Override
-    protected int getDefaultStatusBarColor(Resources resources) {
-        return resources.getColor(R.color.translucent_system_ui_background);
     }
 
     private void setFullscreenLayoutOnLollipopAndLater() {

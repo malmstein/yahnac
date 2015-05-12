@@ -1,10 +1,10 @@
 package com.malmstein.yahnac.inject;
 
 import com.malmstein.yahnac.analytics.CrashAnalytics;
-import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.ConnectionProvider;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
+import com.novoda.notils.exception.DeveloperError;
 
 public class Inject {
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.drawer.NavDrawerAdapter;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
@@ -121,6 +124,16 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected NavDrawerAdapter createNavDrawerAdapter(LayoutInflater layoutInflater, ActionBarDrawerListener drawerListener) {
+        return NavDrawerAdapter.newInstance(layoutInflater, drawerListener);
+    }
+
+    @Override
+    protected boolean actionBarToggleShouldReplaceUp() {
+        return true;
     }
 
     @Override

@@ -9,10 +9,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.ViewDelegate;
+import com.novoda.notils.exception.DeveloperError;
 
 public class TopStoriesFragment extends StoryFragment implements LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
 
