@@ -23,6 +23,10 @@
     </activity>
 
     <activity
+      android:name="com.malmstein.yahnac.stories.BookmarksActivity"
+      android:label="@string/title_comments" />
+
+    <activity
       android:name="com.malmstein.yahnac.stories.ArticleActivity"
       android:configChanges="keyboardHidden|orientation|screenSize" />
 

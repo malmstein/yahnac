@@ -14,6 +14,7 @@ import com.malmstein.yahnac.connectivity.NetworkDetector;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
+import com.malmstein.yahnac.stories.BookmarksActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
 
 public class Navigator {
@@ -76,8 +77,8 @@ public class Navigator {
     }
 
     public void toBookmarks() {
-        Intent newsIntent = new Intent(activity, NewsActivity.class);
+        Intent bookmarksIntent = new Intent(activity, BookmarksActivity.class);
         activity.finish();
-        ActivityCompat.startActivity(activity, newsIntent, null);
+        ActivityCompat.startActivity(activity, bookmarksIntent, null);
     }
 }

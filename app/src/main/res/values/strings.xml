@@ -4,6 +4,7 @@
   <string name="title_launcher">Yahnac</string>
   <string name="title_app">Hacker News</string>
   <string name="title_comments">Comments</string>
+  <string name="title_bookmarks">My bookmarks</string>
   <string name="title_about">About</string>
 
   <string name="action_comments">Comments</string>
