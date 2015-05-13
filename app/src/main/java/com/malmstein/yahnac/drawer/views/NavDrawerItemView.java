@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.drawer.NavDrawerListener;
+import com.malmstein.yahnac.drawer.items.BookmarksItem;
 import com.malmstein.yahnac.drawer.items.NavDrawerItem;
 import com.malmstein.yahnac.drawer.items.NavDrawerItemViewHolder;
 import com.malmstein.yahnac.drawer.items.NewsItem;
@@ -30,19 +31,21 @@ public class NavDrawerItemView extends YahnacTextView implements NavDrawerItemVi
 
     @Override
     public void bind(NavDrawerItem item, NavDrawerListener listener) {
-        if (item instanceof SettingsFooterItem) {
-            bindAsSettings(listener);
+        if (item instanceof BookmarksItem) {
+            bindAsBookmarks(listener);
         } else if (item instanceof NewsItem) {
             bindAsNews(listener);
+        } else if (item instanceof SettingsFooterItem) {
+            bindAsSettings(listener);
         } else {
-            throw new IllegalArgumentException(String.format("SettingsFooterItem or FaqFooterItem expected - got '%s' instead.", item.getClass().getName()));
+            throw new IllegalArgumentException(String.format("BookmarksItem or NewsItem expected - got '%s' instead.", item.getClass().getName()));
         }
     }
 
-    private void bindAsSettings(NavDrawerListener listener) {
-        setText(R.string.navigation_drawer_settings);
-        setCompoundDrawable(R.drawable.ic_app_settings);
-        bindClickToSettings(listener);
+    private void bindAsBookmarks(NavDrawerListener listener) {
+        setText(R.string.navigation_drawer_bookmarks);
+        setCompoundDrawable(R.drawable.ic_bookmark_selected);
+        bindClickToBookmarks(listener);
     }
 
     private void bindAsNews(NavDrawerListener listener) {
@@ -51,18 +54,24 @@ public class NavDrawerItemView extends YahnacTextView implements NavDrawerItemVi
         bindClickToNews(listener);
     }
 
+    private void bindAsSettings(NavDrawerListener listener) {
+        setText(R.string.navigation_drawer_settings);
+        setCompoundDrawable(R.drawable.ic_app_settings);
+        bindClickToSettings(listener);
+    }
+
     private void setCompoundDrawable(int drawableResourceId) {
         Drawable drawable = getResources().getDrawable(drawableResourceId);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         setCompoundDrawables(drawable, null, null, null);
     }
 
-    private void bindClickToSettings(final NavDrawerListener listener) {
+    private void bindClickToBookmarks(final NavDrawerListener listener) {
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onSettingsClicked();
+                    listener.onBookmarksClicked();
                 }
             }
         });
@@ -74,6 +83,17 @@ public class NavDrawerItemView extends YahnacTextView implements NavDrawerItemVi
             public void onClick(View v) {
                 if (listener != null) {
                     listener.onNewsClicked();
+                }
+            }
+        });
+    }
+
+    private void bindClickToSettings(final NavDrawerListener listener) {
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onSettingsClicked();
                 }
             }
         });

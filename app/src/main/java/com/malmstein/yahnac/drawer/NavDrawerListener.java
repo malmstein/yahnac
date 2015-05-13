@@ -6,4 +6,6 @@ public interface NavDrawerListener {
 
     void onNewsClicked();
 
+    void onBookmarksClicked();
+
 }

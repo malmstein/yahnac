@@ -21,10 +21,15 @@ public class NavDrawerItemsFactory {
         return new NewsItem();
     }
 
+    private static NavDrawerItem createBookmarksItem() {
+        return new BookmarksItem();
+    }
+
     public NavDrawerItems createDrawerItems() {
         List<NavDrawerItem> items = new ArrayList<NavDrawerItem>();
         items.add(createHeaderItem());
         items.add(createHeaderMarginBottomItem());
+        items.add(createBookmarksItem());
         items.add(createNewsItem());
         items.add(createEmptySectionHeaderItem());
         items.add(createSettingsFooterItem());

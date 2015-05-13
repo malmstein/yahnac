@@ -54,6 +54,12 @@ public final class ActionBarDrawerListener extends ActionBarDrawerToggle impleme
         activity.closeDrawer();
     }
 
+    @Override
+    public void onBookmarksClicked() {
+        pendingNavigation = new BookmarksNavigationTarget();
+        activity.closeDrawer();
+    }
+
     interface NavigationTarget {
         void navigateUsing(Navigator navigator);
     }
@@ -72,6 +78,15 @@ public final class ActionBarDrawerListener extends ActionBarDrawerToggle impleme
         @Override
         public void navigateUsing(Navigator navigator) {
             navigator.toSettings();
+        }
+
+    }
+
+    static class BookmarksNavigationTarget implements NavigationTarget {
+
+        @Override
+        public void navigateUsing(Navigator navigator) {
+            navigator.toBookmarks();
         }
 
     }

@@ -74,4 +74,10 @@ public class Navigator {
         activity.finish();
         ActivityCompat.startActivity(activity, newsIntent, null);
     }
+
+    public void toBookmarks() {
+        Intent newsIntent = new Intent(activity, NewsActivity.class);
+        activity.finish();
+        ActivityCompat.startActivity(activity, newsIntent, null);
+    }
 }
