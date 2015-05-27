@@ -13,6 +13,8 @@
   <string name="action_article">Article</string>
   <string name="action_bookmark">Bookmark</string>
 
+  <string name="label_comments">Show comments</string>
+
   <string name="content_authority">com.malmstein.yahnac</string>
 
   <string name="story_by">by %s</string>
