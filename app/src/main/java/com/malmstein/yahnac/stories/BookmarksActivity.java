@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
@@ -32,6 +30,7 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
         setContentView(R.layout.activity_bookmarks);
 
         setupViews();
+        setupSubActivityWithTitle();
     }
 
     private void setupViews() {
@@ -47,22 +46,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
 
     private void setupAppBar() {
         setTitle(getString(R.string.title_app));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            navigate().toSettings();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -7,8 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
@@ -106,22 +104,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
                 }
             });
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            navigate().toSettings();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
