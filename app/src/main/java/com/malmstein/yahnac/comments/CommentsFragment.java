@@ -136,7 +136,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void setupCommentsList() {
         commentsList.setHasFixedSize(true);
         commentsLayoutManager = new LinearLayoutManager(getActivity());
-        commentsList.addItemDecoration(createItemDecoration(getResources()));
+//        commentsList.addItemDecoration(createItemDecoration(getResources()));
         commentsList.setLayoutManager(commentsLayoutManager);
 
         commentsAdapter = new CommentsAdapter(null);

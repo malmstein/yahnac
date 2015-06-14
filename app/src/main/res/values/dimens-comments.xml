@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="comments_line_spacing_extra">4sp</dimen>
+  <dimen name="comments_content_text">15sp</dimen>
+  <dimen name="comments_content_header">14sp</dimen>
+</resources>

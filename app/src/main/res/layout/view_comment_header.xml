@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/comment_header_root"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/comment_header_root"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical">
@@ -16,7 +15,7 @@
     android:paddingTop="@dimen/default_padding">
 
     <TextView
-      style="@style/HNews.Body2"
+      style="@style/HNews.CommentHeader"
       android:id="@+id/comment_header_by"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -24,7 +23,7 @@
       tools:text="by user" />
 
     <TextView
-      style="@style/HNews.Body2"
+      style="@style/HNews.CommentHeader"
       android:id="@+id/comment_header_when"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -35,7 +34,7 @@
   </LinearLayout>
 
   <com.malmstein.yahnac.views.fonts.CommentTextView
-    style="@style/HNews.Body2"
+    style="@style/HNews.CommentText"
     android:id="@+id/comment_header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

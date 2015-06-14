@@ -13,12 +13,6 @@
     <item name="fontAsset">robotoRegular</item>
   </style>
 
-  <style name="HNews.Header" parent="None">
-    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-    <item name="android:textColor">@color/black</item>
-    <item name="fontAsset">robotoRegular</item>
-  </style>
-
   <style name="HNews.Body2" parent="None">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     <item name="android:textColor">@color/black</item>

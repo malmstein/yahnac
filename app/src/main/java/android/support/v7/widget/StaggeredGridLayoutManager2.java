@@ -25,12 +25,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.view.accessibility.AccessibilityRecordCompat;
-import android.support.v7.widget.AdapterHelper;
-import android.support.v7.widget.LayoutState;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ScrollbarHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -56,21 +50,14 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
 
     public static final String TAG = "StaggeredGridLayoutManager";
-
-    private static final boolean DEBUG = false;
-
     public static final int HORIZONTAL = OrientationHelper.HORIZONTAL;
-
     public static final int VERTICAL = OrientationHelper.VERTICAL;
-
     /**
      * Does not do anything to hide gaps.
      */
     public static final int GAP_HANDLING_NONE = 0;
-
     @Deprecated
     public static final int GAP_HANDLING_LAZY = 1;
-
     /**
      * When scroll state is changed to {@link android.support.v7.widget.RecyclerView#SCROLL_STATE_IDLE}, StaggeredGrid will
      * check if there are gaps in the because of full span items. If it finds, it will re-layout
@@ -90,93 +77,74 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
      * </code>
      */
     public static final int GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS = 2;
-
+    private static final boolean DEBUG = false;
     private static final int INVALID_OFFSET = Integer.MIN_VALUE;
-
     /**
-     * Number of spans
+     * Re-used anchor info.
      */
-    private int mSpanCount = -1;
-
-    private Span[] mSpans;
-
+    private final AnchorInfo mAnchorInfo = new AnchorInfo();
     /**
      * Primary orientation is the layout's orientation, secondary orientation is the orientation
      * for spans. Having both makes code much cleaner for calculations.
      */
     OrientationHelper mPrimaryOrientation;
     OrientationHelper mSecondaryOrientation;
-
-    private int mOrientation;
-
-    /**
-     * The width or height per span, depending on the orientation.
-     */
-    private int mSizePerSpan;
-
-    private LayoutState mLayoutState;
-
-    private boolean mReverseLayout = false;
-
     /**
      * Aggregated reverse layout value that takes RTL into account.
      */
     boolean mShouldReverseLayout = false;
-
-    /**
-     * Temporary variable used during fill method to check which spans needs to be filled.
-     */
-    private BitSet mRemainingSpans;
-
     /**
      * When LayoutManager needs to scroll to a position, it sets this variable and requests a
      * layout which will check this variable and re-layout accordingly.
      */
     int mPendingScrollPosition = NO_POSITION;
-
     /**
      * Used to keep the offset value when {@link #scrollToPositionWithOffset(int, int)} is
      * called.
      */
     int mPendingScrollPositionOffset = INVALID_OFFSET;
-
     /**
      * Keeps the mapping between the adapter positions and spans. This is necessary to provide
      * a consistent experience when user scrolls the list.
      */
     LazySpanLookup mLazySpanLookup = new LazySpanLookup();
-
+    /**
+     * Number of spans
+     */
+    private int mSpanCount = -1;
+    private Span[] mSpans;
+    private int mOrientation;
+    /**
+     * The width or height per span, depending on the orientation.
+     */
+    private int mSizePerSpan;
+    private LayoutState mLayoutState;
+    private boolean mReverseLayout = false;
+    /**
+     * Temporary variable used during fill method to check which spans needs to be filled.
+     */
+    private BitSet mRemainingSpans;
     /**
      * how we handle gaps in UI.
      */
     private int mGapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS;
-
     /**
      * Saved state needs this information to properly layout on restore.
      */
     private boolean mLastLayoutFromEnd;
-
     /**
      * Saved state and onLayout needs this information to re-layout properly
      */
     private boolean mLastLayoutRTL;
-
     /**
      * SavedState is not handled until a layout happens. This is where we keep it until next
      * layout.
      */
     private SavedState mPendingSavedState;
-
     /**
      * Re-used measurement specs. updated by onLayout.
      */
     private int mFullSizeSpec, mWidthSpec, mHeightSpec;
-
-    /**
-     * Re-used anchor info.
-     */
-    private final AnchorInfo mAnchorInfo = new AnchorInfo();
-
     /**
      * If a full span item is invalid / or created in reverse direction; it may create gaps in
      * the UI. While laying out, if such case is detected, we set this flag.
@@ -184,19 +152,17 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
      * After scrolling stops, we check this flag and if it is set, re-layout.
      */
     private boolean mLaidOutInvalidFullSpan = false;
-
-    /**
-     * Works the same way as {@link android.widget.AbsListView#setSmoothScrollbarEnabled(boolean)}.
-     * see {@link android.widget.AbsListView#setSmoothScrollbarEnabled(boolean)}
-     */
-    private boolean mSmoothScrollbarEnabled = true;
-
     private final Runnable checkForGapsRunnable = new Runnable() {
         @Override
         public void run() {
             checkForGaps();
         }
     };
+    /**
+     * Works the same way as {@link android.widget.AbsListView#setSmoothScrollbarEnabled(boolean)}.
+     * see {@link android.widget.AbsListView#setSmoothScrollbarEnabled(boolean)}
+     */
+    private boolean mSmoothScrollbarEnabled = true;
 
     /**
      * Creates a StaggeredGridLayoutManager with given parameters.
@@ -355,75 +321,6 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
     }
 
     /**
-     * Sets the number of spans for the layout. This will invalidate all of the span assignments
-     * for Views.
-     * <p>
-     * Calling this method will automatically result in a new layout request unless the spanCount
-     * parameter is equal to current span count.
-     *
-     * @param spanCount Number of spans to layout
-     */
-    public void setSpanCount(int spanCount) {
-        assertNotInLayoutOrScroll(null);
-        if (spanCount != mSpanCount) {
-            invalidateSpanAssignments();
-            mSpanCount = spanCount;
-            mRemainingSpans = new BitSet(mSpanCount);
-            mSpans = new Span[mSpanCount];
-            for (int i = 0; i < mSpanCount; i++) {
-                mSpans[i] = new Span(i);
-            }
-            requestLayout();
-        }
-    }
-
-    /**
-     * Sets the orientation of the layout. StaggeredGridLayoutManager will do its best to keep
-     * scroll position if this method is called after views are laid out.
-     *
-     * @param orientation {@link #HORIZONTAL} or {@link #VERTICAL}
-     */
-    public void setOrientation(int orientation) {
-        if (orientation != HORIZONTAL && orientation != VERTICAL) {
-            throw new IllegalArgumentException("invalid orientation.");
-        }
-        assertNotInLayoutOrScroll(null);
-        if (orientation == mOrientation) {
-            return;
-        }
-        mOrientation = orientation;
-        if (mPrimaryOrientation != null && mSecondaryOrientation != null) {
-            // swap
-            OrientationHelper tmp = mPrimaryOrientation;
-            mPrimaryOrientation = mSecondaryOrientation;
-            mSecondaryOrientation = tmp;
-        }
-        requestLayout();
-    }
-
-    /**
-     * Sets whether LayoutManager should start laying out items from the end of the UI. The order
-     * items are traversed is not affected by this call.
-     * <p>
-     * For vertical layout, if it is set to <code>true</code>, first item will be at the bottom of
-     * the list.
-     * <p>
-     * For horizontal layouts, it depends on the layout direction.
-     * When set to true, If {@link android.support.v7.widget.RecyclerView} is LTR, than it will layout from RTL, if
-     * {@link android.support.v7.widget.RecyclerView}} is RTL, it will layout from LTR.
-     *
-     * @param reverseLayout Whether layout should be in reverse or not
-     */
-    public void setReverseLayout(boolean reverseLayout) {
-        assertNotInLayoutOrScroll(null);
-        if (mPendingSavedState != null && mPendingSavedState.mReverseLayout != reverseLayout) {
-            mPendingSavedState.mReverseLayout = reverseLayout;
-        }
-        mReverseLayout = reverseLayout;
-        requestLayout();
-    }
-
-    /**
      * Returns the current gap handling strategy for StaggeredGridLayoutManager.
      * <p>
      * Staggered grid may have gaps in the layout due to changes in the adapter. To avoid gaps,
@@ -481,6 +378,29 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
     }
 
     /**
+     * Sets the number of spans for the layout. This will invalidate all of the span assignments
+     * for Views.
+     * <p>
+     * Calling this method will automatically result in a new layout request unless the spanCount
+     * parameter is equal to current span count.
+     *
+     * @param spanCount Number of spans to layout
+     */
+    public void setSpanCount(int spanCount) {
+        assertNotInLayoutOrScroll(null);
+        if (spanCount != mSpanCount) {
+            invalidateSpanAssignments();
+            mSpanCount = spanCount;
+            mRemainingSpans = new BitSet(mSpanCount);
+            mSpans = new Span[mSpanCount];
+            for (int i = 0; i < mSpanCount; i++) {
+                mSpans[i] = new Span(i);
+            }
+            requestLayout();
+        }
+    }
+
+    /**
      * For consistency, StaggeredGridLayoutManager keeps a mapping between spans and items.
      * <p>
      * If you need to cancel current assignments, you can call this method which will clear all
@@ -528,6 +448,28 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
      */
     public boolean getReverseLayout() {
         return mReverseLayout;
+    }
+
+    /**
+     * Sets whether LayoutManager should start laying out items from the end of the UI. The order
+     * items are traversed is not affected by this call.
+     * <p>
+     * For vertical layout, if it is set to <code>true</code>, first item will be at the bottom of
+     * the list.
+     * <p>
+     * For horizontal layouts, it depends on the layout direction.
+     * When set to true, If {@link android.support.v7.widget.RecyclerView} is LTR, than it will layout from RTL, if
+     * {@link android.support.v7.widget.RecyclerView}} is RTL, it will layout from LTR.
+     *
+     * @param reverseLayout Whether layout should be in reverse or not
+     */
+    public void setReverseLayout(boolean reverseLayout) {
+        assertNotInLayoutOrScroll(null);
+        if (mPendingSavedState != null && mPendingSavedState.mReverseLayout != reverseLayout) {
+            mPendingSavedState.mReverseLayout = reverseLayout;
+        }
+        mReverseLayout = reverseLayout;
+        requestLayout();
     }
 
     @Override
@@ -1200,12 +1142,12 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         if (isSmoothScrolling()) {
             final int targetPos = state.getTargetScrollPosition();
             if (mShouldReverseLayout == targetPos < anchorPosition) {
-                mLayoutState.mExtra = 0;
+                mLayoutState.mAvailable = 0;
             } else {
-                mLayoutState.mExtra = mPrimaryOrientation.getTotalSpace();
+                mLayoutState.mAvailable = mPrimaryOrientation.getTotalSpace();
             }
         } else {
-            mLayoutState.mExtra = 0;
+            mLayoutState.mAvailable = 0;
         }
         mLayoutState.mLayoutDirection = LAYOUT_START;
         mLayoutState.mItemDirection = mShouldReverseLayout ? ITEM_DIRECTION_TAIL
@@ -1218,12 +1160,12 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         if (isSmoothScrolling()) {
             final int targetPos = state.getTargetScrollPosition();
             if (mShouldReverseLayout == targetPos > anchorPosition) {
-                mLayoutState.mExtra = 0;
+                mLayoutState.mAvailable = 0;
             } else {
-                mLayoutState.mExtra = mPrimaryOrientation.getTotalSpace();
+                mLayoutState.mAvailable = mPrimaryOrientation.getTotalSpace();
             }
         } else {
-            mLayoutState.mExtra = 0;
+            mLayoutState.mAvailable = 0;
         }
         mLayoutState.mLayoutDirection = LAYOUT_END;
         mLayoutState.mItemDirection = mShouldReverseLayout ? ITEM_DIRECTION_HEAD
@@ -1317,12 +1259,12 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         if (layoutState.mLayoutDirection == LAYOUT_END) {
             // ignore padding for recycler
             recycleLine = mPrimaryOrientation.getEndAfterPadding() + mLayoutState.mAvailable;
-            targetLine = recycleLine + mLayoutState.mExtra + mPrimaryOrientation.getEndPadding();
+            targetLine = recycleLine + mLayoutState.mAvailable + mPrimaryOrientation.getEndPadding();
 
         } else { // LAYOUT_START
             // ignore padding for recycler
             recycleLine = mPrimaryOrientation.getStartAfterPadding() - mLayoutState.mAvailable;
-            targetLine = recycleLine - mLayoutState.mExtra -
+            targetLine = recycleLine - mLayoutState.mAvailable -
                     mPrimaryOrientation.getStartAfterPadding();
         }
         updateAllRemainingSpans(layoutState.mLayoutDirection, targetLine);
@@ -1761,7 +1703,7 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         mLayoutState.mCurrentPosition = referenceChildPosition + mLayoutState.mItemDirection;
         final int absDt = Math.abs(dt);
         mLayoutState.mAvailable = absDt;
-        mLayoutState.mExtra = isSmoothScrolling() ? mPrimaryOrientation.getTotalSpace() : 0;
+        mLayoutState.mAvailable = isSmoothScrolling() ? mPrimaryOrientation.getTotalSpace() : 0;
         int consumed = fill(recycler, mLayoutState, state);
         final int totalScroll;
         if (absDt < consumed) {
@@ -1853,6 +1795,29 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         return mOrientation;
     }
 
+    /**
+     * Sets the orientation of the layout. StaggeredGridLayoutManager will do its best to keep
+     * scroll position if this method is called after views are laid out.
+     *
+     * @param orientation {@link #HORIZONTAL} or {@link #VERTICAL}
+     */
+    public void setOrientation(int orientation) {
+        if (orientation != HORIZONTAL && orientation != VERTICAL) {
+            throw new IllegalArgumentException("invalid orientation.");
+        }
+        assertNotInLayoutOrScroll(null);
+        if (orientation == mOrientation) {
+            return;
+        }
+        mOrientation = orientation;
+        if (mPrimaryOrientation != null && mSecondaryOrientation != null) {
+            // swap
+            OrientationHelper tmp = mPrimaryOrientation;
+            mPrimaryOrientation = mSecondaryOrientation;
+            mSecondaryOrientation = tmp;
+        }
+        requestLayout();
+    }
 
     /**
      * LayoutParams used by StaggeredGridLayoutManager.
@@ -1890,6 +1855,16 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         }
 
         /**
+         * Returns whether this View occupies all available spans or just one.
+         *
+         * @return True if the View occupies all spans or false otherwise.
+         * @see #setFullSpan(boolean)
+         */
+        public boolean isFullSpan() {
+            return mFullSpan;
+        }
+
+        /**
          * When set to true, the item will layout using all span area. That means, if orientation
          * is vertical, the view will have full width; if orientation is horizontal, the view will
          * have full height.
@@ -1899,16 +1874,6 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
          */
         public void setFullSpan(boolean fullSpan) {
             mFullSpan = fullSpan;
-        }
-
-        /**
-         * Returns whether this View occupies all available spans or just one.
-         *
-         * @return True if the View occupies all spans or false otherwise.
-         * @see #setFullSpan(boolean)
-         */
-        public boolean isFullSpan() {
-            return mFullSpan;
         }
 
         /**
@@ -1925,15 +1890,422 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
         }
     }
 
+    /**
+     * An array of mappings from adapter position to span.
+     * This only grows when a write happens and it grows up to the size of the adapter.
+     */
+    static class LazySpanLookup {
+
+        private static final int MIN_SIZE = 10;
+        int[] mData;
+        int mAdapterSize; // we don't want to grow beyond that, unless it grows
+        List<FullSpanItem> mFullSpanItems;
+
+
+        /**
+         * Invalidates everything after this position, including full span information
+         */
+        int forceInvalidateAfter(int position) {
+            if (mFullSpanItems != null) {
+                for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
+                    FullSpanItem fsi = mFullSpanItems.get(i);
+                    if (fsi.mPosition >= position) {
+                        mFullSpanItems.remove(i);
+                    }
+                }
+            }
+            return invalidateAfter(position);
+        }
+
+        /**
+         * returns end position for invalidation.
+         */
+        int invalidateAfter(int position) {
+            if (mData == null) {
+                return RecyclerView.NO_POSITION;
+            }
+            if (position >= mData.length) {
+                return RecyclerView.NO_POSITION;
+            }
+            int endPosition = invalidateFullSpansAfter(position);
+            if (endPosition == RecyclerView.NO_POSITION) {
+                Arrays.fill(mData, position, mData.length, LayoutParams.INVALID_SPAN_ID);
+                return mData.length;
+            } else {
+                // just invalidate items in between
+                Arrays.fill(mData, position, endPosition + 1, LayoutParams.INVALID_SPAN_ID);
+                return endPosition + 1;
+            }
+        }
+
+        int getSpan(int position) {
+            if (mData == null || position >= mData.length) {
+                return LayoutParams.INVALID_SPAN_ID;
+            } else {
+                return mData[position];
+            }
+        }
+
+        void setSpan(int position, Span span) {
+            ensureSize(position);
+            mData[position] = span.mIndex;
+        }
+
+        int sizeForPosition(int position) {
+            int len = mData.length;
+            while (len <= position) {
+                len *= 2;
+            }
+            if (len > mAdapterSize) {
+                len = mAdapterSize;
+            }
+            return len;
+        }
+
+        void ensureSize(int position) {
+            if (mData == null) {
+                mData = new int[Math.max(position, MIN_SIZE) + 1];
+                Arrays.fill(mData, LayoutParams.INVALID_SPAN_ID);
+            } else if (position >= mData.length) {
+                int[] old = mData;
+                mData = new int[sizeForPosition(position)];
+                System.arraycopy(old, 0, mData, 0, old.length);
+                Arrays.fill(mData, old.length, mData.length, LayoutParams.INVALID_SPAN_ID);
+            }
+        }
+
+        void clear() {
+            if (mData != null) {
+                Arrays.fill(mData, LayoutParams.INVALID_SPAN_ID);
+            }
+            mFullSpanItems = null;
+        }
+
+        void offsetForRemoval(int positionStart, int itemCount) {
+            if (mData == null || positionStart >= mData.length) {
+                return;
+            }
+            ensureSize(positionStart + itemCount);
+            System.arraycopy(mData, positionStart + itemCount, mData, positionStart,
+                    mData.length - positionStart - itemCount);
+            Arrays.fill(mData, mData.length - itemCount, mData.length,
+                    LayoutParams.INVALID_SPAN_ID);
+            offsetFullSpansForRemoval(positionStart, itemCount);
+        }
+
+        private void offsetFullSpansForRemoval(int positionStart, int itemCount) {
+            if (mFullSpanItems == null) {
+                return;
+            }
+            final int end = positionStart + itemCount;
+            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
+                FullSpanItem fsi = mFullSpanItems.get(i);
+                if (fsi.mPosition < positionStart) {
+                    continue;
+                }
+                if (fsi.mPosition < end) {
+                    mFullSpanItems.remove(i);
+                } else {
+                    fsi.mPosition -= itemCount;
+                }
+            }
+        }
+
+        void offsetForAddition(int positionStart, int itemCount) {
+            if (mData == null || positionStart >= mData.length) {
+                return;
+            }
+            ensureSize(positionStart + itemCount);
+            System.arraycopy(mData, positionStart, mData, positionStart + itemCount,
+                    mData.length - positionStart - itemCount);
+            Arrays.fill(mData, positionStart, positionStart + itemCount,
+                    LayoutParams.INVALID_SPAN_ID);
+            offsetFullSpansForAddition(positionStart, itemCount);
+        }
+
+        private void offsetFullSpansForAddition(int positionStart, int itemCount) {
+            if (mFullSpanItems == null) {
+                return;
+            }
+            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
+                FullSpanItem fsi = mFullSpanItems.get(i);
+                if (fsi.mPosition < positionStart) {
+                    continue;
+                }
+                fsi.mPosition += itemCount;
+            }
+        }
+
+        /**
+         * Returns when invalidation should end. e.g. hitting a full span position.
+         * Returned position SHOULD BE invalidated.
+         */
+        private int invalidateFullSpansAfter(int position) {
+            if (mFullSpanItems == null) {
+                return RecyclerView.NO_POSITION;
+            }
+            final FullSpanItem item = getFullSpanItem(position);
+            // if there is an fsi at this position, get rid of it.
+            if (item != null) {
+                mFullSpanItems.remove(item);
+            }
+            int nextFsiIndex = -1;
+            final int count = mFullSpanItems.size();
+            for (int i = 0; i < count; i++) {
+                FullSpanItem fsi = mFullSpanItems.get(i);
+                if (fsi.mPosition >= position) {
+                    nextFsiIndex = i;
+                    break;
+                }
+            }
+            if (nextFsiIndex != -1) {
+                FullSpanItem fsi = mFullSpanItems.get(nextFsiIndex);
+                mFullSpanItems.remove(nextFsiIndex);
+                return fsi.mPosition;
+            }
+            return RecyclerView.NO_POSITION;
+        }
+
+        public void addFullSpanItem(FullSpanItem fullSpanItem) {
+            if (mFullSpanItems == null) {
+                mFullSpanItems = new ArrayList<FullSpanItem>();
+            }
+            final int size = mFullSpanItems.size();
+            for (int i = 0; i < size; i++) {
+                FullSpanItem other = mFullSpanItems.get(i);
+                if (other.mPosition == fullSpanItem.mPosition) {
+                    if (DEBUG) {
+                        throw new IllegalStateException("two fsis for same position");
+                    } else {
+                        mFullSpanItems.remove(i);
+                    }
+                }
+                if (other.mPosition >= fullSpanItem.mPosition) {
+                    mFullSpanItems.add(i, fullSpanItem);
+                    return;
+                }
+            }
+            // if it is not added to a position.
+            mFullSpanItems.add(fullSpanItem);
+        }
+
+        public FullSpanItem getFullSpanItem(int position) {
+            if (mFullSpanItems == null) {
+                return null;
+            }
+            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
+                final FullSpanItem fsi = mFullSpanItems.get(i);
+                if (fsi.mPosition == position) {
+                    return fsi;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * @param minPos inclusive
+         * @param maxPos exclusive
+         * @param gapDir if not 0, returns FSIs on in that direction
+         */
+        public FullSpanItem getFirstFullSpanItemInRange(int minPos, int maxPos, int gapDir) {
+            if (mFullSpanItems == null) {
+                return null;
+            }
+            for (int i = 0; i < mFullSpanItems.size(); i++) {
+                FullSpanItem fsi = mFullSpanItems.get(i);
+                if (fsi.mPosition >= maxPos) {
+                    return null;
+                }
+                if (fsi.mPosition >= minPos && (gapDir == 0 || fsi.mGapDir == gapDir)) {
+                    return fsi;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * We keep information about full span items because they may create gaps in the UI.
+         */
+        static class FullSpanItem implements Parcelable {
+
+            public static final Parcelable.Creator<FullSpanItem> CREATOR
+                    = new Parcelable.Creator<FullSpanItem>() {
+                @Override
+                public FullSpanItem createFromParcel(Parcel in) {
+                    return new FullSpanItem(in);
+                }
+
+                @Override
+                public FullSpanItem[] newArray(int size) {
+                    return new FullSpanItem[size];
+                }
+            };
+            int mPosition;
+            int mGapDir;
+            int[] mGapPerSpan;
+
+            public FullSpanItem(Parcel in) {
+                mPosition = in.readInt();
+                mGapDir = in.readInt();
+                int spanCount = in.readInt();
+                if (spanCount > 0) {
+                    mGapPerSpan = new int[spanCount];
+                    in.readIntArray(mGapPerSpan);
+                }
+            }
+
+            public FullSpanItem() {
+            }
+
+            int getGapForSpan(int spanIndex) {
+                if (mGapPerSpan == null || spanIndex >= mGapPerSpan.length) {
+                    return 0;
+                }
+                return mGapPerSpan[spanIndex];
+            }
+
+            public void invalidateSpanGaps() {
+                mGapPerSpan = null;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(mPosition);
+                dest.writeInt(mGapDir);
+                if (mGapPerSpan != null && mGapPerSpan.length > 0) {
+                    dest.writeInt(mGapPerSpan.length);
+                    dest.writeIntArray(mGapPerSpan);
+                } else {
+                    dest.writeInt(0);
+                }
+            }
+
+            @Override
+            public String toString() {
+                return "FullSpanItem{" +
+                        "mPosition=" + mPosition +
+                        ", mGapDir=" + mGapDir +
+                        ", mGapPerSpan=" + Arrays.toString(mGapPerSpan) +
+                        '}';
+            }
+        }
+    }
+
+    static class SavedState implements Parcelable {
+
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        int mAnchorPosition;
+        int mVisibleAnchorPosition; // Replacement for span info when spans are invalidated
+        int mSpanOffsetsSize;
+        int[] mSpanOffsets;
+        int mSpanLookupSize;
+        int[] mSpanLookup;
+        List<LazySpanLookup.FullSpanItem> mFullSpanItems;
+        boolean mReverseLayout;
+        boolean mAnchorLayoutFromEnd;
+        boolean mLastLayoutRTL;
+
+        public SavedState() {
+        }
+
+        SavedState(Parcel in) {
+            mAnchorPosition = in.readInt();
+            mVisibleAnchorPosition = in.readInt();
+            mSpanOffsetsSize = in.readInt();
+            if (mSpanOffsetsSize > 0) {
+                mSpanOffsets = new int[mSpanOffsetsSize];
+                in.readIntArray(mSpanOffsets);
+            }
+
+            mSpanLookupSize = in.readInt();
+            if (mSpanLookupSize > 0) {
+                mSpanLookup = new int[mSpanLookupSize];
+                in.readIntArray(mSpanLookup);
+            }
+            mReverseLayout = in.readInt() == 1;
+            mAnchorLayoutFromEnd = in.readInt() == 1;
+            mLastLayoutRTL = in.readInt() == 1;
+            mFullSpanItems = in.readArrayList(
+                    LazySpanLookup.FullSpanItem.class.getClassLoader());
+        }
+
+        public SavedState(SavedState other) {
+            mSpanOffsetsSize = other.mSpanOffsetsSize;
+            mAnchorPosition = other.mAnchorPosition;
+            mVisibleAnchorPosition = other.mVisibleAnchorPosition;
+            mSpanOffsets = other.mSpanOffsets;
+            mSpanLookupSize = other.mSpanLookupSize;
+            mSpanLookup = other.mSpanLookup;
+            mReverseLayout = other.mReverseLayout;
+            mAnchorLayoutFromEnd = other.mAnchorLayoutFromEnd;
+            mLastLayoutRTL = other.mLastLayoutRTL;
+            mFullSpanItems = other.mFullSpanItems;
+        }
+
+        void invalidateSpanInfo() {
+            mSpanOffsets = null;
+            mSpanOffsetsSize = 0;
+            mSpanLookupSize = 0;
+            mSpanLookup = null;
+            mFullSpanItems = null;
+        }
+
+        void invalidateAnchorPositionInfo() {
+            mSpanOffsets = null;
+            mSpanOffsetsSize = 0;
+            mAnchorPosition = NO_POSITION;
+            mVisibleAnchorPosition = NO_POSITION;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(mAnchorPosition);
+            dest.writeInt(mVisibleAnchorPosition);
+            dest.writeInt(mSpanOffsetsSize);
+            if (mSpanOffsetsSize > 0) {
+                dest.writeIntArray(mSpanOffsets);
+            }
+            dest.writeInt(mSpanLookupSize);
+            if (mSpanLookupSize > 0) {
+                dest.writeIntArray(mSpanLookup);
+            }
+            dest.writeInt(mReverseLayout ? 1 : 0);
+            dest.writeInt(mAnchorLayoutFromEnd ? 1 : 0);
+            dest.writeInt(mLastLayoutRTL ? 1 : 0);
+            dest.writeList(mFullSpanItems);
+        }
+    }
+
     // Package scoped to access from tests.
     class Span {
 
         static final int INVALID_LINE = Integer.MIN_VALUE;
-        private ArrayList<View> mViews = new ArrayList<View>();
+        final int mIndex;
         int mCachedStart = INVALID_LINE;
         int mCachedEnd = INVALID_LINE;
         int mDeletedSize = 0;
-        final int mIndex;
+        private ArrayList<View> mViews = new ArrayList<View>();
 
         private Span(int index) {
             mIndex = index;
@@ -2196,415 +2568,6 @@ public class StaggeredGridLayoutManager2 extends RecyclerView.LayoutManager {
             }
             return NO_POSITION;
         }
-    }
-
-    /**
-     * An array of mappings from adapter position to span.
-     * This only grows when a write happens and it grows up to the size of the adapter.
-     */
-    static class LazySpanLookup {
-
-        private static final int MIN_SIZE = 10;
-        int[] mData;
-        int mAdapterSize; // we don't want to grow beyond that, unless it grows
-        List<FullSpanItem> mFullSpanItems;
-
-
-        /**
-         * Invalidates everything after this position, including full span information
-         */
-        int forceInvalidateAfter(int position) {
-            if (mFullSpanItems != null) {
-                for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
-                    FullSpanItem fsi = mFullSpanItems.get(i);
-                    if (fsi.mPosition >= position) {
-                        mFullSpanItems.remove(i);
-                    }
-                }
-            }
-            return invalidateAfter(position);
-        }
-
-        /**
-         * returns end position for invalidation.
-         */
-        int invalidateAfter(int position) {
-            if (mData == null) {
-                return RecyclerView.NO_POSITION;
-            }
-            if (position >= mData.length) {
-                return RecyclerView.NO_POSITION;
-            }
-            int endPosition = invalidateFullSpansAfter(position);
-            if (endPosition == RecyclerView.NO_POSITION) {
-                Arrays.fill(mData, position, mData.length, LayoutParams.INVALID_SPAN_ID);
-                return mData.length;
-            } else {
-                // just invalidate items in between
-                Arrays.fill(mData, position, endPosition + 1, LayoutParams.INVALID_SPAN_ID);
-                return endPosition + 1;
-            }
-        }
-
-        int getSpan(int position) {
-            if (mData == null || position >= mData.length) {
-                return LayoutParams.INVALID_SPAN_ID;
-            } else {
-                return mData[position];
-            }
-        }
-
-        void setSpan(int position, Span span) {
-            ensureSize(position);
-            mData[position] = span.mIndex;
-        }
-
-        int sizeForPosition(int position) {
-            int len = mData.length;
-            while (len <= position) {
-                len *= 2;
-            }
-            if (len > mAdapterSize) {
-                len = mAdapterSize;
-            }
-            return len;
-        }
-
-        void ensureSize(int position) {
-            if (mData == null) {
-                mData = new int[Math.max(position, MIN_SIZE) + 1];
-                Arrays.fill(mData, LayoutParams.INVALID_SPAN_ID);
-            } else if (position >= mData.length) {
-                int[] old = mData;
-                mData = new int[sizeForPosition(position)];
-                System.arraycopy(old, 0, mData, 0, old.length);
-                Arrays.fill(mData, old.length, mData.length, LayoutParams.INVALID_SPAN_ID);
-            }
-        }
-
-        void clear() {
-            if (mData != null) {
-                Arrays.fill(mData, LayoutParams.INVALID_SPAN_ID);
-            }
-            mFullSpanItems = null;
-        }
-
-        void offsetForRemoval(int positionStart, int itemCount) {
-            if (mData == null || positionStart >= mData.length) {
-                return;
-            }
-            ensureSize(positionStart + itemCount);
-            System.arraycopy(mData, positionStart + itemCount, mData, positionStart,
-                    mData.length - positionStart - itemCount);
-            Arrays.fill(mData, mData.length - itemCount, mData.length,
-                    LayoutParams.INVALID_SPAN_ID);
-            offsetFullSpansForRemoval(positionStart, itemCount);
-        }
-
-        private void offsetFullSpansForRemoval(int positionStart, int itemCount) {
-            if (mFullSpanItems == null) {
-                return;
-            }
-            final int end = positionStart + itemCount;
-            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
-                FullSpanItem fsi = mFullSpanItems.get(i);
-                if (fsi.mPosition < positionStart) {
-                    continue;
-                }
-                if (fsi.mPosition < end) {
-                    mFullSpanItems.remove(i);
-                } else {
-                    fsi.mPosition -= itemCount;
-                }
-            }
-        }
-
-        void offsetForAddition(int positionStart, int itemCount) {
-            if (mData == null || positionStart >= mData.length) {
-                return;
-            }
-            ensureSize(positionStart + itemCount);
-            System.arraycopy(mData, positionStart, mData, positionStart + itemCount,
-                    mData.length - positionStart - itemCount);
-            Arrays.fill(mData, positionStart, positionStart + itemCount,
-                    LayoutParams.INVALID_SPAN_ID);
-            offsetFullSpansForAddition(positionStart, itemCount);
-        }
-
-        private void offsetFullSpansForAddition(int positionStart, int itemCount) {
-            if (mFullSpanItems == null) {
-                return;
-            }
-            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
-                FullSpanItem fsi = mFullSpanItems.get(i);
-                if (fsi.mPosition < positionStart) {
-                    continue;
-                }
-                fsi.mPosition += itemCount;
-            }
-        }
-
-        /**
-         * Returns when invalidation should end. e.g. hitting a full span position.
-         * Returned position SHOULD BE invalidated.
-         */
-        private int invalidateFullSpansAfter(int position) {
-            if (mFullSpanItems == null) {
-                return RecyclerView.NO_POSITION;
-            }
-            final FullSpanItem item = getFullSpanItem(position);
-            // if there is an fsi at this position, get rid of it.
-            if (item != null) {
-                mFullSpanItems.remove(item);
-            }
-            int nextFsiIndex = -1;
-            final int count = mFullSpanItems.size();
-            for (int i = 0; i < count; i++) {
-                FullSpanItem fsi = mFullSpanItems.get(i);
-                if (fsi.mPosition >= position) {
-                    nextFsiIndex = i;
-                    break;
-                }
-            }
-            if (nextFsiIndex != -1) {
-                FullSpanItem fsi = mFullSpanItems.get(nextFsiIndex);
-                mFullSpanItems.remove(nextFsiIndex);
-                return fsi.mPosition;
-            }
-            return RecyclerView.NO_POSITION;
-        }
-
-        public void addFullSpanItem(FullSpanItem fullSpanItem) {
-            if (mFullSpanItems == null) {
-                mFullSpanItems = new ArrayList<FullSpanItem>();
-            }
-            final int size = mFullSpanItems.size();
-            for (int i = 0; i < size; i++) {
-                FullSpanItem other = mFullSpanItems.get(i);
-                if (other.mPosition == fullSpanItem.mPosition) {
-                    if (DEBUG) {
-                        throw new IllegalStateException("two fsis for same position");
-                    } else {
-                        mFullSpanItems.remove(i);
-                    }
-                }
-                if (other.mPosition >= fullSpanItem.mPosition) {
-                    mFullSpanItems.add(i, fullSpanItem);
-                    return;
-                }
-            }
-            // if it is not added to a position.
-            mFullSpanItems.add(fullSpanItem);
-        }
-
-        public FullSpanItem getFullSpanItem(int position) {
-            if (mFullSpanItems == null) {
-                return null;
-            }
-            for (int i = mFullSpanItems.size() - 1; i >= 0; i--) {
-                final FullSpanItem fsi = mFullSpanItems.get(i);
-                if (fsi.mPosition == position) {
-                    return fsi;
-                }
-            }
-            return null;
-        }
-
-        /**
-         * @param minPos inclusive
-         * @param maxPos exclusive
-         * @param gapDir if not 0, returns FSIs on in that direction
-         */
-        public FullSpanItem getFirstFullSpanItemInRange(int minPos, int maxPos, int gapDir) {
-            if (mFullSpanItems == null) {
-                return null;
-            }
-            for (int i = 0; i < mFullSpanItems.size(); i++) {
-                FullSpanItem fsi = mFullSpanItems.get(i);
-                if (fsi.mPosition >= maxPos) {
-                    return null;
-                }
-                if (fsi.mPosition >= minPos && (gapDir == 0 || fsi.mGapDir == gapDir)) {
-                    return fsi;
-                }
-            }
-            return null;
-        }
-
-        /**
-         * We keep information about full span items because they may create gaps in the UI.
-         */
-        static class FullSpanItem implements Parcelable {
-
-            int mPosition;
-            int mGapDir;
-            int[] mGapPerSpan;
-
-            public FullSpanItem(Parcel in) {
-                mPosition = in.readInt();
-                mGapDir = in.readInt();
-                int spanCount = in.readInt();
-                if (spanCount > 0) {
-                    mGapPerSpan = new int[spanCount];
-                    in.readIntArray(mGapPerSpan);
-                }
-            }
-
-            public FullSpanItem() {
-            }
-
-            int getGapForSpan(int spanIndex) {
-                if (mGapPerSpan == null || spanIndex >= mGapPerSpan.length) {
-                    return 0;
-                }
-                return mGapPerSpan[spanIndex];
-            }
-
-            public void invalidateSpanGaps() {
-                mGapPerSpan = null;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeInt(mPosition);
-                dest.writeInt(mGapDir);
-                if (mGapPerSpan != null && mGapPerSpan.length > 0) {
-                    dest.writeInt(mGapPerSpan.length);
-                    dest.writeIntArray(mGapPerSpan);
-                } else {
-                    dest.writeInt(0);
-                }
-            }
-
-            @Override
-            public String toString() {
-                return "FullSpanItem{" +
-                        "mPosition=" + mPosition +
-                        ", mGapDir=" + mGapDir +
-                        ", mGapPerSpan=" + Arrays.toString(mGapPerSpan) +
-                        '}';
-            }
-
-            public static final Parcelable.Creator<FullSpanItem> CREATOR
-                    = new Parcelable.Creator<FullSpanItem>() {
-                @Override
-                public FullSpanItem createFromParcel(Parcel in) {
-                    return new FullSpanItem(in);
-                }
-
-                @Override
-                public FullSpanItem[] newArray(int size) {
-                    return new FullSpanItem[size];
-                }
-            };
-        }
-    }
-
-    static class SavedState implements Parcelable {
-
-        int mAnchorPosition;
-        int mVisibleAnchorPosition; // Replacement for span info when spans are invalidated
-        int mSpanOffsetsSize;
-        int[] mSpanOffsets;
-        int mSpanLookupSize;
-        int[] mSpanLookup;
-        List<LazySpanLookup.FullSpanItem> mFullSpanItems;
-        boolean mReverseLayout;
-        boolean mAnchorLayoutFromEnd;
-        boolean mLastLayoutRTL;
-
-        public SavedState() {
-        }
-
-        SavedState(Parcel in) {
-            mAnchorPosition = in.readInt();
-            mVisibleAnchorPosition = in.readInt();
-            mSpanOffsetsSize = in.readInt();
-            if (mSpanOffsetsSize > 0) {
-                mSpanOffsets = new int[mSpanOffsetsSize];
-                in.readIntArray(mSpanOffsets);
-            }
-
-            mSpanLookupSize = in.readInt();
-            if (mSpanLookupSize > 0) {
-                mSpanLookup = new int[mSpanLookupSize];
-                in.readIntArray(mSpanLookup);
-            }
-            mReverseLayout = in.readInt() == 1;
-            mAnchorLayoutFromEnd = in.readInt() == 1;
-            mLastLayoutRTL = in.readInt() == 1;
-            mFullSpanItems = in.readArrayList(
-                    LazySpanLookup.FullSpanItem.class.getClassLoader());
-        }
-
-        public SavedState(SavedState other) {
-            mSpanOffsetsSize = other.mSpanOffsetsSize;
-            mAnchorPosition = other.mAnchorPosition;
-            mVisibleAnchorPosition = other.mVisibleAnchorPosition;
-            mSpanOffsets = other.mSpanOffsets;
-            mSpanLookupSize = other.mSpanLookupSize;
-            mSpanLookup = other.mSpanLookup;
-            mReverseLayout = other.mReverseLayout;
-            mAnchorLayoutFromEnd = other.mAnchorLayoutFromEnd;
-            mLastLayoutRTL = other.mLastLayoutRTL;
-            mFullSpanItems = other.mFullSpanItems;
-        }
-
-        void invalidateSpanInfo() {
-            mSpanOffsets = null;
-            mSpanOffsetsSize = 0;
-            mSpanLookupSize = 0;
-            mSpanLookup = null;
-            mFullSpanItems = null;
-        }
-
-        void invalidateAnchorPositionInfo() {
-            mSpanOffsets = null;
-            mSpanOffsetsSize = 0;
-            mAnchorPosition = NO_POSITION;
-            mVisibleAnchorPosition = NO_POSITION;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(mAnchorPosition);
-            dest.writeInt(mVisibleAnchorPosition);
-            dest.writeInt(mSpanOffsetsSize);
-            if (mSpanOffsetsSize > 0) {
-                dest.writeIntArray(mSpanOffsets);
-            }
-            dest.writeInt(mSpanLookupSize);
-            if (mSpanLookupSize > 0) {
-                dest.writeIntArray(mSpanLookup);
-            }
-            dest.writeInt(mReverseLayout ? 1 : 0);
-            dest.writeInt(mAnchorLayoutFromEnd ? 1 : 0);
-            dest.writeInt(mLastLayoutRTL ? 1 : 0);
-            dest.writeList(mFullSpanItems);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 
     /**
