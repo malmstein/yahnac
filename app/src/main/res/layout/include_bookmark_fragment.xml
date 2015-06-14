@@ -16,6 +16,7 @@
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/main_content"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
@@ -34,19 +35,14 @@
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
       app:layout_scrollFlags="scroll|enterAlways" />
 
-    <fragment
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:name="com.malmstein.yahnac.stories.BookmarksFragment"
-      android:id="@+id/bookmarks_fragment"
-      android:layout_marginTop="@dimen/appbar_bookmarks_height" />
-
   </android.support.design.widget.AppBarLayout>
 
-  <android.support.v4.view.ViewPager
-    android:id="@+id/viewpager"
+  <fragment
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:name="com.malmstein.yahnac.stories.BookmarksFragment"
+    android:id="@+id/bookmarks_fragment"
+    tools:layout="@layout/fragment_bookmarks_feed"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
   <com.malmstein.yahnac.views.SnackBarView
