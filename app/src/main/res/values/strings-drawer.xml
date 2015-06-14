@@ -6,5 +6,6 @@
   <string name="navigation_drawer_bookmarks">My bookmarks</string>
   <string name="navigation_drawer_threads">Threads</string>
   <string name="navigation_drawer_comments">Comments</string>
+  <string name="navigation_drawer_about">About</string>
 
 </resources>

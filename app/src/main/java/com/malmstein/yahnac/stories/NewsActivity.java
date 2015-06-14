@@ -47,15 +47,14 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     private void setupHeaders() {
         headersPager = (ViewPager) findViewById(R.id.viewpager);
-        if (headersPager != null) {
-            headersPager.setAdapter(new StoriesPagerAdapter(getSupportFragmentManager()));
-        }
+        headersPager.setAdapter(new StoriesPagerAdapter(getSupportFragmentManager()));
     }
 
     private void setupTabs() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(headersPager);
+        headersPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     private void setupAppBar() {

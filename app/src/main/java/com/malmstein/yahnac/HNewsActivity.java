@@ -5,8 +5,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.malmstein.yahnac.base.ColorTweaker;
 import com.malmstein.yahnac.base.LollipopUiConfiguration;
@@ -30,30 +28,13 @@ public class HNewsActivity extends AppCompatActivity {
         navigator = new Navigator(this);
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        setupToolbar();
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        setupToolbar();
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        super.setContentView(view, params);
-        setupToolbar();
-    }
-
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     public void setHighLevelActivity() {
+        setupToolbar();
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);

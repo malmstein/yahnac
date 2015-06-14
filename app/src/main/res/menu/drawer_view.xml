@@ -34,7 +34,7 @@
       android:title="@string/navigation_drawer_comments" />
   </group>
 
-  <item>
+  <item android:title="@string/navigation_drawer_about">
     <menu>
       <item
         android:id="@+id/nav_settings"
