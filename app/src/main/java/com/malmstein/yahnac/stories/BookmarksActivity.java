@@ -27,7 +27,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
         setContentView(R.layout.activity_bookmarks);
 
         setupViews();
-        setupSubActivityWithTitle();
     }
 
     private void setupViews() {
@@ -35,14 +34,15 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
         setupAppBar();
     }
 
+    private void setupAppBar() {
+        setHighLevelActivity();
+        setTitle(getString(R.string.title_bookmarks));
+    }
+
     private void setupSnackbar() {
         snackbarView = Views.findById(this, R.id.snackbar);
         croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
-    }
-
-    private void setupAppBar() {
-        setTitle(getString(R.string.title_app));
     }
 
     @Override

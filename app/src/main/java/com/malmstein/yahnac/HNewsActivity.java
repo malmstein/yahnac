@@ -28,23 +28,24 @@ public class HNewsActivity extends AppCompatActivity {
         navigator = new Navigator(this);
     }
 
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
-
-    public void setHighLevelActivity() {
-        setupToolbar();
-        final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
     protected LollipopUiConfiguration getLollipopUiConfiguration() {
         return LollipopUiConfiguration.NEWS;
     }
 
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+    }
+
+    public void setHighLevelActivity() {
+        setupToolbar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     protected void setupSubActivity() {
+        setupToolbar();
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setShowHideAnimationEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

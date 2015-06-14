@@ -24,7 +24,7 @@
 
     <activity
       android:name="com.malmstein.yahnac.stories.BookmarksActivity"
-      android:label="@string/title_comments" />
+      android:label="@string/title_bookmarks" />
 
     <activity
       android:name="com.malmstein.yahnac.stories.ArticleActivity"
