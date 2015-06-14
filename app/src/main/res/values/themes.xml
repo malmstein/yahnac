@@ -22,4 +22,24 @@
     <item name="colorAccent">@color/white</item>
   </style>
 
+  <style name="Theme.HNews.News">
+    <item name="dialogOrientation">vertical</item>
+    <item name="dialogTitleWidth">match_parent</item>
+    <item name="dialogContentWidth">match_parent</item>
+  </style>
+
+  <style name="Theme.HNews.Article">
+    <item name="dialogOrientation">vertical</item>
+    <item name="dialogTitleWidth">match_parent</item>
+    <item name="dialogContentWidth">match_parent</item>
+    <item name="colorAccent">@color/black</item>
+  </style>
+
+  <style name="Theme.HNews.Settings">
+    <item name="dialogOrientation">vertical</item>
+    <item name="dialogTitleWidth">match_parent</item>
+    <item name="dialogContentWidth">match_parent</item>
+    <item name="colorAccent">@color/black</item>
+  </style>
+
 </resources>

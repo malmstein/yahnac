@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="Theme.HNews.News">
-    <item name="dialogOrientation">vertical</item>
-    <item name="dialogTitleWidth">match_parent</item>
-    <item name="dialogContentWidth">match_parent</item>
-  </style>
 
-  <style name="HNewsButton" parent="android:Widget.Holo.Button" />
+<style name="HNewsButton" parent="android:Widget.Holo.Button" />
 
   <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
