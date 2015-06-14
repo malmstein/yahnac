@@ -3,42 +3,34 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
-import com.malmstein.yahnac.drawer.NavDrawerAdapter;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.updater.LoginSharedPreferences;
-import com.malmstein.yahnac.views.FloatingActionButton;
 import com.malmstein.yahnac.views.SnackBarView;
-import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
 
 public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener {
 
-    private static final int OFFSCREEN_PAGE_LIMIT = 1;
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
-    private SlidingTabLayout slidingTabs;
-    private StoriesPagerAdapter headersAdapter;
 
     private SnackBarView snackbarView;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
 
     private LoginSharedPreferences loginSharedPreferences;
-
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,44 +47,37 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         setupAppBar();
     }
 
+    private void setupHeaders() {
+        headersPager = (ViewPager) findViewById(R.id.viewpager);
+        if (headersPager != null) {
+            headersPager.setAdapter(new StoriesPagerAdapter(getSupportFragmentManager()));
+        }
+    }
+
+    private void setupTabs() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(headersPager);
+    }
+
+    private void setupAppBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.title_app));
+    }
+
     private void setupSnackbar() {
         snackbarView = Views.findById(this, R.id.snackbar);
         croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
     }
 
-    private void setupHeaders() {
-        headersAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
-        headersPager = Views.findById(this, R.id.news_pager);
-        headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
-        headersPager.setAdapter(headersAdapter);
-    }
-
-    private void setupTabs() {
-        slidingTabs = Views.findById(this, R.id.sliding_tabs);
-        slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
-        slidingTabs.setViewPager(headersPager);
-        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
-        slidingTabs.setOnPageChangeListener(new StoryOnPageChangeListener());
-    }
-
-    private void setupAppBar() {
-        setTitle(getString(R.string.title_app));
-    }
-
     private void setupFab() {
         DialogFragment loginDialog = new LoginDialog();
         loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
-    }
-
-    @Override
-    protected NavDrawerAdapter createNavDrawerAdapter(LayoutInflater layoutInflater, ActionBarDrawerListener drawerListener) {
-        return NavDrawerAdapter.newInstance(layoutInflater, drawerListener);
-    }
-
-    @Override
-    protected boolean actionBarToggleShouldReplaceUp() {
-        return true;
     }
 
     @Override
@@ -136,17 +121,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         }
     }
 
-    @Override
-    public void onQuickReturnVisibilityChangeHint(boolean visible) {
-        if (visible) {
-            getAppBarContainer().showAppBar();
-            fab.showAnimated();
-        } else {
-            getAppBarContainer().hideAppBar();
-            fab.hideAnimated();
-        }
-    }
-
     private void removeBookmark(DataPersister persister, Story story) {
         persister.removeBookmark(story);
         showRemovedBookmarkSnackbar(persister, story);
@@ -187,42 +161,12 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onLoginSucceed() {
-        fab.setVisibility(View.GONE);
+//        fab.setVisibility(View.GONE);
     }
 
     @Override
     public void onLoginCancelled() {
-        fab.showAnimated();
+//        fab.showAnimated();
     }
 
-    private class StoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (positionOffset == 0) {
-                return;
-            }
-            scrollFeedsAccordingToAppBarVisibility();
-        }
-
-        private void scrollFeedsAccordingToAppBarVisibility() {
-            Fragment currentFragment = headersAdapter.getPrimaryItem();
-            int px = getAppBarContainer().isAppBarShowing() ? 0 : getAppBarContainer().getHideableHeightPx();
-            for (int i = 0; i < headersAdapter.getCount(); i++) {
-                StoryFragment fragment = getStoryFragmentAt(i);
-                if (fragment == null || fragment == currentFragment) {
-                    continue;
-                }
-                if (fragment.shouldBeScrolledToTop()) {
-                    fragment.scrollToTopWithOffset(px);
-                }
-            }
-        }
-
-        private StoryFragment getStoryFragmentAt(int position) {
-            String tag = headersAdapter.getTag(position);
-            return (StoryFragment) getSupportFragmentManager().findFragmentByTag(tag);
-        }
-
-    }
 }

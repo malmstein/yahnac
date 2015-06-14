@@ -3,14 +3,11 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
-import com.malmstein.yahnac.drawer.NavDrawerAdapter;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
@@ -46,16 +43,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
 
     private void setupAppBar() {
         setTitle(getString(R.string.title_app));
-    }
-
-    @Override
-    protected NavDrawerAdapter createNavDrawerAdapter(LayoutInflater layoutInflater, ActionBarDrawerListener drawerListener) {
-        return NavDrawerAdapter.newInstance(layoutInflater, drawerListener);
-    }
-
-    @Override
-    protected boolean actionBarToggleShouldReplaceUp() {
-        return true;
     }
 
     @Override
@@ -96,15 +83,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
             removeBookmark(persister, story);
         } else {
             addBookmark(persister, story);
-        }
-    }
-
-    @Override
-    public void onQuickReturnVisibilityChangeHint(boolean visible) {
-        if (visible) {
-            getAppBarContainer().showAppBar();
-        } else {
-            getAppBarContainer().hideAppBar();
         }
     }
 
