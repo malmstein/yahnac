@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/drawer_list"
-  style="@style/Yahnac.NavigationDrawer.List"
-  android:layout_width="@dimen/navigation_drawer_width"
-  android:layout_height="match_parent" />
+<android.support.design.widget.NavigationView xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/nav_view"
+  android:layout_height="match_parent"
+  android:layout_width="wrap_content"
+  android:layout_gravity="start"
+  android:fitsSystemWindows="true"
+  app:headerLayout="@layout/nav_header"
+  app:menu="@menu/drawer_view" />

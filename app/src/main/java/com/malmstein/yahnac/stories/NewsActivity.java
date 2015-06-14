@@ -81,23 +81,8 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void setupFab() {
-        fab = Views.findById(this, R.id.fab_login);
-        if (loginSharedPreferences == null) {
-            loginSharedPreferences = LoginSharedPreferences.newInstance();
-        }
-        if (loginSharedPreferences.isLoggedIn()) {
-            fab.setVisibility(View.GONE);
-        } else {
-            fab.setVisibility(View.VISIBLE);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fab.hideAnimated();
-                    DialogFragment loginDialog = new LoginDialog();
-                    loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
-                }
-            });
-        }
+        DialogFragment loginDialog = new LoginDialog();
+        loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
     }
 
     @Override

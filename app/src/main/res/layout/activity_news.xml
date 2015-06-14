@@ -46,13 +46,6 @@
 
     </com.malmstein.yahnac.views.toolbar.AppBarContainer>
 
-    <com.malmstein.yahnac.views.FloatingActionButton
-      android:id="@+id/fab_login"
-      style="@style/HNews.FloatingActionButton.Login"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="end|bottom" />
-
   </FrameLayout>
 
   <include layout="@layout/navigation_drawer_list" />
