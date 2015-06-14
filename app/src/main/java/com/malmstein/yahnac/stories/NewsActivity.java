@@ -48,12 +48,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         setupViews();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setupFab();
-    }
-
     private void setupViews() {
         setupHeaders();
         setupTabs();

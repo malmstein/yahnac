@@ -2,7 +2,7 @@ package com.malmstein.yahnac;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.malmstein.yahnac.views.toolbar.AppBarContainer;
 import com.malmstein.yahnac.views.toolbar.HNToolbar;
 import com.novoda.notils.caster.Views;
 
-public class HNewsActivity extends ActionBarActivity {
+public class HNewsActivity extends AppCompatActivity {
 
     private AppBarContainer appBarContainer;
     private HNToolbar appBar;
