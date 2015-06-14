@@ -63,8 +63,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setViewDelegate(this);
-        refreshViewOffset = getResources().getDimensionPixelSize(R.dimen.feed_refresh_top_padding);
-        refreshLayout.setProgressViewOffset(false, 0, refreshViewOffset);
     }
 
     private void setupStoriesList() {

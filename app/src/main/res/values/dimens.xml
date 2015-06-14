@@ -33,6 +33,7 @@
   <dimen name="appbar_tab_indicator_horizontal_padding">12dp</dimen>
   <dimen name="appbar_tab_indicator_height">48dp</dimen>
   <dimen name="appbar_tab_horizontal_padding">12dp</dimen>
+  <dimen name="appbar_swipe_tabs_left_padding">48dp</dimen>
 
   <dimen name="app_bar_shadow_height">4dp</dimen>
   <dimen name="app_bar_shadow_no_height">0dp</dimen>

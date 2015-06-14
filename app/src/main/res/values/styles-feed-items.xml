@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+  <style name="HNews.FeedItem" parent="None">
+    <item name="android:background">@drawable/selector_card_clickable</item>
+  </style>
+
   <style name="HNews.Title" parent="None">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     <item name="android:textColor">@color/white</item>

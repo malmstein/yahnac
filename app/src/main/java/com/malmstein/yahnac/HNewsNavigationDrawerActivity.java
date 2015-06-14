@@ -25,21 +25,8 @@ public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(drawerListener);
-            setupDrawerContent(navigationView);
         }
 
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        drawer.closeDrawers();
-                        return true;
-                    }
-                });
     }
 
     protected DrawerLayout getDrawer() {

@@ -49,9 +49,5 @@
     <item name="android:text">@string/feed_loading_text</item>
   </style>
 
-  <style name="HNews.FloatingActionButton.Login">
-    <item name="android:contentDescription">@string/fab_login_content_description</item>
-    <item name="android:src">@drawable/ic_login_outline</item>
-  </style>
 
 </resources>

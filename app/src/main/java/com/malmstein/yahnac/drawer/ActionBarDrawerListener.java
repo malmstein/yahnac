@@ -63,7 +63,7 @@ public final class ActionBarDrawerListener implements DrawerLayout.DrawerListene
 
         }
         menuItem.setChecked(true);
-        return true;
+        return false;
     }
 
     interface NavigationTarget {

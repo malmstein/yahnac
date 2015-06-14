@@ -19,7 +19,7 @@
     <item name="actionBarWidgetTheme">@style/HNews.ActionBar.Widget</item>
     <item name="colorPrimary">@color/orange</item>
     <item name="colorPrimaryDark">@color/dark_orange</item>
-    <item name="colorAccent">@color/black</item>
+    <item name="colorAccent">@color/white</item>
   </style>
 
 </resources>
