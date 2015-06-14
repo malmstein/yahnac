@@ -1,8 +1,6 @@
 package com.malmstein.yahnac.comments;
 
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +25,6 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
-import com.malmstein.yahnac.views.recyclerview.CommentRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
@@ -136,18 +133,10 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void setupCommentsList() {
         commentsList.setHasFixedSize(true);
         commentsLayoutManager = new LinearLayoutManager(getActivity());
-//        commentsList.addItemDecoration(createItemDecoration(getResources()));
         commentsList.setLayoutManager(commentsLayoutManager);
 
         commentsAdapter = new CommentsAdapter(null);
         commentsList.setAdapter(commentsAdapter);
-    }
-
-    private CommentRecyclerItemDecoration createItemDecoration(Resources resources) {
-        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_divider_height);
-        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_padding_infra_spans);
-        Drawable divider = resources.getDrawable(R.drawable.divider_horizontal_bright);
-        return new CommentRecyclerItemDecoration(divider, verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     private void stopRefreshing() {
