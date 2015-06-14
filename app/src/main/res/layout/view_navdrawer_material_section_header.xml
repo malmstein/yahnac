@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.malmstein.yahnac.views.NavDrawerSectionHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/Yahnac.NavigationDrawer.Header"
-  android:layout_width="match_parent"
-  android:layout_height="@dimen/navigation_drawer_list_material_divider_height" />
