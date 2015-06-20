@@ -131,8 +131,10 @@ public class Story implements Serializable {
             isLocalItem = true;
         }
 
-        if (url.startsWith(ASK_URL_BASE)) {
-            isLocalItem = true;
+        if (url != null) {
+            isLocalItem = url.startsWith(ASK_URL_BASE) ? true : false;
+        } else {
+            isLocalItem = false;
         }
 
         return isLocalItem;

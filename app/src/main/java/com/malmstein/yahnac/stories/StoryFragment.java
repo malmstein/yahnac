@@ -3,7 +3,6 @@ package com.malmstein.yahnac.stories;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager2;
@@ -113,7 +112,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     @Override
     public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(storiesList, -1);
+        return false;
+//        return ViewCompat.canScrollVertically(storiesList, -1);
     }
 
     @Override

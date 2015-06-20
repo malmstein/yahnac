@@ -31,11 +31,6 @@
     <item name="divider">@color/grey</item>
   </style>
 
-  <style name="HNews.List" parent="None">
-    <item name="android:clipToPadding">false</item>
-    <item name="android:descendantFocusability">blocksDescendants</item>
-  </style>
-
   <style name="HNews.Card" parent="CardView">
     <item name="contentPadding">0dp</item>
     <item name="cardCornerRadius">@dimen/card_corner_radius</item>

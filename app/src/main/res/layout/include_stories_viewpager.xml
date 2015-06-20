@@ -39,7 +39,8 @@
       android:paddingLeft="@dimen/appbar_swipe_tabs_left_padding"
       app:tabMode="scrollable"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      app:layout_scrollFlags="scroll|enterAlways" />
 
   </android.support.design.widget.AppBarLayout>
 
