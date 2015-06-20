@@ -113,6 +113,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     @Override
     public boolean isReadyForPull() {
+
         return ViewCompat.canScrollVertically(storiesList, -1);
     }
 

@@ -25,10 +25,6 @@
       android:icon="@drawable/ic_bookmark_selected"
       android:title="@string/navigation_drawer_bookmarks" />
     <item
-      android:id="@+id/nav_threads"
-      android:icon="@drawable/ic_forum"
-      android:title="@string/navigation_drawer_threads" />
-    <item
       android:id="@+id/nav_comments"
       android:icon="@drawable/ic_forum"
       android:title="@string/navigation_drawer_comments" />
