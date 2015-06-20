@@ -21,7 +21,7 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.about_settings);
-        addPreferencesFromResource(R.xml.account_settings);
+//        addPreferencesFromResource(R.xml.account_settings);
         addPreferenceClickListenerForSoftwareLicenses();
         updateSummaryPreferences();
     }
@@ -41,7 +41,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        configureAccountPreferences();
+//        configureAccountPreferences();
     }
 
     private void configureAccountPreferences() {

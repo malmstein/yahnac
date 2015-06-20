@@ -30,4 +30,6 @@
   <string name="navigation_drawer_open_content_description">Open navigation drawer</string>
   <string name="navigation_drawer_closed_content_description">Close navigation drawer</string>
 
+  <string name="coming_soon">Coming soon!</string>
+
 </resources>
