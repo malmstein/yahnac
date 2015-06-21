@@ -40,7 +40,7 @@ public class CommentsActivity extends HNewsActivity {
 
         ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
-        setupSubActivityWithTitle();
+        setupSubActivity();
         setupStoryHeader();
         setupSnackbar();
 
