@@ -8,15 +8,18 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.Navigator;
+import com.novoda.notils.caster.Classes;
 
 public final class ActionBarDrawerListener implements DrawerLayout.DrawerListener, NavigationView.OnNavigationItemSelectedListener {
 
     private final HNewsNavigationDrawerActivity activity;
+    private final Listener listener;
     private final DrawerLayout drawerLayout;
     private NavigationTarget pendingNavigation;
 
     public ActionBarDrawerListener(HNewsNavigationDrawerActivity activity, DrawerLayout drawerLayout) {
         this.activity = activity;
+        this.listener = Classes.from(activity);
         this.drawerLayout = drawerLayout;
     }
 
@@ -60,10 +63,17 @@ public final class ActionBarDrawerListener implements DrawerLayout.DrawerListene
                 pendingNavigation = new SettingsNavigationTarget();
                 drawerLayout.closeDrawers();
                 break;
+            case R.id.nav_comments:
+                listener.onNotImplementedFeatureSelected();
+                drawerLayout.closeDrawers();
 
         }
         menuItem.setChecked(true);
         return false;
+    }
+
+    public interface Listener {
+        void onNotImplementedFeatureSelected();
     }
 
     interface NavigationTarget {

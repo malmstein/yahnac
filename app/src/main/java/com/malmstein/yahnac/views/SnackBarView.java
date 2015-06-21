@@ -163,10 +163,9 @@ public class SnackBarView extends LinearLayout {
 
     public static class ShowCroutonAction {
 
-        private static final int DISMISS_ANIMATION_SPEEDUP_FACTOR = 3;
         public static final long DEFAULT_ANIMATION_DURATION_MS = 500;
         public static final long DEFAULT_AUTOHIDE_DELAY_MS = 3500;
-
+        private static final int DISMISS_ANIMATION_SPEEDUP_FACTOR = 3;
         protected SnackBarView crouton;
         protected long animationDuration;
         protected long autohideDelay;
@@ -175,11 +174,28 @@ public class SnackBarView extends LinearLayout {
         protected ShowCroutonAction(SnackBarView crouton, CharSequence message) {
             crouton.croutonText.setText(message);
             crouton.croutonText.setBackground(null);
+            crouton.croutonUndo.setVisibility(View.GONE);
             crouton.croutonContainer.setBackgroundColor(DEFAULT_BG_COLOR);
 
             this.crouton = crouton;
             this.animationDuration = DEFAULT_ANIMATION_DURATION_MS;
             this.autohideDelay = DEFAULT_AUTOHIDE_DELAY_MS;
+        }
+
+        private static int computeBackgroundColor(int baseColor, int alpha) {
+            return Color.argb(alpha, getRed(baseColor), getGreen(baseColor), getBlue(baseColor));
+        }
+
+        private static int getRed(int startColor) {
+            return (startColor >> 16) & 0xFF;
+        }
+
+        private static int getGreen(int startColor) {
+            return (startColor >> 8) & 0xFF;
+        }
+
+        private static int getBlue(int startColor) {
+            return startColor & 0xFF;
         }
 
         public ShowCroutonAction withBackgroundColor(int baseColor, int alpha) {
@@ -188,6 +204,7 @@ public class SnackBarView extends LinearLayout {
         }
 
         public ShowCroutonAction withUndoClickListener(OnClickListener l) {
+            crouton.croutonUndo.setVisibility(View.VISIBLE);
             crouton.onUndoClickListener = l;
             return this;
         }
@@ -222,22 +239,6 @@ public class SnackBarView extends LinearLayout {
             if (dismissAnimationDuration <= 0) {
                 dismissAnimationDuration = animationDuration / DISMISS_ANIMATION_SPEEDUP_FACTOR;
             }
-        }
-
-        private static int computeBackgroundColor(int baseColor, int alpha) {
-            return Color.argb(alpha, getRed(baseColor), getGreen(baseColor), getBlue(baseColor));
-        }
-
-        private static int getRed(int startColor) {
-            return (startColor >> 16) & 0xFF;
-        }
-
-        private static int getGreen(int startColor) {
-            return (startColor >> 8) & 0xFF;
-        }
-
-        private static int getBlue(int startColor) {
-            return startColor & 0xFF;
         }
     }
 
