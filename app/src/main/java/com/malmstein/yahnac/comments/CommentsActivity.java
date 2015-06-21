@@ -132,7 +132,6 @@ public class CommentsActivity extends HNewsActivity {
     }
 
     private void setupStoryHeader() {
-        setTitle(getStoryTitle());
         storyHeaderView.updateWith(getStory());
     }
 
@@ -142,12 +141,6 @@ public class CommentsActivity extends HNewsActivity {
         } else {
             throw new DeveloperError("Missing argument");
         }
-    }
-
-    private String getStoryTitle() {
-        return getResources().getQuantityString(R.plurals.story_comments,
-                getStory().getComments(),
-                getStory().getComments());
     }
 
     private void removeBookmark(DataPersister persister, Story story) {

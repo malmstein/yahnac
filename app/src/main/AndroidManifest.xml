@@ -32,9 +32,7 @@
       android:configChanges="keyboardHidden|orientation|screenSize"
       android:theme="@style/Theme.HNews.Article" />
 
-    <activity
-      android:name="com.malmstein.yahnac.comments.CommentsActivity"
-      android:label="@string/title_comments" />
+    <activity android:name="com.malmstein.yahnac.comments.CommentsActivity" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"

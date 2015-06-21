@@ -160,7 +160,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        getActivity().setTitle(getStoryTitle(data.getCount()));
         commentsAdapter.swapCursor(data);
         stopRefreshing();
     }
@@ -180,7 +179,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         return ViewCompat.canScrollVertically(commentsList, -1);
     }
 
-    private String getStoryTitle(int comments) {
+    private String getTotalComments(int comments) {
         return getResources().getQuantityString(R.plurals.story_comments,
                 comments,
                 comments);
