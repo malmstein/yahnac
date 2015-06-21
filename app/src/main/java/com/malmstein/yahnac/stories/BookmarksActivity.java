@@ -8,12 +8,13 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.novoda.notils.caster.Views;
 
-public class BookmarksActivity extends HNewsNavigationDrawerActivity implements StoryListener {
+public class BookmarksActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener {
 
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
 
@@ -124,4 +125,11 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
                 .animating();
     }
 
+    @Override
+    public void onNotImplementedFeatureSelected() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
 }
