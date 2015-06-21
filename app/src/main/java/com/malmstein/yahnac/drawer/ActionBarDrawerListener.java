@@ -66,9 +66,9 @@ public final class ActionBarDrawerListener implements DrawerLayout.DrawerListene
             case R.id.nav_comments:
                 listener.onNotImplementedFeatureSelected();
                 drawerLayout.closeDrawers();
+                break;
 
         }
-        menuItem.setChecked(true);
         return false;
     }
 
