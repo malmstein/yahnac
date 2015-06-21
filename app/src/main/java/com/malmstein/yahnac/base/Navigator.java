@@ -72,13 +72,15 @@ public class Navigator {
 
     public void toNews() {
         Intent newsIntent = new Intent(activity, NewsActivity.class);
-        activity.finish();
         ActivityCompat.startActivity(activity, newsIntent, null);
+        activity.overridePendingTransition(0, 0);
+        activity.finish();
     }
 
     public void toBookmarks() {
         Intent bookmarksIntent = new Intent(activity, BookmarksActivity.class);
-        activity.finish();
         ActivityCompat.startActivity(activity, bookmarksIntent, null);
+        activity.overridePendingTransition(0, 0);
+        activity.finish();
     }
 }
