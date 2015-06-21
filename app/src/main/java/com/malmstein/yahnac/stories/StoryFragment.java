@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager2;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +93,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
         int spans = resources.getInteger(R.integer.feed_columns);
-        return new StaggeredGridLayoutManager2(spans, RecyclerView.VERTICAL);
+        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
     protected abstract Story.TYPE getType();

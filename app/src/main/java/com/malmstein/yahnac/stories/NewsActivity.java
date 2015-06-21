@@ -54,7 +54,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(headersPager);
-        headersPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     private void setupAppBar() {
