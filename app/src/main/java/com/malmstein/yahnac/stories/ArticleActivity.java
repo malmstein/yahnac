@@ -62,6 +62,7 @@ public class ArticleActivity extends HNewsActivity {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
