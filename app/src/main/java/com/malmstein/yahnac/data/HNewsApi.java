@@ -80,52 +80,73 @@ public class HNewsApi {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
                                 if (newItem != null) {
-                                    subscriber.onNext(mapStory(newItem, type, storyRoot.first));
-                                } else {
-                                    Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onDataChange is empty in " + storyRoot.second);
+                                    ContentValues story = mapStory(newItem, type, storyRoot.first);
+                                    if (story != null) {
+                                        subscriber.onNext(story);
+                                    } else {
+                                        subscriber.onNext(new ContentValues());
+                                        Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onDataChange is empty in " + storyRoot.second);
+                                    }
                                 }
                                 subscriber.onCompleted();
+                                }
+
+                                                        @Override
+                                                        public void onCancelled(FirebaseError firebaseError) {
+                                                            Log.d(firebaseError.getCode());
+                                                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onCancelled " + firebaseError.getMessage());
+                                                            subscriber.onCompleted();
+                                                        }
                             }
 
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-                                Log.d(firebaseError.getCode());
-                            }
-                        });
+                        );
                     }
-                });
+                    }
+
+                );
             }
-        }).toList();
-    }
+            }
+
+        ).
+
+                toList();
+        }
 
     private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
 
-        String by = (String) map.get("by");
-        Long id = (Long) map.get("id");
-        String type;
-        if (rootType == Story.TYPE.best_story || rootType == Story.TYPE.new_story) {
-            type = Story.TYPE.top_story.name();
-        } else {
-            type = rootType.name();
-        }
-        Long time = (Long) map.get("time");
-        Long score = (Long) map.get("score");
-        String title = (String) map.get("title");
-        String url = (String) map.get("url");
-        Long descendants = (Long) map.get("descendants");
-
         ContentValues storyValues = new ContentValues();
 
-        storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
-        storyValues.put(HNewsContract.StoryEntry.BY, by);
-        storyValues.put(HNewsContract.StoryEntry.TYPE, type);
-        storyValues.put(HNewsContract.StoryEntry.TIME_AGO, time * 1000);
-        storyValues.put(HNewsContract.StoryEntry.SCORE, score);
-        storyValues.put(HNewsContract.StoryEntry.TITLE, title);
-        storyValues.put(HNewsContract.StoryEntry.COMMENTS, descendants);
-        storyValues.put(HNewsContract.StoryEntry.URL, url);
-        storyValues.put(HNewsContract.StoryEntry.RANK, rank);
-        storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
+        try {
+            String by = (String) map.get("by");
+            Long id = (Long) map.get("id");
+            String type;
+            if (rootType == Story.TYPE.best_story) {
+                type = Story.TYPE.top_story.name();
+            } else {
+                type = rootType.name();
+            }
+            Long time = (Long) map.get("time");
+            Long score = (Long) map.get("score");
+            String title = (String) map.get("title");
+            String url = (String) map.get("url");
+            Long descendants = Long.valueOf(0);
+            if (map.get("descendants") != null) {
+                descendants = (Long) map.get("descendants");
+            }
+
+            storyValues.put(HNewsContract.StoryEntry.ITEM_ID, id);
+            storyValues.put(HNewsContract.StoryEntry.BY, by);
+            storyValues.put(HNewsContract.StoryEntry.TYPE, type);
+            storyValues.put(HNewsContract.StoryEntry.TIME_AGO, time * 1000);
+            storyValues.put(HNewsContract.StoryEntry.SCORE, score);
+            storyValues.put(HNewsContract.StoryEntry.TITLE, title);
+            storyValues.put(HNewsContract.StoryEntry.COMMENTS, descendants);
+            storyValues.put(HNewsContract.StoryEntry.URL, url);
+            storyValues.put(HNewsContract.StoryEntry.RANK, rank);
+            storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
+        } catch (Exception ex) {
+            Log.d(ex.getMessage());
+        }
 
         return storyValues;
     }
@@ -135,7 +156,7 @@ public class HNewsApi {
             case top_story:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
             case new_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+                return new Firebase("https://hacker-news.firebaseio.com/v0/newstories");
             case best_story:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
             case show:
