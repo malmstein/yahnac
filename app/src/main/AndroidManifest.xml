@@ -14,25 +14,30 @@
     android:theme="@style/Theme.HNews">
     <activity
       android:name="com.malmstein.yahnac.stories.NewsActivity"
-      android:label="@string/title_launcher">
+      android:label="@string/title_launcher"
+      android:theme="@style/Theme.HNews.News">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
 
     <activity
-      android:name="com.malmstein.yahnac.stories.ArticleActivity"
-      android:configChanges="keyboardHidden|orientation|screenSize" />
+      android:name="com.malmstein.yahnac.stories.BookmarksActivity"
+      android:label="@string/title_bookmarks"
+      android:theme="@style/Theme.HNews.News" />
 
     <activity
-      android:name="com.malmstein.yahnac.comments.CommentsActivity"
-      android:label="@string/title_comments" />
+      android:name="com.malmstein.yahnac.stories.ArticleActivity"
+      android:configChanges="keyboardHidden|orientation|screenSize"
+      android:theme="@style/Theme.HNews.Article" />
+
+    <activity android:name="com.malmstein.yahnac.comments.CommentsActivity" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"
-      android:label="@string/title_about" />
+      android:label="@string/title_about"
+      android:theme="@style/Theme.HNews.Settings" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SoftwareLicensesActivity"

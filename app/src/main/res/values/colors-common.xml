@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <color name="translucent_system_ui_background">#43000000</color>
+  <color name="error_text">#FFFF0000</color>
+
+</resources>

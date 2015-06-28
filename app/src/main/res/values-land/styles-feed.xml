@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Theme.HNews.News">
+    <item name="dialogOrientation">horizontal</item>
+    <item name="dialogTitleWidth">@dimen/dialog_title_width</item>
+    <item name="dialogContentWidth">@dimen/dialog_content_width</item>
+  </style>
+
+</resources>

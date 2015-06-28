@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="login_not_valid">Please enter valid credentials</string>
+
+  <string name="hint_username">Enter your username</string>
+  <string name="hint_password">Enter your password</string>
+
+  <string name="title_add_account">Log into Hacker News</string>
+  <string name="title_checking_account">Checking credentials...</string>
+
+  <string name="action_login">Login</string>
+  <string name="action_cancel">Cancel</string>
+  <string name="action_logout">Logout</string>
+
+  <string name="confirm_logout_message">This will log you out of Hacker News.</string>
+
+</resources>

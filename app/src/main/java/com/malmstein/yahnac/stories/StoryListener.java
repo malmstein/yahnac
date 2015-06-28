@@ -17,6 +17,4 @@ public interface StoryListener {
 
     void onBookmarkClicked(Story story);
 
-    void onQuickReturnVisibilityChangeHint(boolean visible);
-
 }

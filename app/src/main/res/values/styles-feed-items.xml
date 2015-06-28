@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+  <style name="HNews.FeedItem" parent="None">
+    <item name="android:background">@drawable/selector_card_clickable</item>
+  </style>
+
   <style name="HNews.Title" parent="None">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     <item name="android:textColor">@color/white</item>
@@ -10,12 +14,6 @@
   <style name="HNews.Subhead" parent="None">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
     <item name="android:textColor">@color/white</item>
-    <item name="fontAsset">robotoRegular</item>
-  </style>
-
-  <style name="HNews.Header" parent="None">
-    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-    <item name="android:textColor">@color/black</item>
     <item name="fontAsset">robotoRegular</item>
   </style>
 

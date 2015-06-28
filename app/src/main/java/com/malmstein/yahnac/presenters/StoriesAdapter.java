@@ -34,11 +34,11 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
+    public void onBindViewHolderCursor(final ViewHolder holder, Cursor cursor) {
         final Story story = Story.from(cursor);
 
         holder.title.setTextColor(story.isRead() ?
-                holder.title.getResources().getColor(R.color.light_grey) :
+                holder.title.getResources().getColor(R.color.grey) :
                 holder.title.getResources().getColor(R.color.black));
 
         holder.title.setText(story.getTitle());
@@ -69,16 +69,16 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             holder.user.setVisibility(View.GONE);
             holder.timeAgo.setVisibility(View.GONE);
             holder.score.setVisibility(View.GONE);
-            holder.comments_action.setVisibility(View.GONE);
+            holder.comments_text.setVisibility(View.GONE);
         } else {
             holder.user.setText(holder.user.getResources().getString(R.string.story_by, story.getSubmitter()));
             holder.timeAgo.setText(timeAgo.timeAgo(story.getTimeAgo()));
             holder.score.setText(holder.score.getResources().getString(R.string.story_points, story.getScore()));
             holder.comments_text.setText(holder.user.getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
-            holder.comments_action.setOnClickListener(new View.OnClickListener() {
+            holder.comments_text.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onCommentsClicked(v, story);
+                    listener.onCommentsClicked(holder.title, story);
                 }
             });
         }
@@ -111,7 +111,6 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final View card;
         public final View external_action;
         public final View share_action;
-        public final View comments_action;
         public final View bookmark_action;
         public final TextView comments_text;
 
@@ -125,7 +124,6 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             external_action = Views.findById(view, R.id.article_external_action);
             share_action = Views.findById(view, R.id.article_share_action);
             bookmark_action = Views.findById(view, R.id.article_bookmark_action);
-            comments_action = Views.findById(view, R.id.article_comments);
             comments_text = Views.findById(view, R.id.article_comments_label);
         }
     }

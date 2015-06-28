@@ -1,29 +1,32 @@
 package com.malmstein.yahnac.inject;
 
 import com.malmstein.yahnac.analytics.CrashAnalytics;
-import com.malmstein.yahnac.base.DeveloperError;
+import com.malmstein.yahnac.data.ConnectionProvider;
 import com.malmstein.yahnac.data.DataPersister;
-import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.Provider;
+import com.novoda.notils.exception.DeveloperError;
 
 public class Inject {
 
     private static Inject INSTANCE;
-    private final DataRepository dataRepository;
+    private final Provider provider;
     private final CrashAnalytics crashAnalytics;
     private final DataPersister persister;
+    private final ConnectionProvider connectionProvider;
 
-    private Inject(DataRepository dataRepository, CrashAnalytics crashAnalytics, DataPersister persister) {
-        this.dataRepository = dataRepository;
+    private Inject(Provider provider, CrashAnalytics crashAnalytics, DataPersister persister, ConnectionProvider connectionProvider) {
+        this.provider = provider;
         this.crashAnalytics = crashAnalytics;
         this.persister = persister;
+        this.connectionProvider = connectionProvider;
     }
 
     public static void using(DependenciesFactory factory) {
         DataPersister dataPersister = factory.createDatabasePersister();
-        DataRepository dataRepository = factory.createDataRepository(dataPersister);
+        Provider provider = factory.createDataRepository(dataPersister);
         CrashAnalytics crashAnalytics = factory.createCrashAnalytics();
-
-        INSTANCE = new Inject(dataRepository, crashAnalytics, dataPersister);
+        ConnectionProvider connectionProvider = factory.createConnection();
+        INSTANCE = new Inject(provider, crashAnalytics, dataPersister, connectionProvider);
     }
 
     private static Inject instance() {
@@ -33,8 +36,8 @@ public class Inject {
         return INSTANCE;
     }
 
-    public static DataRepository dataRepository() {
-        return instance().dataRepository;
+    public static Provider provider() {
+        return instance().provider;
     }
 
     public static CrashAnalytics crashAnalytics() {
@@ -43,6 +46,10 @@ public class Inject {
 
     public static DataPersister dataPersister() {
         return instance().persister;
+    }
+
+    public static ConnectionProvider connectionProvider() {
+        return instance().connectionProvider;
     }
 
 }

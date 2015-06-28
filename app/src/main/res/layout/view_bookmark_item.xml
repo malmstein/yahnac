@@ -46,7 +46,7 @@
             android:id="@+id/article_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/grey"
             android:paddingLeft="@dimen/card_content_padding"
             tools:text="user" />
 
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/grey"
             tools:text="(domain)" />
 
         </LinearLayout>

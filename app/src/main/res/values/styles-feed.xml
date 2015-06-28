@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="HNewsButton" parent="android:Widget.Holo.Button" />
+
+<style name="HNewsButton" parent="android:Widget.Holo.Button" />
 
   <style name="HNewsButton.Borderless" parent="android:Widget.Holo.Button.Borderless">
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
@@ -42,5 +43,6 @@
   <style name="HNews.EmptyView.Loading">
     <item name="android:text">@string/feed_loading_text</item>
   </style>
+
 
 </resources>

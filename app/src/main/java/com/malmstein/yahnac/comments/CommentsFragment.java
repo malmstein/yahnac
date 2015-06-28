@@ -1,8 +1,6 @@
 package com.malmstein.yahnac.comments;
 
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,16 +18,15 @@ import android.view.ViewGroup;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.DeveloperError;
-import com.malmstein.yahnac.data.DataRepository;
 import com.malmstein.yahnac.data.HNewsContract;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
-import com.malmstein.yahnac.views.recyclerview.CommentRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.exception.DeveloperError;
 
 import rx.Observer;
 import rx.Subscription;
@@ -93,8 +90,8 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void getComments() {
         if (isOnline()) {
             startRefreshing();
-            DataRepository dataRepository = Inject.dataRepository();
-            subscription = dataRepository
+            Provider provider = Inject.provider();
+            subscription = provider
                     .observeComments(getStory().getId())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {
@@ -136,18 +133,10 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private void setupCommentsList() {
         commentsList.setHasFixedSize(true);
         commentsLayoutManager = new LinearLayoutManager(getActivity());
-        commentsList.addItemDecoration(createItemDecoration(getResources()));
         commentsList.setLayoutManager(commentsLayoutManager);
 
         commentsAdapter = new CommentsAdapter(null);
         commentsList.setAdapter(commentsAdapter);
-    }
-
-    private CommentRecyclerItemDecoration createItemDecoration(Resources resources) {
-        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_divider_height);
-        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.comments_padding_infra_spans);
-        Drawable divider = resources.getDrawable(R.drawable.divider_horizontal_bright);
-        return new CommentRecyclerItemDecoration(divider, verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     private void stopRefreshing() {
@@ -171,7 +160,6 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        getActivity().setTitle(getStoryTitle(data.getCount()));
         commentsAdapter.swapCursor(data);
         stopRefreshing();
     }
@@ -191,7 +179,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         return ViewCompat.canScrollVertically(commentsList, -1);
     }
 
-    private String getStoryTitle(int comments) {
+    private String getTotalComments(int comments) {
         return getResources().getQuantityString(R.plurals.story_comments,
                 comments,
                 comments);

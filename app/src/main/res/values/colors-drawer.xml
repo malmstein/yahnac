@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <color name="navigation_drawer_header_divider">#EDEDED</color>
+  <color name="navigation_drawer_news_header_start">@color/orange</color>
+  <color name="navigation_drawer_news_header_end">@color/dark_orange</color>
+  <color name="navigation_drawer_divider">#D3D3D3</color>
+  <color name="navigation_drawer_background">#F7F7F7</color>
+
+  <color name="navigation_drawer_text_default">#4C4C4C</color>
+  <color name="navigation_drawer_text_selected">#FFFFFF</color>
+
+</resources>

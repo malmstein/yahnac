@@ -56,7 +56,7 @@ public class CommentsParserTest {
     @org.junit.Test
     public void returnsAllAskStoryComments() {
         Vector<ContentValues> storyComments = askStoryCommentsParser.parse();
-        assertEquals(4, storyComments.size());
+        assertEquals(5, storyComments.size());
     }
 
     @org.junit.Test

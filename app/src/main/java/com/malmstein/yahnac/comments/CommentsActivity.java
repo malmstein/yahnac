@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,15 +12,17 @@ import android.view.View;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.DeveloperError;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.exception.DeveloperError;
 
 public class CommentsActivity extends HNewsActivity {
+
+    public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
     private ShareActionProvider mShareActionProvider;
     private StoryHeaderView storyHeaderView;
@@ -35,7 +38,9 @@ public class CommentsActivity extends HNewsActivity {
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
 
-        setupSubActivityWithTitle();
+        ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
+
+        setupSubActivity();
         setupStoryHeader();
         setupSnackbar();
 
@@ -127,7 +132,6 @@ public class CommentsActivity extends HNewsActivity {
     }
 
     private void setupStoryHeader() {
-        setTitle(getStoryTitle());
         storyHeaderView.updateWith(getStory());
     }
 
@@ -137,12 +141,6 @@ public class CommentsActivity extends HNewsActivity {
         } else {
             throw new DeveloperError("Missing argument");
         }
-    }
-
-    private String getStoryTitle() {
-        return getResources().getQuantityString(R.plurals.story_comments,
-                getStory().getComments(),
-                getStory().getComments());
     }
 
     private void removeBookmark(DataPersister persister, Story story) {

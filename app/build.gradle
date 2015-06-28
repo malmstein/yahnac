@@ -9,8 +9,8 @@ android {
         applicationId "com.malmstein.yahnac"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 16
-        versionName "1.0.2"
+        versionCode 17
+        versionName "1.0.3"
 
         Calendar instance = Calendar.getInstance()
         instance.setTimeInMillis(System.currentTimeMillis())
@@ -48,20 +48,26 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
-    compile 'com.android.support:support-v13:21.0.3'
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.android.support:recyclerview-v7:22.0.0'
-    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.android.support:support-v13:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+
+    compile 'com.facebook.stetho:stetho:1.1.1'
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.crashlytics.android:crashlytics:1.1.11'
-
     compile 'com.novoda:notils:2.2.8'
-
     compile 'com.firebase:firebase-client-android:2.2.1'
 
     testCompile 'junit:junit:4.12'

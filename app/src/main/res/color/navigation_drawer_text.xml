@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+  <item android:color="@color/navigation_drawer_text_selected" android:state_pressed="false" android:state_checked="true" />
+  <item android:color="@color/navigation_drawer_text_default" android:state_pressed="false" android:state_checked="false" />
+  <item android:color="@color/navigation_drawer_text_default" android:state_pressed="true" android:state_checked="true" />
+  <item android:color="@color/navigation_drawer_text_selected" android:state_pressed="true" android:state_checked="false" />
+  <item android:color="@color/navigation_drawer_text_default" />
+</selector>

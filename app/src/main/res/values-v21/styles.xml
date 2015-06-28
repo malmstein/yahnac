@@ -7,5 +7,4 @@
     <item name="appBarLayout">@layout/include_app_bar</item>
   </style>
 
-
 </resources>

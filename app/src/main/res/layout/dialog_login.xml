@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="?attr/dialogOrientation">
+
+  <com.malmstein.yahnac.views.fonts.YahnacTextView
+    android:id="@+id/dialog_login_title"
+    style="@style/HNews.Login.Title"
+    android:layout_width="?attr/dialogTitleWidth"
+    android:layout_height="match_parent" />
+
+  <ProgressBar
+    android:id="@+id/dialog_login_progress"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:indeterminate="true"
+    android:layout_marginTop="@dimen/progressbar_fix"
+    android:visibility="invisible" />
+
+  <LinearLayout
+    style="@style/HNews.Login.Content"
+    android:layout_width="?attr/dialogContentWidth"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      android:id="@+id/dialog_login_error"
+      style="@style/HNews.Login.Error"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/dialog_login_item_margin_bottom"
+      android:visibility="invisible" />
+
+    <EditText
+      style="@style/HNews.Login.EditText.Username"
+      android:id="@+id/dialog_login_username"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+    <EditText
+      style="@style/HNews.Login.EditText.Password"
+      android:layout_marginTop="@dimen/default_padding"
+      android:id="@+id/dialog_login_password"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:gravity="end|center_vertical">
+
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        android:id="@+id/dialog_login_cancel"
+        style="@style/HNews.Login.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_cancel" />
+
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        android:id="@+id/dialog_login_login"
+        style="@style/HNews.Login.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_login" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>

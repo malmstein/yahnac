@@ -25,4 +25,19 @@
     </attr>
   </declare-styleable>
 
+  <attr name="dialogOrientation">
+    <enum name="horizontal" value="0" />
+    <enum name="vertical" value="1" />
+  </attr>
+
+  <attr name="dialogTitleWidth" format="dimension">
+    <enum name="match_parent" value="-1" />
+    <enum name="wrap_content" value="-2" />
+  </attr>
+
+  <attr name="dialogContentWidth" format="dimension">
+    <enum name="match_parent" value="-1" />
+    <enum name="wrap_content" value="-2" />
+  </attr>
+
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.facebook.stetho.Stetho;
 import com.firebase.client.Firebase;
 import com.malmstein.yahnac.base.StrictModeManager;
 import com.malmstein.yahnac.inject.DefaultDependenciesFactory;
@@ -16,31 +17,6 @@ public class HNewsApplication extends Application {
     private static final String LOG_TAG = "Yahnac";
 
     private static Context context;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        context = this;
-        Firebase.setAndroidContext(this);
-        Inject.using(new DefaultDependenciesFactory(this));
-        startup();
-    }
-
-    private void startup() {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                Log.SHOW_LOGS = BuildConfig.DEBUG;
-                Log.TAG = LOG_TAG;
-                Log.STACK_DEPTH = 6;
-                StrictModeManager.initializeStrictMode(newVmPolicyBuilder(), newThreadPolicyBuilder());
-                Inject.crashAnalytics().startTracking(getApplicationContext());
-                return null;
-            }
-
-        }.execute();
-    }
 
     public static Context context() {
         return context;
@@ -57,5 +33,41 @@ public class HNewsApplication extends Application {
         return new StrictMode.ThreadPolicy.Builder()
                 .detectCustomSlowCalls()
                 .penaltyLog();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = this;
+        Firebase.setAndroidContext(this);
+        Inject.using(new DefaultDependenciesFactory(this));
+        initStetho();
+        startup();
+    }
+
+    private void initStetho() {
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
+    }
+
+    private void startup() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                Log.SHOW_LOGS = BuildConfig.DEBUG;
+                Log.TAG = LOG_TAG;
+                Log.STACK_DEPTH = 6;
+                StrictModeManager.initializeStrictMode(newVmPolicyBuilder(), newThreadPolicyBuilder());
+                Inject.crashAnalytics().startTracking(getApplicationContext());
+                return null;
+            }
+
+        }.execute();
     }
 }

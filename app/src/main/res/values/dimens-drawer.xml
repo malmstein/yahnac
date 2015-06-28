@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="navigation_drawer_width">304dp</dimen>
+  <dimen name="navigation_drawer_list_thick_divider_height">3dp</dimen>
+  <dimen name="navigation_drawer_space_height">8dp</dimen>
+  <dimen name="navigation_drawer_list_material_divider_height">1dp</dimen>
+  <dimen name="navigation_drawer_menu_item_height">48dp</dimen>
+  <dimen name="navigation_drawer_list_item_text">14sp</dimen>
+  <dimen name="navigation_drawer_menu_item_text">@dimen/navigation_drawer_list_item_text</dimen>
+
+  <dimen name="navigation_drawer_header_height">196dp</dimen>
+  <dimen name="navigation_drawer_header_padding">16dp</dimen>
+  <dimen name="navigation_drawer_header_logo_margin_left">16dp</dimen>
+  <dimen name="navigation_drawer_header_logo_margin_bottom">16dp</dimen>
+
+  <dimen name="navigation_drawer_list_divider_height">0dp</dimen>
+  <dimen name="navigation_drawer_max_width">400dp</dimen>
+
+  <dimen name="navigation_drawer_item_horizontal_padding">16dp</dimen>
+  <dimen name="navigation_drawer_item_vertical_padding">14dp</dimen>
+
+  <dimen name="navigation_drawer_icon_padding_big">32dp</dimen>
+
+</resources>

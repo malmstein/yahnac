@@ -4,6 +4,7 @@
   <string name="title_launcher">Yahnac</string>
   <string name="title_app">Hacker News</string>
   <string name="title_comments">Comments</string>
+  <string name="title_bookmarks">My bookmarks</string>
   <string name="title_about">About</string>
 
   <string name="action_comments">Comments</string>
@@ -11,6 +12,8 @@
   <string name="action_share">Share</string>
   <string name="action_article">Article</string>
   <string name="action_bookmark">Bookmark</string>
+
+  <string name="label_comments">Show comments</string>
 
   <string name="content_authority">com.malmstein.yahnac</string>
 
@@ -23,5 +26,10 @@
   </plurals>
 
   <string name="empty_view_text">No saved bookmarks yet! You can easily add them from any list of stories</string>
+
+  <string name="navigation_drawer_open_content_description">Open navigation drawer</string>
+  <string name="navigation_drawer_closed_content_description">Close navigation drawer</string>
+
+  <string name="coming_soon">Coming soon!</string>
 
 </resources>

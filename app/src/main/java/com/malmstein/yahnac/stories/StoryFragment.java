@@ -6,25 +6,22 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager2;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.TimeAgo;
-import com.malmstein.yahnac.data.DataRepository;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
-import com.malmstein.yahnac.views.quickreturn.RecyclerViewQuickReturnHinter;
 import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
-import com.novoda.notils.logger.simple.Log;
 
 import rx.Observer;
 import rx.Subscription;
@@ -40,21 +37,12 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private DelegatedSwipeRefreshLayout refreshLayout;
     private int refreshViewOffset;
 
-    private RecyclerViewQuickReturnHinter quickReturnHinter;
     private StoryListener listener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (StoryListener) getActivity();
-        quickReturnHinter = createQuickReturnHinter(listener);
-    }
-
-    private RecyclerViewQuickReturnHinter createQuickReturnHinter(StoryListener listener) {
-        ViewConfiguration viewConfiguration = ViewConfiguration.get(getActivity());
-        int longScrollSlop = viewConfiguration.getScaledTouchSlop();
-        int shortScrollSlop = longScrollSlop / 2;
-        return new RecyclerViewQuickReturnHinter(longScrollSlop, shortScrollSlop, listener);
     }
 
     @Override
@@ -75,8 +63,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setViewDelegate(this);
-        refreshViewOffset = getResources().getDimensionPixelSize(R.dimen.feed_refresh_top_padding);
-        refreshLayout.setProgressViewOffset(false, 0, refreshViewOffset);
     }
 
     private void setupStoriesList() {
@@ -87,29 +73,16 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
         storiesAdapter = new StoriesAdapter(null, listener, new TimeAgo(getActivity().getResources()));
         storiesList.setAdapter(storiesAdapter);
-
-        updateOnScrollListener();
     }
 
     private void maybeUpdateContent() {
         if (isOnline()) {
-            DataRepository dataRepository = Inject.dataRepository();
-            if (dataRepository.shouldUpdateContent(getType())) {
+            Provider provider = Inject.provider();
+            if (provider.shouldUpdateContent(getType())) {
                 startRefreshing();
                 onRefresh();
             }
         }
-    }
-
-    private void updateOnScrollListener() {
-        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                quickReturnHinter.onScrolled(recyclerView, dx, dy);
-            }
-        };
-        storiesList.setOnScrollListener(onScrollListener);
     }
 
     private FeedRecyclerItemDecoration createItemDecoration(Resources resources) {
@@ -120,7 +93,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private RecyclerView.LayoutManager createLayoutManager(Resources resources) {
         int spans = resources.getInteger(R.integer.feed_columns);
-        return new StaggeredGridLayoutManager2(spans, RecyclerView.VERTICAL);
+        return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
     protected abstract Story.TYPE getType();
@@ -140,6 +113,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     @Override
     public boolean isReadyForPull() {
+
         return ViewCompat.canScrollVertically(storiesList, -1);
     }
 
@@ -150,8 +124,8 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
 
     private void subscribeToStories() {
         if (isOnline()) {
-            DataRepository dataRepository = Inject.dataRepository();
-            subscription = dataRepository
+            Provider provider = Inject.provider();
+            subscription = provider
                     .getStories(getType())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {
@@ -174,23 +148,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
                     });
         } else {
             stopRefreshing();
-        }
-    }
-
-    public void updateProgressViewOffset(int topInset) {
-        refreshLayout.setProgressViewOffset(false, 0, topInset + refreshViewOffset);
-    }
-
-    public boolean shouldBeScrolledToTop() {
-        return ViewCompat.canScrollVertically(storiesList, 1);
-    }
-
-    public void scrollToTopWithOffset(int px) {
-        RecyclerView.LayoutManager layoutManager = storiesList.getLayoutManager();
-        if (layoutManager instanceof StaggeredGridLayoutManager2) {
-            ((StaggeredGridLayoutManager2) layoutManager).scrollToPositionWithOffset(0, -px);
-        } else {
-            Log.w("Only StaggeredGridLayoutManager2 supports scrolling to position with offset!");
         }
     }
 

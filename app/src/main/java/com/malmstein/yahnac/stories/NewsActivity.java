@@ -3,44 +3,63 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.malmstein.yahnac.HNewsActivity;
+import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.views.SnackBarView;
-import com.malmstein.yahnac.views.sliding_tabs.SlidingTabLayout;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsActivity implements StoryListener{
+public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener, ActionBarDrawerListener.Listener {
 
-    public static final int INITIAL_PAGE = 1;
-    private static final int OFFSCREEN_PAGE_LIMIT = 1;
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
-    private SlidingTabLayout slidingTabs;
-    private StoriesPagerAdapter headersAdapter;
 
     private SnackBarView snackbarView;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
+
+    private LoginSharedPreferences loginSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
+        setupViews();
+    }
+
+    private void setupViews() {
         setupHeaders();
         setupTabs();
         setupSnackbar();
         setupAppBar();
+    }
+
+    private void setupHeaders() {
+        headersPager = (ViewPager) findViewById(R.id.viewpager);
+        headersPager.setAdapter(new StoriesPagerAdapter(getSupportFragmentManager()));
+    }
+
+    private void setupTabs() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(headersPager);
+    }
+
+    private void setupAppBar() {
+        setHighLevelActivity();
+        setTitle(getString(R.string.title_app));
     }
 
     private void setupSnackbar() {
@@ -49,41 +68,9 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
     }
 
-    private void setupHeaders() {
-        headersAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
-        headersPager = Views.findById(this, R.id.news_pager);
-        headersPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
-        headersPager.setAdapter(headersAdapter);
-        headersPager.setCurrentItem(INITIAL_PAGE);
-    }
-
-    private void setupTabs() {
-        slidingTabs = Views.findById(this, R.id.sliding_tabs);
-        slidingTabs.setCustomTabView(R.layout.view_tab_indicator, android.R.id.text1);
-        slidingTabs.setViewPager(headersPager);
-        slidingTabs.setSelectedIndicatorColors(getResources().getColor(R.color.feed_tabs_selected_indicator));
-        slidingTabs.setOnPageChangeListener(new StoryOnPageChangeListener());
-    }
-
-    private void setupAppBar() {
-        setTitle(getString(R.string.title_app));
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            navigate().toSettings();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void setupFab() {
+        DialogFragment loginDialog = new LoginDialog();
+        loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
     }
 
     @Override
@@ -94,7 +81,7 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
 
     @Override
     public void onCommentsClicked(View v, Story story) {
-        navigate().toComments(story);
+        navigate().toComments(v, story);
     }
 
     @Override
@@ -124,15 +111,6 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
             removeBookmark(persister, story);
         } else {
             addBookmark(persister, story);
-        }
-    }
-
-    @Override
-    public void onQuickReturnVisibilityChangeHint(boolean visible) {
-        if (visible) {
-            getAppBarContainer().showAppBar();
-        } else {
-            getAppBarContainer().hideAppBar();
         }
     }
 
@@ -174,51 +152,22 @@ public class NewsActivity extends HNewsActivity implements StoryListener{
                 .animating();
     }
 
-    private class StoryOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (positionOffset == 0) {
-                return;
-            }
-            scrollFeedsAccordingToAppBarVisibility();
-        }
-
-        private void scrollFeedsAccordingToAppBarVisibility() {
-            Fragment currentFragment = headersAdapter.getPrimaryItem();
-            int px = getAppBarContainer().isAppBarShowing() ? 0 : getAppBarContainer().getHideableHeightPx();
-            for (int i = 0; i < headersAdapter.getCount(); i++) {
-                if (i == 0){
-                    BookmarksFragment fragment = getBookmarkFragmentAt(i);
-                    if (fragment == null || fragment == currentFragment) {
-                        continue;
-                    }
-                    if (fragment.shouldBeScrolledToTop()) {
-                        fragment.scrollToTopWithOffset(px);
-                    }
-                } else {
-                    StoryFragment fragment = getStoryFragmentAt(i);
-                    if (fragment == null || fragment == currentFragment) {
-                        continue;
-                    }
-                    if (fragment.shouldBeScrolledToTop()) {
-                        fragment.scrollToTopWithOffset(px);
-                    }
-                }
-
-            }
-        }
-
-        private StoryFragment getStoryFragmentAt(int position) {
-            String tag = headersAdapter.getTag(position);
-            return (StoryFragment) getSupportFragmentManager().findFragmentByTag(tag);
-        }
-
-        private BookmarksFragment getBookmarkFragmentAt(int position) {
-            String tag = headersAdapter.getTag(position);
-            return (BookmarksFragment) getSupportFragmentManager().findFragmentByTag(tag);
-        }
-
-
+    @Override
+    public void onNotImplementedFeatureSelected() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
     }
+
+    @Override
+    public void onLoginSucceed() {
+//        fab.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onLoginCancelled() {
+//        fab.showAnimated();
+    }
+
 }

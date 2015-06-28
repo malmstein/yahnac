@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="dialog_login_button_text">16sp</dimen>
+  <dimen name="dialog_login_button_marginLeft">24dp</dimen>
+  <dimen name="dialog_login_item_margin_bottom">8dp</dimen>
+
+  <dimen name="dialog_login_title_text">20sp</dimen>
+  <dimen name="perks_question_title_padding">24dp</dimen>
+  <dimen name="perks_question_title_small_padding">12dp</dimen>
+  <dimen name="dialog_login_title_padding_left">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_title_padding_top">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_title_padding_right">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_title_padding_bottom">@dimen/perks_question_title_small_padding</dimen>
+  <dimen name="dialog_login_content_padding_left">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_content_padding_top">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_content_padding_right">@dimen/perks_question_title_padding</dimen>
+  <dimen name="dialog_login_content_padding_bottom">@dimen/perks_question_title_small_padding</dimen>
+
+  <dimen name="perks_question_error_text">16sp</dimen>
+  <dimen name="dialog_login_error_drawable_padding">8dp</dimen>
+
+</resources>

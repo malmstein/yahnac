@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Yahnac.NavigationDrawer" parent="None" />
+
+  <style name="Yahnac.NavigationDrawer.List">
+    <item name="android:layout_gravity">start</item>
+    <item name="android:listSelector">@android:color/transparent</item>
+    <item name="android:clipToPadding">false</item>
+    <item name="android:scrollbars">none</item>
+    <item name="android:divider">@color/navigation_drawer_divider</item>
+    <item name="android:dividerHeight">@dimen/navigation_drawer_list_divider_height</item>
+    <item name="android:choiceMode">singleChoice</item>
+    <item name="android:background">@color/navigation_drawer_background</item>
+    <item name="android:maxWidth">@dimen/navigation_drawer_max_width</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.Header">
+    <item name="android:drawableBottom">@drawable/shape_navigation_drawer_header_separator</item>
+    <item name="android:background">@drawable/navdrawer_news_header_background</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.Header.News">
+    <item name="android:background">@drawable/navdrawer_news_header_background</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.HeaderLogo">
+    <item name="android:scaleType">fitCenter</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.HeaderLogo.News">
+    <item name="android:src">@drawable/ic_hn</item>
+    <item name="android:layout_marginLeft">@dimen/navigation_drawer_header_logo_margin_left</item>
+    <item name="android:layout_marginBottom">@dimen/navigation_drawer_header_logo_margin_bottom</item>
+    <item name="android:layout_gravity">left|bottom</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.Item">
+    <item name="android:background">@drawable/selector_navigation_drawer_item</item>
+    <item name="android:minHeight">@dimen/navigation_drawer_menu_item_height</item>
+    <item name="android:textSize">@dimen/navigation_drawer_menu_item_text</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.List.Item">
+    <item name="android:paddingLeft">@dimen/navigation_drawer_item_horizontal_padding</item>
+    <item name="android:paddingTop">@dimen/navigation_drawer_item_vertical_padding</item>
+    <item name="android:paddingRight">@dimen/navigation_drawer_item_horizontal_padding</item>
+    <item name="android:paddingBottom">@dimen/navigation_drawer_item_vertical_padding</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:textColor">@color/navigation_drawer_text</item>
+    <item name="android:textSize">@dimen/navigation_drawer_list_item_text</item>
+    <item name="android:background">@drawable/selector_navigation_drawer_item</item>
+    <item name="fontAsset">robotoRegular</item>
+  </style>
+
+  <style name="Yahnac.NavigationDrawer.Item.Footer" parent="Yahnac.NavigationDrawer.List.Item" />
+
+  <style name="Yahnac.NavigationDrawer.Item.Footer.Material">
+    <item name="android:drawablePadding">@dimen/navigation_drawer_icon_padding_big</item>
+  </style>
+
+</resources>
