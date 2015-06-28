@@ -38,7 +38,7 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
             case top:
                 return Story.TYPE.top_story;
             case newest:
-                return Story.TYPE.top_story;
+                return Story.TYPE.new_story;
             case best:
                 return Story.TYPE.top_story;
             default:

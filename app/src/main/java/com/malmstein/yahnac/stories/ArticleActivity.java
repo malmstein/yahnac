@@ -41,8 +41,7 @@ public class ArticleActivity extends HNewsActivity {
 
         setContentView(R.layout.activity_article);
 
-        setupSubActivityWithTitle();
-        setTitle(getStory().getTitle());
+        setupSubActivity();
         setupSnackbar();
         setupWebView();
     }
@@ -63,10 +62,12 @@ public class ArticleActivity extends HNewsActivity {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webView.setWebViewClient(new HackerNewsWebClient());
         webView.setWebChromeClient(new WebChromeClient() {
