@@ -61,7 +61,6 @@ public class ArticleActivity extends HNewsActivity {
         webViewProgress = Views.findById(this, R.id.article_progress);
 
         WebSettings webSettings = webView.getSettings();
-        webSettings.setBuiltInZoomControls(true);
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
