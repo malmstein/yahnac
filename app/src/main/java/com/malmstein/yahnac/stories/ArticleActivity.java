@@ -41,8 +41,7 @@ public class ArticleActivity extends HNewsActivity {
 
         setContentView(R.layout.activity_article);
 
-        setupSubActivityWithTitle();
-        setTitle(getStory().getTitle());
+        setupSubActivity();
         setupSnackbar();
         setupWebView();
     }
