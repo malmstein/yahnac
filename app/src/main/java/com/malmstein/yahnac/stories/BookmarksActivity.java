@@ -79,23 +79,15 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
     }
 
     @Override
-    public void onBookmarkClicked(Story story) {
+    public void onBookmarkAdded(Story story) {
         DataPersister persister = Inject.dataPersister();
-        if (story.isBookmark()) {
-            removeBookmark(persister, story);
-        } else {
-            addBookmark(persister, story);
-        }
-    }
-
-    private void removeBookmark(DataPersister persister, Story story) {
-        persister.removeBookmark(story);
-        showRemovedBookmarkSnackbar(persister, story);
-    }
-
-    private void addBookmark(DataPersister persister, Story story) {
-        persister.addBookmark(story);
         showAddedBookmarkSnackbar(persister, story);
+    }
+
+    @Override
+    public void onBookmarkRemoved(Story story) {
+        DataPersister persister = Inject.dataPersister();
+        showRemovedBookmarkSnackbar(persister, story);
     }
 
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
@@ -124,6 +116,16 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
                     }
                 })
                 .animating();
+    }
+
+    private void removeBookmark(DataPersister persister, Story story) {
+        persister.removeBookmark(story);
+        showRemovedBookmarkSnackbar(persister, story);
+    }
+
+    private void addBookmark(DataPersister persister, Story story) {
+        persister.addBookmark(story);
+        showAddedBookmarkSnackbar(persister, story);
     }
 
     @Override

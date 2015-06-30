@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.base.TimeAgo;
+import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
@@ -65,7 +67,14 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onBookmarkClicked(story);
+                DataPersister persister = Inject.dataPersister();
+                if (story.isBookmark()) {
+                    persister.removeBookmark(story);
+                    listener.onBookmarkRemoved(story);
+                } else {
+                    persister.addBookmark(story);
+                    listener.onBookmarkAdded(story);
+                }
             }
         });
 
