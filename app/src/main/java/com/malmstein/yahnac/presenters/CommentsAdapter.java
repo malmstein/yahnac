@@ -58,6 +58,12 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         return vh;
     }
 
+    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
+        CommentViewHolder vh = new CommentViewHolder(v);
+        return vh;
+    }
+
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final View comment_header;
         public final TextView text;
@@ -80,19 +86,13 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             if (comment.isHeader()) {
                 comment_header.setVisibility(View.GONE);
                 root.setPadding(0, 0, 0, 0);
-                text.setTextAppearance(text.getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
+                text.setTextAppearance(text.getContext(), R.style.HNews_CommentHeaderText);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());
                 root.setPadding(comment.getLevel(), 0, 0, 0);
             }
         }
-    }
-
-    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
-        CommentViewHolder vh = new CommentViewHolder(v);
-        return vh;
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
