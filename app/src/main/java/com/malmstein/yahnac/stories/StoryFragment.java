@@ -151,7 +151,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     }
 
     public void scrollToTop() {
-        storiesList.scrollToPosition(0);
+        storiesList.smoothScrollToPosition(0);
     }
 
 }
