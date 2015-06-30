@@ -34,7 +34,7 @@ public class Provider {
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
-        if (type == Story.TYPE.new_story || type == Story.TYPE.best_story) {
+        if (type == Story.TYPE.best_story) {
             return false;
         }
         RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
