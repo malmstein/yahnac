@@ -89,28 +89,21 @@ public class HNewsApi {
                                     }
                                 }
                                 subscriber.onCompleted();
-                                }
-
-                                                        @Override
-                                                        public void onCancelled(FirebaseError firebaseError) {
-                                                            Log.d(firebaseError.getCode());
-                                                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onCancelled " + firebaseError.getMessage());
-                                                            subscriber.onCompleted();
-                                                        }
                             }
 
-                        );
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                                Log.d(firebaseError.getCode());
+                                Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onCancelled " + firebaseError.getMessage());
+                                subscriber.onCompleted();
+                            }
+                        });
                     }
-                    }
-
-                );
+                });
             }
-            }
-
-        ).
-
-                toList();
-        }
+        })
+                .toList();
+    }
 
     private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
 
