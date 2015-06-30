@@ -46,7 +46,11 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onContentClicked(story);
+                if (story.isHackerNewsLocalItem()) {
+                    listener.onCommentsClicked(story);
+                } else {
+                    listener.onContentClicked(story);
+                }
             }
         });
 

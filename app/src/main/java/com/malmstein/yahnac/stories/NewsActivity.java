@@ -85,14 +85,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     @Override
+    public void onCommentsClicked(Story story) {
+        navigate().toComments(story);
+    }
+
+    @Override
     public void onContentClicked(Story story) {
         DataPersister persister = Inject.dataPersister();
         persister.markStoryAsRead(story);
-        if (story.isHackerNewsLocalItem()) {
-            navigate().toComments(story);
-        } else {
-            navigate().toInnerBrowser(story);
-        }
+        navigate().toInnerBrowser(story);
     }
 
     @Override

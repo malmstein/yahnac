@@ -11,6 +11,8 @@ public interface StoryListener {
 
     void onCommentsClicked(View v, Story story);
 
+    void onCommentsClicked(Story story);
+
     void onContentClicked(Story story);
 
     void onExternalLinkClicked(Story story);

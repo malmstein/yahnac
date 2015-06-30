@@ -126,18 +126,15 @@ public class Story implements Serializable {
     }
 
     public boolean isHackerNewsLocalItem() {
-        boolean isLocalItem = false;
         if (getType().equals(TYPE.ask.name())) {
-            isLocalItem = true;
+            return true;
         }
 
-        if (url != null) {
-            isLocalItem = url.startsWith(ASK_URL_BASE) ? true : false;
+        if (url == null) {
+            return true;
         } else {
-            isLocalItem = false;
+            return url.startsWith(ASK_URL_BASE) || url.isEmpty() ? true : false;
         }
-
-        return isLocalItem;
     }
 
     public boolean isBookmark() {
