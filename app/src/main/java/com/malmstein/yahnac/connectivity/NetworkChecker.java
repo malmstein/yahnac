@@ -23,7 +23,8 @@ public class NetworkChecker {
     private boolean isConnectedToCellNetwork() {
         int simState = telephonyManager.getSimState();
         if (simState == TelephonyManager.SIM_STATE_READY) {
-            return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null;
+            NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            return networkInfo.isConnectedOrConnecting();
         }
         return false;
     }
