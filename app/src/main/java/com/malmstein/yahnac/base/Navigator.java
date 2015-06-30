@@ -10,7 +10,6 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.comments.CommentsActivity;
 import com.malmstein.yahnac.comments.CommentsFragment;
-import com.malmstein.yahnac.connectivity.NetworkDetector;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
@@ -26,8 +25,7 @@ public class Navigator {
     }
 
     protected boolean isOnline() {
-        NetworkDetector networkDetector = new NetworkDetector(activity);
-        return networkDetector.isDataConnectionAvailable();
+        return activity.isOnline();
     }
 
     public void toExternalBrowser(Uri articleUri) {
