@@ -179,9 +179,4 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         return ViewCompat.canScrollVertically(commentsList, -1);
     }
 
-    private String getTotalComments(int comments) {
-        return getResources().getQuantityString(R.plurals.story_comments,
-                comments,
-                comments);
-    }
 }

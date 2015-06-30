@@ -30,6 +30,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     private int croutonBackgroundAlpha;
 
     private LoginSharedPreferences loginSharedPreferences;
+    private StoriesPagerAdapter storiesPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     private void setupHeaders() {
         headersPager = (ViewPager) findViewById(R.id.viewpager);
-        headersPager.setAdapter(new StoriesPagerAdapter(getSupportFragmentManager()));
+        storiesPagerAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
+        headersPager.setAdapter(storiesPagerAdapter);
     }
 
     private void setupTabs() {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(headersPager);
+        tabLayout.setOnTabSelectedListener(new StoryTabSelectedListener());
     }
 
     private void setupAppBar() {
@@ -169,6 +172,27 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     public void onLoginCancelled() {
 //        fab.showAnimated();
+    }
+
+    public class StoryTabSelectedListener implements TabLayout.OnTabSelectedListener {
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            headersPager.setCurrentItem(tab.getPosition());
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+            String tag = storiesPagerAdapter.getTag(tab.getPosition());
+            StoryFragment fragment = (StoryFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            fragment.scrollToTop();
+
+        }
     }
 
 }
