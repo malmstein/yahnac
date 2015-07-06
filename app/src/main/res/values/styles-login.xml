@@ -18,7 +18,6 @@
     <item name="android:paddingTop">@dimen/dialog_login_title_padding_top</item>
     <item name="android:paddingRight">@dimen/dialog_login_title_padding_right</item>
     <item name="android:paddingBottom">@dimen/dialog_login_title_padding_bottom</item>
-    <item name="android:background">@color/orange</item>
   </style>
 
   <style name="HNews.Login.Error">

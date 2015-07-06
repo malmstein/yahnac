@@ -81,4 +81,11 @@ public class Navigator {
         activity.overridePendingTransition(0, 0);
         activity.finish();
     }
+
+    public void toLogin() {
+        Intent loginIntent = new Intent(activity, LoginActivity.class);
+        ActivityCompat.startActivity(activity, loginIntent, null);
+        activity.overridePendingTransition(0, 0);
+        activity.finish();
+    }
 }
