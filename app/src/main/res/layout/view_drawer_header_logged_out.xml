@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="@dimen/navigation_drawer_header_height"
   android:background="?attr/colorPrimary"
@@ -15,10 +14,11 @@
     android:id="@+id/view_drawer_header_login"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:text="Log in to your Hacker News account"
+    android:text="@string/navigation_drawer_login"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:drawablePadding="@dimen/activity_horizontal_margin"
+    android:drawableLeft="@drawable/ic_add_account"
     android:drawableStart="@drawable/ic_add_account" />
 
 </LinearLayout>

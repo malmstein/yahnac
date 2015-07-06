@@ -7,5 +7,7 @@
   <string name="navigation_drawer_threads">Threads</string>
   <string name="navigation_drawer_comments">Comments</string>
   <string name="navigation_drawer_about">About</string>
+  <string name="navigation_drawer_login">Log in to your Hacker News account</string>
+  <string name="navigation_drawer_welcome">Welcome %s</string>
 
 </resources>

@@ -30,9 +30,9 @@ public class NavigationDrawerHeader extends LinearLayout {
 
         loginSharedPreferences = LoginSharedPreferences.newInstance();
         if (loginSharedPreferences.isLoggedIn()) {
-            LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
+            LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
         } else {
-            LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
+            LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_out, this, true);
         }
 
     }
