@@ -15,8 +15,10 @@
     android:id="@+id/view_drawer_header_login"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:text="Add account"
-    android:drawablePadding="@dimen/feed_item_article_footer_divider_height"
-    android:drawableRight="@drawable/ic_add_account" />
+    tools:text="Log in to your Hacker News account"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:drawablePadding="@dimen/activity_horizontal_margin"
+    android:drawableStart="@drawable/ic_add_account" />
 
 </LinearLayout>
