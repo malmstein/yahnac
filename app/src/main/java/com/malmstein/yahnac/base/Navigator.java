@@ -83,10 +83,12 @@ public class Navigator {
         activity.finish();
     }
 
-    public void toLogin() {
-        Intent loginIntent = new Intent(activity, LoginActivity.class);
-        ActivityCompat.startActivity(activity, loginIntent, null);
-        activity.overridePendingTransition(0, 0);
-        activity.finish();
+    public void toLogin(View v) {
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity, new Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
+
+        Intent commentIntent = new Intent(activity, LoginActivity.class);
+
+        ActivityCompat.startActivity(activity, commentIntent, activityOptions.toBundle());
     }
 }

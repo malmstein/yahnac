@@ -139,6 +139,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
 
     @Override
     public void onLoginClicked() {
-        navigate().toLogin();
+        navigate().toLogin(Views.findById(this, R.id.view_drawer_header_login));
     }
 }
