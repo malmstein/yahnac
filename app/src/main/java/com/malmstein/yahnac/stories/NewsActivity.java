@@ -12,6 +12,7 @@ import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
@@ -20,7 +21,7 @@ import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener, ActionBarDrawerListener.Listener {
+public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
@@ -174,6 +175,11 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     public void onLoginCancelled() {
 //        fab.showAnimated();
+    }
+
+    @Override
+    public void onLoginClicked() {
+
     }
 
     public class StoryTabSelectedListener implements TabLayout.OnTabSelectedListener {
