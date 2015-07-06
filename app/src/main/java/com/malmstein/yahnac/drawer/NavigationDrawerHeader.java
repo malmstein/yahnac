@@ -32,7 +32,7 @@ public class NavigationDrawerHeader extends LinearLayout {
         if (loginSharedPreferences.isLoggedIn()) {
             LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
         } else {
-
+            LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
         }
 
     }
