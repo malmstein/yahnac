@@ -139,6 +139,6 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
 
     @Override
     public void onLoginClicked() {
-
+        navigate().toLogin();
     }
 }

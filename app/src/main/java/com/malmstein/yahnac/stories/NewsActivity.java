@@ -179,7 +179,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onLoginClicked() {
-
+        navigate().toLogin();
     }
 
     public class StoryTabSelectedListener implements TabLayout.OnTabSelectedListener {
