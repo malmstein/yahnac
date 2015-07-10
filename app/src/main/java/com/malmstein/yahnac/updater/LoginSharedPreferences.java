@@ -32,14 +32,13 @@ public class LoginSharedPreferences {
         } else {
             logout();
         }
-
     }
 
     public Login getLogin() {
         InputFieldValidator inputFieldValidator = new InputFieldValidator();
         String cookie = preferences.getString(KEY_COOKIE, EMPTY_VALUE);
         if (inputFieldValidator.isValid(cookie)) {
-            return new Login(cookie, preferences.getString(KEY_USERNAME, EMPTY_VALUE), Login.Status.SUCCESSFUL);
+            return new Login(preferences.getString(KEY_USERNAME, EMPTY_VALUE), cookie, Login.Status.SUCCESSFUL);
         } else {
             return new Login(EMPTY_VALUE, EMPTY_VALUE, Login.Status.WRONG_CREDENTIALS);
         }

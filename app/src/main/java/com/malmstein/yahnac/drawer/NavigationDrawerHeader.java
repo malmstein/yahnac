@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.updater.LoginSharedPreferences;
@@ -37,6 +38,9 @@ public class NavigationDrawerHeader extends LinearLayout {
 
         if (loginSharedPreferences.isLoggedIn()) {
             LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
+            TextView username = Views.findById(this, R.id.view_drawer_header_username);
+            String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), loginSharedPreferences.getLogin().getUsername());
+            username.setText(message);
         } else {
             LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_out, this, true);
             View loginView = Views.findById(this, R.id.view_drawer_header_login);
