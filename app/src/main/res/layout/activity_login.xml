@@ -64,9 +64,9 @@
 
     <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:orientation="horizontal"
-      android:gravity="end">
+      android:gravity="bottom|end">
 
       <com.malmstein.yahnac.views.fonts.YahnacTextView
         android:id="@+id/dialog_login_cancel"
