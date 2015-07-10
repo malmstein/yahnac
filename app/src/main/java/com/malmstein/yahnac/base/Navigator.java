@@ -97,6 +97,5 @@ public class Navigator {
         final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
         Intent commentIntent = new Intent(activity, LoginActivity.class);
         ActivityCompat.startActivity(activity, commentIntent, transitionBundle);
-        activity.finish();
     }
 }

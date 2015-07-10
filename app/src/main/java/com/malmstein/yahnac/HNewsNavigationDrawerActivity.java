@@ -29,6 +29,11 @@ public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
 
     }
 
+    protected void refreshHeader() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.invalidate();
+    }
+
     public void closeDrawer() {
         drawer.closeDrawers();
     }

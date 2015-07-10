@@ -71,11 +71,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     protected void onResume() {
         super.onResume();
-        updateDrawerHeader();
-    }
-
-    private void updateDrawerHeader() {
-
+        refreshHeader();
     }
 
     @Override
