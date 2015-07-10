@@ -25,6 +25,7 @@
     <item name="android:drawableStart">@drawable/ic_input_error</item>
     <item name="android:drawablePadding">@dimen/dialog_login_error_drawable_padding</item>
     <item name="android:text">@string/login_not_valid</item>
+
   </style>
 
   <style name="HNews.Login.EditText" parent="@style/Base.Widget.AppCompat.EditText">
@@ -32,6 +33,7 @@
     <item name="android:layout_marginRight">@dimen/default_padding</item>
     <item name="android:layout_marginTop">@dimen/card_content_padding</item>
     <item name="android:layout_marginBottom">@dimen/default_padding</item>
+    <item name="android:theme">@style/Theme.HNews.Black</item>
   </style>
 
   <style name="HNews.Login.EditText.Username">

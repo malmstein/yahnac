@@ -30,7 +30,6 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:indeterminate="true"
-      android:layout_marginTop="@dimen/progressbar_fix"
       android:visibility="invisible" />
 
   </android.support.design.widget.AppBarLayout>
