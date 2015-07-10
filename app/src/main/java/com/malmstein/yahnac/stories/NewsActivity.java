@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -14,14 +13,12 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
 import com.malmstein.yahnac.inject.Inject;
-import com.malmstein.yahnac.login.LoginDialog;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.novoda.notils.caster.Views;
 
-public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, LoginDialog.Listener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
+public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
@@ -30,7 +27,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
 
-    private LoginSharedPreferences loginSharedPreferences;
     private StoriesPagerAdapter storiesPagerAdapter;
 
     @Override
@@ -70,11 +66,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         snackbarView = Views.findById(this, R.id.snackbar);
         croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
-    }
-
-    private void setupFab() {
-        DialogFragment loginDialog = new LoginDialog();
-        loginDialog.show(getSupportFragmentManager(), LoginDialog.TAG);
     }
 
     @Override
@@ -165,16 +156,6 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
                 .animating();
-    }
-
-    @Override
-    public void onLoginSucceed() {
-//        fab.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onLoginCancelled() {
-//        fab.showAnimated();
     }
 
     @Override

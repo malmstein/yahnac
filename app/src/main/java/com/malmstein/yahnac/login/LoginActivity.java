@@ -144,10 +144,4 @@ public class LoginActivity extends HNewsActivity {
         progressView.setVisibility(View.INVISIBLE);
     }
 
-    public interface Listener {
-        void onLoginSucceed();
-
-        void onLoginCancelled();
-    }
-
 }
