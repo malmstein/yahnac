@@ -38,20 +38,35 @@ public class NavigationDrawerHeader extends LinearLayout {
 
         if (loginSharedPreferences.isLoggedIn()) {
             LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
-            TextView username = Views.findById(this, R.id.view_drawer_header_username);
-            String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), loginSharedPreferences.getLogin().getUsername());
-            username.setText(message);
+            updateWithUsername();
+
         } else {
             LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_out, this, true);
-            View loginView = Views.findById(this, R.id.view_drawer_header_login);
-            loginView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onLoginClicked();
-                }
-            });
+            updateWithLoginMessage();
         }
 
+    }
+
+    private void updateWithUsername() {
+        TextView username = Views.findById(this, R.id.view_drawer_header_username);
+        String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), loginSharedPreferences.getLogin().getUsername());
+        username.setText(message);
+
+//        View loginView = Views.findById(this, R.id.view_drawer_header_login);
+//        loginView.setOnClickListener(null);
+    }
+
+    private void updateWithLoginMessage() {
+        View loginView = Views.findById(this, R.id.view_drawer_header_login);
+        loginView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLoginClicked();
+            }
+        });
+
+//        TextView username = Views.findById(this, R.id.view_drawer_header_username);
+//        username.setText(R.string.navigation_drawer_login);
     }
 
     public interface Listener {
