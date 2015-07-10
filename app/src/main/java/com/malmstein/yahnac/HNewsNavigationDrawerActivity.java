@@ -29,10 +29,6 @@ public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
 
     }
 
-    protected DrawerLayout getDrawer() {
-        return drawer;
-    }
-
     public void closeDrawer() {
         drawer.closeDrawers();
     }

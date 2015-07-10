@@ -116,7 +116,7 @@ public class LoginActivity extends HNewsActivity {
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
-                            finish();
+                            navigate().toNews();
                         } else {
                             hideProgress();
                             showError();

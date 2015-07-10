@@ -69,6 +69,16 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateDrawerHeader();
+    }
+
+    private void updateDrawerHeader() {
+
+    }
+
+    @Override
     public void onShareClicked(Intent shareIntent) {
         Intent chooserIntent = Intent.createChooser(shareIntent, SHARE_DIALOG_DEFAULT_TITLE);
         startActivity(chooserIntent);
