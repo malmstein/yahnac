@@ -1,7 +1,9 @@
 package com.malmstein.yahnac.base;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -16,6 +18,7 @@ import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
 import com.malmstein.yahnac.stories.BookmarksActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
+import com.malmstein.yahnac.transitions.TransitionHelper;
 
 public class Navigator {
 
@@ -84,11 +87,15 @@ public class Navigator {
     }
 
     public void toLogin(View v) {
-        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity, new Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
 
+        final android.util.Pair[] pairs = TransitionHelper.createSafeTransitionParticipants(activity, false,
+                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
+
+        ActivityOptions sceneTransitionAnimation = ActivityOptions
+                .makeSceneTransitionAnimation(activity, pairs);
+
+        final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
         Intent commentIntent = new Intent(activity, LoginActivity.class);
-
-        ActivityCompat.startActivity(activity, commentIntent, activityOptions.toBundle());
+        ActivityCompat.startActivity(activity, commentIntent, transitionBundle);
     }
 }

@@ -5,6 +5,7 @@
     <item name="dialogOrientation">horizontal</item>
     <item name="dialogTitleWidth">@dimen/dialog_title_width</item>
     <item name="dialogContentWidth">@dimen/dialog_content_width</item>
+    <item name="android:windowSharedElementEnterTransition">@transition/category_enter</item>
   </style>
 
 </resources>
