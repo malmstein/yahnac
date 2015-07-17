@@ -42,7 +42,7 @@ public class LoginActivity extends HNewsActivity {
         setContentView(R.layout.activity_login);
         setupSubActivity();
 
-        View toolbarTitle = Views.findById(this, R.id.dialog_login_title);
+        View toolbarTitle = Views.findById(this, R.id.toolbar);
         ViewCompat.setTransitionName(toolbarTitle, VIEW_TOOLBAR_TITLE);
 
         titleView = Views.findById(this, R.id.dialog_login_title);
@@ -66,7 +66,7 @@ public class LoginActivity extends HNewsActivity {
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         loginView = Views.findById(this, R.id.dialog_login_login);

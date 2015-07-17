@@ -51,9 +51,6 @@ public class NavigationDrawerHeader extends LinearLayout {
         TextView username = Views.findById(this, R.id.view_drawer_header_username);
         String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), loginSharedPreferences.getLogin().getUsername());
         username.setText(message);
-
-//        View loginView = Views.findById(this, R.id.view_drawer_header_login);
-//        loginView.setOnClickListener(null);
     }
 
     private void updateWithLoginMessage() {
@@ -64,9 +61,6 @@ public class NavigationDrawerHeader extends LinearLayout {
                 listener.onLoginClicked();
             }
         });
-
-//        TextView username = Views.findById(this, R.id.view_drawer_header_username);
-//        username.setText(R.string.navigation_drawer_login);
     }
 
     public interface Listener {

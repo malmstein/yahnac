@@ -166,7 +166,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onLoginClicked() {
-        navigate().toLogin(Views.findById(this, R.id.view_drawer_header_login));
+        navigate().toLogin(Views.findById(this, R.id.view_drawer_header));
     }
 
     public class StoryTabSelectedListener implements TabLayout.OnTabSelectedListener {
