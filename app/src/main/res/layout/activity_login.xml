@@ -19,13 +19,13 @@
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
-      android:id="@+id/dialog_login_title"
+      android:id="@+id/login_title"
       style="@style/HNews.Login.Title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
     <ProgressBar
-      android:id="@+id/dialog_login_progress"
+      android:id="@+id/login_progress"
       style="?android:attr/progressBarStyleHorizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
     android:orientation="vertical">
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
-      android:id="@+id/dialog_login_error"
+      android:id="@+id/login_error"
       style="@style/HNews.Login.Error"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -50,14 +50,14 @@
 
     <EditText
       style="@style/HNews.Login.EditText.Username"
-      android:id="@+id/dialog_login_username"
+      android:id="@+id/login_username"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
     <EditText
       style="@style/HNews.Login.EditText.Password"
       android:layout_marginTop="@dimen/default_padding"
-      android:id="@+id/dialog_login_password"
+      android:id="@+id/login_password"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
@@ -68,14 +68,14 @@
       android:gravity="bottom|end">
 
       <com.malmstein.yahnac.views.fonts.YahnacTextView
-        android:id="@+id/dialog_login_cancel"
+        android:id="@+id/login_cancel"
         style="@style/HNews.Login.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_cancel" />
 
       <com.malmstein.yahnac.views.fonts.YahnacTextView
-        android:id="@+id/dialog_login_login"
+        android:id="@+id/login_login"
         style="@style/HNews.Login.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

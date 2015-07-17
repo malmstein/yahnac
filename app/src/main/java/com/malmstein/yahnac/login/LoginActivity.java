@@ -45,11 +45,11 @@ public class LoginActivity extends HNewsActivity {
         View toolbarTitle = Views.findById(this, R.id.toolbar);
         ViewCompat.setTransitionName(toolbarTitle, VIEW_TOOLBAR_TITLE);
 
-        titleView = Views.findById(this, R.id.dialog_login_title);
-        errorView = Views.findById(this, R.id.dialog_login_error);
-        progressView = Views.findById(this, R.id.dialog_login_progress);
-        usernameView = Views.findById(this, R.id.dialog_login_username);
-        passwordView = Views.findById(this, R.id.dialog_login_password);
+        titleView = Views.findById(this, R.id.login_title);
+        errorView = Views.findById(this, R.id.login_error);
+        progressView = Views.findById(this, R.id.login_progress);
+        usernameView = Views.findById(this, R.id.login_username);
+        passwordView = Views.findById(this, R.id.login_password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -62,14 +62,14 @@ public class LoginActivity extends HNewsActivity {
                 return false;
             }
         });
-        cancelView = Views.findById(this, R.id.dialog_login_cancel);
+        cancelView = Views.findById(this, R.id.login_cancel);
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        loginView = Views.findById(this, R.id.dialog_login_login);
+        loginView = Views.findById(this, R.id.login_login);
         loginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
