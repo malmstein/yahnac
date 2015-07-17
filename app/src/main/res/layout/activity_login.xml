@@ -50,11 +50,13 @@
       android:visibility="invisible" />
 
     <android.support.design.widget.TextInputLayout
+      android:theme="@style/Theme.HNews.Black"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
       <EditText
         style="@style/HNews.Login.EditText.Username"
+        android:theme="@style/Theme.HNews.Black"
         android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -62,11 +64,13 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+      android:theme="@style/Theme.HNews.Black"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
       <EditText
         style="@style/HNews.Login.EditText.Password"
+        android:theme="@style/Theme.HNews.Black"
         android:layout_marginTop="@dimen/default_padding"
         android:id="@+id/login_password"
         android:layout_width="match_parent"
