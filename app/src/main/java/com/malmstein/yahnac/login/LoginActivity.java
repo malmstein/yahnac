@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
@@ -116,6 +117,7 @@ public class LoginActivity extends HNewsActivity {
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
+                            showSuccess();
                             navigate().toNews();
                         } else {
                             hideProgress();
@@ -134,6 +136,10 @@ public class LoginActivity extends HNewsActivity {
         return usernameView.getText().toString();
     }
 
+    private void showSuccess() {
+        String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), getUsername());
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
     private void showProgress() {
         titleView.setText(R.string.title_checking_account);
         progressView.setVisibility(View.VISIBLE);

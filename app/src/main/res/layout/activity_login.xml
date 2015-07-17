@@ -38,6 +38,7 @@
     style="@style/HNews.Login.Content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
     android:orientation="vertical">
 
     <com.malmstein.yahnac.views.fonts.YahnacTextView
@@ -48,18 +49,29 @@
       android:layout_marginBottom="@dimen/dialog_login_item_margin_bottom"
       android:visibility="invisible" />
 
-    <EditText
-      style="@style/HNews.Login.EditText.Username"
-      android:id="@+id/login_username"
+    <android.support.design.widget.TextInputLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content">
 
-    <EditText
-      style="@style/HNews.Login.EditText.Password"
-      android:layout_marginTop="@dimen/default_padding"
-      android:id="@+id/login_password"
+      <EditText
+        style="@style/HNews.Login.EditText.Username"
+        android:id="@+id/login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content">
+
+      <EditText
+        style="@style/HNews.Login.EditText.Password"
+        android:layout_marginTop="@dimen/default_padding"
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
       android:layout_width="match_parent"
