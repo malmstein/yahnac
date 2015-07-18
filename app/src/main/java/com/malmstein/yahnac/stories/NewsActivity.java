@@ -10,6 +10,7 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
 import com.malmstein.yahnac.inject.Inject;
@@ -17,6 +18,10 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.novoda.notils.caster.Views;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
@@ -28,6 +33,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     private int croutonBackgroundAlpha;
 
     private StoriesPagerAdapter storiesPagerAdapter;
+    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +126,28 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onStoryVoteClicked(Story story) {
+        Provider provider = Inject.provider();
+        subscription = provider
+                .observeVote(story)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Inject.crashAnalytics().logSomethingWentWrong("Provider - Vote: ", e);
+                    }
+
+                    @Override
+                    public void onNext(Boolean status) {
+
+                    }
+                });
     }
 
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {

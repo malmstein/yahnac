@@ -38,9 +38,9 @@ public class ConnectionProvider {
 
     private Connection connection(String baseUrlExtension) {
         if (loginSharedPreferences.isLoggedIn()) {
-            return defaultConnection(baseUrlExtension);
-        } else {
             return authorisedConnection(baseUrlExtension, loginSharedPreferences.getCookie());
+        } else {
+            return defaultConnection(baseUrlExtension);
         }
     }
 
@@ -59,6 +59,10 @@ public class ConnectionProvider {
                 .referrer(ConnectionProvider.BASE_URL + ConnectionProvider.LOGIN_URL_EXTENSION)
                 .method(Connection.Method.POST);
 
+    }
+
+    public Connection voteConnection(String voteUrl) {
+        return connection(voteUrl);
     }
 }
 

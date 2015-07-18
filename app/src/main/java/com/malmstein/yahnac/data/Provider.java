@@ -95,4 +95,21 @@ public class Provider {
                 });
     }
 
+    public Observable<Boolean> observeVote(final Story story) {
+        return api.vote(story, loginSharedPreferences.getLogin().getUsername(), loginSharedPreferences.getAuth())
+                .flatMap(new Func1<String, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(final String response) {
+                        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+                            @Override
+                            public void call(Subscriber<? super Boolean> subscriber) {
+                                //dataPersister.addVote()
+                                subscriber.onNext(true);
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
+
 }

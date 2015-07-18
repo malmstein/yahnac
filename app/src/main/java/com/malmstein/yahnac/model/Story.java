@@ -153,6 +153,17 @@ public class Story implements Serializable {
         }
     }
 
+    public String getVoteUrl(String username, String auth) {
+        String url = "/vote?for=" + Long.toString(id)
+                + "&dir=up&by=" + username
+                + "&auth=" + auth
+                + "&goto=news";
+
+        return url;
+
+        //https://news.ycombinator.com/vote?for=9906107&dir=up&auth=d4b3cd6abcb8a6ca02e36d284f549f871c3efdd7&goto=news
+    }
+
     public enum TYPE {
         top_story,
         new_story,

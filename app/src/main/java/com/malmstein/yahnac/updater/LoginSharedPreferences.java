@@ -56,4 +56,8 @@ public class LoginSharedPreferences {
         preferences.edit().putString(KEY_COOKIE, EMPTY_VALUE).apply();
         preferences.edit().putString(KEY_USERNAME, EMPTY_VALUE).apply();
     }
+
+    public String getAuth() {
+        return getLogin().getCookie().split("&")[1];
+    }
 }
