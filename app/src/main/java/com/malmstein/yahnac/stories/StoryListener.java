@@ -21,4 +21,6 @@ public interface StoryListener {
 
     void onBookmarkRemoved(Story story);
 
+    void onStoryVoteClicked(Story story);
+
 }

@@ -14,17 +14,20 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.novoda.notils.caster.Views;
 
 public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHolder> {
 
     private final StoryListener listener;
     private final TimeAgo timeAgo;
+    private LoginSharedPreferences loginSharedPreferences;
 
     public StoriesAdapter(Cursor cursor, StoryListener listener, TimeAgo timeAgo) {
         super(cursor);
         this.listener = listener;
         this.timeAgo = timeAgo;
+        this.loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
     private Intent createShareIntent(String url) {
@@ -39,12 +42,16 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
     public void onBindViewHolderCursor(final ViewHolder holder, Cursor cursor) {
         final Story story = Story.from(cursor);
 
-        holder.title.setTextColor(story.isRead() ?
-                holder.title.getResources().getColor(R.color.grey) :
-                holder.title.getResources().getColor(R.color.black));
+        bindTitle(holder, story);
+        bindVoteListener(holder, story);
+        bindCardClickListener(holder, story);
+        bindShare(holder, story);
+        bindBookmark(holder, story);
+        bindStoryOrJob(holder, story);
+        bindStorySource(holder, story);
+    }
 
-        holder.title.setText(story.getTitle());
-
+    private void bindCardClickListener(ViewHolder holder, final Story story) {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,14 +62,18 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                 }
             }
         });
+    }
 
+    private void bindShare(ViewHolder holder, final Story story) {
         holder.share_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onShareClicked(createShareIntent(story.getUrl()));
             }
         });
+    }
 
+    private void bindBookmark(ViewHolder holder, final Story story) {
         holder.bookmark_action.setSelected(story.isBookmark());
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +88,23 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                 }
             }
         });
+    }
 
+    private void bindStorySource(ViewHolder holder, final Story story) {
+        if (story.isHackerNewsLocalItem()) {
+            holder.external_action.setVisibility(View.GONE);
+        } else {
+            holder.external_action.setVisibility(View.VISIBLE);
+            holder.external_action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onExternalLinkClicked(story);
+                }
+            });
+        }
+    }
+
+    private void bindStoryOrJob(final ViewHolder holder, final Story story) {
         if (story.isStoryAJob()) {
             holder.user.setVisibility(View.GONE);
             holder.timeAgo.setVisibility(View.GONE);
@@ -95,17 +122,26 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                 }
             });
         }
+    }
 
-        if (story.isHackerNewsLocalItem()) {
-            holder.external_action.setVisibility(View.GONE);
-        } else {
-            holder.external_action.setVisibility(View.VISIBLE);
-            holder.external_action.setOnClickListener(new View.OnClickListener() {
+    private void bindTitle(ViewHolder holder, Story story) {
+        holder.title.setTextColor(story.isRead() ?
+                holder.title.getResources().getColor(R.color.grey) :
+                holder.title.getResources().getColor(R.color.black));
+
+        holder.title.setText(story.getTitle());
+    }
+
+    private void bindVoteListener(ViewHolder holder, final Story story) {
+        if (loginSharedPreferences.isLoggedIn()) {
+            holder.vote_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onExternalLinkClicked(story);
+                    listener.onStoryVoteClicked(story);
                 }
             });
+        } else {
+            holder.vote_action.setVisibility(View.GONE);
         }
     }
 
@@ -125,6 +161,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final View external_action;
         public final View share_action;
         public final View bookmark_action;
+        public final View vote_action;
         public final TextView comments_text;
 
         public ViewHolder(View view) {
@@ -138,6 +175,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
             share_action = Views.findById(view, R.id.article_share_action);
             bookmark_action = Views.findById(view, R.id.article_bookmark_action);
             comments_text = Views.findById(view, R.id.article_comments_label);
+            vote_action = Views.findById(view, R.id.article_vote_action);
         }
     }
 
