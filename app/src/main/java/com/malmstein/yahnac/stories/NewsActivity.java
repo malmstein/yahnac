@@ -118,6 +118,11 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         showRemovedBookmarkSnackbar(persister, story);
     }
 
+    @Override
+    public void onStoryVoteClicked(Story story) {
+
+    }
+
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
         snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_added_bookmark))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
