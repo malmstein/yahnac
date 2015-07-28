@@ -10,8 +10,7 @@ android:
 
 branches:
   only:
-    - dev
-    - master
+    - develop
 
 notifications:
   email: false
