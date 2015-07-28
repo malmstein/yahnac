@@ -21,8 +21,9 @@ public class VoteUrlParser {
 
     public String parseVoteUrl(Element voteElement) {
         if (voteElement != null) {
-            return voteElement.attr("href").contains("auth=") ?
+            String url = voteElement.attr("href").contains("auth=") ?
                     (voteElement.attr("href")) : null;
+            return "/" + url;
         }
 
         return null;
