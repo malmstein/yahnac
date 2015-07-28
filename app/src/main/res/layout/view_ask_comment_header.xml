@@ -34,7 +34,7 @@
   </LinearLayout>
 
   <com.malmstein.yahnac.views.fonts.CommentTextView
-    style="@style/HNews.CommentText"
+    style="@style/HNews.CommentHeaderText"
     android:id="@+id/comment_header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

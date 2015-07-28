@@ -18,8 +18,11 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     private static int TYPE_HEADER = 0;
     private static int TYPE_COMMENT = 1;
 
-    public CommentsAdapter(Cursor cursor) {
+    private final String type;
+
+    public CommentsAdapter(String type, Cursor cursor) {
         super(cursor);
+        this.type = type;
     }
 
     @Override
@@ -53,7 +56,12 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     }
 
     private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
+        View v;
+        if (type.equals("ask")) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_ask_comment_header, parent, false);
+        } else {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
+        }
         HeaderViewHolder vh = new HeaderViewHolder(v);
         return vh;
     }
@@ -86,7 +94,6 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             if (comment.isHeader()) {
                 comment_header.setVisibility(View.GONE);
                 root.setPadding(0, 0, 0, 0);
-                text.setTextAppearance(text.getContext(), R.style.HNews_CommentHeaderText);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());
