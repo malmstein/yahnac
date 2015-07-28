@@ -31,6 +31,7 @@ public class CommentsParserTest {
 
     Element topRowElement;
     Element secondRowElement;
+    Element voteElement;
 
     @Before
     public void setUp() throws Exception {
@@ -41,6 +42,8 @@ public class CommentsParserTest {
 
         topRowElement = tableRows.get(0).select("td:eq(0)").first();
         secondRowElement = tableRows.get(0).select("td:eq(0)").first();
+        secondRowElement = tableRows.get(0).select("td:eq(0)").first();
+        voteElement = tableRows.get(0).select("td:eq(1) a").first();
 
         askStoryCommentsParser = new CommentsParser(storyId, askStoryComments);
         storyCommentsParser = new CommentsParser(storyId, storyComments);
@@ -80,6 +83,12 @@ public class CommentsParserTest {
     public void returnsCommentLevel() {
         int level = storyCommentsParser.parseLevel(secondRowElement);
         assertEquals(0, level);
+    }
+
+    @org.junit.Test
+    public void retrieveVoteUrl() {
+        String voteUrl = storyCommentsParser.parseVoteUrl(voteElement);
+        assertEquals("url", voteUrl);
     }
 
 }

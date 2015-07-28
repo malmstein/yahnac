@@ -89,6 +89,15 @@ public class CommentsParser {
         return level;
     }
 
+    public String parseVoteUrl(Element voteElement) {
+        if (voteElement != null) {
+            return voteElement.attr("href").contains("auth=") ?
+                    (voteElement.attr("href")) : null;
+        }
+
+        return null;
+    }
+
     public void storesQuestion() {
         Element headerElement = document.select("body table:eq(0)  tbody > tr:eq(2) > td:eq(0) > table").get(0);
 
