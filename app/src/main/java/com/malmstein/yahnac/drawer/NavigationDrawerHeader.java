@@ -36,13 +36,13 @@ public class NavigationDrawerHeader extends LinearLayout {
         loginSharedPreferences = LoginSharedPreferences.newInstance();
         listener = Classes.from(getContext());
 
-//        if (loginSharedPreferences.isLoggedIn()) {
-//            updateWithUsername();
-//        } else {
-//            updateWithLoginMessage();
-//        }
+        if (loginSharedPreferences.isLoggedIn()) {
+            updateWithUsername();
+        } else {
+            updateWithLoginMessage();
+        }
 
-        updateWithFutureMessage();
+//        updateWithFutureMessage();
 
     }
 
