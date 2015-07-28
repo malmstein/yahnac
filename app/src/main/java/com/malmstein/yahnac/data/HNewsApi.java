@@ -240,6 +240,7 @@ public class HNewsApi {
                         .execute();
 
                 String cookie = response.cookie("user");
+                String cfduid = response.cookie("_cfduid");
 
                 if (!TextUtils.isEmpty(cookie)) {
                     subscriber.onNext(new Login(username, cookie, Login.Status.SUCCESSFUL));
