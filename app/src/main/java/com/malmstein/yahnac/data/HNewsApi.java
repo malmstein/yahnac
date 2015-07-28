@@ -178,6 +178,19 @@ public class HNewsApi {
     Observable<String> vote(Story storyId, String username, String auth) {
         return Observable.create(
                 new VoteOnSubscribe(storyId, username, auth))
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(final String dataSnapshot) {
+                        return Observable.create(new Observable.OnSubscribe<String>() {
+                            @Override
+                            public void call(Subscriber<? super String> subscriber) {
+
+                                subscriber.onNext("url");
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                })
                 .subscribeOn(Schedulers.io());
     }
 
@@ -251,6 +264,39 @@ public class HNewsApi {
             } catch (IOException e) {
                 subscriber.onError(e);
             }
+        }
+    }
+
+    private static class ParseVoteUrlOnSubscribe implements Observable.OnSubscribe<String> {
+
+        private final Long storyId;
+        private Subscriber<? super String> subscriber;
+
+        private ParseVoteUrlOnSubscribe(Long storyId) {
+            this.storyId = storyId;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            startFetchingVoteUrl();
+            subscriber.onCompleted();
+        }
+
+        private void startFetchingVoteUrl() {
+            Vector<ContentValues> commentsList = new Vector<>();
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+                Document commentsDocument = connectionProvider
+                        .commentsConnection(storyId)
+                        .get();
+
+                commentsList = new CommentsParser(storyId, commentsDocument).parse();
+
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+            subscriber.onNext("voteUrl");
         }
     }
 
