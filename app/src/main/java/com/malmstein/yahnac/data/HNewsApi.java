@@ -9,6 +9,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.malmstein.yahnac.comments.CommentsParser;
+import com.malmstein.yahnac.comments.VoteUrlParser;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.Story;
@@ -28,6 +29,8 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class HNewsApi {
+
+    private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
 
     public Observable<List<ContentValues>> getStories(final Story.TYPE type) {
 
@@ -175,18 +178,41 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<String> vote(Story storyId, String username, String auth) {
+    Observable<String> vote(Story storyId) {
         return Observable.create(
-                new VoteOnSubscribe(storyId, username, auth))
+                new ParseVoteUrlOnSubscribe(storyId.getId()))
                 .flatMap(new Func1<String, Observable<String>>() {
                     @Override
-                    public Observable<String> call(final String dataSnapshot) {
+                    public Observable<String> call(final String voteUrl) {
                         return Observable.create(new Observable.OnSubscribe<String>() {
                             @Override
                             public void call(Subscriber<? super String> subscriber) {
 
-                                subscriber.onNext("url");
-                                subscriber.onCompleted();
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Connection.Response response = connectionProvider
+                                            .voteConnection(voteUrl)
+                                            .execute();
+
+                                    if (response.statusCode() == 200) {
+                                        if (response.body() == null) {
+                                            subscriber.onError(new Throwable(""));
+                                        }
+
+                                        Document doc = response.parse();
+                                        String text = doc.text();
+
+                                        if (text.equals(BAD_UPVOTE_RESPONSE)) {
+                                            subscriber.onNext(BAD_UPVOTE_RESPONSE);
+                                        } else {
+                                            subscriber.onNext(text);
+                                        }
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
                             }
                         });
                     }
@@ -284,70 +310,18 @@ public class HNewsApi {
         }
 
         private void startFetchingVoteUrl() {
-            Vector<ContentValues> commentsList = new Vector<>();
             try {
                 ConnectionProvider connectionProvider = Inject.connectionProvider();
                 Document commentsDocument = connectionProvider
                         .commentsConnection(storyId)
                         .get();
 
-                commentsList = new CommentsParser(storyId, commentsDocument).parse();
-
-            } catch (IOException e) {
-                subscriber.onError(e);
-            }
-            subscriber.onNext("voteUrl");
-        }
-    }
-
-    private static class VoteOnSubscribe implements Observable.OnSubscribe<String> {
-
-        private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
-
-        private final Story story;
-        private final String username;
-        private final String auth;
-
-        private Subscriber<? super String> subscriber;
-
-        private VoteOnSubscribe(Story story, String username, String auth) {
-            this.story = story;
-            this.username = username;
-            this.auth = auth;
-        }
-
-        @Override
-        public void call(Subscriber<? super String> subscriber) {
-            this.subscriber = subscriber;
-            attemptVote();
-            subscriber.onCompleted();
-        }
-
-        private void attemptVote() {
-            try {
-                ConnectionProvider connectionProvider = Inject.connectionProvider();
-                Connection.Response response = connectionProvider
-                        .voteConnection(story.getVoteUrl(username, auth))
-                        .execute();
-
-                if (response.statusCode() == 200) {
-                    if (response.body() == null) {
-                        subscriber.onError(new Throwable(""));
-                    }
-
-                    Document doc = response.parse();
-                    String text = doc.text();
-
-                    if (text.equals(BAD_UPVOTE_RESPONSE)) {
-                        subscriber.onNext(BAD_UPVOTE_RESPONSE);
-                    } else {
-                        subscriber.onNext(text);
-                    }
-                }
-
+                String voteUrl = new VoteUrlParser(commentsDocument).parse();
+                subscriber.onNext(voteUrl);
             } catch (IOException e) {
                 subscriber.onError(e);
             }
         }
     }
+
 }

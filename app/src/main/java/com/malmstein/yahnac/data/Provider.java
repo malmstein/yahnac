@@ -96,7 +96,7 @@ public class Provider {
     }
 
     public Observable<Boolean> observeVote(final Story story) {
-        return api.vote(story, loginSharedPreferences.getLogin().getUsername(), loginSharedPreferences.getAuth())
+        return api.vote(story)
                 .flatMap(new Func1<String, Observable<Boolean>>() {
                     @Override
                     public Observable<Boolean> call(final String response) {
