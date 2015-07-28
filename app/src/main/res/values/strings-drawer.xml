@@ -9,5 +9,6 @@
   <string name="navigation_drawer_about">About</string>
   <string name="navigation_drawer_login">Log in to Hacker News</string>
   <string name="navigation_drawer_welcome">Welcome %1$s!</string>
+  <string name="navigation_drawer_login_soon">Login functionality coming soon!</string>
 
 </resources>

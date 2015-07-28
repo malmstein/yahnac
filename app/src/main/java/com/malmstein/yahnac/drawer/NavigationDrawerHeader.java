@@ -36,24 +36,31 @@ public class NavigationDrawerHeader extends LinearLayout {
         loginSharedPreferences = LoginSharedPreferences.newInstance();
         listener = Classes.from(getContext());
 
-        if (loginSharedPreferences.isLoggedIn()) {
-            LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
-            updateWithUsername();
+//        if (loginSharedPreferences.isLoggedIn()) {
+//            updateWithUsername();
+//        } else {
+//            updateWithLoginMessage();
+//        }
 
-        } else {
-            LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_out, this, true);
-            updateWithLoginMessage();
-        }
+        updateWithFutureMessage();
 
     }
 
+    private void updateWithFutureMessage() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
+        TextView username = Views.findById(this, R.id.view_drawer_header_username);
+        username.setText(getResources().getString(R.string.navigation_drawer_login_soon));
+    }
+
     private void updateWithUsername() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
         TextView username = Views.findById(this, R.id.view_drawer_header_username);
         String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), loginSharedPreferences.getLogin().getUsername());
         username.setText(message);
     }
 
     private void updateWithLoginMessage() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_out, this, true);
         View loginView = Views.findById(this, R.id.view_drawer_header_login);
         loginView.setOnClickListener(new OnClickListener() {
             @Override
