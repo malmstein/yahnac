@@ -35,7 +35,6 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
     private RecyclerView storiesList;
     private RecyclerView.LayoutManager storiesLayoutManager;
     private DelegatedSwipeRefreshLayout refreshLayout;
-    private int refreshViewOffset;
 
     private StoryListener listener;
 
@@ -149,6 +148,10 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         } else {
             stopRefreshing();
         }
+    }
+
+    public void scrollToTop() {
+        storiesList.smoothScrollToPosition(0);
     }
 
 }

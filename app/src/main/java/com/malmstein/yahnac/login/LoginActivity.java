@@ -1,21 +1,16 @@
 package com.malmstein.yahnac.login;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewCompat;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
@@ -26,10 +21,9 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class LoginDialog extends DialogFragment {
+public class LoginActivity extends HNewsActivity {
 
-    public static final String TAG = "LoginDialog";
-    private Listener listener;
+    public static final String VIEW_TOOLBAR_TITLE = "login:toolbar:title";
 
     private EditText usernameView;
     private EditText passwordView;
@@ -42,42 +36,21 @@ public class LoginDialog extends DialogFragment {
     private InputFieldValidator inputFieldValidator = new InputFieldValidator();
     private Subscription subscription;
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        setupSubActivity();
 
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
-    }
+        View toolbarTitle = Views.findById(this, R.id.toolbar);
+        ViewCompat.setTransitionName(toolbarTitle, VIEW_TOOLBAR_TITLE);
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.listener = (Listener) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        this.listener = new DummyListener();
-        super.onDetach();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_login, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        titleView = Views.findById(view, R.id.dialog_login_title);
-        errorView = Views.findById(view, R.id.dialog_login_error);
-        progressView = Views.findById(view, R.id.dialog_login_progress);
-        usernameView = Views.findById(view, R.id.dialog_login_username);
-        passwordView = Views.findById(view, R.id.dialog_login_password);
+        titleView = Views.findById(this, R.id.login_title);
+        errorView = Views.findById(this, R.id.login_error);
+        progressView = Views.findById(this, R.id.login_progress);
+        usernameView = Views.findById(this, R.id.login_username);
+        passwordView = Views.findById(this, R.id.login_password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -90,15 +63,14 @@ public class LoginDialog extends DialogFragment {
                 return false;
             }
         });
-        cancelView = Views.findById(view, R.id.dialog_login_cancel);
+        cancelView = Views.findById(this, R.id.login_cancel);
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-                listener.onLoginCancelled();
+                onBackPressed();
             }
         });
-        loginView = Views.findById(view, R.id.dialog_login_login);
+        loginView = Views.findById(this, R.id.login_login);
         loginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,8 +117,8 @@ public class LoginDialog extends DialogFragment {
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
-                            dismiss();
-                            listener.onLoginSucceed();
+                            showSuccess();
+                            navigate().toNews();
                         } else {
                             hideProgress();
                             showError();
@@ -164,6 +136,10 @@ public class LoginDialog extends DialogFragment {
         return usernameView.getText().toString();
     }
 
+    private void showSuccess() {
+        String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), getUsername());
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
     private void showProgress() {
         titleView.setText(R.string.title_checking_account);
         progressView.setVisibility(View.VISIBLE);
@@ -174,21 +150,4 @@ public class LoginDialog extends DialogFragment {
         progressView.setVisibility(View.INVISIBLE);
     }
 
-    public interface Listener {
-        void onLoginSucceed();
-        void onLoginCancelled();
-    }
-
-    private static class DummyListener implements Listener {
-
-        @Override
-        public void onLoginSucceed() {
-            // no-op
-        }
-
-        @Override
-        public void onLoginCancelled() {
-            // no-op
-        }
-    }
 }

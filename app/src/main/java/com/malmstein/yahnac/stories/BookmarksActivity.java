@@ -9,12 +9,13 @@ import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.novoda.notils.caster.Views;
 
-public class BookmarksActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener {
+public class BookmarksActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
     private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
 
@@ -58,14 +59,15 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
     }
 
     @Override
+    public void onCommentsClicked(Story story) {
+        navigate().toComments(story);
+    }
+
+    @Override
     public void onContentClicked(Story story) {
         DataPersister persister = Inject.dataPersister();
         persister.markStoryAsRead(story);
-        if (story.isHackerNewsLocalItem()) {
-            navigate().toComments(story);
-        } else {
-            navigate().toInnerBrowser(story);
-        }
+        navigate().toInnerBrowser(story);
     }
 
     @Override
@@ -78,23 +80,20 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
     }
 
     @Override
-    public void onBookmarkClicked(Story story) {
+    public void onBookmarkAdded(Story story) {
         DataPersister persister = Inject.dataPersister();
-        if (story.isBookmark()) {
-            removeBookmark(persister, story);
-        } else {
-            addBookmark(persister, story);
-        }
+        showAddedBookmarkSnackbar(persister, story);
     }
 
-    private void removeBookmark(DataPersister persister, Story story) {
-        persister.removeBookmark(story);
+    @Override
+    public void onBookmarkRemoved(Story story) {
+        DataPersister persister = Inject.dataPersister();
         showRemovedBookmarkSnackbar(persister, story);
     }
 
-    private void addBookmark(DataPersister persister, Story story) {
-        persister.addBookmark(story);
-        showAddedBookmarkSnackbar(persister, story);
+    @Override
+    public void onStoryVoteClicked(Story story) {
+        //no op
     }
 
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
@@ -125,11 +124,26 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
                 .animating();
     }
 
+    private void removeBookmark(DataPersister persister, Story story) {
+        persister.removeBookmark(story);
+        showRemovedBookmarkSnackbar(persister, story);
+    }
+
+    private void addBookmark(DataPersister persister, Story story) {
+        persister.addBookmark(story);
+        showAddedBookmarkSnackbar(persister, story);
+    }
+
     @Override
     public void onNotImplementedFeatureSelected() {
         snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
                 .animating();
+    }
+
+    @Override
+    public void onLoginClicked() {
+        navigate().toLogin(Views.findById(this, R.id.view_drawer_header_login));
     }
 }

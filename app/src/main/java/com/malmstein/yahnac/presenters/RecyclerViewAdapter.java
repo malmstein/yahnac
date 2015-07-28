@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.data.DataPersister;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.stories.StoryListener;
 import com.novoda.notils.caster.Views;
@@ -70,7 +72,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onBookmarkClicked(story);
+                DataPersister persister = Inject.dataPersister();
+                if (story.isBookmark()) {
+                    persister.removeBookmark(story);
+                    listener.onBookmarkRemoved(story);
+                } else {
+                    persister.addBookmark(story);
+                    listener.onBookmarkAdded(story);
+                }
             }
         });
 
@@ -82,7 +91,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onCommentsClicked(v, story);
+                    if (story.isHackerNewsLocalItem()) {
+                        listener.onCommentsClicked(story);
+                    } else {
+                        listener.onContentClicked(story);
+                    }
                 }
             });
         }

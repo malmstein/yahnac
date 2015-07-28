@@ -89,28 +89,21 @@ public class HNewsApi {
                                     }
                                 }
                                 subscriber.onCompleted();
-                                }
-
-                                                        @Override
-                                                        public void onCancelled(FirebaseError firebaseError) {
-                                                            Log.d(firebaseError.getCode());
-                                                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onCancelled " + firebaseError.getMessage());
-                                                            subscriber.onCompleted();
-                                                        }
                             }
 
-                        );
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                                Log.d(firebaseError.getCode());
+                                Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: onCancelled " + firebaseError.getMessage());
+                                subscriber.onCompleted();
+                            }
+                        });
                     }
-                    }
-
-                );
+                });
             }
-            }
-
-        ).
-
-                toList();
-        }
+        })
+                .toList();
+    }
 
     private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
 
@@ -182,6 +175,12 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
+    Observable<String> vote(Story storyId, String username, String auth) {
+        return Observable.create(
+                new VoteOnSubscribe(storyId, username, auth))
+                .subscribeOn(Schedulers.io());
+    }
+
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
 
         private final Long storyId;
@@ -241,11 +240,63 @@ public class HNewsApi {
                         .execute();
 
                 String cookie = response.cookie("user");
+                String cfduid = response.cookie("_cfduid");
 
                 if (!TextUtils.isEmpty(cookie)) {
                     subscriber.onNext(new Login(username, cookie, Login.Status.SUCCESSFUL));
                 } else {
                     subscriber.onNext(new Login(username, null, Login.Status.WRONG_CREDENTIALS));
+                }
+
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
+
+    private static class VoteOnSubscribe implements Observable.OnSubscribe<String> {
+
+        private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
+
+        private final Story story;
+        private final String username;
+        private final String auth;
+
+        private Subscriber<? super String> subscriber;
+
+        private VoteOnSubscribe(Story story, String username, String auth) {
+            this.story = story;
+            this.username = username;
+            this.auth = auth;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            attemptVote();
+            subscriber.onCompleted();
+        }
+
+        private void attemptVote() {
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+                Connection.Response response = connectionProvider
+                        .voteConnection(story.getVoteUrl(username, auth))
+                        .execute();
+
+                if (response.statusCode() == 200) {
+                    if (response.body() == null) {
+                        subscriber.onError(new Throwable(""));
+                    }
+
+                    Document doc = response.parse();
+                    String text = doc.text();
+
+                    if (text.equals(BAD_UPVOTE_RESPONSE)) {
+                        subscriber.onNext(BAD_UPVOTE_RESPONSE);
+                    } else {
+                        subscriber.onNext(text);
+                    }
                 }
 
             } catch (IOException e) {

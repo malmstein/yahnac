@@ -15,7 +15,9 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <group android:checkableBehavior="single">
+  <group
+    android:id="@+id/group_top_entry"
+    android:checkableBehavior="single">
     <item
       android:id="@+id/nav_news"
       android:icon="@drawable/ic_dashboard"
@@ -30,13 +32,13 @@
       android:title="@string/navigation_drawer_comments" />
   </group>
 
-  <item android:title="@string/navigation_drawer_about">
-    <menu>
-      <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/ic_app_settings"
-        android:title="@string/navigation_drawer_settings" />
-    </menu>
-  </item>
+  <group
+    android:id="@+id/group_about"
+    android:checkableBehavior="single">
+    <item
+      android:id="@+id/nav_settings"
+      android:icon="@drawable/ic_app_settings"
+      android:title="@string/navigation_drawer_settings" />
+  </group>
 
 </menu>

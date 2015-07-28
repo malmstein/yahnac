@@ -34,6 +34,8 @@
 
     <activity android:name="com.malmstein.yahnac.comments.CommentsActivity" />
 
+    <activity android:name="com.malmstein.yahnac.login.LoginActivity" />
+
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"
       android:label="@string/title_about"

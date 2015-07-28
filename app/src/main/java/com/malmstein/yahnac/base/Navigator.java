@@ -1,7 +1,9 @@
 package com.malmstein.yahnac.base;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -10,12 +12,13 @@ import android.view.View;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.comments.CommentsActivity;
 import com.malmstein.yahnac.comments.CommentsFragment;
-import com.malmstein.yahnac.connectivity.NetworkDetector;
+import com.malmstein.yahnac.login.LoginActivity;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.ArticleActivity;
 import com.malmstein.yahnac.stories.BookmarksActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
+import com.malmstein.yahnac.transitions.TransitionHelper;
 
 public class Navigator {
 
@@ -26,8 +29,7 @@ public class Navigator {
     }
 
     protected boolean isOnline() {
-        NetworkDetector networkDetector = new NetworkDetector(activity);
-        return networkDetector.isDataConnectionAvailable();
+        return activity.isOnline();
     }
 
     public void toExternalBrowser(Uri articleUri) {
@@ -82,5 +84,18 @@ public class Navigator {
         ActivityCompat.startActivity(activity, bookmarksIntent, null);
         activity.overridePendingTransition(0, 0);
         activity.finish();
+    }
+
+    public void toLogin(View v) {
+
+        final android.util.Pair[] pairs = TransitionHelper.createSafeTransitionParticipants(activity, false,
+                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
+
+        ActivityOptions sceneTransitionAnimation = ActivityOptions
+                .makeSceneTransitionAnimation(activity, pairs);
+
+        final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
+        Intent commentIntent = new Intent(activity, LoginActivity.class);
+        ActivityCompat.startActivity(activity, commentIntent, transitionBundle);
     }
 }

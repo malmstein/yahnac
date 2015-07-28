@@ -1,18 +1,25 @@
 package com.malmstein.yahnac;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.malmstein.yahnac.base.Navigator;
-import com.malmstein.yahnac.connectivity.NetworkDetector;
+import com.malmstein.yahnac.connectivity.NetworkChecker;
 
 public class HNewsFragment extends Fragment {
 
-    public Navigator navigate() {
-        return ((HNewsActivity) getActivity()).navigate();
+    private NetworkChecker networkChecker;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initNetworkChecker();
+    }
+
+    private void initNetworkChecker() {
+        networkChecker = new NetworkChecker(getActivity());
     }
 
     protected boolean isOnline() {
-        NetworkDetector networkDetector = new NetworkDetector(getActivity());
-        return networkDetector.isDataConnectionAvailable();
+        return networkChecker.isConnected();
     }
 }

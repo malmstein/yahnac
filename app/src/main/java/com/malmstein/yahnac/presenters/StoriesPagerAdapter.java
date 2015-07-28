@@ -2,14 +2,16 @@ package com.malmstein.yahnac.presenters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
+import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.stories.AskHNFragment;
 import com.malmstein.yahnac.stories.JobsHNFragment;
 import com.malmstein.yahnac.stories.ShowHNFragment;
 import com.malmstein.yahnac.stories.TopStoriesFragment;
 
-public class StoriesPagerAdapter extends FragmentPagerAdapter {
+public class StoriesPagerAdapter extends TaggedFragmentStatePagerAdapter {
+
+    private static final String TAG_TEMPLATE = BuildConfig.APPLICATION_ID + ".STORY_FRAGMENT#";
 
     private String[] categories = {"Top Stories", "Newest", "Best", "Show HN", "Ask HN", "Jobs"};
 
@@ -35,6 +37,11 @@ public class StoriesPagerAdapter extends FragmentPagerAdapter {
             default:
                 return new JobsHNFragment();
         }
+    }
+
+    @Override
+    public String getTag(int position) {
+        return TAG_TEMPLATE + position;
     }
 
     @Override

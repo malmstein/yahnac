@@ -25,6 +25,7 @@
     <item name="dialogOrientation">vertical</item>
     <item name="dialogTitleWidth">match_parent</item>
     <item name="dialogContentWidth">match_parent</item>
+    <item name="android:windowSharedElementEnterTransition">@transition/login_enter</item>
   </style>
 
   <style name="Theme.HNews.Article">
@@ -38,6 +39,17 @@
     <item name="dialogOrientation">vertical</item>
     <item name="dialogTitleWidth">match_parent</item>
     <item name="dialogContentWidth">match_parent</item>
+    <item name="colorAccent">@color/black</item>
+  </style>
+
+  <style name="Theme.HNews.Login">
+    <item name="dialogOrientation">vertical</item>
+    <item name="dialogTitleWidth">match_parent</item>
+    <item name="dialogContentWidth">match_parent</item>
+    <item name="android:windowSharedElementExitTransition">@transition/login_enter</item>
+  </style>
+
+  <style name="Theme.HNews.Black">
     <item name="colorAccent">@color/black</item>
   </style>
 

@@ -34,7 +34,7 @@ public class Provider {
     }
 
     public boolean shouldUpdateContent(Story.TYPE type) {
-        if (type == Story.TYPE.new_story || type == Story.TYPE.best_story) {
+        if (type == Story.TYPE.best_story) {
             return false;
         }
         RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
@@ -88,6 +88,23 @@ public class Provider {
                             public void call(Subscriber<? super Login.Status> subscriber) {
                                 loginSharedPreferences.saveLogin(login);
                                 subscriber.onNext(login.getStatus());
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
+
+    public Observable<Boolean> observeVote(final Story story) {
+        return api.vote(story, loginSharedPreferences.getLogin().getUsername(), loginSharedPreferences.getAuth())
+                .flatMap(new Func1<String, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(final String response) {
+                        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+                            @Override
+                            public void call(Subscriber<? super Boolean> subscriber) {
+                                //dataPersister.addVote()
+                                subscriber.onNext(true);
                                 subscriber.onCompleted();
                             }
                         });

@@ -23,6 +23,7 @@ import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
+import com.malmstein.yahnac.presenters.CursorRecyclerAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.novoda.notils.caster.Views;
@@ -40,7 +41,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     private DelegatedSwipeRefreshLayout refreshLayout;
     private RecyclerView commentsList;
-    private CommentsAdapter commentsAdapter;
+    private CursorRecyclerAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
     private Subscription subscription;
@@ -135,7 +136,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         commentsLayoutManager = new LinearLayoutManager(getActivity());
         commentsList.setLayoutManager(commentsLayoutManager);
 
-        commentsAdapter = new CommentsAdapter(null);
+        commentsAdapter = new CommentsAdapter(getStory().getType(), null);
         commentsList.setAdapter(commentsAdapter);
     }
 
@@ -179,9 +180,4 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         return ViewCompat.canScrollVertically(commentsList, -1);
     }
 
-    private String getTotalComments(int comments) {
-        return getResources().getQuantityString(R.plurals.story_comments,
-                comments,
-                comments);
-    }
 }

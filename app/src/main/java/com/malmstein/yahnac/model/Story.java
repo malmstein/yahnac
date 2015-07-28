@@ -126,18 +126,15 @@ public class Story implements Serializable {
     }
 
     public boolean isHackerNewsLocalItem() {
-        boolean isLocalItem = false;
         if (getType().equals(TYPE.ask.name())) {
-            isLocalItem = true;
+            return true;
         }
 
-        if (url != null) {
-            isLocalItem = url.startsWith(ASK_URL_BASE) ? true : false;
+        if (url == null) {
+            return true;
         } else {
-            isLocalItem = false;
+            return url.startsWith(ASK_URL_BASE) || url.isEmpty() ? true : false;
         }
-
-        return isLocalItem;
     }
 
     public boolean isBookmark() {
@@ -154,6 +151,17 @@ public class Story implements Serializable {
         } else {
             bookmark = HNewsContract.FALSE_BOOLEAN;
         }
+    }
+
+    public String getVoteUrl(String username, String auth) {
+        String url = "/vote?for=" + Long.toString(id)
+                + "&dir=up"
+                + "&auth=" + auth
+                + "&goto=news";
+
+        return url;
+
+        //https://news.ycombinator.com/vote?for=9907480&dir=up&auth=75c4f14e4ee24c12bbe29afc9739880f9812563c&goto=news
     }
 
     public enum TYPE {

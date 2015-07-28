@@ -46,7 +46,7 @@ public class SettingsActivity extends HNewsActivity implements SettingsFragment.
     @Override
     public void onLogoutConfirmed() {
         loginSharedPreferences.logout();
-        finish();
+        navigate().toNews();
     }
 
 }

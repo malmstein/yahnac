@@ -68,7 +68,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         holder.bookmark_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onBookmarkClicked(story);
+                listener.onBookmarkAdded(story);
             }
         });
 

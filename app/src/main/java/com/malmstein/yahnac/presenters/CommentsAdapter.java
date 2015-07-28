@@ -18,8 +18,11 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     private static int TYPE_HEADER = 0;
     private static int TYPE_COMMENT = 1;
 
-    public CommentsAdapter(Cursor cursor) {
+    private final String type;
+
+    public CommentsAdapter(String type, Cursor cursor) {
         super(cursor);
+        this.type = type;
     }
 
     @Override
@@ -53,8 +56,19 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     }
 
     private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
+        View v;
+        if (type.equals("ask")) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_ask_comment_header, parent, false);
+        } else {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
+        }
         HeaderViewHolder vh = new HeaderViewHolder(v);
+        return vh;
+    }
+
+    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
+        CommentViewHolder vh = new CommentViewHolder(v);
         return vh;
     }
 
@@ -80,19 +94,12 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             if (comment.isHeader()) {
                 comment_header.setVisibility(View.GONE);
                 root.setPadding(0, 0, 0, 0);
-                text.setTextAppearance(text.getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());
                 root.setPadding(comment.getLevel(), 0, 0, 0);
             }
         }
-    }
-
-    private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
-        CommentViewHolder vh = new CommentViewHolder(v);
-        return vh;
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
