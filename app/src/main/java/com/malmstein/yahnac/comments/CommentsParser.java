@@ -58,7 +58,13 @@ public class CommentsParser {
     }
 
     public String parseText(Element topRowElement) {
-        String text = topRowElement.select("span.comment > *:not(:has(font[size=1]))").html();
+        Element commentSpan = topRowElement.select("span.comment > span").first();
+        if (commentSpan == null) {
+            return "";
+        }
+        commentSpan.select("div.reply").remove();
+
+        String text = commentSpan.html().replace("<span> </span>", "");
         return text;
     }
 
