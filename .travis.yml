@@ -7,6 +7,8 @@ android:
       - android-22
       # Additional components
       - extra-android-m2repository
+      - extra-google-google_play_services
+      - extra-android-m2repository
 
 branches:
   only:
