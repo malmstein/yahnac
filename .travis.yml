@@ -1,2 +1,8 @@
 language: android
+android:
+  components:
+      - build-tools-22.0.1
+      - android-22
+
+# Let's try to build...
 script: ./gradlew build
