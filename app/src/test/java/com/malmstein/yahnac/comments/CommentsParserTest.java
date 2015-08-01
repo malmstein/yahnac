@@ -85,10 +85,4 @@ public class CommentsParserTest {
         assertEquals(0, level);
     }
 
-    @org.junit.Test
-    public void retrieveVoteUrl() {
-        String voteUrl = storyCommentsParser.parseVoteUrl(voteElement);
-        assertEquals("url", voteUrl);
-    }
-
 }

@@ -28,6 +28,5 @@ public class VoteUrlParser {
 
         return null;
     }
-
 }
 

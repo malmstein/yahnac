@@ -14,7 +14,7 @@ public class VoteUrlParserTest {
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
 
-    private static final String VOTE_URL_SAMPLE = "vote?for=9961839&dir=up&auth=65320dedf2defa8de93e369a54f8236cdb883ab1&goto=item%3Fid%3D9961723";
+    private static final String VOTE_URL_SAMPLE = "/vote?for=9961839&dir=up&auth=65320dedf2defa8de93e369a54f8236cdb883ab1&goto=item%3Fid%3D9961723";
 
     VoteUrlParser askStoryVoteUrlParser;
     VoteUrlParser storyVoteUrlParser;
