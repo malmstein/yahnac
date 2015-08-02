@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "yahnac.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     public HNewsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,6 +30,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
                 HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0, " +
                 HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0" +
+                HNewsContract.StoryEntry.VOTED + " INTEGER DEFAULT 0" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_COMMENTS_NAME + " (" +
@@ -61,7 +62,6 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_ITEM_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_COMMENTS_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_BOOKMARKS_NAME);
         onCreate(db);
     }
 }

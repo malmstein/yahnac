@@ -12,6 +12,7 @@ public class Story implements Serializable {
     public static String COMMENT_URL_BASE = "https://news.ycombinator.com/item?id=";
     public static String NEXT_URL_BASE = "https://news.ycombinator.com/";
     public static String ASK_URL_BASE = "item?id=";
+
     private final Long internalId;
     private final String by;
     private final Long id;
@@ -25,8 +26,9 @@ public class Story implements Serializable {
     private final int rank;
     private final int read;
     private int bookmark;
+    private int voted;
 
-    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read, int voted) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -40,6 +42,7 @@ public class Story implements Serializable {
         this.rank = rank;
         this.bookmark = bookmark;
         this.read = read;
+        this.voted = voted;
     }
 
     public static Story from(Cursor cursor) {
@@ -56,8 +59,9 @@ public class Story implements Serializable {
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
         int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
         int read = cursor.getInt(HNewsContract.StoryEntry.COLUMN_READ);
+        int voted = cursor.getInt(HNewsContract.StoryEntry.COLUMN_VOTED);
 
-        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read);
+        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read, voted);
     }
 
     public static Story fromBookmark(Cursor cursor) {
@@ -70,7 +74,7 @@ public class Story implements Serializable {
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
         int bookmark = HNewsContract.TRUE_BOOLEAN;
 
-        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0);
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0, 0);
     }
 
     public String getSubmitter() {
@@ -143,6 +147,10 @@ public class Story implements Serializable {
 
     public boolean isRead() {
         return read == HNewsContract.TRUE_BOOLEAN;
+    }
+
+    public boolean isVoted() {
+        return voted == HNewsContract.TRUE_BOOLEAN;
     }
 
     public void toggleBookmark() {
