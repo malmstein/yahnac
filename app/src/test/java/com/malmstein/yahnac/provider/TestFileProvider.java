@@ -3,7 +3,7 @@ package com.malmstein.yahnac.provider;
 import java.io.File;
 import java.net.URL;
 
-public class TestDataProvider {
+public class TestFileProvider {
 
     private static File getFileFromPath(Object obj, String fileName) {
         ClassLoader classLoader = obj.getClass().getClassLoader();

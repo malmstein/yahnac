@@ -2,7 +2,7 @@ package com.malmstein.yahnac.comments;
 
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.provider.TestDataProvider;
+import com.malmstein.yahnac.provider.TestFileProvider;
 
 import java.io.File;
 import java.util.Vector;
@@ -36,8 +36,8 @@ public class CommentsParserTest {
 
     @Before
     public void setUp() throws Exception {
-        File askStoryCommentsFile = TestDataProvider.getAskStoryComments(this);
-        File newsStoryCommentsFile = TestDataProvider.getAskStoryComments(this);
+        File askStoryCommentsFile = TestFileProvider.getAskStoryComments(this);
+        File newsStoryCommentsFile = TestFileProvider.getAskStoryComments(this);
         Document askStoryComments = Jsoup.parse(askStoryCommentsFile, BASE_URI);
         Document storyComments = Jsoup.parse(newsStoryCommentsFile, BASE_URI);
 

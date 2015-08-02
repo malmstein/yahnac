@@ -316,7 +316,7 @@ public class HNewsApi {
                         .commentsConnection(storyId)
                         .get();
 
-                String voteUrl = new VoteUrlParser(commentsDocument).parse();
+                String voteUrl = new VoteUrlParser(commentsDocument, storyId).parse();
                 subscriber.onNext(voteUrl);
             } catch (IOException e) {
                 subscriber.onError(e);

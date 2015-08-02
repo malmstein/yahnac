@@ -1,6 +1,6 @@
 package com.malmstein.yahnac.comments;
 
-import com.malmstein.yahnac.provider.TestDataProvider;
+import com.malmstein.yahnac.provider.TestFileProvider;
 
 import java.io.File;
 
@@ -24,23 +24,23 @@ public class VoteUrlParserTest {
 
     @org.junit.Test
     public void fileObjectShouldNotBeNull() throws Exception {
-        File file = TestDataProvider.getNewsStoryComments(this);
+        File file = TestFileProvider.getNewsStoryComments(this);
         assertNotNull(file);
     }
 
     @org.junit.Test
     public void retrieveVoteUrlFromAskStory() {
-        File file = TestDataProvider.getNewsStoryComments(this);
-        Document askStoryComments = Jsoup.parse(file.toString());
+        File file = TestFileProvider.getAskStoryComments(this);
+        Document askStoryComments = Jsoup.parse(file.toString(), BASE_URI);
         askStoryVoteUrlParser = new VoteUrlParser(askStoryComments);
+        String voteUrl = askStoryVoteUrlParser.parse();
 
-        String voteUrl = askStoryVoteUrlParser.parseVoteUrl(voteElement);
         assertEquals(VOTE_URL_SAMPLE, voteUrl);
     }
 
     @org.junit.Test
     public void retrieveVoteUrlFromNewsStory() {
-        File file = TestDataProvider.getNewsStoryComments(this);
+        File file = TestFileProvider.getNewsStoryComments(this);
         Document storyComments = Jsoup.parse(file.toString());
 
         storyVoteUrlParser = new VoteUrlParser(storyComments);
