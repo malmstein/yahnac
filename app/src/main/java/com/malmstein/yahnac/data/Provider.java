@@ -3,6 +3,7 @@ package com.malmstein.yahnac.data;
 import android.content.ContentValues;
 
 import com.malmstein.yahnac.model.Login;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.updater.RefreshSharedPreferences;
@@ -42,7 +43,6 @@ public class Provider {
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
         return elapsedTime > maxMillisWithoutUpgrade;
     }
-
 
     public Observable<Integer> getStories(final Story.TYPE type) {
         return api.getStories(type)
@@ -95,16 +95,18 @@ public class Provider {
                 });
     }
 
-    public Observable<Boolean> observeVote(final Story story) {
+    public Observable<OperationResponse> observeVote(final Story story) {
         return api.vote(story)
-                .flatMap(new Func1<String, Observable<Boolean>>() {
+                .flatMap(new Func1<OperationResponse, Observable<OperationResponse>>() {
                     @Override
-                    public Observable<Boolean> call(final String response) {
-                        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+                    public Observable<OperationResponse> call(final OperationResponse response) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
                             @Override
-                            public void call(Subscriber<? super Boolean> subscriber) {
-                                //dataPersister.addVote()
-                                subscriber.onNext(true);
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+                                if (response.equals(OperationResponse.SUCCESS)) {
+                                    dataPersister.addVote(story);
+                                }
+                                subscriber.onNext(response);
                                 subscriber.onCompleted();
                             }
                         });

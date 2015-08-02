@@ -87,4 +87,14 @@ public class DataPersister {
 
     }
 
+    public void addVote(Story story) {
+        ContentValues bookmarkValues = new ContentValues();
+
+        bookmarkValues.put(HNewsContract.StoryEntry.VOTED, HNewsContract.TRUE_BOOLEAN);
+
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                bookmarkValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
+    }
 }

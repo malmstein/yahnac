@@ -6,6 +6,7 @@ import org.jsoup.select.Elements;
 
 public class VoteUrlParser {
 
+    public static final String EMPTY = "";
     private final Document document;
     private final Long storyId;
 
@@ -24,7 +25,7 @@ public class VoteUrlParser {
             return "/" + url;
 
         } else {
-            return "";
+            return EMPTY;
         }
     }
 

@@ -12,6 +12,7 @@ import com.malmstein.yahnac.comments.CommentsParser;
 import com.malmstein.yahnac.comments.VoteUrlParser;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Login;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.novoda.notils.logger.simple.Log;
 
@@ -178,15 +179,19 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<String> vote(Story storyId) {
+    Observable<OperationResponse> vote(Story storyId) {
         return Observable.create(
                 new ParseVoteUrlOnSubscribe(storyId.getId()))
-                .flatMap(new Func1<String, Observable<String>>() {
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
                     @Override
-                    public Observable<String> call(final String voteUrl) {
-                        return Observable.create(new Observable.OnSubscribe<String>() {
+                    public Observable<OperationResponse> call(final String voteUrl) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
                             @Override
-                            public void call(Subscriber<? super String> subscriber) {
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                if (voteUrl.equals(VoteUrlParser.EMPTY)) {
+                                    subscriber.onNext(OperationResponse.FAILURE);
+                                }
 
                                 try {
                                     ConnectionProvider connectionProvider = Inject.connectionProvider();
@@ -203,10 +208,12 @@ public class HNewsApi {
                                         String text = doc.text();
 
                                         if (text.equals(BAD_UPVOTE_RESPONSE)) {
-                                            subscriber.onNext(BAD_UPVOTE_RESPONSE);
+                                            subscriber.onNext(OperationResponse.FAILURE);
                                         } else {
-                                            subscriber.onNext(text);
+                                            subscriber.onNext(OperationResponse.SUCCESS);
                                         }
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
                                     }
 
                                 } catch (IOException e) {
