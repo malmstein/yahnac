@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
@@ -134,12 +135,16 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
 
     private void bindVoteListener(ViewHolder holder, final Story story) {
         if (loginSharedPreferences.isLoggedIn()) {
-            holder.vote_action.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onStoryVoteClicked(story);
-                }
-            });
+            if (story.isVoted()) {
+                holder.vote_action.setImageResource(R.drawable.ic_voted);
+            } else {
+                holder.vote_action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onStoryVoteClicked(story);
+                    }
+                });
+            }
         } else {
             holder.vote_action.setVisibility(View.GONE);
         }
@@ -161,7 +166,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         public final View external_action;
         public final View share_action;
         public final View bookmark_action;
-        public final View vote_action;
+        public final ImageButton vote_action;
         public final TextView comments_text;
 
         public ViewHolder(View view) {
