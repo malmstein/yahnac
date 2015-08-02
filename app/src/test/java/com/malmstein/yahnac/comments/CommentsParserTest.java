@@ -2,8 +2,9 @@ package com.malmstein.yahnac.comments;
 
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.json.CommentsJson;
+import com.malmstein.yahnac.provider.TestDataProvider;
 
+import java.io.File;
 import java.util.Vector;
 
 import org.jsoup.Jsoup;
@@ -35,8 +36,10 @@ public class CommentsParserTest {
 
     @Before
     public void setUp() throws Exception {
-        Document askStoryComments = Jsoup.parse(CommentsJson.askStoryComments, BASE_URI);
-        Document storyComments = Jsoup.parse(CommentsJson.newsComments, BASE_URI);
+        File askStoryCommentsFile = TestDataProvider.getAskStoryComments(this);
+        File newsStoryCommentsFile = TestDataProvider.getAskStoryComments(this);
+        Document askStoryComments = Jsoup.parse(askStoryCommentsFile, BASE_URI);
+        Document storyComments = Jsoup.parse(newsStoryCommentsFile, BASE_URI);
 
         Elements tableRows = askStoryComments.select("table tr table tr:has(table)");
 

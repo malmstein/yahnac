@@ -26,6 +26,6 @@
   <string name="settings_category_title_account">My Hacker News Account</string>
 
   <string name="settings_key_logout">keyLogout</string>
-  <string name="settings_title_logout">Log out of Hacker News</string>
+  <string name="settings_title_logout">Sign out of Hacker News</string>
 
 </resources>

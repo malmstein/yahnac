@@ -6,10 +6,10 @@
   <string name="hint_username">Enter your username</string>
   <string name="hint_password">Enter your password</string>
 
-  <string name="title_add_account">Log into Hacker News</string>
+  <string name="title_add_account">Sign into Hacker News</string>
   <string name="title_checking_account">Checking credentials...</string>
 
-  <string name="action_login">Login</string>
+  <string name="action_login">Sign in</string>
   <string name="action_cancel">Cancel</string>
   <string name="action_logout">Logout</string>
 

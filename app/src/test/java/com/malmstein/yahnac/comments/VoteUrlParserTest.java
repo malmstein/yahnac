@@ -1,14 +1,15 @@
 package com.malmstein.yahnac.comments;
 
-import com.malmstein.yahnac.json.CommentsJson;
+import com.malmstein.yahnac.provider.TestDataProvider;
+
+import java.io.File;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class VoteUrlParserTest {
 
@@ -21,21 +22,28 @@ public class VoteUrlParserTest {
 
     Element voteElement;
 
-    @Before
-    public void setUp() throws Exception {
-        Document askStoryComments = Jsoup.parse(CommentsJson.askStoryComments, BASE_URI);
-        Document storyComments = Jsoup.parse(CommentsJson.newsComments, BASE_URI);
-
-        Elements tableRows = askStoryComments.select("table tr table tr:has(table)");
-
-        voteElement = tableRows.get(0).select("td:eq(1) a").first();
-
-        askStoryVoteUrlParser = new VoteUrlParser(askStoryComments);
-        storyVoteUrlParser = new VoteUrlParser(storyComments);
+    @org.junit.Test
+    public void fileObjectShouldNotBeNull() throws Exception {
+        File file = TestDataProvider.getNewsStoryComments(this);
+        assertNotNull(file);
     }
 
     @org.junit.Test
-    public void retrieveVoteUrl() {
+    public void retrieveVoteUrlFromAskStory() {
+        File file = TestDataProvider.getNewsStoryComments(this);
+        Document askStoryComments = Jsoup.parse(file.toString());
+        askStoryVoteUrlParser = new VoteUrlParser(askStoryComments);
+
+        String voteUrl = askStoryVoteUrlParser.parseVoteUrl(voteElement);
+        assertEquals(VOTE_URL_SAMPLE, voteUrl);
+    }
+
+    @org.junit.Test
+    public void retrieveVoteUrlFromNewsStory() {
+        File file = TestDataProvider.getNewsStoryComments(this);
+        Document storyComments = Jsoup.parse(file.toString());
+
+        storyVoteUrlParser = new VoteUrlParser(storyComments);
         String voteUrl = storyVoteUrlParser.parseVoteUrl(voteElement);
         assertEquals(VOTE_URL_SAMPLE, voteUrl);
     }

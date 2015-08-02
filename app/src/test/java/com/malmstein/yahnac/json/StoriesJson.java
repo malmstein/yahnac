@@ -2,7 +2,7 @@ package com.malmstein.yahnac.json;
 
 public class StoriesJson {
 
-    public static final String news = "\n" +
+        public static final String news = "\n" +
             "<html><head><meta name=\"referrer\" content=\"origin\"></meta><link rel=\"stylesheet\" type=\"text/css\" href=\"news.css?RhgQ45HmurMxjyZlSb9P\"></link><link rel=\"shortcut icon\" href=\"favicon.ico\"></link><link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"rss\"></link><script type=\"text/javascript\">\n" +
             "function byId(id) {\n" +
             "  return document.getElementById(id);\n" +
