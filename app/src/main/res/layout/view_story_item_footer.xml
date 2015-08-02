@@ -10,7 +10,7 @@
   <ImageButton
     android:id="@+id/article_vote_action"
     style="@style/HNews.FeedAction"
-    android:src="@drawable/ic_arrow_forward" />
+    android:src="@drawable/ic_vote" />
 
   <ImageButton
     android:id="@+id/article_share_action"

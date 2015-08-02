@@ -8,5 +8,6 @@
   <string name="feed_snackbar_added_bookmark">Story added to bookmarks</string>
   <string name="feed_snackbar_removed_bookmark">Story removed from bookmarks</string>
   <string name="feed_snackbar_not_implemented">Feature not yet implemented</string>
+  <string name="feed_snackbar_voted">Story voted on Hacker News</string>
 
 </resources>

@@ -14,6 +14,7 @@ import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
 import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
@@ -130,7 +131,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         subscription = provider
                 .observeVote(story)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
+                .subscribe(new Observer<OperationResponse>() {
                     @Override
                     public void onCompleted() {
                         if (!subscription.isUnsubscribed()) {
@@ -144,8 +145,11 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
                     }
 
                     @Override
-                    public void onNext(Boolean status) {
-
+                    public void onNext(OperationResponse status) {
+                        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voted))
+                                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                                .withAnimationDuration(croutonAnimationDuration)
+                                .animating();
                     }
                 });
     }

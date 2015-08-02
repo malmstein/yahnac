@@ -36,6 +36,8 @@ public class HNewsContract {
         public static final String TIMESTAMP = "timestamp";
         public static final String BOOKMARK = "bookmark";
         public static final String READ = "read";
+
+        public static final String VOTED = "voted";
         public static final String[] STORY_COLUMNS = {
                 StoryEntry._ID,
                 StoryEntry.ITEM_ID,
@@ -50,8 +52,8 @@ public class HNewsContract {
                 StoryEntry.TIMESTAMP,
                 StoryEntry.BOOKMARK,
                 StoryEntry.READ,
+                StoryEntry.VOTED,
         };
-        public static final String VOTED = "voted";
 
         public static final int COLUMN_ID = 0;
         public static final int COLUMN_ITEM_ID = 1;

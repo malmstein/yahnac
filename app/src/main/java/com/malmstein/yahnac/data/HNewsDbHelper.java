@@ -29,7 +29,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.StoryEntry.RANK + " INTEGER," +
                 HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
                 HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0, " +
-                HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0" +
+                HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0, " +
                 HNewsContract.StoryEntry.VOTED + " INTEGER DEFAULT 0" +
                 " );";
 
@@ -62,6 +62,7 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_ITEM_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_COMMENTS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HNewsContract.TABLE_BOOKMARKS_NAME);
         onCreate(db);
     }
 }
