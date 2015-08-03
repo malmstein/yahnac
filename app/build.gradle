@@ -3,7 +3,7 @@ apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.0rc3"
 
     defaultConfig {
         applicationId "com.malmstein.yahnac"
