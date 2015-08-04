@@ -41,7 +41,7 @@ public class JobsHNFragment extends StoryFragment implements LoaderManager.Loade
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.TYPE + " = ?",
+                HNewsContract.StoryEntry.FILTER + " = ?",
                 new String[]{Story.TYPE.jobs.name()},
                 getOrder());
     }

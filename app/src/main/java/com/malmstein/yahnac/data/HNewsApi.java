@@ -109,19 +109,14 @@ public class HNewsApi {
                 .toList();
     }
 
-    private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
+    private ContentValues mapStory(Map<String, Object> map, Story.TYPE filter, Integer rank) {
 
         ContentValues storyValues = new ContentValues();
 
         try {
             String by = (String) map.get("by");
             Long id = (Long) map.get("id");
-            String type;
-            if (rootType == Story.TYPE.best_story) {
-                type = Story.TYPE.top_story.name();
-            } else {
-                type = rootType.name();
-            }
+            String type = (String) map.get("type");
             Long time = (Long) map.get("time");
             Long score = (Long) map.get("score");
             String title = (String) map.get("title");
@@ -141,6 +136,7 @@ public class HNewsApi {
             storyValues.put(HNewsContract.StoryEntry.URL, url);
             storyValues.put(HNewsContract.StoryEntry.RANK, rank);
             storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
+            storyValues.put(HNewsContract.StoryEntry.FILTER, filter.name());
         } catch (Exception ex) {
             Log.d(ex.getMessage());
         }
@@ -150,12 +146,6 @@ public class HNewsApi {
 
     private Firebase getStoryFirebase(Story.TYPE type) {
         switch (type) {
-            case top_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-            case new_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/newstories");
-            case best_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
             case show:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/showstories");
             case ask:

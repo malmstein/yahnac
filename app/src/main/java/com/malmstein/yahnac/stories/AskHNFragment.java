@@ -41,7 +41,7 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.TYPE + " = ?",
+                HNewsContract.StoryEntry.FILTER + " = ?",
                 new String[]{Story.TYPE.ask.name()},
                 getOrder());
     }

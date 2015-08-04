@@ -36,8 +36,9 @@ public class HNewsContract {
         public static final String TIMESTAMP = "timestamp";
         public static final String BOOKMARK = "bookmark";
         public static final String READ = "read";
-
         public static final String VOTED = "voted";
+        public static final String FILTER = "filter";
+
         public static final String[] STORY_COLUMNS = {
                 StoryEntry._ID,
                 StoryEntry.ITEM_ID,
@@ -53,6 +54,7 @@ public class HNewsContract {
                 StoryEntry.BOOKMARK,
                 StoryEntry.READ,
                 StoryEntry.VOTED,
+                StoryEntry.FILTER,
         };
 
         public static final int COLUMN_ID = 0;
@@ -69,6 +71,7 @@ public class HNewsContract {
         public static final int COLUMN_BOOKMARK = 11;
         public static final int COLUMN_READ = 12;
         public static final int COLUMN_VOTED = 13;
+        public static final int COLUMN_FILTER = 14;
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
@@ -89,6 +92,8 @@ public class HNewsContract {
         public static final String URL = "url";
         public static final String TITLE = "title";
         public static final String TIMESTAMP = "timestamp";
+        public static final String FILTER = "filter";
+
         public static final String[] BOOKMARK_COLUMNS = {
                 BookmarkEntry._ID,
                 BookmarkEntry.ITEM_ID,
@@ -97,6 +102,7 @@ public class HNewsContract {
                 BookmarkEntry.URL,
                 BookmarkEntry.TITLE,
                 BookmarkEntry.TIMESTAMP,
+                BookmarkEntry.FILTER,
         };
         public static final int COLUMN_ID = 0;
         public static final int COLUMN_ITEM_ID = 1;
@@ -105,6 +111,7 @@ public class HNewsContract {
         public static final int COLUMN_URL = 4;
         public static final int COLUMN_TITLE = 5;
         public static final int COLUMN_TIMESTAMP = 6;
+        public static final int COLUMN_FILTER = 7;
 
         public static Uri buildBookmarksUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_BOOKMARKS_URI, id);

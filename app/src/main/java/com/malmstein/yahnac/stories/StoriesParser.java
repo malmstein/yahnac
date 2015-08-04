@@ -85,7 +85,6 @@ public class StoriesParser {
             int item_id = parseItemId(st);
             int rank = parseRank(titles.get(i));
 
-//            String upvote_i = titles.get(i).select("td>center>a[href^=vote]").attr("href");
 
             i++;
 

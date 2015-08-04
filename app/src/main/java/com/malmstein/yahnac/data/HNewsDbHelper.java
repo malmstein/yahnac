@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "yahnac.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 9;
 
     public HNewsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,7 +30,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
                 HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0, " +
                 HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0, " +
-                HNewsContract.StoryEntry.VOTED + " INTEGER DEFAULT 0" +
+                HNewsContract.StoryEntry.VOTED + " INTEGER DEFAULT 0, " +
+                HNewsContract.StoryEntry.FILTER + " TEXT" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_COMMENTS_NAME + " (" +
@@ -50,7 +51,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.BookmarkEntry.BY + " TEXT," +
                 HNewsContract.BookmarkEntry.URL + " TEXT," +
                 HNewsContract.BookmarkEntry.TITLE + " TEXT," +
-                HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER" +
+                HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER, " +
+                HNewsContract.BookmarkEntry.FILTER + " TEXT" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);

@@ -27,8 +27,9 @@ public class Story implements Serializable {
     private final int read;
     private int bookmark;
     private int voted;
+    private String filter;
 
-    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read, int voted) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read, int voted, String filter) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -60,8 +61,9 @@ public class Story implements Serializable {
         int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
         int read = cursor.getInt(HNewsContract.StoryEntry.COLUMN_READ);
         int voted = cursor.getInt(HNewsContract.StoryEntry.COLUMN_VOTED);
+        String filter = cursor.getString(HNewsContract.StoryEntry.COLUMN_FILTER);
 
-        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read, voted);
+        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read, voted, filter);
     }
 
     public static Story fromBookmark(Cursor cursor) {
@@ -72,9 +74,10 @@ public class Story implements Serializable {
         String url = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_URL);
         String title = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TITLE);
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
+        String filter = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_FILTER);
         int bookmark = HNewsContract.TRUE_BOOLEAN;
 
-        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0, 0);
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0, 0, filter);
     }
 
     public String getSubmitter() {
