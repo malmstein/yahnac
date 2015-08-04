@@ -49,6 +49,7 @@ public class DataPersister {
         bookmarkValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.FILTER, story.getFilter());
 
         contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, bookmarkValues);
 

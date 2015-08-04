@@ -34,7 +34,7 @@ public class StoriesParserTest {
     private static final String NEXT_PAGE_SAMPLE = "https://news.ycombinator.com/newest?next=9050123&n=31";
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
-    private static final Story.TYPE DEFAULT_TYPE = Story.TYPE.top_story;
+    private static final Story.FILTER DEFAULT_FILTER = Story.FILTER.top_story;
 
     StoriesParser storiesNewsParser;
     StoriesParser storiesJobsParser;
@@ -61,13 +61,13 @@ public class StoriesParserTest {
 
     @org.junit.Test
     public void returnsAllNews() {
-        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_TYPE);
+        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_FILTER);
         assertEquals(stories.getStories().size(), 30);
     }
 
     @org.junit.Test
     public void returnsAllJobs() {
-        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_TYPE);
+        StoriesJsoup stories = storiesNewsParser.parse(DEFAULT_FILTER);
         assertEquals(stories.getStories().size(), 30);
     }
 

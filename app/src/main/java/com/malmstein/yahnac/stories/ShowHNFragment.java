@@ -24,8 +24,8 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
     }
 
     @Override
-    protected Story.TYPE getType() {
-        return Story.TYPE.show;
+    protected Story.FILTER getType() {
+        return Story.FILTER.show;
     }
 
     protected String getOrder() {
@@ -42,7 +42,7 @@ public class ShowHNFragment extends StoryFragment implements LoaderManager.Loade
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
                 HNewsContract.StoryEntry.FILTER + " = ?",
-                new String[]{Story.TYPE.show.name()},
+                new String[]{Story.FILTER.show.name()},
                 getOrder());
     }
 

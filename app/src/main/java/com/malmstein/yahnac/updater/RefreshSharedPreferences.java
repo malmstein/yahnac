@@ -29,8 +29,8 @@ public class RefreshSharedPreferences {
         return new RefreshSharedPreferences(preferences);
     }
 
-    public void saveRefreshTick(Story.TYPE type) {
-        switch (type) {
+    public void saveRefreshTick(Story.FILTER FILTER) {
+        switch (FILTER) {
             case top_story:
                 preferences.edit().putLong(KEY_REFRESH_TIME_TOP_STORY, RefreshTimestamp.now().getMillis()).apply();
                 break;
@@ -53,8 +53,8 @@ public class RefreshSharedPreferences {
 
     }
 
-    public RefreshTimestamp getLastRefresh(Story.TYPE type) {
-        switch (type) {
+    public RefreshTimestamp getLastRefresh(Story.FILTER FILTER) {
+        switch (FILTER) {
             case top_story:
                 return RefreshTimestamp.from(preferences.getLong(KEY_REFRESH_TIME_TOP_STORY, 0));
             case new_story:

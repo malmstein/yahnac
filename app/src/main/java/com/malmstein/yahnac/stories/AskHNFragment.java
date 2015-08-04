@@ -24,8 +24,8 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
     }
 
     @Override
-    protected Story.TYPE getType() {
-        return Story.TYPE.ask;
+    protected Story.FILTER getType() {
+        return Story.FILTER.ask;
     }
 
     protected String getOrder() {
@@ -42,7 +42,7 @@ public class AskHNFragment extends StoryFragment implements LoaderManager.Loader
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
                 HNewsContract.StoryEntry.FILTER + " = ?",
-                new String[]{Story.TYPE.ask.name()},
+                new String[]{Story.FILTER.ask.name()},
                 getOrder());
     }
 

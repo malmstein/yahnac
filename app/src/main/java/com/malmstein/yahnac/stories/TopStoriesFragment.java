@@ -32,15 +32,15 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
         getLoaderManager().initLoader(STORY_LOADER, null, this);
     }
 
-    public Story.TYPE getType() {
+    public Story.FILTER getType() {
         QUERY query = (QUERY) getArguments().get("query");
         switch (query) {
             case top:
-                return Story.TYPE.top_story;
+                return Story.FILTER.top_story;
             case newest:
-                return Story.TYPE.new_story;
+                return Story.FILTER.new_story;
             case best:
-                return Story.TYPE.top_story;
+                return Story.FILTER.top_story;
             default:
                 new DeveloperError("Bad Query type");
                 return null;
@@ -72,8 +72,8 @@ public class TopStoriesFragment extends StoryFragment implements LoaderManager.L
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.FILTER + " = ?",
-                new String[]{getType().name()},
+                HNewsContract.StoryEntry.TYPE + " = ?",
+                new String[]{Story.TYPE.story.name()},
                 getOrder());
     }
 

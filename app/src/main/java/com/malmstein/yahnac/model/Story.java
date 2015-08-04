@@ -138,7 +138,7 @@ public class Story implements Serializable {
     }
 
     public boolean isHackerNewsLocalItem() {
-        if (getFilter().equals(TYPE.ask.name())) {
+        if (getFilter().equals(FILTER.ask.name())) {
             return true;
         }
 
@@ -173,12 +173,18 @@ public class Story implements Serializable {
         }
     }
 
-    public enum TYPE {
+    public enum FILTER {
         top_story,
         new_story,
         best_story,
         show,
         ask,
         jobs
+    }
+
+    public enum TYPE {
+        story,
+        ask,
+        poll
     }
 }

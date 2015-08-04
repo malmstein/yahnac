@@ -95,7 +95,7 @@ public abstract class StoryFragment extends HNewsFragment implements SwipeRefres
         return new StaggeredGridLayoutManager(spans, RecyclerView.VERTICAL);
     }
 
-    protected abstract Story.TYPE getType();
+    protected abstract Story.FILTER getType();
 
     protected void startRefreshing() {
         refreshLayout.postOnAnimation(new Runnable() {

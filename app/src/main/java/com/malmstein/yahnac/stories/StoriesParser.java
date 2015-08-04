@@ -67,7 +67,7 @@ public class StoriesParser {
         return item_id;
     }
 
-    public StoriesJsoup parse(Story.TYPE type) {
+    public StoriesJsoup parse(Story.FILTER FILTER) {
         Elements titles = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=title])");
         Elements subtext = document.select("body>center>table>tbody>tr>td>table>tbody>tr:has(td[class=subtext])");
 
@@ -91,7 +91,7 @@ public class StoriesParser {
             ContentValues storyValues = new ContentValues();
 
             storyValues.put(HNewsContract.StoryEntry.ITEM_ID, item_id);
-            storyValues.put(HNewsContract.StoryEntry.TYPE, type.name());
+            storyValues.put(HNewsContract.StoryEntry.TYPE, FILTER.name());
             storyValues.put(HNewsContract.StoryEntry.BY, submitter);
             storyValues.put(HNewsContract.StoryEntry.TIME_AGO, ago);
             storyValues.put(HNewsContract.StoryEntry.COMMENTS, comments);

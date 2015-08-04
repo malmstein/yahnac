@@ -34,25 +34,25 @@ public class Provider {
         this.loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
-    public boolean shouldUpdateContent(Story.TYPE type) {
-        if (type == Story.TYPE.best_story) {
+    public boolean shouldUpdateContent(Story.FILTER FILTER) {
+        if (FILTER == Story.FILTER.best_story) {
             return false;
         }
-        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(type);
+        RefreshTimestamp lastUpdate = refreshPreferences.getLastRefresh(FILTER);
         RefreshTimestamp now = RefreshTimestamp.now();
         long elapsedTime = now.getMillis() - lastUpdate.getMillis();
         return elapsedTime > maxMillisWithoutUpgrade;
     }
 
-    public Observable<Integer> getStories(final Story.TYPE type) {
-        return api.getStories(type)
+    public Observable<Integer> getStories(final Story.FILTER FILTER) {
+        return api.getStories(FILTER)
                 .flatMap(new Func1<List<ContentValues>, Observable<Integer>>() {
                     @Override
                     public Observable<Integer> call(final List<ContentValues> stories) {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(Subscriber<? super Integer> subscriber) {
-                                refreshPreferences.saveRefreshTick(type);
+                                refreshPreferences.saveRefreshTick(FILTER);
                                 dataPersister.persistStories(stories);
                                 subscriber.onNext(stories.size());
                                 subscriber.onCompleted();

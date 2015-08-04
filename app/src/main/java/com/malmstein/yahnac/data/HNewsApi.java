@@ -33,19 +33,19 @@ public class HNewsApi {
 
     private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
 
-    public Observable<List<ContentValues>> getStories(final Story.TYPE type) {
+    public Observable<List<ContentValues>> getStories(final Story.FILTER FILTER) {
 
         return Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
             public void call(final Subscriber<? super DataSnapshot> subscriber) {
-                Firebase topStories = getStoryFirebase(type);
+                Firebase topStories = getStoryFirebase(FILTER);
                 topStories.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             subscriber.onNext(dataSnapshot);
                         } else {
-                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: getStories is empty for " + type.name());
+                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: getStories is empty for " + FILTER.name());
                         }
                         subscriber.onCompleted();
                     }
@@ -84,7 +84,7 @@ public class HNewsApi {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
                                 if (newItem != null) {
-                                    ContentValues story = mapStory(newItem, type, storyRoot.first);
+                                    ContentValues story = mapStory(newItem, FILTER, storyRoot.first);
                                     if (story != null) {
                                         subscriber.onNext(story);
                                     } else {
@@ -109,7 +109,7 @@ public class HNewsApi {
                 .toList();
     }
 
-    private ContentValues mapStory(Map<String, Object> map, Story.TYPE filter, Integer rank) {
+    private ContentValues mapStory(Map<String, Object> map, Story.FILTER filter, Integer rank) {
 
         ContentValues storyValues = new ContentValues();
 
@@ -144,8 +144,8 @@ public class HNewsApi {
         return storyValues;
     }
 
-    private Firebase getStoryFirebase(Story.TYPE type) {
-        switch (type) {
+    private Firebase getStoryFirebase(Story.FILTER FILTER) {
+        switch (FILTER) {
             case show:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/showstories");
             case ask:
