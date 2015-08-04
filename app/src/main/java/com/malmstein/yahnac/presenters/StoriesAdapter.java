@@ -44,7 +44,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         final Story story = Story.from(cursor);
 
         bindTitle(holder, story);
-        bindVoteListener(holder, story);
+        bindVote(holder, story);
         bindCardClickListener(holder, story);
         bindShare(holder, story);
         bindBookmark(holder, story);
@@ -133,10 +133,11 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         holder.title.setText(story.getTitle());
     }
 
-    private void bindVoteListener(ViewHolder holder, final Story story) {
+    private void bindVote(ViewHolder holder, final Story story) {
         if (loginSharedPreferences.isLoggedIn()) {
             if (story.isVoted()) {
                 holder.vote_action.setImageResource(R.drawable.ic_voted);
+                holder.vote_action.setEnabled(false);
             } else {
                 holder.vote_action.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -144,6 +145,9 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                         listener.onStoryVoteClicked(story);
                     }
                 });
+            }
+            if (story.getType().equals("job")){
+                holder.vote_action.setVisibility(View.GONE);
             }
         } else {
             holder.vote_action.setVisibility(View.GONE);

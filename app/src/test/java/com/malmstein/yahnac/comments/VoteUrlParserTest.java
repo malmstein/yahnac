@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,6 +22,17 @@ public class VoteUrlParserTest {
     VoteUrlParser askStoryVoteUrlParser;
     VoteUrlParser storyVoteUrlParser;
 
+    @Before
+    public void setUp() throws Exception {
+        File askStoryFile = new File(getClass().getResource("/comments_ask_998917.html").getPath());
+        Document askStoryComments = Jsoup.parse(askStoryFile, "UTF-8", BASE_URI);
+        askStoryVoteUrlParser = new VoteUrlParser(askStoryComments, SAMPLE_ASK_STORY);
+
+        File storyFile = new File(getClass().getResource("/comments_9989667.html").getPath());
+        Document storyComments = Jsoup.parse(storyFile, "UTF-8", BASE_URI);
+        storyVoteUrlParser = new VoteUrlParser(storyComments, SAMPLE_STORY);
+    }
+
     @org.junit.Test
     public void fileObjectShouldNotBeNull() {
         File file = new File(getClass().getResource("/comments_9989667.html").getPath());
@@ -29,20 +41,12 @@ public class VoteUrlParserTest {
 
     @org.junit.Test
     public void retrieveVoteUrlFromAskStory() throws IOException {
-        File file = new File(getClass().getResource("/comments_ask_998917.html").getPath());
-        Document askStoryComments = Jsoup.parse(file, "UTF-8", BASE_URI);
-        askStoryVoteUrlParser = new VoteUrlParser(askStoryComments, SAMPLE_ASK_STORY);
         String voteUrl = askStoryVoteUrlParser.parse();
-
         assertEquals(VOTE_URL_ASK_STORY_SAMPLE, voteUrl);
     }
 
     @org.junit.Test
     public void retrieveVoteUrlFromNewsStory() throws IOException {
-        File file = new File(getClass().getResource("/comments_9989667.html").getPath());
-        Document storyComments = Jsoup.parse(file, "UTF-8", BASE_URI);
-
-        storyVoteUrlParser = new VoteUrlParser(storyComments, SAMPLE_STORY);
         String voteUrl = storyVoteUrlParser.parse();
         assertEquals(VOTE_URL_STORY_SAMPLE, voteUrl);
     }
