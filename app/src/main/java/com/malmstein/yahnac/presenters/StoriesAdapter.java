@@ -146,7 +146,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
                     }
                 });
             }
-            if (story.getType().equals("job")){
+            if (story.isJob()) {
                 holder.vote_action.setVisibility(View.GONE);
             }
         } else {

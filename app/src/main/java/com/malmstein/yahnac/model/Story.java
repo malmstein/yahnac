@@ -44,6 +44,7 @@ public class Story implements Serializable {
         this.bookmark = bookmark;
         this.read = read;
         this.voted = voted;
+        this.filter = filter;
     }
 
     public static Story from(Cursor cursor) {
@@ -128,12 +129,16 @@ public class Story implements Serializable {
         return COMMENT_URL_BASE + getId();
     }
 
+    public String getFilter() {
+        return filter;
+    }
+
     public int getRank() {
         return rank;
     }
 
     public boolean isHackerNewsLocalItem() {
-        if (getType().equals(TYPE.ask.name())) {
+        if (getFilter().equals(TYPE.ask.name())) {
             return true;
         }
 
@@ -154,6 +159,10 @@ public class Story implements Serializable {
 
     public boolean isVoted() {
         return voted == HNewsContract.TRUE_BOOLEAN;
+    }
+
+    public boolean isJob() {
+        return getType().equals("job");
     }
 
     public void toggleBookmark() {
