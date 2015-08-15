@@ -43,7 +43,7 @@ public class LoginActivity extends HNewsActivity {
         setContentView(R.layout.activity_login);
         setupSubActivity();
 
-        View toolbarTitle = Views.findById(this, R.id.toolbar);
+        View toolbarTitle = Views.findById(this, R.id.appbar);
         ViewCompat.setTransitionName(toolbarTitle, VIEW_TOOLBAR_TITLE);
 
         titleView = Views.findById(this, R.id.login_title);
