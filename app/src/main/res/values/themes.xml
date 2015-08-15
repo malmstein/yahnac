@@ -53,4 +53,8 @@
     <item name="colorAccent">@color/black</item>
   </style>
 
+  <style name="Theme.HNews.White">
+    <item name="colorAccent">@color/white</item>
+  </style>
+
 </resources>

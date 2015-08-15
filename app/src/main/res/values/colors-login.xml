@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <color name="login_background_gradient_start">#d4001e</color>
+  <color name="login_background_gradient_end">#ff401f</color>
+
+</resources>

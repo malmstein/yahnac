@@ -34,7 +34,9 @@
 
     <activity android:name="com.malmstein.yahnac.comments.CommentsActivity" />
 
-    <activity android:name="com.malmstein.yahnac.login.LoginActivity" />
+    <activity
+      android:name="com.malmstein.yahnac.login.LoginActivity"
+      android:windowSoftInputMode="adjustResize|stateHidden" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"

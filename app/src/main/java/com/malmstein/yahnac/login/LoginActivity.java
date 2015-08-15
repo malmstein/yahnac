@@ -2,12 +2,7 @@ package com.malmstein.yahnac.login;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malmstein.yahnac.HNewsActivity;
@@ -21,19 +16,11 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class LoginActivity extends HNewsActivity {
+public class LoginActivity extends HNewsActivity implements LoginView.Listener {
 
     public static final String VIEW_TOOLBAR_TITLE = "login:toolbar:title";
 
-    private EditText usernameView;
-    private EditText passwordView;
-    private View errorView;
-    private TextView titleView;
-    private ProgressBar progressView;
-    private View loginView;
-    private View cancelView;
-
-    private InputFieldValidator inputFieldValidator = new InputFieldValidator();
+    private LoginView loginView;
     private Subscription subscription;
 
     @Override
@@ -43,63 +30,24 @@ public class LoginActivity extends HNewsActivity {
         setContentView(R.layout.activity_login);
         setupSubActivity();
 
-        View toolbarTitle = Views.findById(this, R.id.appbar);
-        ViewCompat.setTransitionName(toolbarTitle, VIEW_TOOLBAR_TITLE);
+        View appBar = Views.findById(this, R.id.appbar);
+        ViewCompat.setTransitionName(appBar, VIEW_TOOLBAR_TITLE);
 
-        titleView = Views.findById(this, R.id.login_title);
-        errorView = Views.findById(this, R.id.login_error);
-        progressView = Views.findById(this, R.id.login_progress);
-        usernameView = Views.findById(this, R.id.login_username);
-        passwordView = Views.findById(this, R.id.login_password);
-        passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (validate()) {
-                        login();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-        cancelView = Views.findById(this, R.id.login_cancel);
-        cancelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        loginView = Views.findById(this, R.id.login_login);
-        loginView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    login();
-                }
-            }
-        });
-
+        loginView = Views.findById(this, R.id.login_view);
     }
 
-    private boolean validate() {
-        boolean isUsernameValid = inputFieldValidator.isValid(getUsername());
-        boolean isPasswordValid = inputFieldValidator.isValid(getPassword());
-        if (!isPasswordValid || !isUsernameValid) {
-            showError();
-        }
-        return isUsernameValid && isPasswordValid;
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        loginView.bind(this);
     }
 
-    private void showError() {
-        errorView.setVisibility(View.VISIBLE);
-    }
-
-    private void login() {
-        showProgress();
+    @Override
+    public void onSignIn(final String username, String password) {
+        loginView.showProgress();
         Provider provider = Inject.provider();
         subscription = provider
-                .observeLogin(getUsername(), getPassword())
+                .observeLogin(username, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Login.Status>() {
                     @Override
@@ -111,43 +59,30 @@ public class LoginActivity extends HNewsActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("Provider: login: " + getUsername(), e);
+                        Inject.crashAnalytics().logSomethingWentWrong("Provider: login: " + username, e);
                     }
 
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
-                            showSuccess();
+                            showSuccess(username);
                             navigate().toNews();
                         } else {
-                            hideProgress();
-                            showError();
+                            loginView.hideProgress();
+                            loginView.showError();
                         }
                     }
                 });
-
     }
 
-    protected String getPassword() {
-        return passwordView.getText().toString();
+    @Override
+    public void onCancel() {
+        onBackPressed();
     }
 
-    protected String getUsername() {
-        return usernameView.getText().toString();
-    }
-
-    private void showSuccess() {
-        String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), getUsername());
+    private void showSuccess(String username) {
+        String message = String.format(getResources().getString(R.string.navigation_drawer_welcome), username);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-    private void showProgress() {
-        titleView.setText(R.string.title_checking_account);
-        progressView.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgress() {
-        titleView.setText(R.string.title_add_account);
-        progressView.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -15,4 +15,7 @@
 
   <string name="confirm_logout_message">This will log you out of Hacker News.</string>
 
+  <string name="login_password_message">We won\'t store your credentials or personal information</string>
+
+
 </resources>
