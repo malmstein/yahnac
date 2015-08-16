@@ -19,7 +19,6 @@ import com.novoda.notils.caster.Views;
 
 public class LoginView extends FrameLayout {
 
-    private static final int NO_DEFAULT_LAYOUT_RES_ID = 0;
     private static final int IME_FLAGS_NONE = 0;
 
     private InputFieldValidator inputFieldValidator = new InputFieldValidator();
@@ -31,9 +30,7 @@ public class LoginView extends FrameLayout {
     private View loginButtonsContainer;
     private TextView errorTextView;
 
-    private TextView headerText;
     private View scrollContainer;
-    private View progressBar;
 
     public LoginView(Context context) {
         super(context);
@@ -62,10 +59,8 @@ public class LoginView extends FrameLayout {
         loginButton = Views.findById(this, R.id.login_login);
 
         errorTextView = Views.findById(this, R.id.login_error_label);
-        headerText = (TextView) findViewById(R.id.login_header_text);
-        scrollContainer = findViewById(R.id.login_scroll_container);
+        scrollContainer = findViewById(R.id.login_container);
 
-        progressBar = findViewById(R.id.login_progress);
     }
 
     public void bind(Listener listener) {
@@ -112,7 +107,7 @@ public class LoginView extends FrameLayout {
     }
 
     public void clearError() {
-        errorTextView.setVisibility(GONE);
+        errorTextView.setVisibility(INVISIBLE);
     }
 
     private boolean validate() {
@@ -150,15 +145,11 @@ public class LoginView extends FrameLayout {
     }
 
     public void showProgress() {
-        progressBar.setVisibility(VISIBLE);
-        headerText.setText(R.string.title_checking_account);
         scrollContainer.setVisibility(GONE);
         loginButtonsContainer.setVisibility(GONE);
     }
 
     public void hideProgress() {
-        progressBar.setVisibility(GONE);
-        headerText.setText(R.string.title_add_account);
         scrollContainer.setVisibility(VISIBLE);
         loginButtonsContainer.setVisibility(VISIBLE);
     }

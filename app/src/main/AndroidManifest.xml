@@ -36,7 +36,7 @@
 
     <activity
       android:name="com.malmstein.yahnac.login.LoginActivity"
-      android:windowSoftInputMode="adjustResize|stateHidden" />
+      android:windowSoftInputMode="adjustPan|stateHidden" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"

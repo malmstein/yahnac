@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <dimen name="login_toolbar_height">140dp</dimen>
+  <dimen name="login_toolbar_height">120dp</dimen>
 
   <dimen name="dialog_login_button_text">16sp</dimen>
   <dimen name="dialog_login_button_marginLeft">24dp</dimen>
