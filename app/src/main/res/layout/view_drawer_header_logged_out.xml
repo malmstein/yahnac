@@ -19,7 +19,7 @@
     android:gravity="start|center"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:drawablePadding="@dimen/navigation_drawer_icon_padding_big"
-    android:drawableLeft="@drawable/ic_perm_identity"
-    android:drawableStart="@drawable/ic_perm_identity" />
+    android:drawableLeft="@drawable/ic_account_circle"
+    android:drawableStart="@drawable/ic_account_circle" />
 
 </LinearLayout>
