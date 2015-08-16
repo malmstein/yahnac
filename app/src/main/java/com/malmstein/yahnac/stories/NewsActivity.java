@@ -127,6 +127,9 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onStoryVoteClicked(Story story) {
+
+        showSnackBarVoting();
+
         Provider provider = Inject.provider();
         subscription = provider
                 .observeVote(story)
@@ -146,12 +149,22 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
                     @Override
                     public void onNext(OperationResponse status) {
-                        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voted))
-                                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
-                                .withAnimationDuration(croutonAnimationDuration)
-                                .animating();
+                        showSnackBarVoted();
                     }
                 });
+    }
+
+    private void showSnackBarVoting() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voting))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .animating();
+    }
+
+    private void showSnackBarVoted() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voted))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
     }
 
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
