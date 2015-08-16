@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="HNews.Login" parent="None" />
+
+  <style name="HNews.Login.HeaderText" parent="HNews.Login.ItemCommon">
+    <item name="android:textSize">@dimen/dialog_login_title_text</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:text">@string/title_add_account</item>
+    <item name="android:gravity">left|center_vertical</item>
+    <item name="android:layout_marginBottom">@dimen/login_prompt_margin_bottom</item>
+  </style>
+
+  <style name="HNews.Login.Prompt">
+    <item name="android:textSize">@dimen/login_prompt_text</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:gravity">left|top</item>
+    <item name="android:layout_marginBottom">@dimen/login_prompt_margin_bottom</item>
+    <item name="android:text">@string/login_password_message</item>
+    <item name="android:layout_marginLeft">@dimen/login_item_margin_horizontal</item>
+    <item name="android:layout_marginRight">@dimen/login_item_margin_horizontal</item>
+  </style>
+
+</resources>

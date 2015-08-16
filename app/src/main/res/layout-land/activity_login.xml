@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/main_content"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <android.support.design.widget.AppBarLayout
+    android:id="@+id/appbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <ProgressBar
+      android:id="@+id/login_progress"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:indeterminate="true"
+      android:layout_marginTop="-8dp"
+      android:visibility="invisible" />
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/login_toolbar_height"
+      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+      android:id="@+id/login_header_text"
+      style="@style/HNews.Login.HeaderText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+    <TextView
+      android:id="@+id/login_prompt"
+      style="@style/HNews.Login.Prompt"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+  </android.support.design.widget.AppBarLayout>
+
+  <com.malmstein.yahnac.login.LoginView
+    android:id="@+id/login_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+</LinearLayout>
