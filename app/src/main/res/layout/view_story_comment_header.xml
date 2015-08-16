@@ -19,38 +19,67 @@
     android:layout_height="wrap_content"
     tools:text="This is the title of a story or the question of an ASK post" />
 
-  <com.malmstein.yahnac.views.fonts.CommentTextView
-    style="@style/HNews.Subhead"
-    android:id="@+id/story_comments"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/card_content_padding"
-    tools:text="100 comments" />
-
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="@dimen/card_content_padding">
+    android:orientation="horizontal">
 
-    <com.malmstein.yahnac.views.fonts.YahnacTextView
-      style="@style/HNews.Body2"
-      android:id="@+id/story_by"
+    <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textColor="@color/white"
-      tools:text="by user" />
+      android:orientation="vertical">
 
-    <com.malmstein.yahnac.views.fonts.YahnacTextView
-      style="@style/HNews.Body2"
-      android:id="@+id/story_when"
+      <com.malmstein.yahnac.views.fonts.CommentTextView
+        style="@style/HNews.Subhead"
+        android:id="@+id/story_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/card_content_padding"
+        tools:text="100 comments" />
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/card_content_padding"
+        android:gravity="center">
+
+        <com.malmstein.yahnac.views.fonts.YahnacTextView
+          style="@style/HNews.Body2"
+          android:id="@+id/story_by"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          tools:text="by user" />
+
+        <com.malmstein.yahnac.views.fonts.YahnacTextView
+          style="@style/HNews.Body2"
+          android:id="@+id/story_when"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:paddingLeft="@dimen/card_content_padding"
+          tools:text="2 hours ago" />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textColor="@color/white"
-      android:paddingLeft="@dimen/card_content_padding"
-      tools:text="2 hours ago" />
+      android:gravity="right">
+
+      <ImageButton
+        android:id="@+id/comment_reply_action"
+        style="@style/HNews.FeedAction"
+        android:src="@drawable/ic_reply" />
+
+    </LinearLayout>
 
   </LinearLayout>
 
+
 </LinearLayout>
+
 
