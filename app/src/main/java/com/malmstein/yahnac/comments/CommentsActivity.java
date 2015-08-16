@@ -15,12 +15,13 @@ import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
+import com.malmstein.yahnac.presenters.CommentsAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
-public class CommentsActivity extends HNewsActivity {
+public class CommentsActivity extends HNewsActivity implements StoryHeaderView.Listener, CommentsAdapter.Listener {
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
@@ -132,7 +133,7 @@ public class CommentsActivity extends HNewsActivity {
     }
 
     private void setupStoryHeader() {
-        storyHeaderView.updateWith(getStory());
+        storyHeaderView.updateWith(getStory(), this);
     }
 
     private Story getStory() {
@@ -181,4 +182,20 @@ public class CommentsActivity extends HNewsActivity {
                 .animating();
     }
 
+    @Override
+    public void onReplyAction() {
+        showNotImplemented();
+    }
+
+    @Override
+    public void onCommentReplyAction() {
+        showNotImplemented();
+    }
+
+    private void showNotImplemented() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
 }

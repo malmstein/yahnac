@@ -36,12 +36,12 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
-    <com.malmstein.yahnac.views.SnackBarView
-      android:id="@+id/snackbar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true" />
-
   </RelativeLayout>
+
+  <com.malmstein.yahnac.views.SnackBarView
+    android:id="@+id/snackbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom" />
 
 </android.support.design.widget.CoordinatorLayout>

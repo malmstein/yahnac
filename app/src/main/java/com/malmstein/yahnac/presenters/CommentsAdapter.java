@@ -11,18 +11,22 @@ import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.model.Comment;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.novoda.notils.caster.Views;
 
 public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHolder> {
 
     private static int TYPE_HEADER = 0;
     private static int TYPE_COMMENT = 1;
-
     private final String type;
+    private final Listener listener;
+    private LoginSharedPreferences loginSharedPreferences;
 
-    public CommentsAdapter(String type, Cursor cursor) {
+    public CommentsAdapter(String type, Cursor cursor, Listener listener) {
         super(cursor);
         this.type = type;
+        this.listener = listener;
+        this.loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
     @Override
@@ -48,9 +52,9 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         Comment comment = Comment.from(cursor);
 
         if (holder instanceof CommentViewHolder) {
-            ((CommentViewHolder) holder).bind(comment);
+            ((CommentViewHolder) holder).bind(comment, loginSharedPreferences, listener);
         } else {
-            ((HeaderViewHolder) holder).bind(comment);
+            ((HeaderViewHolder) holder).bind(comment, loginSharedPreferences, listener);
         }
 
     }
@@ -72,12 +76,17 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         return vh;
     }
 
+    public interface Listener {
+        void onCommentReplyAction();
+    }
+
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final View comment_header;
         public final TextView text;
         public final TextView author;
         public final TextView when;
         public final View root;
+        public final View reply;
 
         public HeaderViewHolder(View view) {
             super(view);
@@ -86,9 +95,10 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             author = Views.findById(view, R.id.comment_header_by);
             when = Views.findById(view, R.id.comment_header_when);
             root = Views.findById(view, R.id.comment_header_root);
+            reply = Views.findById(view, R.id.comment_header_reply_action);
         }
 
-        public void bind(Comment comment) {
+        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
             text.setText(Html.fromHtml(comment.getText()));
             text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader()) {
@@ -99,6 +109,16 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                 when.setText(comment.getTimeText());
                 root.setPadding(comment.getLevel(), 0, 0, 0);
             }
+            if (loginSharedPreferences.isLoggedIn()) {
+                reply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onCommentReplyAction();
+                    }
+                });
+            } else {
+                reply.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -107,6 +127,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         public final TextView author;
         public final TextView when;
         public final View root;
+        public final View reply;
 
         public CommentViewHolder(View view) {
             super(view);
@@ -114,14 +135,25 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             author = Views.findById(view, R.id.comment_by);
             when = Views.findById(view, R.id.comment_when);
             root = Views.findById(view, R.id.comment_root);
+            reply = Views.findById(view, R.id.comment_reply_action);
         }
 
-        public void bind(Comment comment) {
+        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
             text.setText(Html.fromHtml(comment.getText()));
             text.setMovementMethod(LinkMovementMethod.getInstance());
             author.setText(comment.getBy());
             when.setText(comment.getTimeText());
             root.setPadding(comment.getLevel(), 0, 0, 0);
+            if (loginSharedPreferences.isLoggedIn()) {
+                reply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onCommentReplyAction();
+                    }
+                });
+            } else {
+                reply.setVisibility(View.GONE);
+            }
         }
     }
 

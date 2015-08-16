@@ -37,7 +37,7 @@
       android:gravity="right">
 
       <ImageButton
-        android:id="@+id/comment_reply_action"
+        android:id="@+id/comment_header_reply_action"
         style="@style/HNews.FeedAction"
         android:src="@drawable/ic_reply_small" />
 

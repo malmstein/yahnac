@@ -1,5 +1,6 @@
 package com.malmstein.yahnac.comments;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.malmstein.yahnac.presenters.CommentsAdapter;
 import com.malmstein.yahnac.presenters.CursorRecyclerAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
+import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
@@ -44,6 +46,8 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private CursorRecyclerAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
+    private CommentsAdapter.Listener listener;
+
     private Subscription subscription;
 
     public static CommentsFragment from(Story story) {
@@ -60,6 +64,12 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         } else {
             throw new DeveloperError("Missing argument");
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listener = Classes.from(activity);
     }
 
     @Override
@@ -136,7 +146,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         commentsLayoutManager = new LinearLayoutManager(getActivity());
         commentsList.setLayoutManager(commentsLayoutManager);
 
-        commentsAdapter = new CommentsAdapter(getStory().getType(), null);
+        commentsAdapter = new CommentsAdapter(getStory().getType(), null, listener);
         commentsList.setAdapter(commentsAdapter);
     }
 
