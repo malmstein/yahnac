@@ -73,7 +73,8 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
             mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
                 @Override
                 public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                    Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_share_comments));
+                    Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_comments),
+                            getStory());
                     return false;
                 }
             });
@@ -97,7 +98,8 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
 
         switch (item.getItemId()) {
             case R.id.action_article:
-                Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_view_story_comments));
+                Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_story_comments),
+                        getStory());
                 navigate().toInnerBrowser(getStory());
                 finish();
                 return true;
@@ -123,11 +125,14 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
     private void onBookmarkClicked(MenuItem item) {
         DataPersister persister = Inject.dataPersister();
         if (item.isChecked()) {
-            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_remove_bookmark_comments));
+            Inject.usageAnalytics().trackShareEvent(
+                    getString(R.string.analytics_event_remove_bookmark_comments),
+                    getStory());
             removeBookmark(persister, getStory());
             uncheckBookmarkMenuItem(item);
         } else {
-            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_add_bookmark_comments));
+            Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_add_bookmark_comments),
+                    getStory());
             addBookmark(persister, getStory());
             item.setChecked(true);
             item.setIcon(R.drawable.ic_bookmark_white);

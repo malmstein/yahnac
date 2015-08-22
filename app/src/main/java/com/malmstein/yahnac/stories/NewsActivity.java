@@ -150,7 +150,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onStoryVoteClicked(Story story) {
-
+        Inject.usageAnalytics().trackVoteEvent(getString(R.string.analytics_event_vote), story);
         showSnackBarVoting();
 
         Provider provider = Inject.provider();

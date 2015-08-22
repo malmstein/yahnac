@@ -45,4 +45,44 @@ public class UsageAnalytics {
         }
     }
 
+    public void trackNavigateEvent(String action, Story story) {
+        if (isActive()) {
+            analyticsTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Navigate")
+                    .setAction(action)
+                    .setValue(story.getId())
+                    .build());
+        }
+    }
+
+    public void trackShareEvent(String action, Story story) {
+        if (isActive()) {
+            analyticsTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Share")
+                    .setAction(action)
+                    .setValue(story.getId())
+                    .build());
+        }
+    }
+
+    public void trackVoteEvent(String action, Story story) {
+        if (isActive()) {
+            analyticsTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Vote")
+                    .setAction(action)
+                    .setValue(story.getId())
+                    .build());
+        }
+    }
+
+    public void trackBookmarkEvent(String action, Story story) {
+        if (isActive()) {
+            analyticsTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Bookmark")
+                    .setAction(action)
+                    .setValue(story.getId())
+                    .build());
+        }
+    }
+
 }

@@ -100,7 +100,8 @@ public class ArticleActivity extends HNewsActivity {
             mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
                 @Override
                 public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                    Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_share_story));
+                    Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_story),
+                            getStory());
                     return false;
                 }
             });
@@ -120,7 +121,8 @@ public class ArticleActivity extends HNewsActivity {
 
         switch (item.getItemId()) {
             case R.id.action_comments:
-                Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_view_comments_story));
+                Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_comments_story),
+                        getStory());
                 navigate().toComments(getStory());
                 finish();
                 return true;
@@ -136,11 +138,13 @@ public class ArticleActivity extends HNewsActivity {
     private void onBookmarkClicked(MenuItem item) {
         DataPersister persister = Inject.dataPersister();
         if (item.isChecked()) {
-            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_remove_bookmark_story));
+            Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_story),
+                    getStory());
             removeBookmark(persister, getStory());
             uncheckBookmarkMenuItem(item);
         } else {
-            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_add_bookmark_story));
+            Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_add_bookmark_story),
+                    getStory());
             addBookmark(persister, getStory());
             checkBookmarkMenuItem(item);
         }
@@ -174,7 +178,8 @@ public class ArticleActivity extends HNewsActivity {
                 .withUndoClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_remove_bookmark_story));
+                        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_story),
+                                getStory());
                         snackbarView.hideCrouton();
                         removeBookmark(persister, story);
                         invalidateOptionsMenu();

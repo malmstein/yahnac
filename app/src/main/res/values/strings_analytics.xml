@@ -29,5 +29,6 @@
   <string name="analytics_event_view_story_comments">View story from Comments</string>
   <string name="analytics_event_view_external_url_feed">View external url from Feed</string>
   <string name="analytics_event_view_external_url_bookmarks">View external url from Bookmarks</string>
+  <string name="analytics_event_vote">Vote story</string>
 
 </resources>
