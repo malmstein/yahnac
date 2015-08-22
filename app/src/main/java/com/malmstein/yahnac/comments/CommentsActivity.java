@@ -46,10 +46,15 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
         setupSnackbar();
 
         if (findCommentsFragment() == null) {
-            Story story = (Story) getIntent().getExtras().getSerializable(CommentsFragment.ARG_STORY);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentsFragment.from(story), CommentsFragment.TAG).commit();
+            fragmentManager.beginTransaction().add(R.id.comments_fragment_root, CommentsFragment.from(getStory()), CommentsFragment.TAG).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Inject.usageAnalytics().trackStory(getString(R.string.analytics_page_comments), getStory());
     }
 
     private void setupSnackbar() {
@@ -65,6 +70,13 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(createShareArticleIntent());
+            mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+                @Override
+                public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+                    Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_share_comments));
+                    return false;
+                }
+            });
         }
         if (getStory().isHackerNewsLocalItem()) {
             MenuItem comments = menu.findItem(R.id.action_article);
@@ -85,6 +97,7 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
 
         switch (item.getItemId()) {
             case R.id.action_article:
+                Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_view_story_comments));
                 navigate().toInnerBrowser(getStory());
                 finish();
                 return true;
@@ -110,9 +123,11 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
     private void onBookmarkClicked(MenuItem item) {
         DataPersister persister = Inject.dataPersister();
         if (item.isChecked()) {
+            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_remove_bookmark_comments));
             removeBookmark(persister, getStory());
             uncheckBookmarkMenuItem(item);
         } else {
+            Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_add_bookmark_comments));
             addBookmark(persister, getStory());
             item.setChecked(true);
             item.setIcon(R.drawable.ic_bookmark_white);
