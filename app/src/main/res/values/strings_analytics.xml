@@ -18,6 +18,7 @@
   <string name="analytics_event_remove_bookmark_story">Remove Bookmark from Story</string>
   <string name="analytics_event_add_bookmark_comments">Add Bookmark from Comments</string>
   <string name="analytics_event_remove_bookmark_comments">Remove Bookmark from Comments</string>
+  <string name="analytics_event_add_bookmark_bookmarks">Add Bookmark from Bookmarks</string>
   <string name="analytics_event_remove_bookmark_bookmarks">Remove Bookmark from Bookmarks</string>
   <string name="analytics_event_share_feed">Share from Feed</string>
   <string name="analytics_event_share_story">Share from Story</string>
@@ -25,8 +26,10 @@
   <string name="analytics_event_share_bookmarks">Share from Bookmarks</string>
   <string name="analytics_event_view_comments_feed">View comments from Feed</string>
   <string name="analytics_event_view_comments_story">View comments from Story</string>
+  <string name="analytics_event_view_comments_bookmarks">View comments from Bookmarks</string>
   <string name="analytics_event_view_story_feed">View story from Feed</string>
   <string name="analytics_event_view_story_comments">View story from Comments</string>
+  <string name="analytics_event_view_story_bookmarks">View story from Bookmarks</string>
   <string name="analytics_event_view_external_url_feed">View external url from Feed</string>
   <string name="analytics_event_view_external_url_bookmarks">View external url from Bookmarks</string>
   <string name="analytics_event_vote">Vote story</string>
