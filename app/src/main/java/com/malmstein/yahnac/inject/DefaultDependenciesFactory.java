@@ -2,6 +2,9 @@ package com.malmstein.yahnac.inject;
 
 import android.content.Context;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.analytics.CrashAnalytics;
 import com.malmstein.yahnac.analytics.CrashlyticsAnalytics;
 import com.malmstein.yahnac.data.ConnectionProvider;
@@ -34,6 +37,12 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     @Override
     public ConnectionProvider createConnection() {
         return new ConnectionProvider();
+    }
+
+    @Override
+    public Tracker createUsageAnalytics() {
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
+        return analytics.newTracker(R.xml.global_tracker);
     }
 
 }
