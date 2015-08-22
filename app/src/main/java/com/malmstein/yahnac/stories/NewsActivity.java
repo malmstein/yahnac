@@ -117,11 +117,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onCommentsClicked(Story story) {
+        Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_comments_feed),
+                story);
         navigate().toComments(story);
     }
 
     @Override
     public void onContentClicked(Story story) {
+        Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_story_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         persister.markStoryAsRead(story);
         navigate().toInnerBrowser(story);
@@ -130,20 +134,28 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     public void onExternalLinkClicked(Story story) {
         if (story.isHackerNewsLocalItem()) {
+            Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_comments_feed),
+                    story);
             navigate().toComments(story);
         } else {
+            Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_external_url_feed),
+                    story);
             navigate().toExternalBrowser(Uri.parse(story.getUrl()));
         }
     }
 
     @Override
     public void onBookmarkAdded(Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_add_bookmark_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         showAddedBookmarkSnackbar(persister, story);
     }
 
     @Override
     public void onBookmarkRemoved(Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         showRemovedBookmarkSnackbar(persister, story);
     }
@@ -219,11 +231,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void removeBookmark(DataPersister persister, Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_feed),
+                story);
         persister.removeBookmark(story);
         showRemovedBookmarkSnackbar(persister, story);
     }
 
     private void addBookmark(DataPersister persister, Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_add_bookmark_feed),
+                story);
         persister.addBookmark(story);
         showAddedBookmarkSnackbar(persister, story);
     }
