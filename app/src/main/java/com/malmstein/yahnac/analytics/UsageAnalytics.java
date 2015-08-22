@@ -7,6 +7,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.model.Story;
 
 public class UsageAnalytics {
 
@@ -24,6 +25,13 @@ public class UsageAnalytics {
     public void trackPage(String page) {
         if (isActive()) {
             analyticsTracker.setScreenName(page);
+            analyticsTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
+    }
+
+    public void trackStory(String page, Story story) {
+        if (isActive()) {
+            analyticsTracker.setScreenName(page + ": " + story.getId());
             analyticsTracker.send(new HitBuilders.ScreenViewBuilder().build());
         }
     }

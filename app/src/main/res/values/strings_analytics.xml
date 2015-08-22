@@ -3,7 +3,7 @@
 
   <string name="analytics_page_jobs">Jobs</string>
   <string name="analytics_page_comments">Comments: </string>
-  <string name="analytics_page_web">Web: </string>
+  <string name="analytics_page_story">Story: </string>
   <string name="analytics_page_bookmarks">My Bookmarks</string>
   <string name="analytics_page_settings">Settings</string>
   <string name="analytics_page_login">Login Activity</string>
