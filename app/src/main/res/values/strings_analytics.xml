@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="analytics_page_jobs">Jobs</string>
+  <string name="analytics_page_comments">Comments: </string>
+  <string name="analytics_page_web">Web: </string>
+  <string name="analytics_page_bookmarks">My Bookmarks</string>
+  <string name="analytics_page_settings">Settings</string>
+  <string name="analytics_page_login">Login Activity</string>
+  <string name="analytics_page_licenses">Licenses Activity</string>
+
+  <string name="analytics_event_logout">Logout</string>
+  <string name="analytics_event_cancel_login">Logout</string>
+  <string name="analytics_event_login">Login</string>
+  <string name="analytics_event_add_bookmark_feed">Add Bookmark from Feed</string>
+  <string name="analytics_event_remove_bookmark_feed">Remove Bookmark from Feed</string>
+  <string name="analytics_event_add_bookmark_story">Add Bookmark from Story</string>
+  <string name="analytics_event_remove_bookmark_story">Remove Bookmark from Story</string>
+  <string name="analytics_event_add_bookmark_comments">Add Bookmark from Comments</string>
+  <string name="analytics_event_remove_bookmark_comments">Remove Bookmark from Comments</string>
+  <string name="analytics_event_remove_bookmark_bookmarks">Remove Bookmark from Bookmarks</string>
+  <string name="analytics_event_share_feed">Share from Feed</string>
+  <string name="analytics_event_share_story">Share from Story</string>
+  <string name="analytics_event_share_comments">Share from Comments</string>
+  <string name="analytics_event_share_bookmarks">Share from Bookmarks</string>
+  <string name="analytics_event_view_comments_feed">View comments from Feed</string>
+  <string name="analytics_event_view_comments_story">View comments from Story</string>
+  <string name="analytics_event_view_story_feed">View story from Feed</string>
+  <string name="analytics_event_view_story_comments">View story from Comments</string>
+  <string name="analytics_event_view_external_url_feed">View external url from Feed</string>
+  <string name="analytics_event_view_external_url_bookmarks">View external url from Bookmarks</string>
+
+</resources>

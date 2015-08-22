@@ -55,6 +55,22 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         headersPager = (ViewPager) findViewById(R.id.viewpager);
         storiesPagerAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
         headersPager.setAdapter(storiesPagerAdapter);
+        headersPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Inject.usageAnalytics().trackPage(storiesPagerAdapter.getPageTitle(position).toString());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setupTabs() {
@@ -79,6 +95,13 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     protected void onResume() {
         super.onResume();
         refreshHeader();
+        trackCurrentPage();
+    }
+
+    private void trackCurrentPage() {
+        Inject.usageAnalytics().trackPage(
+                storiesPagerAdapter.getPageTitle(
+                        headersPager.getCurrentItem()).toString());
     }
 
     @Override

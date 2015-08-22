@@ -31,6 +31,12 @@ public class BookmarksActivity extends HNewsNavigationDrawerActivity implements 
         setupViews();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Inject.usageAnalytics().trackPage(getString(R.string.analytics_page_bookmarks));
+    }
+
     private void setupViews() {
         setupSnackbar();
         setupAppBar();
