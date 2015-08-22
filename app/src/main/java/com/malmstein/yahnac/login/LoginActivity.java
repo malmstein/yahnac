@@ -43,6 +43,12 @@ public class LoginActivity extends HNewsActivity implements LoginView.Listener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Inject.usageAnalytics().trackPage(getString(R.string.analytics_page_login));
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         loginView.bind(this);
@@ -50,6 +56,7 @@ public class LoginActivity extends HNewsActivity implements LoginView.Listener {
 
     @Override
     public void onSignIn(final String username, String password) {
+        Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_login));
         showProgress();
         Provider provider = Inject.provider();
         subscription = provider
@@ -83,6 +90,7 @@ public class LoginActivity extends HNewsActivity implements LoginView.Listener {
 
     @Override
     public void onCancel() {
+        Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_cancel_login));
         onBackPressed();
     }
 

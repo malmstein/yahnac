@@ -28,10 +28,10 @@ public class UsageAnalytics {
         }
     }
 
-    public void trackEvent(String category, String action) {
+    public void trackEvent(String action) {
         if (isActive()) {
             analyticsTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(category)
+                    .setCategory("Action")
                     .setAction(action)
                     .build());
         }
