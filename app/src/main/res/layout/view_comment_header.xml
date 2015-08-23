@@ -10,8 +10,7 @@
   <LinearLayout
     android:id="@+id/comment_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/content_top_padding"
+    android:layout_height="@dimen/default_item_height"
     android:orientation="horizontal">
 
     <TextView
@@ -19,6 +18,7 @@
       android:id="@+id/comment_header_by"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
       android:textColor="@color/grey"
       tools:text="by user" />
 
@@ -28,8 +28,15 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textColor="@color/grey"
+      android:layout_gravity="center_vertical"
       android:paddingLeft="@dimen/card_content_padding"
       tools:text="2 hours ago" />
+
+    <ImageButton
+      android:id="@+id/comment_header_reply_action"
+      style="@style/HNews.FeedAction"
+      android:paddingLeft="@dimen/card_content_padding"
+      android:src="@drawable/ic_reply_small" />
 
   </LinearLayout>
 
@@ -38,14 +45,9 @@
     android:id="@+id/comment_header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/content_top_padding"
     android:paddingBottom="@dimen/content_bottom_padding"
     tools:text="This is a comment" />
 
-  <ImageButton
-    android:id="@+id/comment_header_reply_action"
-    style="@style/HNews.FeedAction"
-    android:src="@drawable/ic_reply_small" />
 
 </LinearLayout>
 
