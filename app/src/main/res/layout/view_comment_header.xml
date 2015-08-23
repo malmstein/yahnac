@@ -7,29 +7,45 @@
   android:layout_height="wrap_content"
   android:orientation="vertical">
 
+  <com.malmstein.yahnac.views.fonts.CommentTextView
+    style="@style/HNews.CommentText"
+    android:id="@+id/comment_header_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/content_top_padding"
+    android:paddingBottom="@dimen/content_bottom_padding"
+    tools:text="This is a comment" />
+
   <LinearLayout
     android:id="@+id/comment_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/default_item_height"
     android:gravity="center"
     android:orientation="horizontal">
 
-    <TextView
-      style="@style/HNews.CommentHeader"
-      android:id="@+id/comment_header_by"
+    <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textColor="@color/grey"
-      tools:text="by user" />
+      android:orientation="vertical">
 
-    <TextView
-      style="@style/HNews.CommentHeader"
-      android:id="@+id/comment_header_when"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:textColor="@color/grey"
-      android:paddingLeft="@dimen/card_content_padding"
-      tools:text="2 hours ago" />
+      <TextView
+        style="@style/HNews.CommentHeader"
+        android:id="@+id/comment_header_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        tools:text="by user" />
+
+      <TextView
+        style="@style/HNews.CommentTime"
+        android:id="@+id/comment_header_when"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:paddingTop="@dimen/card_content_padding"
+        tools:text="2 hours ago" />
+
+    </LinearLayout>
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -45,12 +61,6 @@
 
   </LinearLayout>
 
-  <com.malmstein.yahnac.views.fonts.CommentTextView
-    style="@style/HNews.CommentText"
-    android:id="@+id/comment_header_text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:text="This is a comment" />
 
 </LinearLayout>
 

@@ -8,6 +8,13 @@
     <item name="fontAsset">robotoRegular</item>
   </style>
 
+  <style name="HNews.CommentTime" parent="None">
+    <item name="android:textSize">@dimen/comments_content_header</item>
+    <item name="android:lineSpacingExtra">@dimen/comments_line_spacing_extra</item>
+    <item name="android:textColor">@color/grey</item>
+    <item name="fontAsset">robotoRegular</item>
+  </style>
+
   <style name="HNews.CommentHeaderText" parent="None">
     <item name="android:textSize">@dimen/comments_content_text</item>
     <item name="android:lineSpacingExtra">@dimen/comments_line_spacing_extra</item>
