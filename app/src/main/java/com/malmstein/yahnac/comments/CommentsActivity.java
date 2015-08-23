@@ -2,6 +2,7 @@ package com.malmstein.yahnac.comments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
@@ -25,6 +27,9 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     private StoryHeaderView storyHeaderView;
     private SnackBarView snackbarView;
+    private FloatingActionButton replyFab;
+
+    private LoginSharedPreferences loginSharedPreferences;
 
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
@@ -35,6 +40,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         setContentView(R.layout.activity_comments);
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
+        replyFab = Views.findById(this, R.id.story_reply_action);
 
         ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
@@ -141,17 +147,21 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     }
 
     private void setupReplyListener() {
+        loginSharedPreferences = LoginSharedPreferences.newInstance();
+        if (loginSharedPreferences.isLoggedIn()) {
+            replyFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onReplyAction();
+                }
+            });
+        } else {
+            replyFab.setVisibility(View.GONE);
+        }
+    }
 
-//        if (loginSharedPreferences.isLoggedIn()) {
-//            reply.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    listener.onReplyAction();
-//                }
-//            });
-//        } else {
-//            reply.setVisibility(View.GONE);
-//        }
+    private void onReplyAction() {
+
     }
 
     private Story getStory() {
