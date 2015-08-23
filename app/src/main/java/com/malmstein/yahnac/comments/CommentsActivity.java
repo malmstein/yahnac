@@ -21,7 +21,7 @@ import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
-public class CommentsActivity extends HNewsActivity implements StoryHeaderView.Listener, CommentsAdapter.Listener {
+public class CommentsActivity extends HNewsActivity implements CommentsAdapter.Listener {
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
@@ -39,10 +39,12 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
 
+
         ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
         setupSubActivity();
         setupStoryHeader();
+        setupReplyListener();
         setupSnackbar();
 
         if (findCommentsFragment() == null) {
@@ -153,7 +155,21 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
     }
 
     private void setupStoryHeader() {
-        storyHeaderView.updateWith(getStory(), this);
+        storyHeaderView.updateWith(getStory());
+    }
+
+    private void setupReplyListener() {
+
+//        if (loginSharedPreferences.isLoggedIn()) {
+//            reply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    listener.onReplyAction();
+//                }
+//            });
+//        } else {
+//            reply.setVisibility(View.GONE);
+//        }
     }
 
     private Story getStory() {
@@ -202,10 +218,6 @@ public class CommentsActivity extends HNewsActivity implements StoryHeaderView.L
                 .animating();
     }
 
-    @Override
-    public void onReplyAction() {
-        showNotImplemented();
-    }
 
     @Override
     public void onCommentReplyAction() {

@@ -54,18 +54,13 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         if (holder instanceof CommentViewHolder) {
             ((CommentViewHolder) holder).bind(comment, loginSharedPreferences, listener);
         } else {
-            ((HeaderViewHolder) holder).bind(comment, loginSharedPreferences, listener);
+            ((HeaderViewHolder) holder).bind(comment, loginSharedPreferences, listener, type);
         }
 
     }
 
     private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent) {
-        View v;
-        if (type.equals("ask")) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_ask_comment_header, parent, false);
-        } else {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
-        }
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
         HeaderViewHolder vh = new HeaderViewHolder(v);
         return vh;
     }
@@ -98,10 +93,10 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             reply = Views.findById(view, R.id.comment_header_reply_action);
         }
 
-        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
+        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
             text.setText(Html.fromHtml(comment.getText()));
             text.setMovementMethod(LinkMovementMethod.getInstance());
-            if (comment.isHeader()) {
+            if (comment.isHeader() || type.equals("ask")) {
                 comment_header.setVisibility(View.GONE);
                 root.setPadding(0, 0, 0, 0);
             } else {

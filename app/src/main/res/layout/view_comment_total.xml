@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.malmstein.yahnac.views.fonts.YahnacTextView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  style="@style/HNews.TotalComments"
+  android:id="@+id/story_total_comments"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/default_item_height"
+  android:gravity="center_vertical"
+  tools:text="100 comments" />
+
+

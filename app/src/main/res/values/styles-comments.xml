@@ -31,4 +31,10 @@
     <item name="fontAsset">robotoRegular</item>
   </style>
 
+  <style name="HNews.TotalComments" parent="None">
+    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="fontAsset">robotoRegular</item>
+  </style>
+
 </resources>

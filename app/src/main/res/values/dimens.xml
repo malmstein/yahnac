@@ -13,7 +13,7 @@
   <dimen name="button_root_height">48dp</dimen>
   <dimen name="button_padding">6dp</dimen>
   <dimen name="default_padding">8dp</dimen>
-  <dimen name="list_padding">12dp</dimen>
+  <dimen name="comment_list_padding">16dp</dimen>
   <dimen name="list_divider">4dp</dimen>
   <dimen name="comments_padding">4dp</dimen>
 
