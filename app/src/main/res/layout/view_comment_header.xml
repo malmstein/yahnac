@@ -35,7 +35,7 @@
     <ImageButton
       android:id="@+id/comment_header_reply_action"
       style="@style/HNews.FeedAction"
-      android:paddingLeft="@dimen/card_content_padding"
+      android:layout_marginLeft="@dimen/card_content_padding"
       android:src="@drawable/ic_reply_small" />
 
   </LinearLayout>

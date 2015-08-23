@@ -1,6 +1,5 @@
 package com.malmstein.yahnac.presenters;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,14 +28,6 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         this.listener = listener;
         this.timeAgo = timeAgo;
         this.loginSharedPreferences = LoginSharedPreferences.newInstance();
-    }
-
-    private Intent createShareIntent(String url) {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-        return shareIntent;
     }
 
     @Override
@@ -69,7 +60,7 @@ public class StoriesAdapter extends CursorRecyclerAdapter<StoriesAdapter.ViewHol
         holder.share_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onShareClicked(createShareIntent(story.getUrl()));
+                listener.onShareClicked(story.createShareIntent());
             }
         });
     }

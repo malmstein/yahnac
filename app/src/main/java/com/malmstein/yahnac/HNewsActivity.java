@@ -13,6 +13,8 @@ import com.malmstein.yahnac.connectivity.NetworkChecker;
 
 public class HNewsActivity extends AppCompatActivity {
 
+    public static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
+
     private ColorTweaker colorTweaker;
     private LollipopUiHelper lollipopUiHelper;
     private Navigator navigator;

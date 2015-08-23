@@ -1,5 +1,6 @@
 package com.malmstein.yahnac.model;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 
@@ -171,6 +172,14 @@ public class Story implements Serializable {
         } else {
             bookmark = HNewsContract.FALSE_BOOLEAN;
         }
+    }
+
+    public Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        return shareIntent;
     }
 
     public enum FILTER {

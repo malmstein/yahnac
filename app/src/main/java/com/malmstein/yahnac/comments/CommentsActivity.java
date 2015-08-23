@@ -3,9 +3,7 @@ package com.malmstein.yahnac.comments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +23,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
-    private ShareActionProvider mShareActionProvider;
     private StoryHeaderView storyHeaderView;
     private SnackBarView snackbarView;
 
@@ -38,7 +35,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         setContentView(R.layout.activity_comments);
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
-
 
         ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
@@ -68,19 +64,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_comments, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareArticleIntent());
-            mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-                @Override
-                public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                    Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_comments),
-                            getStory());
-                    return false;
-                }
-            });
-        }
+
         if (getStory().isHackerNewsLocalItem()) {
             MenuItem comments = menu.findItem(R.id.action_article);
             comments.setVisible(false);
@@ -107,6 +91,12 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                 return true;
             case R.id.action_bookmark:
                 onBookmarkClicked(item);
+                return true;
+            case R.id.action_share:
+                Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_story),
+                        getStory());
+                Intent chooserIntent = Intent.createChooser(getStory().createShareIntent(), SHARE_DIALOG_DEFAULT_TITLE);
+                startActivity(chooserIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -140,14 +130,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             item.setIcon(R.drawable.ic_bookmark_white);
         }
         getStory().toggleBookmark();
-    }
-
-    private Intent createShareArticleIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getStory().getCommentsUrl());
-        return shareIntent;
     }
 
     private CommentsFragment findCommentsFragment() {
@@ -217,7 +199,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                 })
                 .animating();
     }
-
 
     @Override
     public void onCommentReplyAction() {

@@ -2,8 +2,6 @@ package com.malmstein.yahnac.stories;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,6 @@ public class ArticleActivity extends HNewsActivity {
 
     public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_STORY";
 
-    private ShareActionProvider mShareActionProvider;
     private WebView webView;
     private ProgressBar webViewProgress;
 
@@ -93,20 +90,6 @@ public class ArticleActivity extends HNewsActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_article, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareArticleIntent());
-            mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-                @Override
-                public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-                    Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_story),
-                            getStory());
-                    return false;
-                }
-            });
-        }
-
         MenuItem bookmarks = menu.findItem(R.id.action_bookmark);
         if (getStory().isBookmark()) {
             checkBookmarkMenuItem(bookmarks);
@@ -128,6 +111,12 @@ public class ArticleActivity extends HNewsActivity {
                 return true;
             case R.id.action_bookmark:
                 onBookmarkClicked(item);
+                return true;
+            case R.id.action_share:
+                Inject.usageAnalytics().trackShareEvent(getString(R.string.analytics_event_share_story),
+                        getStory());
+                Intent chooserIntent = Intent.createChooser(getStory().createShareIntent(), SHARE_DIALOG_DEFAULT_TITLE);
+                startActivity(chooserIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

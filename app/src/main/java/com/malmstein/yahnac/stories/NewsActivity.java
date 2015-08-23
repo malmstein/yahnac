@@ -26,7 +26,6 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
-    private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
 
     private SnackBarView snackbarView;

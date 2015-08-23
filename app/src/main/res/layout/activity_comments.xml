@@ -22,7 +22,7 @@
       android:id="@+id/story_header_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:layout_scrollFlags="scroll|enterAlways" />
+      app:layout_scrollFlags="scroll|enterAlways"/>
 
   </android.support.design.widget.AppBarLayout>
 
@@ -50,7 +50,7 @@
     android:layout_width="wrap_content"
     app:layout_anchor="@id/appbar"
     app:layout_anchorGravity="bottom|right|end"
-    android:src="@drawable/ic_reply"
+    android:src="@drawable/ic_reply_fab"
     android:layout_margin="@dimen/fab_margin"
     android:clickable="true" />
 
