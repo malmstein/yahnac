@@ -26,6 +26,7 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.presenters.CommentsAdapter;
 import com.malmstein.yahnac.presenters.CursorRecyclerAdapter;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
+import com.malmstein.yahnac.views.OffsetAwareAppBarLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
@@ -49,6 +50,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private CommentsAdapter.Listener listener;
 
     private Subscription subscription;
+    private OffsetAwareAppBarLayout.Status toolbarStatus;
 
     public static CommentsFragment from(Story story) {
         Bundle args = new Bundle();
@@ -81,6 +83,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
         setupRefreshLayout();
         setupCommentsList();
+        listenToAppBarChanges();
 
         return rootView;
     }
@@ -154,6 +157,16 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
         refreshLayout.setRefreshing(false);
     }
 
+    private void listenToAppBarChanges() {
+        OffsetAwareAppBarLayout appBarLayout = Views.findById(getActivity(), R.id.appbar);
+        appBarLayout.setOnStatusChangeListener(new OffsetAwareAppBarLayout.OnStatusChangeListener() {
+            @Override
+            public void onStatusChanged(OffsetAwareAppBarLayout.Status toolbarChange) {
+                toolbarStatus = toolbarChange;
+            }
+        });
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -187,7 +200,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(commentsList, -1);
+        return (ViewCompat.canScrollVertically(commentsList, -1) && toolbarStatus.equals(ControllableAppBarLayout.State.EXPANDED));
     }
 
 }

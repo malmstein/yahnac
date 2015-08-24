@@ -150,6 +150,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     private void setupStoryHeader() {
         storyHeaderView.updateWith(getStory());
+
     }
 
     private void setupReplyListener() {
