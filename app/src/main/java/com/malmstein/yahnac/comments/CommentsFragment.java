@@ -200,7 +200,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public boolean isReadyForPull() {
-        return (ViewCompat.canScrollVertically(commentsList, -1) && toolbarStatus.equals(ControllableAppBarLayout.State.EXPANDED));
+        return (ViewCompat.canScrollVertically(commentsList, -1) && toolbarStatus.equals(OffsetAwareAppBarLayout.Status.EXPANDED));
     }
 
 }
