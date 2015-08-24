@@ -1,5 +1,7 @@
 package com.malmstein.yahnac.comments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +10,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
@@ -29,6 +32,9 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     private SnackBarView snackbarView;
     private FloatingActionButton replyFab;
 
+    private Animator mCircularReveal;
+    private ReplyView replyView;
+
     private LoginSharedPreferences loginSharedPreferences;
 
     private int croutonAnimationDuration;
@@ -41,6 +47,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
         storyHeaderView = Views.findById(this, R.id.story_header_view);
         replyFab = Views.findById(this, R.id.story_reply_action);
+        replyView = Views.findById(this, R.id.reply_view);
 
         ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
 
@@ -87,7 +94,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_article:
                 Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_story_comments),
@@ -152,7 +158,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             replyFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onReplyAction();
+                    onReplyAction(v);
                 }
             });
         } else {
@@ -160,7 +166,23 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         }
     }
 
-    private void onReplyAction() {
+    private void onReplyAction(View view) {
+        int centerX = (view.getLeft() + view.getRight()) / 2;
+        int centerY = (view.getTop() + view.getBottom()) / 2;
+        int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
+        mCircularReveal = ViewAnimationUtils.createCircularReveal(
+                replyView, centerX, centerY, 0, finalRadius);
+
+        mCircularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mCircularReveal.removeListener(this);
+            }
+        });
+
+        replyView.setVisibility(View.VISIBLE);
+        mCircularReveal.start();
 
     }
 

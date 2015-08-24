@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="hint_reply">Add your comment</string>
+  <string name="action_reply">Reply</string>
+</resources>

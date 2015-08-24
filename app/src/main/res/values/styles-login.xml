@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="HNews.Login" parent="None"/>
+  <style name="HNews.Login" parent="None" />
 
   <style name="HNews.Login.ItemCommon">
     <item name="android:layout_marginLeft">@dimen/login_item_margin_horizontal</item>

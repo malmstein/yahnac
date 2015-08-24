@@ -10,23 +10,35 @@
     android:layout_height="wrap_content"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <android.support.v7.widget.Toolbar
-      android:id="@+id/toolbar"
+    <android.support.design.widget.CollapsingToolbarLayout
+      android:id="@+id/collapsing_toolbar"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="?attr/colorPrimary"
-      app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-      app:layout_scrollFlags="scroll|enterAlways" />
+      android:layout_height="match_parent"
+      app:layout_scrollFlags="scroll|exitUntilCollapsed"
+      app:contentScrim="?attr/colorPrimary"
+      app:expandedTitleMarginStart="48dp"
+      app:expandedTitleMarginEnd="64dp"
+      android:fitsSystemWindows="true">
 
-    <com.malmstein.yahnac.views.StoryHeaderView
-      android:id="@+id/story_header_view"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:layout_scrollFlags="scroll|enterAlways"/>
+      <com.malmstein.yahnac.views.StoryHeaderView
+        android:id="@+id/story_header_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_scrollFlags="scroll" />
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin" />
+
+    </android.support.design.widget.CollapsingToolbarLayout>
 
   </android.support.design.widget.AppBarLayout>
 
-  <RelativeLayout
+  <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -36,7 +48,14 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
-  </RelativeLayout>
+  </FrameLayout>
+
+  <com.malmstein.yahnac.comments.ReplyView
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/reply_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" />
 
   <com.malmstein.yahnac.views.SnackBarView
     android:id="@+id/snackbar"

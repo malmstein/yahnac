@@ -37,4 +37,25 @@
     <item name="fontAsset">robotoRegular</item>
   </style>
 
+  <style name="HNews.Comments.EditText" parent="@style/Base.Widget.AppCompat.EditText">
+    <item name="android:layout_marginLeft">@dimen/default_padding</item>
+    <item name="android:layout_marginRight">@dimen/default_padding</item>
+    <item name="android:layout_marginTop">@dimen/card_content_padding</item>
+    <item name="android:layout_marginBottom">@dimen/default_padding</item>
+    <item name="android:theme">@style/Theme.HNews.Black</item>
+  </style>
+
+  <style name="HNews.Comments.EditText.Reply">
+    <item name="android:inputType">text</item>
+    <item name="android:hint">@string/hint_reply</item>
+  </style>
+
+  <style name="HNews.Comments.Button" parent="HNewsButton.Borderless">
+    <item name="android:textSize">@dimen/comments_button_text</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="fontAsset">robotoMedium</item>
+    <item name="android:layout_marginLeft">@dimen/comments_button_marginLeft</item>
+  </style>
+
 </resources>
