@@ -4,6 +4,7 @@
 
   <dimen name="card_corner_radius">2dp</dimen>
   <dimen name="card_content_padding">4dp</dimen>
+  <dimen name="item_content_padding">8dp</dimen>
 
   <dimen name="content_top_padding">8dp</dimen>
   <dimen name="content_bottom_padding">8dp</dimen>

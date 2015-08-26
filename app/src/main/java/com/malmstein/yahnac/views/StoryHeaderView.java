@@ -39,7 +39,7 @@ public class StoryHeaderView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_story_header, this, true);
 
         text = Views.findById(this, R.id.story_title);
         author = Views.findById(this, R.id.story_by);

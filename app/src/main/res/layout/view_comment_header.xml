@@ -5,13 +5,15 @@
   android:id="@+id/comment_header_root"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:orientation="vertical">
+  android:orientation="vertical"
+  android:background="@color/white">
 
   <LinearLayout
     android:id="@+id/comment_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_item_height"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/item_content_padding">
 
     <TextView
       style="@style/HNews.CommentHeader"
@@ -45,9 +47,10 @@
     android:id="@+id/comment_header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/item_content_padding"
+    android:paddingRight="@dimen/item_content_padding"
     android:paddingBottom="@dimen/content_bottom_padding"
     tools:text="This is a comment" />
-
 
 </LinearLayout>
 
