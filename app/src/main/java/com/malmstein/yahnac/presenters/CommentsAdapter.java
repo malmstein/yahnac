@@ -81,7 +81,9 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         public final TextView author;
         public final TextView when;
         public final View root;
+        public final View footer;
         public final View reply;
+        public final View vote;
 
         public HeaderViewHolder(View view) {
             super(view);
@@ -90,7 +92,9 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             author = Views.findById(view, R.id.comment_header_by);
             when = Views.findById(view, R.id.comment_header_when);
             root = Views.findById(view, R.id.comment_header_root);
-            reply = Views.findById(view, R.id.comment_header_reply_action);
+            footer = Views.findById(view, R.id.comment_footer);
+            reply = Views.findById(view, R.id.comment_reply_action);
+            vote = Views.findById(view, R.id.comment_vote_action);
         }
 
         public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
@@ -110,7 +114,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                     }
                 });
             } else {
-                reply.setVisibility(View.GONE);
+                footer.setVisibility(View.GONE);
             }
         }
     }
@@ -120,6 +124,8 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         public final TextView author;
         public final TextView when;
         public final View root;
+        public final View footer;
+        public final View vote;
         public final View reply;
 
         public CommentViewHolder(View view) {
@@ -128,6 +134,8 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             author = Views.findById(view, R.id.comment_by);
             when = Views.findById(view, R.id.comment_when);
             root = Views.findById(view, R.id.comment_root);
+            footer = Views.findById(view, R.id.comment_footer);
+            vote = Views.findById(view, R.id.comment_vote_action);
             reply = Views.findById(view, R.id.comment_reply_action);
         }
 
@@ -144,7 +152,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                     }
                 });
             } else {
-                reply.setVisibility(View.GONE);
+                footer.setVisibility(View.GONE);
             }
         }
     }

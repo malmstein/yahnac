@@ -38,12 +38,6 @@
       android:paddingLeft="@dimen/card_content_padding"
       tools:text="2 hours ago" />
 
-    <ImageButton
-      android:id="@+id/comment_reply_action"
-      style="@style/HNews.FeedAction"
-      android:layout_marginLeft="@dimen/card_content_padding"
-      android:src="@drawable/ic_reply_small" />
-
   </LinearLayout>
 
   <com.malmstein.yahnac.views.fonts.CommentTextView
@@ -55,6 +49,11 @@
     android:paddingLeft="@dimen/item_content_padding"
     android:paddingBottom="@dimen/content_bottom_padding"
     tools:text="This is a comment" />
+
+  <include
+    layout="@layout/view_comment_item_footer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
 </LinearLayout>
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/HNews.FeedFooter"
+  android:id="@+id/comment_footer"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/button_root_height"
+  android:orientation="horizontal">
+
+  <ImageButton
+    android:id="@+id/comment_vote_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/ic_vote" />
+
+  <ImageButton
+    android:id="@+id/comment_reply_action"
+    style="@style/HNews.FeedAction"
+    android:src="@drawable/ic_reply_small" />
+
+</LinearLayout>
