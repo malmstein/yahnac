@@ -98,11 +98,9 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader() || type.equals("ask")) {
                 comment_header.setVisibility(View.GONE);
-//                root.setPadding(0, 0, 0, 0);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());
-//                root.setPadding(comment.getLevel(), 0, 0, 0);
             }
             if (loginSharedPreferences.isLoggedIn()) {
                 reply.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +136,6 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             text.setMovementMethod(LinkMovementMethod.getInstance());
             author.setText(comment.getBy());
             when.setText(comment.getTimeText());
-//            root.setPadding(comment.getLevel(), 0, 0, 0);
             if (loginSharedPreferences.isLoggedIn()) {
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override

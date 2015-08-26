@@ -156,7 +156,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     private CommentsRecyclerItemDecoration createItemDecoration(Resources resources) {
         int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
         int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
-        return new CommentsRecyclerItemDecoration(0, horizontalItemSpacingInPx);
+        return new CommentsRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     private void stopRefreshing() {

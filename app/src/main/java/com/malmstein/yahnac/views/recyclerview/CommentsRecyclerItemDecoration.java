@@ -41,7 +41,7 @@ public class CommentsRecyclerItemDecoration extends RecyclerView.ItemDecoration 
         if (isFirstItem(itemPosition)) {
             return verticalItemSpacingInPx;
         }
-        return verticalItemSpacingInPx / 2;
+        return 0;
     }
 
     private boolean isFirstItem(int itemPosition) {
@@ -52,7 +52,7 @@ public class CommentsRecyclerItemDecoration extends RecyclerView.ItemDecoration 
         if (isLastItem(itemPosition, childCount)) {
             return verticalItemSpacingInPx;
         }
-        return verticalItemSpacingInPx / 2;
+        return 0;
     }
 
     private boolean isLastItem(int itemPosition, int childCount) {

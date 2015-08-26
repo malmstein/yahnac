@@ -49,6 +49,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/item_content_padding"
     android:paddingRight="@dimen/item_content_padding"
+    android:paddingTop="@dimen/content_bottom_padding"
     android:paddingBottom="@dimen/content_bottom_padding"
     tools:text="This is a comment" />
 
