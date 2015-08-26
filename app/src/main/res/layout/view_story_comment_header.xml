@@ -6,7 +6,7 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:paddingBottom="@dimen/default_padding"
-  android:paddingTop="60dp"
+  android:paddingTop="@dimen/default_padding"
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:orientation="vertical">
