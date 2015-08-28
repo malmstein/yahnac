@@ -24,7 +24,7 @@ import com.malmstein.yahnac.views.StoryHeaderView;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
-public class CommentsActivity extends HNewsActivity implements CommentsAdapter.Listener {
+public class CommentsActivity extends HNewsActivity implements CommentsAdapter.Listener, ReplyView.Listener {
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
 
@@ -154,12 +154,13 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     }
 
     private void setupReplyListener() {
+        replyView.setListener(this);
         loginSharedPreferences = LoginSharedPreferences.newInstance();
         if (loginSharedPreferences.isLoggedIn()) {
             replyFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onReplyAction(v);
+                    onShowReplyView(v);
                 }
             });
         } else {
@@ -167,7 +168,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         }
     }
 
-    private void onReplyAction(View view) {
+    private void onShowReplyView(View view) {
         int centerX = (view.getLeft() + view.getRight()) / 2;
         int centerY = (view.getTop() + view.getBottom()) / 2;
         int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
@@ -184,7 +185,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
         replyView.setVisibility(View.VISIBLE);
         mCircularReveal.start();
-
     }
 
     private Story getStory() {
@@ -243,5 +243,31 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
                 .animating();
+    }
+
+    @Override
+    public void onReplyCancelled() {
+
+        int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
+        int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
+        int initialRadius = replyView.getWidth();
+
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(replyView, cx, cy, initialRadius, 0);
+
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                replyView.setVisibility(View.GONE);
+            }
+        });
+
+        anim.start();
+    }
+
+    @Override
+    public void onReplySent(String text) {
+
     }
 }
