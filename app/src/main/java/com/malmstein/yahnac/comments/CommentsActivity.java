@@ -160,7 +160,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             replyFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onShowReplyView(v);
+                    onShowReplyView();
                 }
             });
         } else {
@@ -168,23 +168,8 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         }
     }
 
-    private void onShowReplyView(View view) {
-        int centerX = (view.getLeft() + view.getRight()) / 2;
-        int centerY = (view.getTop() + view.getBottom()) / 2;
-        int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
-        mCircularReveal = ViewAnimationUtils.createCircularReveal(
-                replyView, centerX, centerY, 0, finalRadius);
-
-        mCircularReveal.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mCircularReveal.removeListener(this);
-            }
-        });
-
-        replyView.setVisibility(View.VISIBLE);
-        mCircularReveal.start();
+    private void onShowReplyView() {
+        showReplyView();
     }
 
     private Story getStory() {
@@ -247,7 +232,34 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     @Override
     public void onReplyCancelled() {
+        hideReplyView();
+    }
 
+    @Override
+    public void onReplySent(String text) {
+
+    }
+
+    private void showReplyView() {
+        int centerX = (replyFab.getLeft() + replyFab.getRight()) / 2;
+        int centerY = (replyFab.getTop() + replyFab.getBottom()) / 2;
+        int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
+        mCircularReveal = ViewAnimationUtils.createCircularReveal(
+                replyView, centerX, centerY, 0, finalRadius);
+
+        mCircularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mCircularReveal.removeListener(this);
+            }
+        });
+
+        replyView.setVisibility(View.VISIBLE);
+        mCircularReveal.start();
+    }
+
+    private void hideReplyView() {
         int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
         int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
         int initialRadius = replyView.getWidth();
@@ -264,10 +276,5 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         });
 
         anim.start();
-    }
-
-    @Override
-    public void onReplySent(String text) {
-
     }
 }
