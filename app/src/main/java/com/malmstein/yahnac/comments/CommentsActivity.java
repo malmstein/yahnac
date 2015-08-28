@@ -257,7 +257,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
 
     @Override
     public void onCommentReplyAction() {
-        showNotImplemented();
+        showReplyView();
     }
 
     private void showNotImplemented() {
@@ -273,7 +273,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     }
 
     @Override
-    public void onReplySent(String text) {
+    public void onReplySent() {
 
     }
 

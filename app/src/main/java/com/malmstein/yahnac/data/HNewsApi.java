@@ -217,6 +217,50 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
+    Observable<OperationResponse> reply(Long itemId, final String comment) {
+        return Observable.create(
+                new ParseReplyUrlOnSubscribe(itemId))
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final String fnid) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Connection.Response response = connectionProvider
+                                            .replyConnection(fnid, comment)
+                                            .execute();
+
+                                    if (response.statusCode() == 200) {
+                                        if (response.body() == null) {
+                                            subscriber.onError(new Throwable(""));
+                                        }
+
+                                        Document doc = response.parse();
+                                        String text = doc.text();
+
+                                        if (text.equals(BAD_UPVOTE_RESPONSE)) {
+                                            subscriber.onNext(OperationResponse.FAILURE);
+                                        } else {
+                                            subscriber.onNext(OperationResponse.SUCCESS);
+                                        }
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
 
         private final Long storyId;
@@ -321,4 +365,36 @@ public class HNewsApi {
         }
     }
 
+    private static class ParseReplyUrlOnSubscribe implements Observable.OnSubscribe<String> {
+
+        private final Long storyId;
+        private Subscriber<? super String> subscriber;
+
+        private ParseReplyUrlOnSubscribe(Long storyId) {
+            this.storyId = storyId;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            startFetchingReplyUrl();
+            subscriber.onCompleted();
+        }
+
+        private void startFetchingReplyUrl() {
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+                String replyUrl = connectionProvider
+                        .commentsConnection(storyId)
+                        .get()
+                        .select("input[name=fnid]")
+                        .first()
+                        .attr("value");
+
+                subscriber.onNext(replyUrl);
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
 }

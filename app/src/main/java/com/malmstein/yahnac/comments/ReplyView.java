@@ -8,8 +8,15 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.data.Provider;
+import com.malmstein.yahnac.inject.Inject;
 import com.malmstein.yahnac.login.InputFieldValidator;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.novoda.notils.caster.Views;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class ReplyView extends FrameLayout {
 
@@ -20,6 +27,8 @@ public class ReplyView extends FrameLayout {
     private EditText comment;
 
     private Listener listener;
+
+    private Subscription subscription;
 
     public ReplyView(Context context) {
         super(context);
@@ -59,6 +68,7 @@ public class ReplyView extends FrameLayout {
             public void onClick(View v) {
                 if (listener != null) {
                     if (validate()) {
+                        sendReply();
                         listener.onReplySent(comment.getText().toString());
                     }
                 }
@@ -76,10 +86,35 @@ public class ReplyView extends FrameLayout {
         return isCommentValid;
     }
 
+    private void sendReply() {
+        Provider provider = Inject.provider();
+        subscription = provider
+                .observeReply(12121, comment.getText().toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OperationResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Inject.crashAnalytics().logSomethingWentWrong("Provider - Vote: ", e);
+                    }
+
+                    @Override
+                    public void onNext(OperationResponse status) {
+                        listener.onReplySent();
+                    }
+                });
+    }
+
     public interface Listener {
         void onReplyCancelled();
 
-        void onReplySent(String text);
+        void onReplySent();
 
     }
 }
