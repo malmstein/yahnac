@@ -45,8 +45,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:paddingLeft="@dimen/login_item_margin_horizontal"
-      android:paddingRight="@dimen/login_item_margin_horizontal"
+      android:paddingLeft="@dimen/activity_horizontal_margin"
+      android:paddingRight="@dimen/activity_horizontal_margin"
       android:paddingBottom="@dimen/login_button_drawable_padding"
       android:gravity="bottom|end">
 
