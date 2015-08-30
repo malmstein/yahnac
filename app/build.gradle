@@ -74,6 +74,7 @@ dependencies {
     compile 'com.crashlytics.android:crashlytics:1.1.11'
     compile 'com.novoda:notils:2.2.8'
     compile 'com.firebase:firebase-client-android:2.2.1'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'

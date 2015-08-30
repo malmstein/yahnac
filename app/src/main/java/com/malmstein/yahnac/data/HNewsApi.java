@@ -15,6 +15,9 @@ import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.novoda.notils.logger.simple.Log;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.List;
@@ -223,30 +226,21 @@ public class HNewsApi {
                 new ParseReplyUrlOnSubscribe(itemId))
                 .flatMap(new Func1<String, Observable<OperationResponse>>() {
                     @Override
-                    public Observable<OperationResponse> call(final String fnid) {
+                    public Observable<OperationResponse> call(final String hmac) {
                         return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
                             @Override
                             public void call(Subscriber<? super OperationResponse> subscriber) {
 
                                 try {
                                     ConnectionProvider connectionProvider = Inject.connectionProvider();
-                                    Connection.Response response = connectionProvider
-                                            .replyConnection(fnid, comment, itemId)
-                                            .execute();
+                                    Request request = connectionProvider
+                                            .replyCommentStory(String.valueOf(itemId), comment, hmac);
 
-                                    if (response.statusCode() == 200) {
-                                        if (response.body() == null) {
-                                            subscriber.onError(new Throwable(""));
-                                        }
+                                    OkHttpClient client = new OkHttpClient();
+                                    Response response = client.newCall(request).execute();
 
-                                        Document doc = response.parse();
-                                        String text = doc.text();
-
-                                        if (text.equals(BAD_UPVOTE_RESPONSE)) {
-                                            subscriber.onNext(OperationResponse.FAILURE);
-                                        } else {
-                                            subscriber.onNext(OperationResponse.SUCCESS);
-                                        }
+                                    if (response.code() == 200) {
+                                        subscriber.onNext(OperationResponse.SUCCESS);
                                     } else {
                                         subscriber.onNext(OperationResponse.FAILURE);
                                     }

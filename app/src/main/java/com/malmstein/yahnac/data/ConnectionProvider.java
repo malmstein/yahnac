@@ -1,6 +1,9 @@
 package com.malmstein.yahnac.data;
 
 import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -12,9 +15,10 @@ public class ConnectionProvider {
     public static final String LOGIN_URL_EXTENSION = "/login?go_to=news";
     public static final String LOGIN_BASE_URL = "/login";
 
-    public static final String COMMENTS_BASE_URL = "/item?id=";
+    public static final String ITEM_BASE_URL = "/item?id=";
 
     public static final String REPLY_BASE_URL = "/reply?id=";
+    public static final String SEND_COMMENT_BASE_URL = "/comment";
 
     public static final String USER_AGENT = System.getProperty("http.agent");
     public static final int TIMEOUT_MILLIS = 40 * 1000;
@@ -47,7 +51,7 @@ public class ConnectionProvider {
     }
 
     public Connection commentsConnection(Long storyId) {
-        return connection(COMMENTS_BASE_URL + storyId);
+        return connection(ITEM_BASE_URL + storyId);
     }
 
     public Connection loginConnection(String username, String password) {
@@ -67,8 +71,12 @@ public class ConnectionProvider {
         return connection(voteUrl);
     }
 
-    public Connection replyConnection(String hmac, String text, Long storyId) {
-        Connection reply = connection(REPLY_BASE_URL);
+    public Connection replyConnection(Long itemId) {
+        return connection(REPLY_BASE_URL + itemId);
+    }
+
+    public Connection sendCommentConnection(String hmac, String text, Long storyId) {
+        Connection reply = connection(SEND_COMMENT_BASE_URL);
         return reply
                 .data("parent", String.valueOf(storyId))
                 .data("goto", "")
@@ -77,6 +85,24 @@ public class ConnectionProvider {
                 .data("reply", "")
                 .method(Connection.Method.POST);
 
+    }
+
+    public Request replyCommentStory(String itemId, String comment, String hmac) {
+
+        RequestBody requestBody = (new FormEncodingBuilder())
+                .add("parent", itemId)
+                .add("goto", (new StringBuilder()).append("item?id=").append(itemId).toString())
+                .add("text", comment)
+                .add("hmac", hmac)
+                .build();
+
+        Request request = (new Request.Builder())
+                .addHeader("cookie", (new StringBuilder()).append("user=").append(loginSharedPreferences.getCookie()).toString())
+                .url("https://news.ycombinator.com/comment")
+                .post(requestBody)
+                .build();
+
+        return request;
     }
 }
 
