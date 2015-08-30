@@ -14,7 +14,7 @@ public class ConnectionProvider {
 
     public static final String COMMENTS_BASE_URL = "/item?id=";
 
-    public static final String REPLY_BASE_URL = "/";
+    public static final String REPLY_BASE_URL = "/reply?id=";
 
     public static final String USER_AGENT = System.getProperty("http.agent");
     public static final int TIMEOUT_MILLIS = 40 * 1000;
@@ -67,11 +67,14 @@ public class ConnectionProvider {
         return connection(voteUrl);
     }
 
-    public Connection replyConnection(String fnid, String text) {
+    public Connection replyConnection(String hmac, String text, Long storyId) {
         Connection reply = connection(REPLY_BASE_URL);
         return reply
-                .data("fnid", fnid)
+                .data("parent", String.valueOf(storyId))
+                .data("goto", "")
+                .data("hmac", hmac)
                 .data("text", text)
+                .data("reply", "")
                 .method(Connection.Method.POST);
 
     }

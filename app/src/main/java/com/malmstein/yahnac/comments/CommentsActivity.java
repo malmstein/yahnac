@@ -85,7 +85,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             replyFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onShowReplyView();
+                    showReplyView();
                 }
             });
         } else {
@@ -163,6 +163,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         });
 
         replyView.setVisibility(View.VISIBLE);
+        replyView.setStoryId(getStory().getId());
         mCircularReveal.start();
     }
 
@@ -211,10 +212,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             item.setIcon(R.drawable.ic_bookmark_white);
         }
         getStory().toggleBookmark();
-    }
-
-    private void onShowReplyView() {
-        showReplyView();
     }
 
     private void removeBookmark(DataPersister persister, Story story) {

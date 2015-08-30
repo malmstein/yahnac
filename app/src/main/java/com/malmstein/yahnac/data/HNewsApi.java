@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -217,7 +218,7 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<OperationResponse> reply(Long itemId, final String comment) {
+    Observable<OperationResponse> reply(final Long itemId, final String comment) {
         return Observable.create(
                 new ParseReplyUrlOnSubscribe(itemId))
                 .flatMap(new Func1<String, Observable<OperationResponse>>() {
@@ -230,7 +231,7 @@ public class HNewsApi {
                                 try {
                                     ConnectionProvider connectionProvider = Inject.connectionProvider();
                                     Connection.Response response = connectionProvider
-                                            .replyConnection(fnid, comment)
+                                            .replyConnection(fnid, comment, itemId)
                                             .execute();
 
                                     if (response.statusCode() == 200) {
@@ -384,14 +385,21 @@ public class HNewsApi {
         private void startFetchingReplyUrl() {
             try {
                 ConnectionProvider connectionProvider = Inject.connectionProvider();
-                String replyUrl = connectionProvider
+                Document replyDocument = connectionProvider
                         .commentsConnection(storyId)
-                        .get()
-                        .select("input[name=fnid]")
-                        .first()
-                        .attr("value");
+                        .get();
 
-                subscriber.onNext(replyUrl);
+                Element replyInput = replyDocument
+                        .select("input[name=hmac]")
+                        .first();
+
+                if (replyInput != null) {
+                    String replyFnid = replyInput.attr("value");
+                    subscriber.onNext(replyFnid);
+                } else {
+                    subscriber.onError(new Exception("Story not reachable"));
+                }
+
             } catch (IOException e) {
                 subscriber.onError(e);
             }

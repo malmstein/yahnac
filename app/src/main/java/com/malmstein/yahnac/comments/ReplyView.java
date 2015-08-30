@@ -27,6 +27,7 @@ public class ReplyView extends FrameLayout {
     private EditText comment;
 
     private Listener listener;
+    private long storyId;
 
     private Subscription subscription;
 
@@ -69,7 +70,6 @@ public class ReplyView extends FrameLayout {
                 if (listener != null) {
                     if (validate()) {
                         sendReply();
-                        listener.onReplySent(comment.getText().toString());
                     }
                 }
             }
@@ -78,6 +78,10 @@ public class ReplyView extends FrameLayout {
 
     public void setListener(Listener listener) {
         this.listener = listener;
+    }
+
+    public void setStoryId(Long storyId) {
+        this.storyId = storyId;
     }
 
     private boolean validate() {
@@ -89,7 +93,7 @@ public class ReplyView extends FrameLayout {
     private void sendReply() {
         Provider provider = Inject.provider();
         subscription = provider
-                .observeReply(12121, comment.getText().toString())
+                .observeReply(storyId, comment.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<OperationResponse>() {
                     @Override
@@ -101,7 +105,7 @@ public class ReplyView extends FrameLayout {
 
                     @Override
                     public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("Provider - Vote: ", e);
+                        Inject.crashAnalytics().logSomethingWentWrong("Send Comment: ", e);
                     }
 
                     @Override
