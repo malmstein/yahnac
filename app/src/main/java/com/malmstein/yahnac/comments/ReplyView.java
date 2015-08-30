@@ -127,7 +127,7 @@ public class ReplyView extends FrameLayout {
     private void sendReplytoComment() {
         Provider provider = Inject.provider();
         subscription = provider
-                .observeCommentOnStory(storyId, comment.getText().toString())
+                .observeReplyToComment(storyId, commentId, comment.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<OperationResponse>() {
                     @Override

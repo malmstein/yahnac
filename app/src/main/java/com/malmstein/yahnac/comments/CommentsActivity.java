@@ -181,7 +181,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
         int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
         int initialRadius = replyView.getWidth();
-
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(replyView, cx, cy, initialRadius, 0);
 
@@ -194,6 +193,21 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         });
 
         anim.start();
+    }
+
+    @Override
+    public void onCommentReplyAction(Long id) {
+        showReplyViewForComment(id);
+    }
+
+    @Override
+    public void onReplyCancelled() {
+        hideReplyView();
+    }
+
+    @Override
+    public void onReplySent() {
+        hideReplyView();
     }
 
     private void checkBookmarkMenuItem(MenuItem bookmarks) {
@@ -260,21 +274,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                     }
                 })
                 .animating();
-    }
-
-    @Override
-    public void onCommentReplyAction(Long id) {
-        showReplyViewForComment(id);
-    }
-
-    @Override
-    public void onReplyCancelled() {
-        hideReplyView();
-    }
-
-    @Override
-    public void onReplySent() {
-
     }
 
 }

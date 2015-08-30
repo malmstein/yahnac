@@ -131,7 +131,7 @@ public class Provider {
     }
 
     public Observable<OperationResponse> observeReplyToComment(final long storyId, final long commentId, final String message) {
-        return api.commentOnStory(storyId, message)
+        return api.replyToComment(storyId, commentId, message)
                 .flatMap(new Func1<OperationResponse, Observable<OperationResponse>>() {
                     @Override
                     public Observable<OperationResponse> call(final OperationResponse response) {

@@ -256,6 +256,41 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
+    Observable<OperationResponse> replyToComment(final Long storyId, final long commentId, final String comment) {
+        return Observable.create(
+                new ParseReplyHmacOnSubscribe(storyId, commentId))
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final String hmac) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Request request = connectionProvider
+                                            .replyCommentStory(String.valueOf(commentId), comment, hmac);
+
+                                    OkHttpClient client = new OkHttpClient();
+                                    Response response = client.newCall(request).execute();
+
+                                    if (response.code() == 200) {
+                                        subscriber.onNext(OperationResponse.SUCCESS);
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
     private static class CommentsUpdateOnSubscribe implements Observable.OnSubscribe<Vector<ContentValues>> {
 
         private final Long storyId;
@@ -382,6 +417,49 @@ public class HNewsApi {
 
                 Document replyDocument = connectionProvider
                         .commentsConnection(storyId)
+                        .get();
+
+                Element replyInput = replyDocument
+                        .select("input[name=hmac]")
+                        .first();
+
+                if (replyInput != null) {
+                    String replyFnid = replyInput.attr("value");
+                    subscriber.onNext(replyFnid);
+                } else {
+                    subscriber.onError(new Exception("Story not reachable"));
+                }
+
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
+
+    private static class ParseReplyHmacOnSubscribe implements Observable.OnSubscribe<String> {
+
+        private final Long storyId;
+        private final Long commentId;
+        private Subscriber<? super String> subscriber;
+
+        private ParseReplyHmacOnSubscribe(Long storyId, Long commentId) {
+            this.storyId = storyId;
+            this.commentId = commentId;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            startFetchingHmac();
+            subscriber.onCompleted();
+        }
+
+        private void startFetchingHmac() {
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+
+                Document replyDocument = connectionProvider
+                        .replyCommentConnection(storyId, commentId)
                         .get();
 
                 Element replyInput = replyDocument

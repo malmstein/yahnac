@@ -18,6 +18,8 @@ public class ConnectionProvider {
     public static final String ITEM_BASE_URL = "/item?id=";
 
     public static final String REPLY_BASE_URL = "/reply?id=";
+    public static final String REPLY_GOTO = "&goto=item%3Fid%3D";
+
     public static final String SEND_COMMENT_BASE_URL = "/comment";
 
     public static final String USER_AGENT = System.getProperty("http.agent");
@@ -71,12 +73,11 @@ public class ConnectionProvider {
         return connection(voteUrl);
     }
 
-    public Connection replyConnection(Long itemId) {
-        return connection(REPLY_BASE_URL + itemId);
+    public Connection replyCommentConnection(Long storyId, Long commentId) {
+        return connection(REPLY_BASE_URL + commentId + REPLY_GOTO + storyId);
     }
 
     public Request replyCommentStory(String itemId, String comment, String hmac) {
-
         RequestBody requestBody = (new FormEncodingBuilder())
                 .add("parent", itemId)
                 .add("goto", (new StringBuilder()).append("item?id=").append(itemId).toString())

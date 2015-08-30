@@ -38,6 +38,7 @@ public class CommentsParser {
             }
 
             String text = parseText(mainRowElement);
+            String commentId = parseCommentId(mainRowElement);
             String author = parseAuthor(mainRowElement);
             String timeAgo = parseTimeAgo(mainRowElement);
             int level = parseLevel(rowLevelElement);
@@ -66,6 +67,14 @@ public class CommentsParser {
 
         String text = commentSpan.html().replace("<span> </span>", "");
         return text;
+    }
+
+    public String parseCommentId(Element topRowElement) {
+        Element comHeadElement = topRowElement.select("span.comhead").first();
+        String item_i = comHeadElement.select("a[href*=item]").attr("href");
+        String commentId = item_i.replace("item?id=", "");
+
+        return commentId;
     }
 
     public String parseAuthor(Element topRowElement) {
