@@ -27,7 +27,8 @@ public class ReplyView extends FrameLayout {
     private EditText comment;
 
     private Listener listener;
-    private long storyId;
+    private long storyId = 0;
+    private long commentId = 0;
 
     private Subscription subscription;
 
@@ -69,7 +70,11 @@ public class ReplyView extends FrameLayout {
             public void onClick(View v) {
                 if (listener != null) {
                     if (validate()) {
-                        sendReply();
+                        if (commentId != 0) {
+                            sendReplytoComment();
+                        } else {
+                            sendReplytoStory();
+                        }
                     }
                 }
             }
@@ -84,16 +89,45 @@ public class ReplyView extends FrameLayout {
         this.storyId = storyId;
     }
 
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
     private boolean validate() {
         String commentText = comment.getText().toString();
         boolean isCommentValid = inputFieldValidator.isValid(commentText);
         return isCommentValid;
     }
 
-    private void sendReply() {
+    private void sendReplytoStory() {
         Provider provider = Inject.provider();
         subscription = provider
-                .observeReply(storyId, comment.getText().toString())
+                .observeCommentOnStory(storyId, comment.getText().toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OperationResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        if (!subscription.isUnsubscribed()) {
+                            subscription.unsubscribe();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Inject.crashAnalytics().logSomethingWentWrong("Send Comment: ", e);
+                    }
+
+                    @Override
+                    public void onNext(OperationResponse status) {
+                        listener.onReplySent();
+                    }
+                });
+    }
+
+    private void sendReplytoComment() {
+        Provider provider = Inject.provider();
+        subscription = provider
+                .observeCommentOnStory(storyId, comment.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<OperationResponse>() {
                     @Override

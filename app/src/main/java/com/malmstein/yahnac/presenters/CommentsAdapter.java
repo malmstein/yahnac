@@ -72,7 +72,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     }
 
     public interface Listener {
-        void onCommentReplyAction();
+        void onCommentReplyAction(Long id);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -97,7 +97,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             vote = Views.findById(view, R.id.comment_vote_action);
         }
 
-        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
+        public void bind(final Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
             text.setText(Html.fromHtml(comment.getText()));
             text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader() || type.equals("ask")) {
@@ -110,7 +110,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onCommentReplyAction();
+                        listener.onCommentReplyAction(comment.getId());
                     }
                 });
             } else {
@@ -139,7 +139,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             reply = Views.findById(view, R.id.comment_reply_action);
         }
 
-        public void bind(Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
+        public void bind(final Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
             text.setText(Html.fromHtml(comment.getText()));
             text.setMovementMethod(LinkMovementMethod.getInstance());
             author.setText(comment.getBy());
@@ -148,7 +148,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onCommentReplyAction();
+                        listener.onCommentReplyAction(comment.getId());
                     }
                 });
             } else {

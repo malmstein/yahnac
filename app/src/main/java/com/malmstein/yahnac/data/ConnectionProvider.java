@@ -75,18 +75,6 @@ public class ConnectionProvider {
         return connection(REPLY_BASE_URL + itemId);
     }
 
-    public Connection sendCommentConnection(String hmac, String text, Long storyId) {
-        Connection reply = connection(SEND_COMMENT_BASE_URL);
-        return reply
-                .data("parent", String.valueOf(storyId))
-                .data("goto", "")
-                .data("hmac", hmac)
-                .data("text", text)
-                .data("reply", "")
-                .method(Connection.Method.POST);
-
-    }
-
     public Request replyCommentStory(String itemId, String comment, String hmac) {
 
         RequestBody requestBody = (new FormEncodingBuilder())
@@ -98,7 +86,7 @@ public class ConnectionProvider {
 
         Request request = (new Request.Builder())
                 .addHeader("cookie", (new StringBuilder()).append("user=").append(loginSharedPreferences.getCookie()).toString())
-                .url("https://news.ycombinator.com/comment")
+                .url(ConnectionProvider.BASE_URL + ConnectionProvider.SEND_COMMENT_BASE_URL)
                 .post(requestBody)
                 .build();
 

@@ -221,9 +221,9 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<OperationResponse> reply(final Long itemId, final String comment) {
+    Observable<OperationResponse> commentOnStory(final Long itemId, final String comment) {
         return Observable.create(
-                new ParseReplyUrlOnSubscribe(itemId))
+                new ParseHmacOnSubscribe(itemId))
                 .flatMap(new Func1<String, Observable<OperationResponse>>() {
                     @Override
                     public Observable<OperationResponse> call(final String hmac) {
@@ -360,25 +360,26 @@ public class HNewsApi {
         }
     }
 
-    private static class ParseReplyUrlOnSubscribe implements Observable.OnSubscribe<String> {
+    private static class ParseHmacOnSubscribe implements Observable.OnSubscribe<String> {
 
         private final Long storyId;
         private Subscriber<? super String> subscriber;
 
-        private ParseReplyUrlOnSubscribe(Long storyId) {
+        private ParseHmacOnSubscribe(Long storyId) {
             this.storyId = storyId;
         }
 
         @Override
         public void call(Subscriber<? super String> subscriber) {
             this.subscriber = subscriber;
-            startFetchingReplyUrl();
+            startFetchingHmac();
             subscriber.onCompleted();
         }
 
-        private void startFetchingReplyUrl() {
+        private void startFetchingHmac() {
             try {
                 ConnectionProvider connectionProvider = Inject.connectionProvider();
+
                 Document replyDocument = connectionProvider
                         .commentsConnection(storyId)
                         .get();

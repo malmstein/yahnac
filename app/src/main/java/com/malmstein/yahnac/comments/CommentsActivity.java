@@ -85,7 +85,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
             replyFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showReplyView();
+                    showReplyViewForStory();
                 }
             });
         } else {
@@ -147,6 +147,17 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         return (CommentsFragment) getSupportFragmentManager().findFragmentByTag(CommentsFragment.TAG);
     }
 
+    private void showReplyViewForStory() {
+        replyView.setStoryId(getStory().getId());
+        showReplyView();
+    }
+
+    private void showReplyViewForComment(Long commentId) {
+        replyView.setCommentId(commentId);
+        replyView.setStoryId(getStory().getId());
+        showReplyView();
+    }
+
     private void showReplyView() {
         int centerX = (replyFab.getLeft() + replyFab.getRight()) / 2;
         int centerY = (replyFab.getTop() + replyFab.getBottom()) / 2;
@@ -163,7 +174,6 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
         });
 
         replyView.setVisibility(View.VISIBLE);
-        replyView.setStoryId(getStory().getId());
         mCircularReveal.start();
     }
 
@@ -253,15 +263,8 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     }
 
     @Override
-    public void onCommentReplyAction() {
-        showReplyView();
-    }
-
-    private void showNotImplemented() {
-        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
-                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
-                .withAnimationDuration(croutonAnimationDuration)
-                .animating();
+    public void onCommentReplyAction(Long id) {
+        showReplyViewForComment(id);
     }
 
     @Override

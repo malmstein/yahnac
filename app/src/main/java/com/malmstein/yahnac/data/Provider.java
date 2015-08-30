@@ -114,8 +114,24 @@ public class Provider {
                 });
     }
 
-    public Observable<OperationResponse> observeReply(final long itemId, final String message) {
-        return api.reply(itemId, message)
+    public Observable<OperationResponse> observeCommentOnStory(final long storyId, final String message) {
+        return api.commentOnStory(storyId, message)
+                .flatMap(new Func1<OperationResponse, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final OperationResponse response) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+                                subscriber.onNext(response);
+                                subscriber.onCompleted();
+                            }
+                        });
+                    }
+                });
+    }
+
+    public Observable<OperationResponse> observeReplyToComment(final long storyId, final long commentId, final String message) {
+        return api.commentOnStory(storyId, message)
                 .flatMap(new Func1<OperationResponse, Observable<OperationResponse>>() {
                     @Override
                     public Observable<OperationResponse> call(final OperationResponse response) {
