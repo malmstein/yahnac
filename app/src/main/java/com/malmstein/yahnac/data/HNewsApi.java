@@ -37,6 +37,12 @@ public class HNewsApi {
 
     private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
 
+    private static Element extractHmac(Document replyDocument) {
+        return replyDocument
+                .select("input[name=hmac]")
+                .first();
+    }
+
     public Observable<List<ContentValues>> getStories(final Story.FILTER FILTER) {
 
         return Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
@@ -420,9 +426,7 @@ public class HNewsApi {
                         .commentsConnection(storyId)
                         .get();
 
-                Element replyInput = replyDocument
-                        .select("input[name=hmac]")
-                        .first();
+                Element replyInput = extractHmac(replyDocument);
 
                 if (replyInput != null) {
                     String replyFnid = replyInput.attr("value");
@@ -463,9 +467,7 @@ public class HNewsApi {
                         .replyCommentConnection(storyId, commentId)
                         .get();
 
-                Element replyInput = replyDocument
-                        .select("input[name=hmac]")
-                        .first();
+                Element replyInput = extractHmac(replyDocument);
 
                 if (replyInput != null) {
                     String hmac = replyInput.attr("value");
