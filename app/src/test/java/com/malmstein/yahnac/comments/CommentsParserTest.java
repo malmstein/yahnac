@@ -86,4 +86,10 @@ public class CommentsParserTest {
         assertEquals(0, level);
     }
 
+    @org.junit.Test
+    public void returnsCommentId() {
+        String commentId = storyCommentsParser.parseCommentId(topRowElement);
+        assertEquals("9997329", commentId);
+    }
+
 }
