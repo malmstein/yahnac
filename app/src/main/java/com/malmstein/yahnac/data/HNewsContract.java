@@ -126,12 +126,15 @@ public class HNewsContract {
     public static final class CommentsEntry implements BaseColumns {
 
         public static final Uri CONTENT_COMMENTS_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
+
         public static final String ITEM_ID = "item_id";
         public static final String LEVEL = "level";
         public static final String BY = "by";
         public static final String TEXT = "text";
         public static final String TIME_AGO = "time_ago";
         public static final String HEADER = "header";
+        public static final String COMMENT_ID = "comment_id";
+
         public static final String[] COMMENT_COLUMNS = {
                 CommentsEntry._ID,
                 CommentsEntry.ITEM_ID,
@@ -140,7 +143,9 @@ public class HNewsContract {
                 CommentsEntry.TEXT,
                 CommentsEntry.TIME_AGO,
                 CommentsEntry.HEADER,
+                CommentsEntry.COMMENT_ID,
         };
+
         public static final int COLUMN_ID = 0;
         public static final int COLUMN_ITEM_ID = 1;
         public static final int COLUMN_LEVEL = 2;
@@ -148,6 +153,7 @@ public class HNewsContract {
         public static final int COLUMN_TEXT = 4;
         public static final int COLUMN_TIME_AGO = 5;
         public static final int COLUMN_HEADER = 6;
+        public static final int COLUMN_COMMENT_ID = 7;
 
         public static Uri buildCommentUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_COMMENTS_URI, id);
