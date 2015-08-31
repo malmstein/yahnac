@@ -234,7 +234,7 @@ public class HNewsApi {
                                 try {
                                     ConnectionProvider connectionProvider = Inject.connectionProvider();
                                     Request request = connectionProvider
-                                            .replyCommentStory(String.valueOf(itemId), comment, hmac);
+                                            .commentOnStoryRequest(String.valueOf(itemId), comment, hmac);
 
                                     OkHttpClient client = new OkHttpClient();
                                     Response response = client.newCall(request).execute();
@@ -269,7 +269,8 @@ public class HNewsApi {
                                 try {
                                     ConnectionProvider connectionProvider = Inject.connectionProvider();
                                     Request request = connectionProvider
-                                            .replyCommentStory(String.valueOf(commentId), comment, hmac);
+                                            .replyToCommentRequest(String.valueOf(storyId),
+                                                    String.valueOf(commentId), comment, hmac);
 
                                     OkHttpClient client = new OkHttpClient();
                                     Response response = client.newCall(request).execute();
@@ -467,8 +468,8 @@ public class HNewsApi {
                         .first();
 
                 if (replyInput != null) {
-                    String replyFnid = replyInput.attr("value");
-                    subscriber.onNext(replyFnid);
+                    String hmac = replyInput.attr("value");
+                    subscriber.onNext(hmac);
                 } else {
                     subscriber.onError(new Exception("Story not reachable"));
                 }

@@ -110,7 +110,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onCommentReplyAction(comment.getId());
+                        listener.onCommentReplyAction(comment.getCommentId());
                     }
                 });
             } else {
@@ -148,7 +148,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onCommentReplyAction(comment.getId());
+                        listener.onCommentReplyAction(comment.getCommentId());
                     }
                 });
             } else {

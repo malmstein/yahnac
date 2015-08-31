@@ -77,7 +77,7 @@ public class ConnectionProvider {
         return connection(REPLY_BASE_URL + commentId + REPLY_GOTO + storyId);
     }
 
-    public Request replyCommentStory(String itemId, String comment, String hmac) {
+    public Request commentOnStoryRequest(String itemId, String comment, String hmac) {
         RequestBody requestBody = (new FormEncodingBuilder())
                 .add("parent", itemId)
                 .add("goto", (new StringBuilder()).append("item?id=").append(itemId).toString())
@@ -85,13 +85,26 @@ public class ConnectionProvider {
                 .add("hmac", hmac)
                 .build();
 
-        Request request = (new Request.Builder())
+        return createAuthRequest(requestBody);
+    }
+
+    public Request replyToCommentRequest(String itemId, String commentId, String comment, String hmac) {
+        RequestBody requestBody = (new FormEncodingBuilder())
+                .add("parent", commentId)
+                .add("goto", (new StringBuilder()).append("item?id=").append(itemId).toString())
+                .add("text", comment)
+                .add("hmac", hmac)
+                .build();
+
+        return createAuthRequest(requestBody);
+    }
+
+    private Request createAuthRequest(RequestBody requestBody) {
+        return (new Request.Builder())
                 .addHeader("cookie", (new StringBuilder()).append("user=").append(loginSharedPreferences.getCookie()).toString())
                 .url(ConnectionProvider.BASE_URL + ConnectionProvider.SEND_COMMENT_BASE_URL)
                 .post(requestBody)
                 .build();
-
-        return request;
     }
 }
 
