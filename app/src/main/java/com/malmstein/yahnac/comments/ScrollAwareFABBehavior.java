@@ -10,15 +10,19 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
+import com.malmstein.yahnac.updater.LoginSharedPreferences;
+
 public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
     private Interpolator animationInterpolator;
 
+    private LoginSharedPreferences loginSharedPreferences;
     private boolean isAnimatingOut = false;
 
     public ScrollAwareFabBehavior(Context context, AttributeSet attrs) {
         super();
         animationInterpolator = AnimationUtils.loadInterpolator(context,
                 android.R.interpolator.fast_out_slow_in);
+        loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
     @Override
@@ -40,11 +44,14 @@ public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
         super.onNestedScroll(coordinatorLayout, child, target,
                 dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
-        if (dyConsumed > 0 && !this.isAnimatingOut && child.getVisibility() == View.VISIBLE) {
-            animateOut(child);
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            animateIn(child);
+        if (loginSharedPreferences.isLoggedIn()) {
+            if (dyConsumed > 0 && !this.isAnimatingOut && child.getVisibility() == View.VISIBLE) {
+                animateOut(child);
+            } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
+                animateIn(child);
+            }
         }
+
     }
 
     private void animateOut(final FloatingActionButton button) {
