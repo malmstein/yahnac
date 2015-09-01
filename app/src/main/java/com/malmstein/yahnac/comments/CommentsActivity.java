@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 
-public class CommentsActivity extends HNewsActivity {
+public class CommentsActivity extends HNewsActivity implements CommentsPresenter.Listener {
 
     private CommentsPresenter commentsPresenter;
     private CommentsOperator commentsOperator;
@@ -65,4 +65,8 @@ public class CommentsActivity extends HNewsActivity {
 
     }
 
+    @Override
+    public void onRetrieveCommentsOperation() {
+        commentsOperator.retrieveComments();
+    }
 }

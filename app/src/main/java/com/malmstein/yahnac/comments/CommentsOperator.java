@@ -61,4 +61,8 @@ public class CommentsOperator {
                 activity.getString(actionResource),
                 story);
     }
+
+    public void retrieveComments() {
+
+    }
 }

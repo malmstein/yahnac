@@ -15,9 +15,8 @@ import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
 import com.malmstein.yahnac.views.recyclerview.adapter.CursorRecyclerAdapter;
 import com.malmstein.yahnac.views.recyclerview.decorators.CommentsRecyclerItemDecoration;
+import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
-
-import rx.Subscription;
 
 public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefreshLayout.OnRefreshListener {
 
@@ -26,9 +25,6 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
     private CursorRecyclerAdapter commentsAdapter;
     private RecyclerView.LayoutManager commentsLayoutManager;
 
-    private CommentsAdapter.Listener listener;
-
-    private Subscription subscription;
     private Story story;
 
     public CommentsView(Context context) {
@@ -54,26 +50,24 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
         refreshLayout = Views.findById(this, R.id.feed_refresh);
         commentsList = Views.findById(this, R.id.list_comments);
 
-        setupRefreshLayout();
+
     }
 
-    public void setupWith(CommentsAdapter.Listener listener, Story story) {
-        this.listener = listener;
+    public void setupWith(CommentsPresenter presenter, Story story) {
+        this.listener = Classes.from(presenter);
         this.story = story;
+
+        refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
+        refreshLayout.setOnRefreshListener(presenter);
+        refreshLayout.setViewDelegate(this);
 
         commentsList.setHasFixedSize(true);
         commentsLayoutManager = new LinearLayoutManager(getContext());
         commentsList.addItemDecoration(createItemDecoration(getResources()));
         commentsList.setLayoutManager(commentsLayoutManager);
 
-        commentsAdapter = new CommentsAdapter(story.getType(), null, listener);
+        commentsAdapter = new CommentsAdapter(story.getType(), null, presenter);
         commentsList.setAdapter(commentsAdapter);
-    }
-
-    private void setupRefreshLayout() {
-        refreshLayout.setColorSchemeResources(R.color.orange, R.color.dark_orange);
-        refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setViewDelegate(this);
     }
 
     private CommentsRecyclerItemDecoration createItemDecoration(Resources resources) {
@@ -84,6 +78,7 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
 
     @Override
     public void onRefresh() {
+
         retrieveComments();
     }
 

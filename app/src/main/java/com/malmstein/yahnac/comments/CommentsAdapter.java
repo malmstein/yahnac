@@ -1,6 +1,7 @@
 package com.malmstein.yahnac.comments;
 
 import android.database.Cursor;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -72,7 +73,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         return vh;
     }
 
-    public interface Listener {
+    public interface Listener extends SwipeRefreshLayout.OnRefreshListener {
         void onCommentReplyAction(Long id);
 
         void onCommentVoteAction(Long id);

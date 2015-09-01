@@ -15,18 +15,16 @@ import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
+import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
 public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Listener {
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
-
+    private final HNewsActivity activity;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
-
-    private final HNewsActivity activity;
-
     private LoginSharedPreferences loginSharedPreferences;
 
     private StoryHeaderView storyHeaderView;
@@ -37,8 +35,11 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
     private Animator mCircularReveal;
 
+    private Listener listener;
+
     public CommentsPresenter(HNewsActivity activity) {
         this.activity = activity;
+        this.listener = Classes.from(activity);
     }
 
     private Story getStory() {
@@ -226,7 +227,8 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     @Override
     public void onReplySent() {
         hideReplyView();
-        commentsView.retrieveCommens();
+        listener.onRetrieveCommentsOperation();
+        commentsView.retrieveComments();
     }
 
     @Override
@@ -239,4 +241,12 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         showNotImplemented();
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
+
+    public interface Listener {
+        void onRetrieveCommentsOperation();
+    }
 }
