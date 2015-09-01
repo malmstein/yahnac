@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 
 public class SoftwareLicensesActivity extends HNewsActivity {
 

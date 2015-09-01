@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.Provider;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.login.InputFieldValidator;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.novoda.notils.caster.Views;

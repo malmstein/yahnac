@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 
 import com.malmstein.yahnac.HNewsFragment;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.data.Provider;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.presenters.StoriesAdapter;
+import com.malmstein.yahnac.model.TimeAgo;
 import com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout;
 import com.malmstein.yahnac.views.ViewDelegate;
-import com.malmstein.yahnac.views.recyclerview.FeedRecyclerItemDecoration;
+import com.malmstein.yahnac.views.recyclerview.decorators.FeedRecyclerItemDecoration;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;

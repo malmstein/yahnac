@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.model.Story;
+import com.malmstein.yahnac.model.TimeAgo;
 import com.novoda.notils.caster.Views;
 
 public class StoryHeaderView extends LinearLayout {

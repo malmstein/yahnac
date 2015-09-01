@@ -40,7 +40,7 @@
   <fragment
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.malmstein.yahnac.stories.BookmarksFragment"
+    android:name="com.malmstein.yahnac.bookmarks.BookmarksFragment"
     android:id="@+id/bookmarks_fragment"
     tools:layout="@layout/fragment_bookmarks_feed"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

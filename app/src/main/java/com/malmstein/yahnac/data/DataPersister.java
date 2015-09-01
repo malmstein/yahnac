@@ -3,7 +3,7 @@ package com.malmstein.yahnac.data;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.base.HNewsDate;
+import com.malmstein.yahnac.model.HNewsDate;
 import com.malmstein.yahnac.model.Story;
 
 import java.util.List;

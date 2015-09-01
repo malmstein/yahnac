@@ -1,6 +1,6 @@
 package com.malmstein.yahnac.data;
 
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;

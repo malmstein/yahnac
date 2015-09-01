@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 
 public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
     private Interpolator animationInterpolator;

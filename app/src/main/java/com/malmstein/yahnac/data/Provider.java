@@ -2,12 +2,12 @@ package com.malmstein.yahnac.data;
 
 import android.content.ContentValues;
 
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.RefreshSharedPreferences;
+import com.malmstein.yahnac.data.updater.RefreshTimestamp;
 import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
-import com.malmstein.yahnac.updater.RefreshSharedPreferences;
-import com.malmstein.yahnac.updater.RefreshTimestamp;
 
 import java.util.List;
 import java.util.Vector;

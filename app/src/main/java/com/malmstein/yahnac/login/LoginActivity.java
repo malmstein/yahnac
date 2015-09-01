@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.Provider;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.model.Login;
 import com.novoda.notils.caster.Views;
 

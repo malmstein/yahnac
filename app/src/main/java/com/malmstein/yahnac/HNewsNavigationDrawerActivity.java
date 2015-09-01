@@ -6,7 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.MenuItem;
 
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
 import com.novoda.notils.caster.Views;
 
 public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {

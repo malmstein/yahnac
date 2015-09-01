@@ -3,7 +3,7 @@ package com.malmstein.yahnac;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.malmstein.yahnac.connectivity.NetworkChecker;
+import com.malmstein.yahnac.data.connectivity.NetworkChecker;
 
 public class HNewsFragment extends Fragment {
 

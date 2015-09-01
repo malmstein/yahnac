@@ -23,12 +23,12 @@
     </activity>
 
     <activity
-      android:name="com.malmstein.yahnac.stories.BookmarksActivity"
+      android:name=".bookmarks.BookmarksActivity"
       android:label="@string/title_bookmarks"
       android:theme="@style/Theme.HNews.News" />
 
     <activity
-      android:name="com.malmstein.yahnac.stories.ArticleActivity"
+      android:name=".story.StoryActivity"
       android:configChanges="keyboardHidden|orientation|screenSize"
       android:theme="@style/Theme.HNews.Article" />
 

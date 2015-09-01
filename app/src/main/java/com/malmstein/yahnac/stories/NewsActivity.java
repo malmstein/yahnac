@@ -11,13 +11,12 @@ import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
-import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
+import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.views.drawer.NavigationDrawerHeader;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;

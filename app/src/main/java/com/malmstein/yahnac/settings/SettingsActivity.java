@@ -6,8 +6,8 @@ import android.os.Bundle;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.inject.Inject;
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.injection.Inject;
 
 /**
  * A {@link android.preference.PreferenceActivity} that presents a set of application settings.

@@ -10,7 +10,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.malmstein.yahnac.comments.CommentsParser;
 import com.malmstein.yahnac.comments.VoteUrlParser;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.model.Login;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;

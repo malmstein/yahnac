@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.malmstein.yahnac.base.ColorTweaker;
-import com.malmstein.yahnac.base.LollipopUiConfiguration;
-import com.malmstein.yahnac.base.LollipopUiHelper;
-import com.malmstein.yahnac.base.Navigator;
-import com.malmstein.yahnac.connectivity.NetworkChecker;
+import com.malmstein.yahnac.data.connectivity.NetworkChecker;
+import com.malmstein.yahnac.views.ColorTweaker;
+import com.malmstein.yahnac.views.LollipopUiConfiguration;
+import com.malmstein.yahnac.views.LollipopUiHelper;
 
 public class HNewsActivity extends AppCompatActivity {
 
