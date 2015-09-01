@@ -89,6 +89,7 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                 }
             });
         } else {
+            replyFab.setActivated(false);
             replyFab.setVisibility(View.GONE);
         }
     }
@@ -201,6 +202,11 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     }
 
     @Override
+    public void onCommentVoteAction(Long id) {
+        showNotImplemented();
+    }
+
+    @Override
     public void onReplyCancelled() {
         hideReplyView();
     }
@@ -208,6 +214,9 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
     @Override
     public void onReplySent() {
         hideReplyView();
+        if (findCommentsFragment() != null) {
+            findCommentsFragment().retrieveComments();
+        }
     }
 
     private void checkBookmarkMenuItem(MenuItem bookmarks) {
@@ -276,4 +285,10 @@ public class CommentsActivity extends HNewsActivity implements CommentsAdapter.L
                 .animating();
     }
 
+    private void showNotImplemented() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_not_implemented))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
 }

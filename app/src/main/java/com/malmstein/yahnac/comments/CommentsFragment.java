@@ -97,10 +97,10 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
-        getComments();
+        retrieveComments();
     }
 
-    private void getComments() {
+    public void retrieveComments() {
         if (isOnline()) {
             startRefreshing();
             Provider provider = Inject.provider();
@@ -191,7 +191,7 @@ public class CommentsFragment extends HNewsFragment implements LoaderManager.Loa
 
     @Override
     public void onRefresh() {
-        getComments();
+        retrieveComments();
     }
 
     @Override

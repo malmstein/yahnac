@@ -73,6 +73,8 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
 
     public interface Listener {
         void onCommentReplyAction(Long id);
+
+        void onCommentVoteAction(Long id);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -113,6 +115,13 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                         listener.onCommentReplyAction(comment.getCommentId());
                     }
                 });
+
+                vote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onCommentVoteAction(comment.getCommentId());
+                    }
+                });
             } else {
                 footer.setVisibility(View.GONE);
             }
@@ -149,6 +158,12 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
                     @Override
                     public void onClick(View v) {
                         listener.onCommentReplyAction(comment.getCommentId());
+                    }
+                });
+                vote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onCommentVoteAction(comment.getCommentId());
                     }
                 });
             } else {
