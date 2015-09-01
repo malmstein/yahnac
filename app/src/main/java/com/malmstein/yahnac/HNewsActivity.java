@@ -51,7 +51,7 @@ public class HNewsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    protected void setupSubActivity() {
+    public void setupSubActivity() {
         setupToolbar();
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setShowHideAnimationEnabled(true);

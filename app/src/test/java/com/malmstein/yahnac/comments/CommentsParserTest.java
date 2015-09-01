@@ -2,6 +2,8 @@ package com.malmstein.yahnac.comments;
 
 import android.content.ContentValues;
 
+import com.malmstein.yahnac.comments.parser.CommentsParser;
+
 import java.io.File;
 import java.util.Vector;
 

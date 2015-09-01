@@ -1,0 +1,242 @@
+package com.malmstein.yahnac.comments;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+
+import com.malmstein.yahnac.HNewsActivity;
+import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.model.Story;
+import com.malmstein.yahnac.views.SnackBarView;
+import com.malmstein.yahnac.views.StoryHeaderView;
+import com.novoda.notils.caster.Views;
+import com.novoda.notils.exception.DeveloperError;
+
+public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Listener {
+
+    public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
+
+    private int croutonAnimationDuration;
+    private int croutonBackgroundAlpha;
+
+    private final HNewsActivity activity;
+
+    private LoginSharedPreferences loginSharedPreferences;
+
+    private StoryHeaderView storyHeaderView;
+    private SnackBarView snackbarView;
+    private ReplyView replyView;
+    private FloatingActionButton replyFab;
+    private CommentsView commentsView;
+
+    private Animator mCircularReveal;
+
+    public CommentsPresenter(HNewsActivity activity) {
+        this.activity = activity;
+    }
+
+    private Story getStory() {
+        if (activity.getIntent().getExtras().containsKey(CommentsFragment.ARG_STORY)) {
+            return (Story) activity.getIntent().getExtras().getSerializable(CommentsFragment.ARG_STORY);
+        } else {
+            throw new DeveloperError("Missing argument");
+        }
+    }
+
+    public void onCreate() {
+        storyHeaderView = Views.findById(activity, R.id.story_header_view);
+        replyFab = Views.findById(activity, R.id.story_reply_action);
+        replyView = Views.findById(activity, R.id.reply_view);
+        snackbarView = Views.findById(activity, R.id.snackbar);
+        commentsView = Views.findById(activity, R.id.comments_view);
+
+        ViewCompat.setTransitionName(storyHeaderView, VIEW_NAME_HEADER_TITLE);
+
+        activity.setupSubActivity();
+
+    }
+
+    public void onPostCreate() {
+        setupHeaderView();
+        setupSnackbar();
+        setupCommentsView();
+        setupReplyListener();
+    }
+
+    public void onCreateOptionsMenu(Menu menu) {
+        activity.getMenuInflater().inflate(R.menu.menu_comments, menu);
+
+        if (getStory().isHackerNewsLocalItem()) {
+            MenuItem comments = menu.findItem(R.id.action_article);
+            comments.setVisible(false);
+        }
+
+        MenuItem bookmarks = menu.findItem(R.id.action_bookmark);
+        if (getStory().isBookmark()) {
+            checkBookmarkMenuItem(bookmarks);
+        } else {
+            uncheckBookmarkMenuItem(bookmarks);
+        }
+    }
+
+    public void onBookmarkUnselected(MenuItem item) {
+        uncheckBookmarkMenuItem(item);
+    }
+
+    public void onBookmarkSelected(MenuItem item) {
+        item.setChecked(true);
+        item.setIcon(R.drawable.ic_bookmark_white);
+    }
+
+    private void setupHeaderView() {
+        storyHeaderView.updateWith(getStory());
+    }
+
+    private void setupSnackbar() {
+        croutonBackgroundAlpha = activity.getResources().getInteger(R.integer.feed_crouton_background_alpha);
+        croutonAnimationDuration = activity.getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    }
+
+    private void setupCommentsView() {
+        commentsView.setupWith(this, getStory());
+    }
+
+    private void setupReplyListener() {
+        replyView.setListener(this);
+        loginSharedPreferences = LoginSharedPreferences.newInstance();
+        if (loginSharedPreferences.isLoggedIn()) {
+            replyFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showReplyViewForStory();
+                }
+            });
+        } else {
+            replyFab.setActivated(false);
+            replyFab.setVisibility(View.GONE);
+        }
+    }
+
+    private void showReplyViewForStory() {
+        replyView.setStoryId(getStory().getId());
+        showReplyView();
+    }
+
+    private void showReplyViewForComment(Long commentId) {
+        replyView.setCommentId(commentId);
+        replyView.setStoryId(getStory().getId());
+        showReplyView();
+    }
+
+    private void showReplyView() {
+        int centerX = (replyFab.getLeft() + replyFab.getRight()) / 2;
+        int centerY = (replyFab.getTop() + replyFab.getBottom()) / 2;
+        int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
+        mCircularReveal = ViewAnimationUtils.createCircularReveal(
+                replyView, centerX, centerY, 0, finalRadius);
+
+        mCircularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mCircularReveal.removeListener(this);
+            }
+        });
+
+        replyView.setVisibility(View.VISIBLE);
+        mCircularReveal.start();
+    }
+
+    private void hideReplyView() {
+        int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
+        int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
+        int initialRadius = replyView.getWidth();
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(replyView, cx, cy, initialRadius, 0);
+
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                replyView.setVisibility(View.GONE);
+            }
+        });
+
+        anim.start();
+    }
+
+    private void checkBookmarkMenuItem(MenuItem bookmarks) {
+        bookmarks.setChecked(true);
+        bookmarks.setIcon(R.drawable.ic_bookmark_white);
+    }
+
+    private void uncheckBookmarkMenuItem(MenuItem bookmarks) {
+        bookmarks.setChecked(false);
+        bookmarks.setIcon(R.drawable.ic_bookmark_outline_white);
+    }
+
+    private void showAddedBookmarkSnackbar(final CommentsOperator commentsOperator, final Story story) {
+        snackbarView.showSnackBar(activity.getResources().getText(R.string.feed_snackbar_added_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbarView.hideCrouton();
+                        commentsOperator.onBookmarkUnselected();
+                        showRemovedBookmarkSnackbar(commentsOperator, story);
+                    }
+                })
+                .animating();
+    }
+
+    private void showRemovedBookmarkSnackbar(final CommentsOperator commentsOperator, final Story story) {
+        snackbarView.showSnackBar(activity.getResources().getText(R.string.feed_snackbar_removed_bookmark))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withUndoClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbarView.hideCrouton();
+                        commentsOperator.onBookmarkSelected();
+                        showAddedBookmarkSnackbar(commentsOperator, story);
+                    }
+                })
+                .animating();
+    }
+
+    private void showNotImplemented() {
+        snackbarView.showSnackBar(activity.getResources().getText(R.string.feed_snackbar_not_implemented))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
+
+    @Override
+    public void onReplyCancelled() {
+        hideReplyView();
+    }
+
+    @Override
+    public void onReplySent() {
+        hideReplyView();
+        commentsView.retrieveCommens();
+    }
+
+    @Override
+    public void onCommentReplyAction(Long id) {
+        showReplyViewForComment(id);
+    }
+
+    @Override
+    public void onCommentVoteAction(Long id) {
+        showNotImplemented();
+    }
+
+}

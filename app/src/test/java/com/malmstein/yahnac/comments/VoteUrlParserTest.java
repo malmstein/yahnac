@@ -1,5 +1,7 @@
 package com.malmstein.yahnac.comments;
 
+import com.malmstein.yahnac.comments.parser.VoteUrlParser;
+
 import java.io.File;
 import java.io.IOException;
 

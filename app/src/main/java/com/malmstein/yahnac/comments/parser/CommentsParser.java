@@ -1,4 +1,4 @@
-package com.malmstein.yahnac.comments;
+package com.malmstein.yahnac.comments.parser;
 
 import android.content.ContentValues;
 

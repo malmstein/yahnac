@@ -27,17 +27,12 @@
 
   </android.support.design.widget.AppBarLayout>
 
-  <FrameLayout
+  <com.malmstein.yahnac.comments.CommentsView
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/comments_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <FrameLayout
-      android:id="@+id/comments_fragment_root"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
-
-  </FrameLayout>
+    android:visibility="gone" />
 
   <com.malmstein.yahnac.comments.ReplyView
     android:id="@+id/reply_view"
