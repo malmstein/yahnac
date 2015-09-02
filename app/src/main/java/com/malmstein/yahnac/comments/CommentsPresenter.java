@@ -51,8 +51,8 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     }
 
     private Story getStory() {
-        if (activity.getIntent().getExtras().containsKey(CommentsFragment.ARG_STORY)) {
-            return (Story) activity.getIntent().getExtras().getSerializable(CommentsFragment.ARG_STORY);
+        if (activity.getIntent().getExtras().containsKey(CommentsActivity.ARG_STORY)) {
+            return (Story) activity.getIntent().getExtras().getSerializable(CommentsActivity.ARG_STORY);
         } else {
             throw new DeveloperError("Missing argument");
         }
