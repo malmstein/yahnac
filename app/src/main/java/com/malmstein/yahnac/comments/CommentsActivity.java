@@ -5,10 +5,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 
 public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayout.OnRefreshListener {
+
+    public static final String ARG_STORY = BuildConfig.APPLICATION_ID + ".ARG_COMMENT_STORY";
 
     private CommentsPresenter commentsPresenter;
     private CommentsOperator commentsOperator;
@@ -42,6 +45,13 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
     protected void onDestroy() {
         commentsOperator.onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        commentsPresenter.removeHeaderBackground();
+        super.onBackPressed();
+
     }
 
     @Override

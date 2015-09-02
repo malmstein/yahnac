@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.malmstein.yahnac.bookmarks.BookmarksActivity;
 import com.malmstein.yahnac.comments.CommentsActivity;
-import com.malmstein.yahnac.comments.CommentsFragment;
 import com.malmstein.yahnac.comments.CommentsPresenter;
 import com.malmstein.yahnac.login.LoginActivity;
 import com.malmstein.yahnac.model.Story;
@@ -55,14 +54,14 @@ public class Navigator {
                 activity, new Pair<>(v, CommentsPresenter.VIEW_NAME_HEADER_TITLE));
 
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
-        commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
+        commentIntent.putExtra(CommentsActivity.ARG_STORY, story);
 
         ActivityCompat.startActivity(activity, commentIntent, activityOptions.toBundle());
     }
 
     public void toComments(Story story) {
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
-        commentIntent.putExtra(CommentsFragment.ARG_STORY, story);
+        commentIntent.putExtra(CommentsActivity.ARG_STORY, story);
 
         ActivityCompat.startActivity(activity, commentIntent, null);
     }
