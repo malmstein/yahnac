@@ -1,6 +1,7 @@
 package com.malmstein.yahnac.comments;
 
 import android.content.Intent;
+import android.view.MenuItem;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
@@ -94,4 +95,29 @@ public class CommentsOperator {
                 });
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_article:
+                onArticleSelected();
+                return true;
+            case R.id.action_bookmark:
+                if (item.isChecked()) {
+                    onBookmarkUnselected();
+                } else {
+                    onBookmarkSelected();
+                }
+                return true;
+            case R.id.action_share:
+                onShareArticle();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void onRefresh(boolean online) {
+        if (online) {
+            retrieveComments();
+        }
+    }
 }

@@ -23,7 +23,6 @@ import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.StoryHeaderView;
-import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
@@ -45,9 +44,9 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     private CommentsView commentsView;
     private Animator mCircularReveal;
 
-    public CommentsPresenter(HNewsActivity activity) {
+    public CommentsPresenter(HNewsActivity activity, SwipeRefreshLayout.OnRefreshListener refreshListener) {
         this.activity = activity;
-        this.refreshListener = Classes.from(activity);
+        this.refreshListener = refreshListener;
     }
 
     private Story getStory() {
@@ -258,11 +257,6 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     }
 
     @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri commentsUri = HNewsContract.CommentsEntry.buildCommentsUri();
 
@@ -290,4 +284,25 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         commentsView.stopRefreshing();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_bookmark) {
+            if (item.isChecked()) {
+                onBookmarkUnselected(item);
+            } else {
+                onBookmarkSelected(item);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void onRefresh(boolean isOnline) {
+        if (isOnline) {
+            showContentUpdating();
+        } else {
+            hideRefreshAnimation();
+        }
+    }
 }

@@ -21,7 +21,7 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 
-        commentsPresenter = new CommentsPresenter(this);
+        commentsPresenter = new CommentsPresenter(this, this);
         commentsPresenter.onCreate();
 
         commentsOperator = new CommentsOperator(this);
@@ -49,34 +49,12 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_article:
-                commentsOperator.onArticleSelected();
-                return true;
-            case R.id.action_bookmark:
-                if (item.isChecked()) {
-                    commentsOperator.onBookmarkUnselected();
-                    commentsPresenter.onBookmarkUnselected(item);
-                } else {
-                    commentsOperator.onBookmarkSelected();
-                    commentsPresenter.onBookmarkSelected(item);
-                }
-                return true;
-            case R.id.action_share:
-                commentsOperator.onShareArticle();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return commentsOperator.onOptionsItemSelected(item) && commentsPresenter.onOptionsItemSelected(item);
     }
 
     @Override
     public void onRefresh() {
-        if (isOnline()) {
-            commentsOperator.retrieveComments();
-            commentsPresenter.showContentUpdating();
-        } else {
-            commentsPresenter.hideRefreshAnimation();
-        }
+        commentsPresenter.onRefresh(isOnline());
+        commentsOperator.onRefresh(isOnline());
     }
 }
