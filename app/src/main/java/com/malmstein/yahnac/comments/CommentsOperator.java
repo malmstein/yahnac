@@ -40,12 +40,6 @@ public class CommentsOperator {
         trackAnalytics(R.string.analytics_page_comments);
     }
 
-    public void onDestroy() {
-        if (!subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
-
     public void onArticleSelected() {
         trackAnalytics(R.string.analytics_event_view_story_comments);
         activity.navigate().toInnerBrowser(story);

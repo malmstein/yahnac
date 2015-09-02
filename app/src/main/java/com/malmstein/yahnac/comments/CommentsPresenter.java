@@ -290,7 +290,4 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         commentsView.stopRefreshing();
     }
 
-    public void removeHeaderBackground() {
-        storyHeaderView.setBackgroundColor(activity.getResources().getColor(android.R.color.transparent));
-    }
 }

@@ -42,19 +42,6 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
     }
 
     @Override
-    protected void onDestroy() {
-        commentsOperator.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        commentsPresenter.removeHeaderBackground();
-        super.onBackPressed();
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         commentsPresenter.onCreateOptionsMenu(menu);
         return true;
