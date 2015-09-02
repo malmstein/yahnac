@@ -1,13 +1,14 @@
 package com.malmstein.yahnac.comments;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
 
-public class CommentsActivity extends HNewsActivity implements CommentsPresenter.Listener {
+public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private CommentsPresenter commentsPresenter;
     private CommentsOperator commentsOperator;
@@ -26,7 +27,9 @@ public class CommentsActivity extends HNewsActivity implements CommentsPresenter
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        commentsPresenter.onPostCreate();
+        if (savedInstanceState == null) {
+            commentsPresenter.onPostCreate();
+        }
     }
 
     @Override
@@ -62,11 +65,11 @@ public class CommentsActivity extends HNewsActivity implements CommentsPresenter
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
-    public void onRetrieveCommentsOperation() {
+    public void onRefresh() {
         commentsOperator.retrieveComments();
+        commentsPresenter.showContentUpdating();
     }
 }

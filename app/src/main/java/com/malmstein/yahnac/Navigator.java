@@ -12,6 +12,7 @@ import android.view.View;
 import com.malmstein.yahnac.bookmarks.BookmarksActivity;
 import com.malmstein.yahnac.comments.CommentsActivity;
 import com.malmstein.yahnac.comments.CommentsFragment;
+import com.malmstein.yahnac.comments.CommentsPresenter;
 import com.malmstein.yahnac.login.LoginActivity;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
@@ -51,7 +52,7 @@ public class Navigator {
 
     public void toComments(View v, Story story) {
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity, new Pair<>(v, CommentsActivity.VIEW_NAME_HEADER_TITLE));
+                activity, new Pair<>(v, CommentsPresenter.VIEW_NAME_HEADER_TITLE));
 
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
         commentIntent.putExtra(CommentsFragment.ARG_STORY, story);

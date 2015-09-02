@@ -2,8 +2,15 @@ package com.malmstein.yahnac.comments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +18,7 @@ import android.view.ViewAnimationUtils;
 
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
+import com.malmstein.yahnac.data.HNewsContract;
 import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
@@ -19,27 +27,27 @@ import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.exception.DeveloperError;
 
-public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Listener {
+public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Listener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String VIEW_NAME_HEADER_TITLE = "detail:header:title";
+
+    private static final int COMMENTS_LOADER = 1006;
+
     private final HNewsActivity activity;
+    private final SwipeRefreshLayout.OnRefreshListener refreshListener;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
     private LoginSharedPreferences loginSharedPreferences;
-
     private StoryHeaderView storyHeaderView;
     private SnackBarView snackbarView;
     private ReplyView replyView;
     private FloatingActionButton replyFab;
     private CommentsView commentsView;
-
     private Animator mCircularReveal;
-
-    private Listener listener;
 
     public CommentsPresenter(HNewsActivity activity) {
         this.activity = activity;
-        this.listener = Classes.from(activity);
+        this.refreshListener = Classes.from(activity);
     }
 
     private Story getStory() {
@@ -68,6 +76,7 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         setupSnackbar();
         setupCommentsView();
         setupReplyListener();
+        loadComments();
     }
 
     public void onCreateOptionsMenu(Menu menu) {
@@ -105,7 +114,7 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     }
 
     private void setupCommentsView() {
-        commentsView.setupWith(this, getStory());
+        commentsView.setupWith(this, refreshListener, getStory());
     }
 
     private void setupReplyListener() {
@@ -124,12 +133,16 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         }
     }
 
+    private void loadComments() {
+        activity.getLoaderManager().initLoader(COMMENTS_LOADER, null, this);
+    }
+
     private void showReplyViewForStory() {
         replyView.setStoryId(getStory().getId());
         showReplyView();
     }
 
-    private void showReplyViewForComment(Long commentId) {
+    public void showReplyViewForComment(Long commentId) {
         replyView.setCommentId(commentId);
         replyView.setStoryId(getStory().getId());
         showReplyView();
@@ -212,11 +225,15 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
                 .animating();
     }
 
-    private void showNotImplemented() {
+    public void showNotImplemented() {
         snackbarView.showSnackBar(activity.getResources().getText(R.string.feed_snackbar_not_implemented))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
                 .animating();
+    }
+
+    public void showContentUpdating() {
+        commentsView.startRefreshing();
     }
 
     @Override
@@ -227,8 +244,7 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     @Override
     public void onReplySent() {
         hideReplyView();
-        listener.onRetrieveCommentsOperation();
-        commentsView.retrieveComments();
+        refreshListener.onRefresh();
     }
 
     @Override
@@ -246,7 +262,29 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
     }
 
-    public interface Listener {
-        void onRetrieveCommentsOperation();
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri commentsUri = HNewsContract.CommentsEntry.buildCommentsUri();
+
+        return new CursorLoader(
+                activity,
+                commentsUri,
+                HNewsContract.CommentsEntry.COMMENT_COLUMNS,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(getStory().getId())},
+                null
+        );
     }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        commentsView.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+
 }

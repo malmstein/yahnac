@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/feed_refresh"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v7.widget.RecyclerView
-    style="@style/HNews.List"
-    android:id="@+id/list_comments"
+  <com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout
+    android:id="@+id/feed_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
 
-</com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout>
+    <android.support.v7.widget.RecyclerView
+      style="@style/HNews.List"
+      android:id="@+id/list_comments"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
+  </com.malmstein.yahnac.views.DelegatedSwipeRefreshLayout>
+
+</FrameLayout>
 
