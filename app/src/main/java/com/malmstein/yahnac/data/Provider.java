@@ -62,15 +62,16 @@ public class Provider {
                 });
     }
 
-    public Observable<Integer> observeComments(final Long storyId) {
+    public Observable<OperationResponse> observeComments(final Long storyId) {
         return api.getCommentsFromStory(storyId)
-                .flatMap(new Func1<Vector<ContentValues>, Observable<Integer>>() {
+                .flatMap(new Func1<Vector<ContentValues>, Observable<OperationResponse>>() {
                     @Override
-                    public Observable<Integer> call(final Vector<ContentValues> commentsJsoup) {
-                        return Observable.create(new Observable.OnSubscribe<Integer>() {
+                    public Observable<OperationResponse> call(final Vector<ContentValues> commentsJsoup) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
                             @Override
-                            public void call(Subscriber<? super Integer> subscriber) {
-                                subscriber.onNext(dataPersister.persistComments(commentsJsoup, storyId));
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+                                dataPersister.persistComments(commentsJsoup, storyId);
+                                subscriber.onNext(OperationResponse.SUCCESS);
                                 subscriber.onCompleted();
                             }
                         });

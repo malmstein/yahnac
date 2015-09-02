@@ -39,6 +39,12 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
     }
 
     @Override
+    protected void onDestroy() {
+        commentsOperator.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         commentsPresenter.onCreateOptionsMenu(menu);
         return true;
