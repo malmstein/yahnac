@@ -62,13 +62,13 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
     }
 
     private RecyclerView.ViewHolder createHeaderHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_header, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_item_header, parent, false);
         HeaderViewHolder vh = new HeaderViewHolder(v);
         return vh;
     }
 
     private RecyclerView.ViewHolder createCommentHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_item, parent, false);
         CommentViewHolder vh = new CommentViewHolder(v);
         return vh;
     }

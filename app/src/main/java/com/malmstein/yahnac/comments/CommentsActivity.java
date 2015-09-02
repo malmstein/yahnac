@@ -69,7 +69,11 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        commentsOperator.retrieveComments();
-        commentsPresenter.showContentUpdating();
+        if (isOnline()) {
+            commentsOperator.retrieveComments();
+            commentsPresenter.showContentUpdating();
+        } else {
+            commentsPresenter.hideRefreshAnimation();
+        }
     }
 }

@@ -283,8 +283,10 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        commentsView.swapCursor(null);
     }
 
-
+    public void hideRefreshAnimation() {
+        commentsView.stopRefreshing();
+    }
 }

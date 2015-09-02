@@ -86,7 +86,7 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
         });
     }
 
-    private void stopRefreshing() {
+    protected void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }
 
