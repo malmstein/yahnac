@@ -71,12 +71,6 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
         commentsList.setAdapter(commentsAdapter);
     }
 
-    private CommentsRecyclerItemDecoration createItemDecoration(Resources resources) {
-        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
-        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
-        return new CommentsRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
-    }
-
     public void startRefreshing() {
         refreshLayout.postOnAnimation(new Runnable() {
             @Override
@@ -84,6 +78,12 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
                 refreshLayout.setRefreshing(true);
             }
         });
+    }
+
+    private CommentsRecyclerItemDecoration createItemDecoration(Resources resources) {
+        int verticalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_divider_height);
+        int horizontalItemSpacingInPx = resources.getDimensionPixelSize(R.dimen.feed_padding_infra_spans);
+        return new CommentsRecyclerItemDecoration(verticalItemSpacingInPx, horizontalItemSpacingInPx);
     }
 
     protected void stopRefreshing() {
