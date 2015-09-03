@@ -91,10 +91,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.comments_action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (story.isHackerNewsLocalItem()) {
-                        listener.onCommentsClicked(story);
-                    } else {
+                    if (story.isJob()) {
                         listener.onContentClicked(story);
+                    } else {
+                        listener.onCommentsClicked(story);
                     }
                 }
             });

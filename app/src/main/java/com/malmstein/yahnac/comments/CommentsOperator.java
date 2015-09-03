@@ -120,4 +120,8 @@ public class CommentsOperator {
             retrieveComments();
         }
     }
+
+    public void onPostCreate(boolean online) {
+        onRefresh(online);
+    }
 }

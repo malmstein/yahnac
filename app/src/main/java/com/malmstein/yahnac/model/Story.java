@@ -143,10 +143,14 @@ public class Story implements Serializable {
             return true;
         }
 
-        if (url == null) {
+        if ((url == null) || url.isEmpty()) {
             return true;
         } else {
-            return url.startsWith(ASK_URL_BASE) || url.isEmpty() ? true : false;
+            if (url.startsWith(ASK_URL_BASE)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

@@ -31,7 +31,8 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            commentsPresenter.onPostCreate();
+            commentsPresenter.onPostCreate(isOnline());
+            commentsOperator.onPostCreate(isOnline());
         }
     }
 

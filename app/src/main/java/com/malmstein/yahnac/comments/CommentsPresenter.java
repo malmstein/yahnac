@@ -70,12 +70,13 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
     }
 
-    public void onPostCreate() {
+    public void onPostCreate(boolean online) {
         setupHeaderView();
         setupSnackbar();
         setupCommentsView();
         setupReplyListener();
         loadComments();
+        onRefresh(online);
     }
 
     public void onCreateOptionsMenu(Menu menu) {
@@ -286,16 +287,21 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_bookmark) {
-            if (item.isChecked()) {
-                onBookmarkUnselected(item);
-            } else {
-                onBookmarkSelected(item);
-            }
-            return true;
-        } else {
-            return false;
+        switch (item.getItemId()) {
+            case R.id.action_bookmark:
+                if (item.isChecked()) {
+                    onBookmarkUnselected(item);
+                } else {
+                    onBookmarkSelected(item);
+                }
+                return true;
+            case android.R.id.home:
+                activity.finish();
+                return true;
+            default:
+                return false;
         }
+
     }
 
     public void onRefresh(boolean isOnline) {
