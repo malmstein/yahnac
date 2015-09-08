@@ -37,6 +37,11 @@ public class CommentsActivity extends HNewsActivity implements SwipeRefreshLayou
     }
 
     @Override
+    public void onBackPressed() {
+        commentsPresenter.onBackPressed();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         commentsOperator.onResume();

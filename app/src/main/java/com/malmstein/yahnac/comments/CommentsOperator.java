@@ -107,6 +107,9 @@ public class CommentsOperator {
                     onBookmarkSelected();
                 }
                 return true;
+            case android.R.id.home:
+                activity.finish();
+                return true;
             case R.id.action_share:
                 onShareArticle();
                 return true;

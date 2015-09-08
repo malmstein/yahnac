@@ -311,4 +311,16 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
             hideRefreshAnimation();
         }
     }
+
+    public void onBackPressed() {
+        if (inReplyMode()) {
+            hideReplyView();
+        } else {
+            activity.supportFinishAfterTransition();
+        }
+    }
+
+    public boolean inReplyMode() {
+        return replyView.getVisibility() == View.VISIBLE;
+    }
 }

@@ -2,6 +2,7 @@
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
 
+
   <dimen name="card_corner_radius">2dp</dimen>
   <dimen name="card_content_padding">4dp</dimen>
   <dimen name="item_content_padding">8dp</dimen>
