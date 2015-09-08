@@ -20,6 +20,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:orientation="vertical"
+      android:maxHeight="@dimen/login_scrolling_content_max_height"
       android:paddingBottom="@dimen/login_scrolling_content_padding_bottom"
       android:animateLayoutChanges="true">
 

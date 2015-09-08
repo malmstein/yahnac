@@ -149,6 +149,11 @@ public class ReplyView extends FrameLayout {
                 });
     }
 
+    public void clearAndHide() {
+        comment.setText("");
+        setVisibility(View.GONE);
+    }
+
     public interface Listener {
         void onReplyCancelled();
 

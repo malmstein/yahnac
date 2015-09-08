@@ -163,8 +163,11 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
             }
         });
 
-        replyView.setVisibility(View.VISIBLE);
         mCircularReveal.start();
+        replyFab.hide();
+
+        replyView.setVisibility(View.VISIBLE);
+        commentsView.setVisibility(View.GONE);
     }
 
     private void hideReplyView() {
@@ -178,11 +181,14 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                replyView.setVisibility(View.GONE);
+                replyView.clearAndHide();
             }
         });
 
         anim.start();
+        replyFab.show();
+
+        commentsView.setVisibility(View.VISIBLE);
     }
 
     private void checkBookmarkMenuItem(MenuItem bookmarks) {

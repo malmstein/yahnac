@@ -21,6 +21,7 @@
 
   <dimen name="login_scrolling_content_padding_top">16dp</dimen>
   <dimen name="login_scrolling_content_padding_bottom">@dimen/login_scrolling_content_padding_top</dimen>
+  <dimen name="login_scrolling_content_max_height">200dp</dimen>
 
   <dimen name="login_item_margin_horizontal">32dp</dimen>
 
