@@ -111,7 +111,6 @@ public class LoginView extends FrameLayout {
     }
 
     private boolean validate() {
-        String username = getUsername();
         boolean isUsernameValid = inputFieldValidator.isValid(getUsername());
         boolean isPasswordValid = inputFieldValidator.isValid(getPassword());
         if (!isPasswordValid || !isUsernameValid) {

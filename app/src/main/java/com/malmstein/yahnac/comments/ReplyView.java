@@ -70,15 +70,19 @@ public class ReplyView extends FrameLayout {
             public void onClick(View v) {
                 if (listener != null) {
                     if (validate()) {
-                        if (commentId != 0) {
-                            sendReplytoComment();
-                        } else {
-                            sendReplytoStory();
-                        }
+                        sendReply();
                     }
                 }
             }
         });
+    }
+
+    private void sendReply() {
+        if (commentId != 0) {
+            sendReplytoComment();
+        } else {
+            sendReplytoStory();
+        }
     }
 
     public void setListener(Listener listener) {
