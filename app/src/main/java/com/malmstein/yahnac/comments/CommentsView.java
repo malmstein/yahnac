@@ -96,7 +96,7 @@ public class CommentsView extends FrameLayout implements ViewDelegate, SwipeRefr
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefreshs() {
         startRefreshing();
     }
 
