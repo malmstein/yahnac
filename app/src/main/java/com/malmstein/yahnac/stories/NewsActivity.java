@@ -182,7 +182,11 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
                     @Override
                     public void onNext(OperationResponse status) {
-                        showSnackBarVoted();
+                        if (status == OperationResponse.LOGIN_EXPIRED) {
+                            showLoginExpired();
+                        } else {
+                            showSnackBarVoted();
+                        }
                     }
                 });
     }
@@ -195,6 +199,13 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     private void showSnackBarVoted() {
         snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voted))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
+
+    public void showLoginExpired() {
+        snackbarView.showSnackBar(getResources().getText(R.string.login_expired_message))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
                 .animating();

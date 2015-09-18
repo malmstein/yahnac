@@ -26,6 +26,15 @@ public class Provider {
     private final DataPersister dataPersister;
     private final RefreshSharedPreferences refreshPreferences;
     private final LoginSharedPreferences loginSharedPreferences;
+    private Func1<Throwable, OperationResponse> loginExpired = new Func1<Throwable, OperationResponse>() {
+        @Override
+        public OperationResponse call(Throwable throwable) {
+            if (throwable instanceof LoggedOutException) {
+                return OperationResponse.LOGIN_EXPIRED;
+            }
+            return OperationResponse.FAILURE;
+        }
+    };
 
     public Provider(DataPersister dataPersister) {
         this.dataPersister = dataPersister;
@@ -112,7 +121,7 @@ public class Provider {
                             }
                         });
                     }
-                });
+                }).onErrorReturn(loginExpired);
     }
 
     public Observable<OperationResponse> observeCommentOnStory(final long storyId, final String message) {
@@ -128,15 +137,7 @@ public class Provider {
                             }
                         });
                     }
-                }).onErrorReturn(new Func1<Throwable, OperationResponse>() {
-                    @Override
-                    public OperationResponse call(Throwable throwable) {
-                        if (throwable instanceof LoggedOutException) {
-                            loginSharedPreferences.logout();
-                        }
-                        return OperationResponse.FAILURE;
-                    }
-                });
+                }).onErrorReturn(loginExpired);
     }
 
     public Observable<OperationResponse> observeReplyToComment(final long storyId, final long commentId, final String message) {
@@ -152,16 +153,7 @@ public class Provider {
                             }
                         });
                     }
-                }).onErrorReturn(new Func1<Throwable, OperationResponse>() {
-                    @Override
-                    public OperationResponse call(Throwable throwable) {
-                        if (throwable instanceof LoggedOutException) {
-                            loginSharedPreferences.logout();
-                            return OperationResponse.LOGIN_EXPIRED;
-                        }
-                        return OperationResponse.FAILURE;
-                    }
-                });
+                }).onErrorReturn(loginExpired);
     }
 
 }

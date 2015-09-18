@@ -395,7 +395,11 @@ public class HNewsApi {
                         .get();
 
                 String voteUrl = new VoteUrlParser(commentsDocument, storyId).parse();
-                subscriber.onNext(voteUrl);
+                if (voteUrl.equals("/null")) {
+                    subscriber.onError(new LoggedOutException());
+                } else {
+                    subscriber.onNext(voteUrl);
+                }
             } catch (IOException e) {
                 subscriber.onError(e);
             }
