@@ -123,7 +123,7 @@ public class ReplyView extends FrameLayout {
 
                     @Override
                     public void onNext(OperationResponse status) {
-                        listener.onReplySent();
+                        listener.onReplySuccessful();
                     }
                 });
     }
@@ -142,13 +142,17 @@ public class ReplyView extends FrameLayout {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Inject.crashAnalytics().logSomethingWentWrong("Send Comment: ", e);
+                    public void onError(Throwable error) {
+                        Inject.crashAnalytics().logSomethingWentWrong("Send Comment: ", error);
                     }
 
                     @Override
                     public void onNext(OperationResponse status) {
-                        listener.onReplySent();
+                        if (status == OperationResponse.LOGIN_EXPIRED) {
+                            listener.onLoginExpired();
+                        } else {
+                            listener.onReplySuccessful();
+                        }
                     }
                 });
     }
@@ -161,7 +165,9 @@ public class ReplyView extends FrameLayout {
     public interface Listener {
         void onReplyCancelled();
 
-        void onReplySent();
+        void onReplySuccessful();
+
+        void onLoginExpired();
 
     }
 }

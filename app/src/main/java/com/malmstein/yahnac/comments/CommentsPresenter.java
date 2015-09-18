@@ -238,6 +238,13 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
                 .animating();
     }
 
+    public void showLoginExpired() {
+        snackbarView.showSnackBar(activity.getResources().getText(R.string.login_expired_message))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
+
     public void showContentUpdating() {
         commentsView.startRefreshing();
     }
@@ -248,9 +255,15 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     }
 
     @Override
-    public void onReplySent() {
+    public void onReplySuccessful() {
         hideReplyView();
         refreshListener.onRefresh();
+    }
+
+    @Override
+    public void onLoginExpired() {
+        hideReplyView();
+        showLoginExpired();
     }
 
     @Override

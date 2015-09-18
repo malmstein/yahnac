@@ -432,7 +432,7 @@ public class HNewsApi {
                     String replyFnid = replyInput.attr("value");
                     subscriber.onNext(replyFnid);
                 } else {
-                    subscriber.onError(new Exception("Story not reachable"));
+                    subscriber.onError(new LoggedOutException());
                 }
 
             } catch (IOException e) {
@@ -473,7 +473,7 @@ public class HNewsApi {
                     String hmac = replyInput.attr("value");
                     subscriber.onNext(hmac);
                 } else {
-                    subscriber.onError(new Exception("Story not reachable"));
+                    subscriber.onError(new LoggedOutException());
                 }
 
             } catch (IOException e) {

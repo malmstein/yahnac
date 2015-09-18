@@ -97,4 +97,5 @@ public class Navigator {
         Intent commentIntent = new Intent(activity, LoginActivity.class);
         ActivityCompat.startActivity(activity, commentIntent, transitionBundle);
     }
+
 }

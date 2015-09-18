@@ -3,6 +3,7 @@ package com.malmstein.yahnac.model;
 public enum OperationResponse {
 
     SUCCESS,
-    FAILURE
+    FAILURE,
+    LOGIN_EXPIRED
 
 }

@@ -128,6 +128,14 @@ public class Provider {
                             }
                         });
                     }
+                }).onErrorReturn(new Func1<Throwable, OperationResponse>() {
+                    @Override
+                    public OperationResponse call(Throwable throwable) {
+                        if (throwable instanceof LoggedOutException) {
+                            loginSharedPreferences.logout();
+                        }
+                        return OperationResponse.FAILURE;
+                    }
                 });
     }
 
@@ -143,6 +151,15 @@ public class Provider {
                                 subscriber.onCompleted();
                             }
                         });
+                    }
+                }).onErrorReturn(new Func1<Throwable, OperationResponse>() {
+                    @Override
+                    public OperationResponse call(Throwable throwable) {
+                        if (throwable instanceof LoggedOutException) {
+                            loginSharedPreferences.logout();
+                            return OperationResponse.LOGIN_EXPIRED;
+                        }
+                        return OperationResponse.FAILURE;
                     }
                 });
     }
