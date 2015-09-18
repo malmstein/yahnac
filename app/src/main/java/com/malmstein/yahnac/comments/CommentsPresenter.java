@@ -68,14 +68,14 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
 
         activity.setupSubActivity();
 
-    }
-
-    public void onPostCreate(boolean online) {
         setupHeaderView();
         setupSnackbar();
         setupCommentsView();
         setupReplyListener();
         loadComments();
+    }
+
+    public void onPostCreate(boolean online) {
         onRefresh(online);
     }
 
