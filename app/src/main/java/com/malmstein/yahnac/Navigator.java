@@ -3,6 +3,7 @@ package com.malmstein.yahnac;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -87,15 +88,25 @@ public class Navigator {
 
     public void toLogin(View v) {
 
-        final android.util.Pair[] pairs = TransitionHelper.createSafeTransitionParticipants(activity, false,
-                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
+        final android.util.Pair[] pairs =
+                TransitionHelper.createSafeTransitionParticipants
+                        (activity,
+                                false,
+                                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
 
-        ActivityOptions sceneTransitionAnimation = ActivityOptions
-                .makeSceneTransitionAnimation(activity, pairs);
+        if ((v != null) && (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)) {
+            ActivityOptions sceneTransitionAnimation = ActivityOptions
+                    .makeSceneTransitionAnimation(activity, pairs);
 
-        final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
-        Intent commentIntent = new Intent(activity, LoginActivity.class);
-        ActivityCompat.startActivity(activity, commentIntent, transitionBundle);
+            final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
+            Intent loginLollipopIntent = new Intent(activity, LoginActivity.class);
+            ActivityCompat.startActivity(activity, loginLollipopIntent, transitionBundle);
+        } else {
+            Intent loginIntent = new Intent(activity, LoginActivity.class);
+            ActivityCompat.startActivity(activity, loginIntent, null);
+            activity.overridePendingTransition(0, 0);
+        }
+
     }
 
 }

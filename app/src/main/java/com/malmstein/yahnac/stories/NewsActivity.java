@@ -42,6 +42,13 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         setupViews();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        refreshHeader();
+        setupViews();
+    }
+
     private void setupViews() {
         setupHeaders();
         setupTabs();
@@ -208,6 +215,12 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         snackbarView.showSnackBar(getResources().getText(R.string.login_expired_message))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
+                .withCustomTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigate().toLogin(null);
+                    }
+                }, R.string.feed_snackbar_text_sign_in)
                 .animating();
     }
 

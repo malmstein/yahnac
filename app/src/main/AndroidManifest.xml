@@ -15,7 +15,8 @@
     <activity
       android:name="com.malmstein.yahnac.stories.NewsActivity"
       android:label="@string/title_launcher"
-      android:theme="@style/Theme.HNews.News">
+      android:theme="@style/Theme.HNews.News"
+      android:launchMode="singleTop">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

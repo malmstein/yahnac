@@ -36,20 +36,16 @@ public class NavigationDrawerHeader extends LinearLayout {
         loginSharedPreferences = LoginSharedPreferences.newInstance();
         listener = Classes.from(getContext());
 
+        showProperHeader();
+    }
+
+    private void showProperHeader() {
+
         if (loginSharedPreferences.isLoggedIn()) {
             updateWithUsername();
         } else {
             updateWithLoginMessage();
         }
-
-//        updateWithFutureMessage();
-
-    }
-
-    private void updateWithFutureMessage() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_drawer_header_logged_in, this, true);
-        TextView username = Views.findById(this, R.id.view_drawer_header_username);
-        username.setText(getResources().getString(R.string.navigation_drawer_login_soon));
     }
 
     private void updateWithUsername() {

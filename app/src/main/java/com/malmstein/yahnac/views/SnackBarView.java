@@ -209,6 +209,13 @@ public class SnackBarView extends LinearLayout {
             return this;
         }
 
+        public ShowCroutonAction withCustomTextClickListener(OnClickListener l, int actionResource) {
+            crouton.croutonUndo.setText(actionResource);
+            crouton.croutonUndo.setVisibility(View.VISIBLE);
+            crouton.onUndoClickListener = l;
+            return this;
+        }
+
         public ShowCroutonAction withAnimationDuration(long duration) {
             this.animationDuration = duration;
             return this;

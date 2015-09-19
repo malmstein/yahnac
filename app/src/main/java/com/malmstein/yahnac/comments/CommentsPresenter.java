@@ -242,6 +242,12 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
         snackbarView.showSnackBar(activity.getResources().getText(R.string.login_expired_message))
                 .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
                 .withAnimationDuration(croutonAnimationDuration)
+                .withCustomTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        activity.navigate().toLogin(null);
+                    }
+                }, R.string.feed_snackbar_text_sign_in)
                 .animating();
     }
 

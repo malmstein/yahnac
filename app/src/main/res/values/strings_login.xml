@@ -17,6 +17,6 @@
 
   <string name="login_password_message">We won\'t store your password or personal information</string>
 
-  <string name="login_expired_message">Your cookie has expired, please Sign in again</string>
+  <string name="login_expired_message">The cookie has expired</string>
 
 </resources>
