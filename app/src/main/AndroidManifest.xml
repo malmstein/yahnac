@@ -15,7 +15,8 @@
     <activity
       android:name="com.malmstein.yahnac.stories.NewsActivity"
       android:label="@string/title_launcher"
-      android:theme="@style/Theme.HNews.News">
+      android:theme="@style/Theme.HNews.News"
+      android:launchMode="singleTop">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -23,18 +24,20 @@
     </activity>
 
     <activity
-      android:name="com.malmstein.yahnac.stories.BookmarksActivity"
+      android:name=".bookmarks.BookmarksActivity"
       android:label="@string/title_bookmarks"
       android:theme="@style/Theme.HNews.News" />
 
     <activity
-      android:name="com.malmstein.yahnac.stories.ArticleActivity"
+      android:name=".story.StoryActivity"
       android:configChanges="keyboardHidden|orientation|screenSize"
       android:theme="@style/Theme.HNews.Article" />
 
     <activity android:name="com.malmstein.yahnac.comments.CommentsActivity" />
 
-    <activity android:name="com.malmstein.yahnac.login.LoginActivity" />
+    <activity
+      android:name="com.malmstein.yahnac.login.LoginActivity"
+      android:windowSoftInputMode="adjustPan|stateHidden" />
 
     <activity
       android:name="com.malmstein.yahnac.settings.SettingsActivity"

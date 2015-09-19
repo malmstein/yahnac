@@ -8,11 +8,16 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.malmstein.yahnac.comments.CommentsParser;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.comments.parser.CommentsParser;
+import com.malmstein.yahnac.comments.parser.VoteUrlParser;
+import com.malmstein.yahnac.injection.Inject;
 import com.malmstein.yahnac.model.Login;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.novoda.notils.logger.simple.Log;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,6 +26,7 @@ import java.util.Vector;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -29,19 +35,27 @@ import rx.schedulers.Schedulers;
 
 public class HNewsApi {
 
-    public Observable<List<ContentValues>> getStories(final Story.TYPE type) {
+    private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
+
+    private static Element extractHmac(Document replyDocument) {
+        return replyDocument
+                .select("input[name=hmac]")
+                .first();
+    }
+
+    public Observable<List<ContentValues>> getStories(final Story.FILTER FILTER) {
 
         return Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
             public void call(final Subscriber<? super DataSnapshot> subscriber) {
-                Firebase topStories = getStoryFirebase(type);
+                Firebase topStories = getStoryFirebase(FILTER);
                 topStories.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null) {
                             subscriber.onNext(dataSnapshot);
                         } else {
-                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: getStories is empty for " + type.name());
+                            Inject.crashAnalytics().logSomethingWentWrong("HNewsApi: getStories is empty for " + FILTER.name());
                         }
                         subscriber.onCompleted();
                     }
@@ -80,7 +94,7 @@ public class HNewsApi {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map<String, Object> newItem = (Map<String, Object>) dataSnapshot.getValue();
                                 if (newItem != null) {
-                                    ContentValues story = mapStory(newItem, type, storyRoot.first);
+                                    ContentValues story = mapStory(newItem, FILTER, storyRoot.first);
                                     if (story != null) {
                                         subscriber.onNext(story);
                                     } else {
@@ -105,19 +119,14 @@ public class HNewsApi {
                 .toList();
     }
 
-    private ContentValues mapStory(Map<String, Object> map, Story.TYPE rootType, Integer rank) {
+    private ContentValues mapStory(Map<String, Object> map, Story.FILTER filter, Integer rank) {
 
         ContentValues storyValues = new ContentValues();
 
         try {
             String by = (String) map.get("by");
             Long id = (Long) map.get("id");
-            String type;
-            if (rootType == Story.TYPE.best_story) {
-                type = Story.TYPE.top_story.name();
-            } else {
-                type = rootType.name();
-            }
+            String type = (String) map.get("type");
             Long time = (Long) map.get("time");
             Long score = (Long) map.get("score");
             String title = (String) map.get("title");
@@ -137,6 +146,7 @@ public class HNewsApi {
             storyValues.put(HNewsContract.StoryEntry.URL, url);
             storyValues.put(HNewsContract.StoryEntry.RANK, rank);
             storyValues.put(HNewsContract.StoryEntry.TIMESTAMP, System.currentTimeMillis());
+            storyValues.put(HNewsContract.StoryEntry.FILTER, filter.name());
         } catch (Exception ex) {
             Log.d(ex.getMessage());
         }
@@ -144,14 +154,8 @@ public class HNewsApi {
         return storyValues;
     }
 
-    private Firebase getStoryFirebase(Story.TYPE type) {
-        switch (type) {
-            case top_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
-            case new_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/newstories");
-            case best_story:
-                return new Firebase("https://hacker-news.firebaseio.com/v0/topstories");
+    private Firebase getStoryFirebase(Story.FILTER FILTER) {
+        switch (FILTER) {
             case show:
                 return new Firebase("https://hacker-news.firebaseio.com/v0/showstories");
             case ask:
@@ -175,9 +179,122 @@ public class HNewsApi {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<String> vote(Story storyId, String username, String auth) {
+    Observable<OperationResponse> vote(Story storyId) {
         return Observable.create(
-                new VoteOnSubscribe(storyId, username, auth))
+                new ParseVoteUrlOnSubscribe(storyId.getId()))
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final String voteUrl) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                if (voteUrl.equals(VoteUrlParser.EMPTY)) {
+                                    subscriber.onNext(OperationResponse.FAILURE);
+                                }
+
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Connection.Response response = connectionProvider
+                                            .voteConnection(voteUrl)
+                                            .execute();
+
+                                    if (response.statusCode() == 200) {
+                                        if (response.body() == null) {
+                                            subscriber.onError(new Throwable(""));
+                                        }
+
+                                        Document doc = response.parse();
+                                        String text = doc.text();
+
+                                        if (text.equals(BAD_UPVOTE_RESPONSE)) {
+                                            subscriber.onNext(OperationResponse.FAILURE);
+                                        } else {
+                                            subscriber.onNext(OperationResponse.SUCCESS);
+                                        }
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
+    Observable<OperationResponse> commentOnStory(final Long itemId, final String comment) {
+        return Observable.create(
+                new ParseHmacOnSubscribe(itemId))
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final String hmac) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Request request = connectionProvider
+                                            .commentOnStoryRequest(String.valueOf(itemId), comment, hmac);
+
+                                    OkHttpClient client = new OkHttpClient();
+                                    Response response = client.newCall(request).execute();
+
+                                    if (response.code() == 200) {
+                                        subscriber.onNext(OperationResponse.SUCCESS);
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
+    Observable<OperationResponse> replyToComment(final Long storyId, final long commentId, final String comment) {
+        return Observable.create(
+                new ParseReplyHmacOnSubscribe(storyId, commentId))
+                .flatMap(new Func1<String, Observable<OperationResponse>>() {
+                    @Override
+                    public Observable<OperationResponse> call(final String hmac) {
+                        return Observable.create(new Observable.OnSubscribe<OperationResponse>() {
+                            @Override
+                            public void call(Subscriber<? super OperationResponse> subscriber) {
+
+                                try {
+                                    ConnectionProvider connectionProvider = Inject.connectionProvider();
+                                    Request request = connectionProvider
+                                            .replyToCommentRequest(String.valueOf(storyId),
+                                                    String.valueOf(commentId), comment, hmac);
+
+                                    OkHttpClient client = new OkHttpClient();
+                                    Response response = client.newCall(request).execute();
+
+                                    if (response.code() == 200) {
+                                        subscriber.onNext(OperationResponse.SUCCESS);
+                                    } else {
+                                        subscriber.onNext(OperationResponse.FAILURE);
+                                    }
+
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                }
+
+                            }
+                        });
+                    }
+                })
                 .subscribeOn(Schedulers.io());
     }
 
@@ -254,49 +371,113 @@ public class HNewsApi {
         }
     }
 
-    private static class VoteOnSubscribe implements Observable.OnSubscribe<String> {
+    private static class ParseVoteUrlOnSubscribe implements Observable.OnSubscribe<String> {
 
-        private static final String BAD_UPVOTE_RESPONSE = "Can't make that vote.";
-
-        private final Story story;
-        private final String username;
-        private final String auth;
-
+        private final Long storyId;
         private Subscriber<? super String> subscriber;
 
-        private VoteOnSubscribe(Story story, String username, String auth) {
-            this.story = story;
-            this.username = username;
-            this.auth = auth;
+        private ParseVoteUrlOnSubscribe(Long storyId) {
+            this.storyId = storyId;
         }
 
         @Override
         public void call(Subscriber<? super String> subscriber) {
             this.subscriber = subscriber;
-            attemptVote();
+            startFetchingVoteUrl();
             subscriber.onCompleted();
         }
 
-        private void attemptVote() {
+        private void startFetchingVoteUrl() {
             try {
                 ConnectionProvider connectionProvider = Inject.connectionProvider();
-                Connection.Response response = connectionProvider
-                        .voteConnection(story.getVoteUrl(username, auth))
-                        .execute();
+                Document commentsDocument = connectionProvider
+                        .commentsConnection(storyId)
+                        .get();
 
-                if (response.statusCode() == 200) {
-                    if (response.body() == null) {
-                        subscriber.onError(new Throwable(""));
-                    }
+                String voteUrl = new VoteUrlParser(commentsDocument, storyId).parse();
+                if (voteUrl.equals("/null")) {
+                    subscriber.onError(new LoggedOutException());
+                } else {
+                    subscriber.onNext(voteUrl);
+                }
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
 
-                    Document doc = response.parse();
-                    String text = doc.text();
+    private static class ParseHmacOnSubscribe implements Observable.OnSubscribe<String> {
 
-                    if (text.equals(BAD_UPVOTE_RESPONSE)) {
-                        subscriber.onNext(BAD_UPVOTE_RESPONSE);
-                    } else {
-                        subscriber.onNext(text);
-                    }
+        private final Long storyId;
+        private Subscriber<? super String> subscriber;
+
+        private ParseHmacOnSubscribe(Long storyId) {
+            this.storyId = storyId;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            startFetchingHmac();
+            subscriber.onCompleted();
+        }
+
+        private void startFetchingHmac() {
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+
+                Document replyDocument = connectionProvider
+                        .commentsConnection(storyId)
+                        .get();
+
+                Element replyInput = extractHmac(replyDocument);
+
+                if (replyInput != null) {
+                    String replyFnid = replyInput.attr("value");
+                    subscriber.onNext(replyFnid);
+                } else {
+                    subscriber.onError(new LoggedOutException());
+                }
+
+            } catch (IOException e) {
+                subscriber.onError(e);
+            }
+        }
+    }
+
+    private static class ParseReplyHmacOnSubscribe implements Observable.OnSubscribe<String> {
+
+        private final Long storyId;
+        private final Long commentId;
+        private Subscriber<? super String> subscriber;
+
+        private ParseReplyHmacOnSubscribe(Long storyId, Long commentId) {
+            this.storyId = storyId;
+            this.commentId = commentId;
+        }
+
+        @Override
+        public void call(Subscriber<? super String> subscriber) {
+            this.subscriber = subscriber;
+            startFetchingHmac();
+            subscriber.onCompleted();
+        }
+
+        private void startFetchingHmac() {
+            try {
+                ConnectionProvider connectionProvider = Inject.connectionProvider();
+
+                Document replyDocument = connectionProvider
+                        .replyCommentConnection(storyId, commentId)
+                        .get();
+
+                Element replyInput = extractHmac(replyDocument);
+
+                if (replyInput != null) {
+                    String hmac = replyInput.attr("value");
+                    subscriber.onNext(hmac);
+                } else {
+                    subscriber.onError(new LoggedOutException());
                 }
 
             } catch (IOException e) {

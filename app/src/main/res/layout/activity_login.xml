@@ -11,94 +11,32 @@
     android:layout_height="wrap_content"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <android.support.v7.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/login_toolbar_height"
-      android:background="?attr/colorPrimary"
-      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-    <com.malmstein.yahnac.views.fonts.YahnacTextView
-      android:id="@+id/login_title"
-      style="@style/HNews.Login.Title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-
     <ProgressBar
       android:id="@+id/login_progress"
       style="?android:attr/progressBarStyleHorizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:indeterminate="true"
+      android:layout_marginTop="-8dp"
       android:visibility="invisible" />
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/login_toolbar_height"
+      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+      android:id="@+id/login_header_text"
+      style="@style/HNews.Login.HeaderText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
   </android.support.design.widget.AppBarLayout>
 
-  <LinearLayout
-    style="@style/HNews.Login.Content"
+  <com.malmstein.yahnac.login.LoginView
+    android:id="@+id/login_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_grey"
-    android:orientation="vertical">
-
-    <com.malmstein.yahnac.views.fonts.YahnacTextView
-      android:id="@+id/login_error"
-      style="@style/HNews.Login.Error"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="@dimen/dialog_login_item_margin_bottom"
-      android:visibility="invisible" />
-
-    <android.support.design.widget.TextInputLayout
-      android:theme="@style/Theme.HNews.Black"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-
-      <EditText
-        style="@style/HNews.Login.EditText.Username"
-        android:theme="@style/Theme.HNews.Black"
-        android:id="@+id/login_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-      android:theme="@style/Theme.HNews.Black"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-
-      <EditText
-        style="@style/HNews.Login.EditText.Password"
-        android:theme="@style/Theme.HNews.Black"
-        android:layout_marginTop="@dimen/default_padding"
-        android:id="@+id/login_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="horizontal"
-      android:gravity="bottom|end">
-
-      <com.malmstein.yahnac.views.fonts.YahnacTextView
-        android:id="@+id/login_cancel"
-        style="@style/HNews.Login.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/action_cancel" />
-
-      <com.malmstein.yahnac.views.fonts.YahnacTextView
-        android:id="@+id/login_login"
-        style="@style/HNews.Login.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/action_login" />
-
-    </LinearLayout>
-
-  </LinearLayout>
+    android:layout_height="match_parent" />
 
 </LinearLayout>

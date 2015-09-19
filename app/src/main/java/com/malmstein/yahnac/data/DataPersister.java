@@ -3,7 +3,7 @@ package com.malmstein.yahnac.data;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
-import com.malmstein.yahnac.base.HNewsDate;
+import com.malmstein.yahnac.model.HNewsDate;
 import com.malmstein.yahnac.model.Story;
 
 import java.util.List;
@@ -49,6 +49,7 @@ public class DataPersister {
         bookmarkValues.put(HNewsContract.BookmarkEntry.URL, story.getUrl());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TITLE, story.getTitle());
         bookmarkValues.put(HNewsContract.BookmarkEntry.TIMESTAMP, System.currentTimeMillis());
+        bookmarkValues.put(HNewsContract.BookmarkEntry.FILTER, story.getFilter());
 
         contentResolver.insert(HNewsContract.BookmarkEntry.CONTENT_BOOKMARKS_URI, bookmarkValues);
 
@@ -87,4 +88,14 @@ public class DataPersister {
 
     }
 
+    public void addVote(Story story) {
+        ContentValues bookmarkValues = new ContentValues();
+
+        bookmarkValues.put(HNewsContract.StoryEntry.VOTED, HNewsContract.TRUE_BOOLEAN);
+
+        contentResolver.update(HNewsContract.StoryEntry.CONTENT_STORY_URI,
+                bookmarkValues,
+                HNewsContract.StoryEntry.ITEM_ID + " = ?",
+                new String[]{String.valueOf(story.getId())});
+    }
 }

@@ -7,9 +7,8 @@ import android.os.StrictMode;
 
 import com.facebook.stetho.Stetho;
 import com.firebase.client.Firebase;
-import com.malmstein.yahnac.base.StrictModeManager;
-import com.malmstein.yahnac.inject.DefaultDependenciesFactory;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.DefaultDependenciesFactory;
+import com.malmstein.yahnac.injection.Inject;
 import com.novoda.notils.logger.simple.Log;
 
 public class HNewsApplication extends Application {
@@ -67,6 +66,9 @@ public class HNewsApplication extends Application {
                 Log.STACK_DEPTH = 6;
                 StrictModeManager.initializeStrictMode(newVmPolicyBuilder(), newThreadPolicyBuilder());
                 Inject.crashAnalytics().startTracking(getApplicationContext());
+                if (BuildConfig.ENABLE_USAGE_ANALYTICS) {
+                    Inject.usageAnalytics().initTracker(getApplicationContext());
+                }
                 return null;
             }
 

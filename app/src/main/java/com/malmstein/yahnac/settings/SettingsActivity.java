@@ -6,7 +6,8 @@ import android.os.Bundle;
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsActivity;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.injection.Inject;
 
 /**
  * A {@link android.preference.PreferenceActivity} that presents a set of application settings.
@@ -29,6 +30,12 @@ public class SettingsActivity extends HNewsActivity implements SettingsFragment.
         setupSubActivityWithTitle();
 
         loginSharedPreferences = LoginSharedPreferences.newInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Inject.usageAnalytics().trackPage(getString(R.string.analytics_page_settings));
     }
 
     @Override

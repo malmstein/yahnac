@@ -11,12 +11,12 @@ import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
-import com.malmstein.yahnac.drawer.NavigationDrawerHeader;
-import com.malmstein.yahnac.inject.Inject;
+import com.malmstein.yahnac.injection.Inject;
+import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
-import com.malmstein.yahnac.presenters.StoriesPagerAdapter;
 import com.malmstein.yahnac.views.SnackBarView;
+import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.views.drawer.NavigationDrawerHeader;
 import com.novoda.notils.caster.Views;
 
 import rx.Observer;
@@ -25,7 +25,6 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
 
-    private static final CharSequence SHARE_DIALOG_DEFAULT_TITLE = null;
     private ViewPager headersPager;
 
     private SnackBarView snackbarView;
@@ -43,6 +42,13 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         setupViews();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        refreshHeader();
+        setupViews();
+    }
+
     private void setupViews() {
         setupHeaders();
         setupTabs();
@@ -54,6 +60,22 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         headersPager = (ViewPager) findViewById(R.id.viewpager);
         storiesPagerAdapter = new StoriesPagerAdapter(getSupportFragmentManager());
         headersPager.setAdapter(storiesPagerAdapter);
+        headersPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Inject.usageAnalytics().trackPage(storiesPagerAdapter.getPageTitle(position).toString());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setupTabs() {
@@ -78,6 +100,13 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     protected void onResume() {
         super.onResume();
         refreshHeader();
+        trackCurrentPage();
+    }
+
+    private void trackCurrentPage() {
+        Inject.usageAnalytics().trackPage(
+                storiesPagerAdapter.getPageTitle(
+                        headersPager.getCurrentItem()).toString());
     }
 
     @Override
@@ -93,11 +122,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     @Override
     public void onCommentsClicked(Story story) {
+        Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_comments_feed),
+                story);
         navigate().toComments(story);
     }
 
     @Override
     public void onContentClicked(Story story) {
+        Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_story_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         persister.markStoryAsRead(story);
         navigate().toInnerBrowser(story);
@@ -106,31 +139,42 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     public void onExternalLinkClicked(Story story) {
         if (story.isHackerNewsLocalItem()) {
+            Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_comments_feed),
+                    story);
             navigate().toComments(story);
         } else {
+            Inject.usageAnalytics().trackNavigateEvent(getString(R.string.analytics_event_view_external_url_feed),
+                    story);
             navigate().toExternalBrowser(Uri.parse(story.getUrl()));
         }
     }
 
     @Override
     public void onBookmarkAdded(Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_add_bookmark_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         showAddedBookmarkSnackbar(persister, story);
     }
 
     @Override
     public void onBookmarkRemoved(Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_feed),
+                story);
         DataPersister persister = Inject.dataPersister();
         showRemovedBookmarkSnackbar(persister, story);
     }
 
     @Override
     public void onStoryVoteClicked(Story story) {
+        Inject.usageAnalytics().trackVoteEvent(getString(R.string.analytics_event_vote), story);
+        showSnackBarVoting();
+
         Provider provider = Inject.provider();
         subscription = provider
                 .observeVote(story)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
+                .subscribe(new Observer<OperationResponse>() {
                     @Override
                     public void onCompleted() {
                         if (!subscription.isUnsubscribed()) {
@@ -144,10 +188,40 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
                     }
 
                     @Override
-                    public void onNext(Boolean status) {
-
+                    public void onNext(OperationResponse status) {
+                        if (status == OperationResponse.LOGIN_EXPIRED) {
+                            showLoginExpired();
+                        } else {
+                            showSnackBarVoted();
+                        }
                     }
                 });
+    }
+
+    private void showSnackBarVoting() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voting))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .animating();
+    }
+
+    private void showSnackBarVoted() {
+        snackbarView.showSnackBar(getResources().getText(R.string.feed_snackbar_voted))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .animating();
+    }
+
+    public void showLoginExpired() {
+        snackbarView.showSnackBar(getResources().getText(R.string.login_expired_message))
+                .withBackgroundColor(R.color.black, croutonBackgroundAlpha)
+                .withAnimationDuration(croutonAnimationDuration)
+                .withCustomTextClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        navigate().toLogin(null);
+                    }
+                }, R.string.feed_snackbar_text_sign_in)
+                .animating();
     }
 
     private void showAddedBookmarkSnackbar(final DataPersister persister, final Story story) {
@@ -179,11 +253,15 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void removeBookmark(DataPersister persister, Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_remove_bookmark_feed),
+                story);
         persister.removeBookmark(story);
         showRemovedBookmarkSnackbar(persister, story);
     }
 
     private void addBookmark(DataPersister persister, Story story) {
+        Inject.usageAnalytics().trackBookmarkEvent(getString(R.string.analytics_event_add_bookmark_feed),
+                story);
         persister.addBookmark(story);
         showAddedBookmarkSnackbar(persister, story);
     }

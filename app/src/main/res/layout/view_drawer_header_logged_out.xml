@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/view_drawer_header"
   android:layout_width="match_parent"
-  android:layout_height="@dimen/navigation_drawer_header_height"
+  android:layout_height="170dp"
   android:background="?attr/colorPrimary"
   android:theme="@style/ThemeOverlay.AppCompat.Dark"
   android:orientation="vertical"
@@ -18,9 +18,8 @@
     android:text="@string/navigation_drawer_login"
     android:gravity="start|center"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingStart="@dimen/activity_horizontal_margin"
     android:drawablePadding="@dimen/navigation_drawer_icon_padding_big"
-    android:drawableLeft="@drawable/ic_perm_identity"
-    android:drawableStart="@drawable/ic_perm_identity" />
+    android:drawableLeft="@drawable/ic_account_circle"
+    android:drawableStart="@drawable/ic_account_circle" />
 
 </LinearLayout>

@@ -2,7 +2,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/main_content"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
   <android.support.design.widget.AppBarLayout
     android:id="@+id/appbar"
@@ -21,28 +22,38 @@
     <com.malmstein.yahnac.views.StoryHeaderView
       android:id="@+id/story_header_view"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       app:layout_scrollFlags="scroll|enterAlways" />
 
   </android.support.design.widget.AppBarLayout>
 
-  <RelativeLayout
+  <com.malmstein.yahnac.comments.CommentsView
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/comments_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+  <com.malmstein.yahnac.comments.ReplyView
+    android:id="@+id/reply_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:visibility="gone" />
 
-    <FrameLayout
-      android:id="@+id/comments_fragment_root"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+  <com.malmstein.yahnac.views.SnackBarView
+    android:id="@+id/snackbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom" />
 
-    <com.malmstein.yahnac.views.SnackBarView
-      android:id="@+id/snackbar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true" />
-
-  </RelativeLayout>
-
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/story_reply_action"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    app:layout_anchor="@id/story_header_view"
+    app:layout_anchorGravity="bottom|right|end"
+    android:src="@drawable/ic_reply_fab"
+    android:layout_margin="@dimen/fab_margin"
+    android:clickable="true"
+    app:layout_behavior="com.malmstein.yahnac.comments.ScrollAwareFabBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

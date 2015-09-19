@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="HNews.Login" parent="None"/>
+  <style name="HNews.Login" parent="None" />
+
+  <style name="HNews.Login.ItemCommon">
+    <item name="android:layout_marginLeft">@dimen/login_item_margin_horizontal</item>
+    <item name="android:layout_marginRight">@dimen/login_item_margin_horizontal</item>
+  </style>
+
+  <style name="HNews.Login.Prompt">
+    <item name="android:textSize">@dimen/login_prompt_text</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:gravity">left|top</item>
+    <item name="android:layout_marginBottom">@dimen/login_prompt_margin_bottom</item>
+    <item name="android:layout_marginTop">@dimen/login_prompt_margin_bottom</item>
+    <item name="android:text">@string/login_password_message</item>
+  </style>
+
+  <style name="HNews.Login.HeaderText" parent="HNews.Login.ItemCommon">
+    <item name="android:textSize">@dimen/dialog_login_title_text</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:text">@string/title_add_account</item>
+    <item name="android:gravity">left|center_vertical</item>
+    <item name="android:layout_marginBottom">@dimen/login_header_text_margin_bottom</item>
+  </style>
+
+  <style name="HNews.Login.ScrollContainer" parent="HNews.Login.ItemCommon" />
 
   <style name="HNews.Login.Content">
     <item name="android:paddingLeft">@dimen/dialog_login_content_padding_left</item>
     <item name="android:paddingTop">@dimen/dialog_login_content_padding_top</item>
     <item name="android:paddingRight">@dimen/dialog_login_content_padding_right</item>
-  </style>
-
-  <style name="HNews.Login.Title">
-    <item name="android:text">@string/title_add_account</item>
-    <item name="android:textSize">@dimen/dialog_login_title_text</item>
-    <item name="android:textColor">@color/white</item>
-    <item name="android:paddingLeft">@dimen/dialog_login_title_padding_left</item>
-    <item name="android:paddingTop">@dimen/dialog_login_title_padding_top</item>
-    <item name="android:paddingRight">@dimen/dialog_login_title_padding_right</item>
-    <item name="android:paddingBottom">@dimen/dialog_login_title_padding_bottom</item>
   </style>
 
   <style name="HNews.Login.Error">
@@ -48,11 +62,22 @@
 
   <style name="HNews.Login.Button" parent="HNewsButton.Borderless">
     <item name="android:textSize">@dimen/dialog_login_button_text</item>
-    <item name="android:textColor">@color/orange</item>
+    <item name="android:textColor">@color/black</item>
     <item name="android:textAllCaps">true</item>
     <item name="fontAsset">robotoMedium</item>
     <item name="android:layout_marginLeft">@dimen/dialog_login_button_marginLeft</item>
-    <item name="android:layout_marginBottom">@dimen/dialog_login_item_margin_bottom</item>
+  </style>
+
+  <style name="HNews.Login.TextInputLayout" parent="TextAppearance.AppCompat">
+    //hint color And Label Color in False State
+    <item name="android:textColorHint">@color/white</item>
+    <item name="colorAccent">@color/white</item>
+    <item name="colorControlNormal">@color/white</item>
+    <item name="colorControlActivated">@color/white</item>
+  </style>
+
+  <style name="HNews.Login.TextInputLayoutAppearance" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/white</item>
   </style>
 
 </resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/comments_reply_padding_top"
+    android:background="@color/app_background">
+
+    <LinearLayout
+      android:id="@+id/reply_container"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical"
+      android:maxHeight="@dimen/login_scrolling_content_max_height"
+      android:paddingBottom="@dimen/login_scrolling_content_padding_bottom"
+      android:animateLayoutChanges="true">
+
+      <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_scrolling_content_padding_top"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat">
+
+        <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+          style="@style/HNews.Comments.EditText.Reply"
+          android:id="@+id/reply_comment"
+          android:inputType="textMultiLine"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/login_buttons_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingLeft="@dimen/activity_horizontal_margin"
+      android:paddingRight="@dimen/activity_horizontal_margin"
+      android:paddingBottom="@dimen/login_button_drawable_padding"
+      android:gravity="bottom|end">
+
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        android:id="@+id/reply_cancel"
+        style="@style/HNews.Comments.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_cancel" />
+
+      <com.malmstein.yahnac.views.fonts.YahnacTextView
+        android:id="@+id/reply_send"
+        style="@style/HNews.Comments.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_reply" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>

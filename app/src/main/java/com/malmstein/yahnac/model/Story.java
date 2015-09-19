@@ -1,5 +1,6 @@
 package com.malmstein.yahnac.model;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 
@@ -12,6 +13,7 @@ public class Story implements Serializable {
     public static String COMMENT_URL_BASE = "https://news.ycombinator.com/item?id=";
     public static String NEXT_URL_BASE = "https://news.ycombinator.com/";
     public static String ASK_URL_BASE = "item?id=";
+
     private final Long internalId;
     private final String by;
     private final Long id;
@@ -25,8 +27,10 @@ public class Story implements Serializable {
     private final int rank;
     private final int read;
     private int bookmark;
+    private int voted;
+    private String filter;
 
-    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read) {
+    public Story(Long internalId, String by, Long id, String type, Long timeAgo, int score, String title, String url, int comments, Long timestamp, int rank, int bookmark, int read, int voted, String filter) {
         this.internalId = internalId;
         this.by = by;
         this.id = id;
@@ -40,6 +44,8 @@ public class Story implements Serializable {
         this.rank = rank;
         this.bookmark = bookmark;
         this.read = read;
+        this.voted = voted;
+        this.filter = filter;
     }
 
     public static Story from(Cursor cursor) {
@@ -56,8 +62,10 @@ public class Story implements Serializable {
         int rank = cursor.getInt(HNewsContract.StoryEntry.COLUMN_RANK);
         int bookmark = cursor.getInt(HNewsContract.StoryEntry.COLUMN_BOOKMARK);
         int read = cursor.getInt(HNewsContract.StoryEntry.COLUMN_READ);
+        int voted = cursor.getInt(HNewsContract.StoryEntry.COLUMN_VOTED);
+        String filter = cursor.getString(HNewsContract.StoryEntry.COLUMN_FILTER);
 
-        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read);
+        return new Story(internalId, by, id, type, time, score, title, url, comments, timestamp, rank, bookmark, read, voted, filter);
     }
 
     public static Story fromBookmark(Cursor cursor) {
@@ -68,9 +76,10 @@ public class Story implements Serializable {
         String url = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_URL);
         String title = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_TITLE);
         Long timestamp = cursor.getLong(HNewsContract.BookmarkEntry.COLUMN_TIMESTAMP);
+        String filter = cursor.getString(HNewsContract.BookmarkEntry.COLUMN_FILTER);
         int bookmark = HNewsContract.TRUE_BOOLEAN;
 
-        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0);
+        return new Story(internalId, by, id, type, (long) 0, 0, title, url, 0, timestamp, 0, bookmark, 0, 0, filter);
     }
 
     public String getSubmitter() {
@@ -121,19 +130,27 @@ public class Story implements Serializable {
         return COMMENT_URL_BASE + getId();
     }
 
+    public String getFilter() {
+        return filter;
+    }
+
     public int getRank() {
         return rank;
     }
 
     public boolean isHackerNewsLocalItem() {
-        if (getType().equals(TYPE.ask.name())) {
+        if (getFilter().equals(FILTER.ask.name())) {
             return true;
         }
 
-        if (url == null) {
+        if ((url == null) || url.isEmpty()) {
             return true;
         } else {
-            return url.startsWith(ASK_URL_BASE) || url.isEmpty() ? true : false;
+            if (url.startsWith(ASK_URL_BASE)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -145,6 +162,14 @@ public class Story implements Serializable {
         return read == HNewsContract.TRUE_BOOLEAN;
     }
 
+    public boolean isVoted() {
+        return voted == HNewsContract.TRUE_BOOLEAN;
+    }
+
+    public boolean isJob() {
+        return getType().equals("job");
+    }
+
     public void toggleBookmark() {
         if (bookmark == HNewsContract.FALSE_BOOLEAN) {
             bookmark = HNewsContract.TRUE_BOOLEAN;
@@ -153,23 +178,26 @@ public class Story implements Serializable {
         }
     }
 
-    public String getVoteUrl(String username, String auth) {
-        String url = "/vote?for=" + Long.toString(id)
-                + "&dir=up"
-                + "&auth=" + auth
-                + "&goto=news";
-
-        return url;
-
-        //https://news.ycombinator.com/vote?for=9907480&dir=up&auth=75c4f14e4ee24c12bbe29afc9739880f9812563c&goto=news
+    public Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+        return shareIntent;
     }
 
-    public enum TYPE {
+    public enum FILTER {
         top_story,
         new_story,
         best_story,
         show,
         ask,
         jobs
+    }
+
+    public enum TYPE {
+        story,
+        ask,
+        poll
     }
 }

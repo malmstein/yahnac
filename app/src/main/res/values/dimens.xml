@@ -2,13 +2,20 @@
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
 
+
   <dimen name="card_corner_radius">2dp</dimen>
   <dimen name="card_content_padding">4dp</dimen>
+  <dimen name="item_content_padding">8dp</dimen>
+
+  <dimen name="content_top_padding">8dp</dimen>
+  <dimen name="content_bottom_padding">8dp</dimen>
+
+  <dimen name="default_item_height">48dp</dimen>
 
   <dimen name="button_root_height">48dp</dimen>
   <dimen name="button_padding">6dp</dimen>
   <dimen name="default_padding">8dp</dimen>
-  <dimen name="list_padding">12dp</dimen>
+  <dimen name="comment_list_padding">16dp</dimen>
   <dimen name="list_divider">4dp</dimen>
   <dimen name="comments_padding">4dp</dimen>
 
@@ -16,7 +23,7 @@
   <dimen name="feed_padding_right">8dp</dimen>
 
   <dimen name="feed_padding_infra_spans">@dimen/feed_padding_left</dimen>
-  <dimen name="feed_divider_height">5dp</dimen>
+  <dimen name="feed_divider_height">8dp</dimen>
   <dimen name="feed_item_article_footer_divider_height">1dp</dimen>
   <dimen name="feed_item_article_footer_height">42dp</dimen>
 

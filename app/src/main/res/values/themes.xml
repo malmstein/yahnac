@@ -6,7 +6,6 @@
 
   <style name="Theme.HNews" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@color/app_background</item>
-
     <item name="android:textColorPrimary">@color/black</item>
 
     <item name="android:actionBarStyle">@style/HNews.ActionBar</item>
@@ -43,14 +42,29 @@
   </style>
 
   <style name="Theme.HNews.Login">
+    <item name="android:windowActionBarOverlay">true</item>
     <item name="dialogOrientation">vertical</item>
     <item name="dialogTitleWidth">match_parent</item>
     <item name="dialogContentWidth">match_parent</item>
     <item name="android:windowSharedElementExitTransition">@transition/login_enter</item>
+
+    <item name="android:textColorPrimary">@color/black</item>
+    <item name="android:textColorHint">@color/black</item>
+    <item name="colorAccent">@color/black</item>
+    <item name="colorControlNormal">@color/black</item>
+    <item name="colorControlActivated">@color/black</item>
   </style>
 
   <style name="Theme.HNews.Black">
     <item name="colorAccent">@color/black</item>
+  </style>
+
+  <style name="Theme.HNews.White">
+    <item name="colorAccent">@color/white</item>
+  </style>
+
+  <style name="Theme.HNews.Orange">
+    <item name="colorAccent">@color/orange</item>
   </style>
 
 </resources>

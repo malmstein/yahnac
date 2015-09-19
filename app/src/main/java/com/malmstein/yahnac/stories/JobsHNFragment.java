@@ -24,8 +24,8 @@ public class JobsHNFragment extends StoryFragment implements LoaderManager.Loade
     }
 
     @Override
-    protected Story.TYPE getType() {
-        return Story.TYPE.jobs;
+    protected Story.FILTER getType() {
+        return Story.FILTER.jobs;
     }
 
     protected String getOrder() {
@@ -41,8 +41,8 @@ public class JobsHNFragment extends StoryFragment implements LoaderManager.Loade
                 getActivity(),
                 storyNewsUri,
                 HNewsContract.StoryEntry.STORY_COLUMNS,
-                HNewsContract.StoryEntry.TYPE + " = ?",
-                new String[]{Story.TYPE.jobs.name()},
+                HNewsContract.StoryEntry.FILTER + " = ?",
+                new String[]{Story.FILTER.jobs.name()},
                 getOrder());
     }
 

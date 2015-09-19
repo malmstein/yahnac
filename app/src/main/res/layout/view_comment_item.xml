@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:background="@color/white"
+  android:id="@+id/comment_root"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@drawable/divider_horizontal_bright" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/default_item_height"
+    android:orientation="horizontal"
+    android:padding="@dimen/item_content_padding">
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.CommentHeader"
+      android:id="@+id/comment_by"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/grey"
+      android:layout_gravity="center_vertical"
+      tools:text="by user" />
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.CommentTime"
+      android:id="@+id/comment_when"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/grey"
+      android:layout_gravity="center_vertical"
+      android:paddingLeft="@dimen/card_content_padding"
+      tools:text="2 hours ago" />
+
+  </LinearLayout>
+
+  <com.malmstein.yahnac.views.fonts.CommentTextView
+    style="@style/HNews.CommentText"
+    android:id="@+id/comment_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="@dimen/item_content_padding"
+    android:paddingLeft="@dimen/item_content_padding"
+    android:paddingBottom="@dimen/content_bottom_padding"
+    tools:text="This is a comment" />
+
+  <include
+    layout="@layout/view_comment_item_footer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+</LinearLayout>
+

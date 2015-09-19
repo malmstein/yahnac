@@ -9,7 +9,7 @@ import android.preference.PreferenceFragment;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.updater.LoginSharedPreferences;
+import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 
 public class SettingsFragment extends PreferenceFragment {
 

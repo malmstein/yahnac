@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malmstein.yahnac.drawer.NavigationDrawerHeader xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malmstein.yahnac.views.drawer.NavigationDrawerHeader xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="@dimen/navigation_drawer_header_height" />
+  android:layout_height="170dp" />
 
 

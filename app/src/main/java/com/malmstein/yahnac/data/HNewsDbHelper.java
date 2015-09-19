@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class HNewsDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "yahnac.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 10;
 
     public HNewsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +29,9 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.StoryEntry.RANK + " INTEGER," +
                 HNewsContract.StoryEntry.TIMESTAMP + " INTEGER, " +
                 HNewsContract.StoryEntry.BOOKMARK + " INTEGER DEFAULT 0, " +
-                HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0" +
+                HNewsContract.StoryEntry.READ + " INTEGER DEFAULT 0, " +
+                HNewsContract.StoryEntry.VOTED + " INTEGER DEFAULT 0, " +
+                HNewsContract.StoryEntry.FILTER + " TEXT" +
                 " );";
 
         final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_COMMENTS_NAME + " (" +
@@ -39,7 +41,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.CommentsEntry.BY + " TEXT," +
                 HNewsContract.CommentsEntry.TEXT + " TEXT," +
                 HNewsContract.CommentsEntry.TIME_AGO + " TEXT," +
-                HNewsContract.CommentsEntry.HEADER + " INTEGER DEFAULT 0" +
+                HNewsContract.CommentsEntry.HEADER + " INTEGER DEFAULT 0," +
+                HNewsContract.CommentsEntry.COMMENT_ID + " INTEGER" +
                 " );";
 
         final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " + HNewsContract.TABLE_BOOKMARKS_NAME + " (" +
@@ -49,7 +52,8 @@ public class HNewsDbHelper extends SQLiteOpenHelper {
                 HNewsContract.BookmarkEntry.BY + " TEXT," +
                 HNewsContract.BookmarkEntry.URL + " TEXT," +
                 HNewsContract.BookmarkEntry.TITLE + " TEXT," +
-                HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER" +
+                HNewsContract.BookmarkEntry.TIMESTAMP + " INTEGER, " +
+                HNewsContract.BookmarkEntry.FILTER + " TEXT" +
                 " );";
 
         db.execSQL(SQL_CREATE_STORIES_TABLE);

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:background="@color/orange"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingBottom="@dimen/default_padding"
+  android:paddingTop="@dimen/default_padding"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:orientation="vertical">
+
+  <com.malmstein.yahnac.views.fonts.CommentTextView
+    style="@style/HNews.Title"
+    android:id="@+id/story_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:text="This is the title of a story or the question of an ASK post" />
+
+  <com.malmstein.yahnac.views.fonts.CommentTextView
+    style="@style/HNews.Subhead"
+    android:id="@+id/story_comments"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/content_top_padding"
+    tools:text="100 comments" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/content_top_padding"
+    android:gravity="center_vertical">
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
+      android:id="@+id/story_by"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      tools:text="by user" />
+
+    <com.malmstein.yahnac.views.fonts.YahnacTextView
+      style="@style/HNews.Body2"
+      android:id="@+id/story_when"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/white"
+      android:paddingLeft="@dimen/card_content_padding"
+      tools:text="2 hours ago" />
+
+  </LinearLayout>
+
+
+</LinearLayout>
+
+

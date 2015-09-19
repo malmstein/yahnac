@@ -4,9 +4,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.malmstein.yahnac.drawer.ActionBarDrawerListener;
+import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
 import com.novoda.notils.caster.Views;
 
 public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
@@ -31,7 +33,8 @@ public abstract class HNewsNavigationDrawerActivity extends HNewsActivity {
 
     protected void refreshHeader() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.invalidate();
+        View header = LayoutInflater.from(this).inflate(R.layout.design_navigation_item_header, null, true);
+        navigationView.addHeaderView(header);
     }
 
     public void closeDrawer() {

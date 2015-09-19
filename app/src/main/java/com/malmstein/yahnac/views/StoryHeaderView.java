@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.base.TimeAgo;
 import com.malmstein.yahnac.model.Story;
+import com.malmstein.yahnac.model.TimeAgo;
 import com.novoda.notils.caster.Views;
 
 public class StoryHeaderView extends LinearLayout {
@@ -39,7 +39,7 @@ public class StoryHeaderView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        LayoutInflater.from(getContext()).inflate(R.layout.view_story_comment_header, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_story_header, this, true);
 
         text = Views.findById(this, R.id.story_title);
         author = Views.findById(this, R.id.story_by);
@@ -47,12 +47,16 @@ public class StoryHeaderView extends LinearLayout {
         comments = Views.findById(this, R.id.story_comments);
     }
 
-    public void updateWith(Story story){
+    public void updateWith(Story story) {
         TimeAgo timeAgo = new TimeAgo(getContext().getResources());
         text.setText(Html.fromHtml(story.getTitle()));
         author.setText(getResources().getString(R.string.story_by, story.getSubmitter()));
         when.setText(timeAgo.timeAgo(story.getTimeAgo()));
         comments.setText(getResources().getQuantityString(R.plurals.story_comments, story.getComments(), story.getComments()));
+    }
+
+    public interface Listener {
+        void onReplyAction();
     }
 
 }

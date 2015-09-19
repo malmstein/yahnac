@@ -2,11 +2,13 @@
 
 [![Get it on Google Play](art/play.png)][1]
 
+[![Build Status](https://travis-ci.org/malmstein/yahnac.svg?branch=develop)](https://travis-ci.org/malmstein/yahnac)
+
 ## Description
 
 Yet Another Hacker News Android Client
 
-You can use this app keep you up to date with the latest news from Hacker News:
+You can use this app to keep up to date with the latest news from Hacker News:
 
   - Top Stories
   - New Stories
@@ -14,6 +16,7 @@ You can use this app keep you up to date with the latest news from Hacker News:
   - Show HN
   - Ask HN
   - Jobs
+  - Bookmark stories: Yahnac also allows you bookmark the stories like, so you never lose track of them.
 
 ## Data source
 
