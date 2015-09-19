@@ -5,23 +5,19 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 
 import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
-    private Interpolator animationInterpolator;
 
     private LoginSharedPreferences loginSharedPreferences;
     private boolean isAnimatingOut = false;
 
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
         super();
-        animationInterpolator = AnimationUtils.loadInterpolator(context,
-                android.R.interpolator.fast_out_slow_in);
         loginSharedPreferences = LoginSharedPreferences.newInstance();
     }
 
@@ -60,7 +56,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         button.animate()
                 .scaleX(0)
                 .scaleY(0)
-                .setInterpolator(animationInterpolator)
+                .setInterpolator(new FastOutSlowInInterpolator())
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -93,7 +89,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         button.animate()
                 .scaleX(1)
                 .scaleY(1)
-                .setInterpolator(animationInterpolator)
+                .setInterpolator(new FastOutSlowInInterpolator())
                 .setListener(null)
                 .start();
     }
