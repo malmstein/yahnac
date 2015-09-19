@@ -74,6 +74,7 @@ public class Navigator {
 
     public void toNews() {
         Intent newsIntent = new Intent(activity, NewsActivity.class);
+        newsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.startActivity(activity, newsIntent, null);
         activity.overridePendingTransition(0, 0);
         activity.finish();
