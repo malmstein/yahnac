@@ -12,13 +12,13 @@ import android.view.animation.Interpolator;
 
 import com.malmstein.yahnac.data.updater.LoginSharedPreferences;
 
-public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
+public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     private Interpolator animationInterpolator;
 
     private LoginSharedPreferences loginSharedPreferences;
     private boolean isAnimatingOut = false;
 
-    public ScrollAwareFabBehavior(Context context, AttributeSet attrs) {
+    public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
         super();
         animationInterpolator = AnimationUtils.loadInterpolator(context,
                 android.R.interpolator.fast_out_slow_in);

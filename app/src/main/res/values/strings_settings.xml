@@ -28,4 +28,10 @@
   <string name="settings_key_logout">keyLogout</string>
   <string name="settings_title_logout">Sign out of Hacker News</string>
 
+  <string name="settings_category_key_community">keyFeedback</string>
+  <string name="settings_category_title_community">Feedback</string>
+
+  <string name="settings_key_community">keyCommunity</string>
+  <string name="settings_title_community">Join the Google+ Community</string>
+
 </resources>

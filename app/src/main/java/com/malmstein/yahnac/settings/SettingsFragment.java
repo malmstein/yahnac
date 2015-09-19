@@ -2,6 +2,7 @@ package com.malmstein.yahnac.settings;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -21,8 +22,10 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.about_settings);
+        addPreferencesFromResource(R.xml.community_settings);
         addPreferencesFromResource(R.xml.account_settings);
         addPreferenceClickListenerForSoftwareLicenses();
+        addPreferenceClickListenerForCommunity();
         updateSummaryPreferences();
     }
 
@@ -68,6 +71,21 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 Intent softwareLicenses = new Intent(getActivity(), SoftwareLicensesActivity.class);
                 startActivity(softwareLicenses);
+                return true;
+            }
+
+        });
+    }
+
+    private void addPreferenceClickListenerForCommunity() {
+        PreferenceCategory communityCategory = (PreferenceCategory) findPreference(getString(R.string.settings_category_key_community));
+        Preference communityPreference = communityCategory.findPreference(getString(R.string.settings_key_community));
+        communityPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/communities/108233780766400792163"));
+                startActivity(browserIntent);
                 return true;
             }
 

@@ -54,6 +54,6 @@
     android:src="@drawable/ic_reply_fab"
     android:layout_margin="@dimen/fab_margin"
     android:clickable="true"
-    app:layout_behavior="com.malmstein.yahnac.comments.ScrollAwareFabBehavior" />
+    app:layout_behavior="com.malmstein.yahnac.comments.ScrollAwareFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

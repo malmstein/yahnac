@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:key="@string/settings_category_key_community"
+    android:title="@string/settings_category_title_community">
+
+    <Preference
+      android:key="@string/settings_key_community"
+      android:title="@string/settings_title_community" />
+
+  </PreferenceCategory>
+
+</PreferenceScreen>
