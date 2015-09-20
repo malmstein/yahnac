@@ -17,7 +17,7 @@
     android:layout_height="wrap_content"
     android:text="@string/navigation_drawer_login"
     android:gravity="start|center"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/navigation_drawer_icon_padding"
     android:drawablePadding="@dimen/navigation_drawer_icon_padding_big"
     android:drawableLeft="@drawable/ic_account_circle"
     android:drawableStart="@drawable/ic_account_circle" />

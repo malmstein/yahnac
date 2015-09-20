@@ -22,4 +22,6 @@
 
   <dimen name="navigation_drawer_icon_padding_big">32dp</dimen>
 
+  <dimen name="navigation_drawer_icon_padding">16dp</dimen>
+
 </resources>
