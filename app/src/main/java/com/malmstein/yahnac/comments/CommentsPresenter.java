@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -149,45 +150,51 @@ public class CommentsPresenter implements ReplyView.Listener, CommentsAdapter.Li
     }
 
     private void showReplyView() {
-        int centerX = (replyFab.getLeft() + replyFab.getRight()) / 2;
-        int centerY = (replyFab.getTop() + replyFab.getBottom()) / 2;
-        int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
-        mCircularReveal = ViewAnimationUtils.createCircularReveal(
-                replyView, centerX, centerY, 0, finalRadius);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            int centerX = (replyFab.getLeft() + replyFab.getRight()) / 2;
+            int centerY = (replyFab.getTop() + replyFab.getBottom()) / 2;
+            int finalRadius = Math.max(replyView.getWidth(), replyView.getHeight());
+            mCircularReveal = ViewAnimationUtils.createCircularReveal(
+                    replyView, centerX, centerY, 0, finalRadius);
 
-        mCircularReveal.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mCircularReveal.removeListener(this);
-            }
-        });
+            mCircularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mCircularReveal.removeListener(this);
+                }
+            });
 
-        mCircularReveal.start();
+            mCircularReveal.start();
+        }
+
         replyFab.hide();
-
         replyView.setVisibility(View.VISIBLE);
         commentsView.setVisibility(View.GONE);
     }
 
     private void hideReplyView() {
-        int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
-        int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
-        int initialRadius = replyView.getWidth();
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(replyView, cx, cy, initialRadius, 0);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            int cx = (replyFab.getLeft() + replyFab.getRight()) / 2;
+            int cy = (replyFab.getTop() + replyFab.getBottom()) / 2;
+            int initialRadius = replyView.getWidth();
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(replyView, cx, cy, initialRadius, 0);
 
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                replyView.clearAndHide();
-            }
-        });
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    replyView.clearAndHide();
+                }
+            });
 
-        anim.start();
+            anim.start();
+        } else {
+            replyView.clearAndHide();
+        }
+
         replyFab.show();
-
         commentsView.setVisibility(View.VISIBLE);
     }
 
