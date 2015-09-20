@@ -36,6 +36,12 @@
 
   </LinearLayout>
 
+  <Space
+    android:id="@+id/comment_header_space"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/comments_header_padding"
+    android:visibility="gone" />
+
   <com.malmstein.yahnac.views.fonts.CommentTextView
     style="@style/HNews.CommentText"
     android:id="@+id/comment_header_text"

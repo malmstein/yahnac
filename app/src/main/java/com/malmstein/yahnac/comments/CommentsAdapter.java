@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.malmstein.yahnac.R;
@@ -87,6 +88,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         public final View footer;
         public final View reply;
         public final View vote;
+        public final Space space;
 
         public HeaderViewHolder(View view) {
             super(view);
@@ -98,6 +100,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             footer = Views.findById(view, R.id.comment_footer);
             reply = Views.findById(view, R.id.comment_reply_action);
             vote = Views.findById(view, R.id.comment_vote_action);
+            space = Views.findById(view, R.id.comment_header_space);
         }
 
         public void bind(final Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
@@ -105,6 +108,8 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
             text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader() || type.equals("ask")) {
                 comment_header.setVisibility(View.GONE);
+                footer.setVisibility(View.GONE);
+                space.setVisibility(View.VISIBLE);
             } else {
                 author.setText(comment.getBy());
                 when.setText(comment.getTimeText());

@@ -7,6 +7,8 @@
   <dimen name="comments_button_text">16sp</dimen>
   <dimen name="comments_button_marginLeft">24dp</dimen>
 
+  <dimen name="comments_header_padding">12dp</dimen>
+
   <dimen name="comments_appbar_height">256dp</dimen>
   <dimen name="comments_reply_padding_top">200dp</dimen>
 </resources>
