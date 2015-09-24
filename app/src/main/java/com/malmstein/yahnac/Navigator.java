@@ -100,9 +100,9 @@ public class Navigator {
                 int color = activity.getResources().getColor(R.color.orange);
                 intentBuilder.setToolbarColor(color);
 
-                String shareLabel = activity.getString(R.string.action_share);
+                String shareLabel = activity.getString(R.string.action_comments);
                 Bitmap icon = BitmapFactory.decodeResource(activity.getResources(),
-                        android.R.drawable.ic_menu_share);
+                        R.drawable.ic_comment);
                 PendingIntent pendingIntent = createPendingIntent(story);
                 intentBuilder.setActionButton(icon, shareLabel, pendingIntent);
 
@@ -116,7 +116,9 @@ public class Navigator {
     }
 
     private PendingIntent createPendingIntent(Story story) {
-        return PendingIntent.getActivity(activity.getApplicationContext(), 0, story.createShareIntent(), 0);
+        Intent commentIntent = new Intent(activity, CommentsActivity.class);
+        commentIntent.putExtra(CommentsActivity.ARG_STORY, story);
+        return PendingIntent.getActivity(activity.getApplicationContext(), 0, commentIntent, 0);
     }
 
     private void openCustomTabsIfPossible(final Story story, CustomTabsIntent.Builder intentBuilder) {
