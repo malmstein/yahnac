@@ -34,26 +34,12 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     private StoriesPagerAdapter storiesPagerAdapter;
     private Subscription subscription;
 
-    private CustomTabActivityHelper mCustomTabActivityHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
         setupViews();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mCustomTabActivityHelper.bindCustomTabsService(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mCustomTabActivityHelper.unbindCustomTabsService(this);
     }
 
     @Override

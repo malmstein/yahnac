@@ -24,12 +24,24 @@ public class HNewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initNetworkChecker();
-        
+
         colorTweaker = new ColorTweaker();
         lollipopUiHelper = new LollipopUiHelper(this, colorTweaker, getLollipopUiConfiguration());
         lollipopUiHelper.setTaskDescriptionOnLollipopAndLater();
         lollipopUiHelper.setSystemBarsColorOnLollipopAndLater();
         navigator = new Navigator(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        navigator.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        navigator.onStop();
     }
 
     private void initNetworkChecker() {
@@ -65,7 +77,7 @@ public class HNewsActivity extends AppCompatActivity {
     }
 
     public Navigator navigate() {
-        if (navigator == null){
+        if (navigator == null) {
             navigator = new Navigator(this);
         }
         return navigator;
@@ -73,7 +85,7 @@ public class HNewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
 

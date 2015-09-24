@@ -1,16 +1,3 @@
-// Copyright 2015 Google Inc. All Rights Reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 package com.malmstein.yahnac.story;
 
 import android.app.Activity;
@@ -24,11 +11,6 @@ import android.support.customtabs.CustomTabsSession;
 
 import java.util.List;
 
-import org.chromium.customtabsclient.shared.CustomTabsHelper;
-
-/**
- * This is a helper class to manage the connection to the Custom Tabs Service and
- */
 public class CustomTabActivityHelper {
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
@@ -49,7 +31,7 @@ public class CustomTabActivityHelper {
                                      CustomTabFallback fallback) {
         String packageName = CustomTabsHelper.getPackageNameToUse(activity);
 
-        //If we cant find a package name, it means theres no browser that supports
+        //If we cant find a package name, it means there's no browser that supports
         //Chrome Custom Tabs installed. So, we fallback to the webview
         if (packageName == null) {
             if (fallback != null) {
@@ -135,10 +117,6 @@ public class CustomTabActivityHelper {
         CustomTabsClient.bindCustomTabsService(activity, packageName, mConnection);
     }
 
-    /**
-     * @return true if call to mayLaunchUrl was accepted
-     * @see {@link CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)}
-     */
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
         if (mClient == null) {
             return false;

@@ -1,10 +1,12 @@
 package com.malmstein.yahnac;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -17,15 +19,26 @@ import com.malmstein.yahnac.login.LoginActivity;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
+import com.malmstein.yahnac.story.CustomTabActivityHelper;
 import com.malmstein.yahnac.story.StoryActivity;
 import com.malmstein.yahnac.views.transitions.TransitionHelper;
 
 public class Navigator {
 
     private final HNewsActivity activity;
+    private CustomTabActivityHelper customTabActivityHelper;
 
     public Navigator(HNewsActivity activity) {
         this.activity = activity;
+        customTabActivityHelper = new CustomTabActivityHelper();
+    }
+
+    public void onStart() {
+        customTabActivityHelper.bindCustomTabsService(activity);
+    }
+
+    public void onStop() {
+        customTabActivityHelper.unbindCustomTabsService(activity);
     }
 
     protected boolean isOnline() {
@@ -41,12 +54,26 @@ public class Navigator {
         }
     }
 
-    public void toInnerBrowser(Story story) {
+    public void toInnerBrowser(final Story story) {
         if (isOnline()) {
-            Intent articleIntent = new Intent(activity, StoryActivity.class);
-            articleIntent.putExtra(StoryActivity.ARG_STORY, story);
 
-            ActivityCompat.startActivity(activity, articleIntent, null);
+            customTabActivityHelper.mayLaunchUrl(Uri.parse(story.getUrl()), null, null);
+            CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+            int color = activity.getResources().getColor(R.color.orange);
+            intentBuilder.setToolbarColor(color);
+
+            CustomTabActivityHelper.openCustomTab(
+                    activity, intentBuilder.build(),
+                    Uri.parse(story.getUrl()), new CustomTabActivityHelper.CustomTabFallback() {
+                        @Override
+                        public void openUri(Activity activity, Uri uri) {
+                            Intent articleIntent = new Intent(activity, StoryActivity.class);
+                            articleIntent.putExtra(StoryActivity.ARG_STORY, story);
+                            ActivityCompat.startActivity(activity, articleIntent, null);
+                        }
+                    });
+
         }
     }
 
