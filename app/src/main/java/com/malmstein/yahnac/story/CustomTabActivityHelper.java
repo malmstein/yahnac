@@ -12,6 +12,7 @@ import android.support.customtabs.CustomTabsSession;
 import java.util.List;
 
 public class CustomTabActivityHelper {
+
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
     private CustomTabsServiceConnection mConnection;
