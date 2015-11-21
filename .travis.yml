@@ -6,6 +6,3 @@ android:
 
       - build-tools-23.0.2
       - android-23
-
-      - extra-google-google_play_services
-      - extra-android-m2repository
