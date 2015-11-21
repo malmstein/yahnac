@@ -99,9 +99,7 @@ public class Navigator {
                                 return easyCustomTabsIntentBuilder.withToolbarColor(ContextCompat.getColor(activity, R.color.orange))
                                         .showingTitle()
                                         .withUrlBarHiding()
-                                        .withCloseButtonIcon(decodeCloseBitmap())
-                                        .withExitAnimations(activity, android.R.anim.slide_in_left, android.R.anim.fade_out)
-                                        .withStartAnimations(activity, android.R.anim.fade_in, android.R.anim.slide_out_right);
+                                        .withCloseButtonIcon(decodeCloseBitmap());
                             }
                         };
                         subscriber.onNext(intentCustomizer);
