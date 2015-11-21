@@ -2,16 +2,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
+def cfg = rootProject.ext.configuration;
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion cfg.compileSdk
+    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.malmstein.yahnac"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 21
-        versionName "1.0.7"
+        applicationId cfg.package
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        versionCode cfg.versionCode
+        versionName cfg.versionName
 
         Calendar instance = Calendar.getInstance()
         instance.setTimeInMillis(System.currentTimeMillis())
@@ -19,7 +21,6 @@ android {
         buildConfigField "String", "BUILD_TIME_FORMATTED", "\"${instance.getTime()}\""
         buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
         buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
-        buildConfigField "boolean", "ENABLE_STETHO", "BuildConfig.DEBUG"
     }
 
     compileOptions {
@@ -54,7 +55,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
 }
 
 dependencies {
@@ -63,10 +63,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:cardview-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.android.support:customtabs:23.1.0'
+    compile 'com.novoda:simple-chrome-custom-tabs:0.0.1'
 
     compile 'com.google.android.gms:play-services-analytics:7.8.0'
-    compile 'com.facebook.stetho:stetho:1.1.1'
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'

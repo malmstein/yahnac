@@ -1,17 +1,15 @@
 package com.malmstein.yahnac;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 
@@ -25,6 +23,10 @@ import com.malmstein.yahnac.stories.NewsActivity;
 import com.malmstein.yahnac.story.CustomTabActivityHelper;
 import com.malmstein.yahnac.story.StoryActivity;
 import com.malmstein.yahnac.views.transitions.TransitionHelper;
+import com.novoda.easycustomtabs.EasyCustomTabs;
+import com.novoda.easycustomtabs.navigation.EasyCustomTabsIntentBuilder;
+import com.novoda.easycustomtabs.navigation.IntentCustomizer;
+import com.novoda.easycustomtabs.navigation.NavigationFallback;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -69,75 +71,77 @@ public class Navigator {
 
     public void toInnerBrowser(final Story story) {
         if (isOnline()) {
-            customTabActivityHelper.mayLaunchUrl(Uri.parse(story.getUrl()), null, null);
-            mSubscriptions.add(prepareCustomTabsBuilder(story)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<CustomTabsIntent.Builder>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+            mSubscriptions.add(
+                    prepareCustomTabsBuilder()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(
+                                    new Subscriber<IntentCustomizer>() {
+                                        @Override
+                                        public void onCompleted() {
+                                        }
 
-                        @Override
-                        public void onError(Throwable e) {
+                                        @Override
+                                        public void onError(Throwable e) {
 
-                        }
+                                        }
 
-                        @Override
-                        public void onNext(CustomTabsIntent.Builder builder) {
-                            openCustomTabsIfPossible(story, builder);
-                        }
-                    }));
+                                        @Override
+                                        public void onNext(IntentCustomizer builder) {
+                                            openCustomTabsIfPossible(story, builder);
+                                        }
+                                    }
+                            )
+            );
         }
     }
 
-    private Observable<CustomTabsIntent.Builder> prepareCustomTabsBuilder(final Story story) {
-        return Observable.create(new Observable.OnSubscribe<CustomTabsIntent.Builder>() {
-            @Override
-            public void call(Subscriber<? super CustomTabsIntent.Builder> subscriber) {
-                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-
-                int color = activity.getResources().getColor(R.color.orange);
-                intentBuilder.setToolbarColor(color);
-
-                String shareLabel = activity.getString(R.string.action_comments);
-                Bitmap icon = BitmapFactory.decodeResource(activity.getResources(),
-                        R.drawable.ic_comment);
-                PendingIntent pendingIntent = createPendingIntent(story);
-                intentBuilder.setActionButton(icon, shareLabel, pendingIntent);
-
-                intentBuilder.setCloseButtonIcon(
-                        BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_arrow_back));
-
-                subscriber.onNext(intentBuilder);
-                subscriber.onCompleted();
-            }
-        });
+    private Bitmap decodeCloseBitmap() {
+        return BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_arrow_back);
     }
 
-    private PendingIntent createPendingIntent(Story story) {
-        Intent commentIntent = new Intent(activity, CommentsActivity.class);
-        commentIntent.putExtra(CommentsActivity.ARG_STORY, story);
-        return PendingIntent.getActivity(activity.getApplicationContext(), 0, commentIntent, 0);
-    }
-
-    private void openCustomTabsIfPossible(final Story story, CustomTabsIntent.Builder intentBuilder) {
-
-        CustomTabActivityHelper.openCustomTab(
-                activity, intentBuilder.build(),
-                Uri.parse(story.getUrl()), new CustomTabActivityHelper.CustomTabFallback() {
+    private Observable<IntentCustomizer> prepareCustomTabsBuilder() {
+        return Observable.create(
+                new Observable.OnSubscribe<IntentCustomizer>() {
                     @Override
-                    public void openUri(Activity activity, Uri uri) {
+                    public void call(Subscriber<? super IntentCustomizer> subscriber) {
+                        IntentCustomizer intentCustomizer = new IntentCustomizer() {
+                            @Override
+                            public EasyCustomTabsIntentBuilder onCustomiseIntent(EasyCustomTabsIntentBuilder easyCustomTabsIntentBuilder) {
+                                return easyCustomTabsIntentBuilder.withToolbarColor(ContextCompat.getColor(activity, R.color.orange))
+                                        .showingTitle()
+                                        .withUrlBarHiding()
+                                        .withCloseButtonIcon(decodeCloseBitmap())
+                                        .withExitAnimations(activity, android.R.anim.slide_in_left, android.R.anim.fade_out)
+                                        .withStartAnimations(activity, android.R.anim.fade_in, android.R.anim.slide_out_right);
+                            }
+                        };
+                        subscriber.onNext(intentCustomizer);
+                        subscriber.onCompleted();
+                    }
+                }
+        );
+    }
+
+    private void openCustomTabsIfPossible(final Story story, IntentCustomizer intentCustomizer) {
+        EasyCustomTabs.getInstance().withFallback(
+                new NavigationFallback() {
+                    @Override
+                    public void onFallbackNavigateTo(Uri url) {
                         Intent articleIntent = new Intent(activity, StoryActivity.class);
                         articleIntent.putExtra(StoryActivity.ARG_STORY, story);
                         ActivityCompat.startActivity(activity, articleIntent, null);
                     }
-                });
+                }
+        )
+                .withIntentCustomizer(intentCustomizer)
+                .navigateTo(Uri.parse(story.getUrl()), activity);
     }
 
     public void toComments(View v, Story story) {
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity, new Pair<>(v, CommentsPresenter.VIEW_NAME_HEADER_TITLE));
+                activity, new Pair<>(v, CommentsPresenter.VIEW_NAME_HEADER_TITLE)
+        );
 
         Intent commentIntent = new Intent(activity, CommentsActivity.class);
         commentIntent.putExtra(CommentsActivity.ARG_STORY, story);
@@ -176,9 +180,11 @@ public class Navigator {
 
         final android.util.Pair[] pairs =
                 TransitionHelper.createSafeTransitionParticipants
-                        (activity,
+                        (
+                                activity,
                                 false,
-                                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE));
+                                new android.util.Pair<>(v, LoginActivity.VIEW_TOOLBAR_TITLE)
+                        );
 
         if ((v != null) && (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)) {
             ActivityOptions sceneTransitionAnimation = ActivityOptions
