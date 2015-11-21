@@ -58,25 +58,25 @@ public class CommentsPresenterTest {
         verify(menuItem).setChecked(true);
     }
 
-    @Test
-    public void showsSwipeToRefreshWhenRefreshingAndOnline() {
-        when(activity.findViewById(R.id.comments_view)).thenReturn(commentsView);
-
-        commentsPresenter.onCreate();
-        commentsPresenter.onRefresh(true);
-
-        verify(commentsView).startRefreshing();
-    }
-
-    @Test
-    public void hidesSwipeToRefreshWhenRefreshingAndOffline() {
-        when(activity.findViewById(R.id.comments_view)).thenReturn(commentsView);
-
-        commentsPresenter.onCreate();
-        commentsPresenter.onRefresh(false);
-
-        verify(commentsView).stopRefreshing();
-    }
+//    @Test
+//    public void showsSwipeToRefreshWhenRefreshingAndOnline() {
+//        when(activity.findViewById(R.id.comments_view)).thenReturn(commentsView);
+//
+//        commentsPresenter.onCreate();
+//        commentsPresenter.onRefresh(true);
+//
+//        verify(commentsView).startRefreshing();
+//    }
+//
+//    @Test
+//    public void hidesSwipeToRefreshWhenRefreshingAndOffline() {
+//        when(activity.findViewById(R.id.comments_view)).thenReturn(commentsView);
+//
+//        commentsPresenter.onCreate();
+//        commentsPresenter.onRefresh(false);
+//
+//        verify(commentsView).stopRefreshing();
+//    }
 
     private CommentsPresenter createPresenter() {
         return new CommentsPresenter(activity, refreshListener);

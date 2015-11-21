@@ -5,10 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
-import com.facebook.stetho.Stetho;
 import com.firebase.client.Firebase;
 import com.malmstein.yahnac.injection.DefaultDependenciesFactory;
 import com.malmstein.yahnac.injection.Inject;
+import com.novoda.easycustomtabs.EasyCustomTabs;
 import com.novoda.notils.logger.simple.Log;
 
 public class HNewsApplication extends Application {
@@ -39,21 +39,11 @@ public class HNewsApplication extends Application {
         super.onCreate();
         context = this;
         Firebase.setAndroidContext(this);
-        Inject.using(new DefaultDependenciesFactory(this));
-        initStetho();
-        startup();
-    }
+        EasyCustomTabs.initialize(this);
 
-    private void initStetho() {
-        if (BuildConfig.ENABLE_STETHO) {
-            Stetho.initialize(
-                    Stetho.newInitializerBuilder(this)
-                            .enableDumpapp(
-                                    Stetho.defaultDumperPluginsProvider(this))
-                            .enableWebKitInspector(
-                                    Stetho.defaultInspectorModulesProvider(this))
-                            .build());
-        }
+        Inject.using(new DefaultDependenciesFactory(this));
+
+        startup();
     }
 
     private void startup() {
