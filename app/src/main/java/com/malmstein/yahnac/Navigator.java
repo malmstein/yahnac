@@ -20,7 +20,6 @@ import com.malmstein.yahnac.login.LoginActivity;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
-import com.malmstein.yahnac.story.CustomTabActivityHelper;
 import com.malmstein.yahnac.story.StoryActivity;
 import com.malmstein.yahnac.views.transitions.TransitionHelper;
 import com.novoda.easycustomtabs.EasyCustomTabs;
@@ -39,21 +38,10 @@ public class Navigator {
     private final HNewsActivity activity;
 
     private CompositeSubscription mSubscriptions;
-    private CustomTabActivityHelper customTabActivityHelper;
 
     public Navigator(HNewsActivity activity) {
         this.activity = activity;
-
-        customTabActivityHelper = new CustomTabActivityHelper();
         mSubscriptions = new CompositeSubscription();
-    }
-
-    public void onStart() {
-        customTabActivityHelper.bindCustomTabsService(activity);
-    }
-
-    public void onStop() {
-        customTabActivityHelper.unbindCustomTabsService(activity);
     }
 
     protected boolean isOnline() {
