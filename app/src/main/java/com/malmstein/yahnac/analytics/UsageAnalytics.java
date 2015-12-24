@@ -19,7 +19,6 @@ public class UsageAnalytics {
 
     public void initTracker(Context context) {
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
-        analyticsTracker = analytics.newTracker(R.xml.global_tracker);
     }
 
     public void trackPage(String page) {
