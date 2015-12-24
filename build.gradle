@@ -33,9 +33,6 @@ allprojects {
             url 'http://download.crashlytics.com/maven'
         }
         maven {
-            url "http://ci.novoda.com/maven/releases"
-        }
-        maven {
             url "http://dl.bintray.com/novoda/maven"
         }
     }
