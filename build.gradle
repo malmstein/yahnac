@@ -1,7 +1,7 @@
 ext {
     configuration = [
             package          : "com.malmstein.yahnac",
-            buildToolsVersion: "23.0.2",
+            buildToolsVersion: "23.0.1",
             minSdk           : 16,
             targetSdk        : 23,
             compileSdk       : 23,
@@ -12,16 +12,9 @@ ext {
 
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
         maven {
             url 'http://download.crashlytics.com/maven'
-        }
-        maven {
-            url "http://ci.novoda.com/maven/releases"
-        }
-        maven {
-            url "http://dl.bintray.com/novoda/maven"
         }
     }
 
@@ -38,9 +31,6 @@ allprojects {
         jcenter()
         maven {
             url 'http://download.crashlytics.com/maven'
-        }
-        maven {
-            url "http://ci.novoda.com/maven/releases"
         }
         maven {
             url "http://dl.bintray.com/novoda/maven"

@@ -32,18 +32,6 @@ public class HNewsActivity extends AppCompatActivity {
         navigator = new Navigator(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        navigator.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        navigator.onStop();
-    }
-
     private void initNetworkChecker() {
         networkChecker = new NetworkChecker(this);
     }
