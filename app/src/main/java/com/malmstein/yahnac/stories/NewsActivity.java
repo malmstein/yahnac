@@ -3,9 +3,11 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
@@ -28,6 +30,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
 
     private ViewPager headersPager;
 
+    private ViewGroup contentRoot;
     private SnackBarView snackbarView;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
@@ -39,8 +42,8 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
         setupViews();
+        showAppInviteMessage();
     }
 
     @Override
@@ -51,6 +54,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void setupViews() {
+        contentRoot = Views.findById(this, R.id.navigation_drawer);
         setupHeaders();
         setupTabs();
         setupSnackbar();
@@ -97,6 +101,26 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         snackbarView = Views.findById(this, R.id.snackbar);
         croutonBackgroundAlpha = getResources().getInteger(R.integer.feed_crouton_background_alpha);
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
+    }
+
+    private void showAppInviteMessage() {
+        Snackbar.make(contentRoot, R.string.app_invite, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.app_invite_action, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onInviteClicked();
+                    }
+                });
+    }
+
+    private void onInviteClicked() {
+//        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+//                .setMessage(getString(R.string.invitation_message))
+//                .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+//                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+//                .setCallToActionText(getString(R.string.invitation_cta))
+//                .build();
+//        startActivityForResult(intent, REQUEST_INVITE);
     }
 
     @Override
