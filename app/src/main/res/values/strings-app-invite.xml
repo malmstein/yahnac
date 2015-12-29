@@ -4,6 +4,7 @@
   <string name="app_invite">Do you like Yahnac? Invite your friends to give it a try!</string>
   <string name="app_invite_action">Invite</string>
 
+  <string name="invitation_custom_image">https://raw.githubusercontent.com/malmstein/yahnac/master/art/feature_graphic.png</string>
   <string name="invitation_title">Invite your friends to use Yahnac</string>
   <string name="invitation_message">This is a great Hacker News client, give it a try!</string>
   <string name="invitation_cta">Install!</string>

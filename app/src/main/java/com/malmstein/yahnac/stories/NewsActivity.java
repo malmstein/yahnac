@@ -141,6 +141,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_app_invite_started));
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
+                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
                 .setCallToActionText(getString(R.string.invitation_cta))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
