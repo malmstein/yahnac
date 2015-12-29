@@ -20,6 +20,7 @@ android {
         buildConfigField "String", "BUILD_TIME_FORMATTED", "\"${instance.getTime()}\""
         buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
         buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
+        buildConfigField "boolean", "ENABLE_APP_INVITES", "!BuildConfig.DEBUG"
     }
 
     compileOptions {

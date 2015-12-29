@@ -13,6 +13,7 @@ import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
@@ -116,8 +117,10 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void setupAppInvites() {
-        setupGoogleClient();
-        showAppInviteMessage();
+        if (BuildConfig.ENABLE_APP_INVITES) {
+            setupGoogleClient();
+            showAppInviteMessage();
+        }
     }
 
     private void setupGoogleClient() {
