@@ -59,7 +59,6 @@ public class HNewsApplication extends Application {
                 Log.TAG = LOG_TAG;
                 Log.STACK_DEPTH = 6;
                 StrictModeManager.initializeStrictMode(newVmPolicyBuilder(), newThreadPolicyBuilder());
-                Inject.crashAnalytics().startTracking(getApplicationContext());
                 if (BuildConfig.ENABLE_USAGE_ANALYTICS) {
                     Inject.usageAnalytics().initTracker(getApplicationContext());
                 }

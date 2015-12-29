@@ -1,20 +1,5 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
-apply plugin: 'com.google.gms.google-services'
 
 def cfg = rootProject.ext.configuration;
 
@@ -86,9 +71,12 @@ dependencies {
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
-    compile 'com.crashlytics.android:crashlytics:1.1.11'
     compile 'com.firebase:firebase-client-android:2.2.1'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.9.5'
@@ -96,7 +84,7 @@ dependencies {
     // Android Testing Support Library's runner and rules
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.android.support.test:rules:0.3'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
-    }
+
 }
+
+apply plugin: 'com.google.gms.google-services'

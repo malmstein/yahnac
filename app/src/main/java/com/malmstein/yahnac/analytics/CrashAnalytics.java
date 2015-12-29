@@ -1,20 +1,6 @@
 package com.malmstein.yahnac.analytics;
 
-import android.content.Context;
-
 public interface CrashAnalytics {
-
-    /**
-     * Check if crashes analytics is active.
-     */
-    boolean isActive();
-
-    /**
-     * Begin tracking crashes for this context.
-     *
-     * @param context
-     */
-    void startTracking(Context context);
 
     /**
      * Send custom event to crash analyser service.
