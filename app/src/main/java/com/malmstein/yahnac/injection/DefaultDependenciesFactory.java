@@ -8,6 +8,7 @@ import com.malmstein.yahnac.analytics.UsageAnalytics;
 import com.malmstein.yahnac.data.ConnectionProvider;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
+import com.malmstein.yahnac.invite.AppInviter;
 
 public class DefaultDependenciesFactory implements DependenciesFactory {
 
@@ -40,6 +41,11 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
     @Override
     public UsageAnalytics createUsageAnalytics() {
         return new UsageAnalytics();
+    }
+
+    @Override
+    public AppInviter createAppInviter() {
+        return new AppInviter();
     }
 
 }

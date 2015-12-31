@@ -23,9 +23,10 @@ public class SettingsFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.about_settings);
         addPreferencesFromResource(R.xml.community_settings);
-        addPreferencesFromResource(R.xml.account_settings);
+        configureAccountPreferences();
         addPreferenceClickListenerForSoftwareLicenses();
         addPreferenceClickListenerForCommunity();
+        addPreferenceClickListenerForAppInvite();
         updateSummaryPreferences();
     }
 
@@ -41,26 +42,20 @@ public class SettingsFragment extends PreferenceFragment {
         this.listener = new DummyListener();
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        configureAccountPreferences();
-    }
-
     private void configureAccountPreferences() {
-        PreferenceCategory accountCategory = (PreferenceCategory) findPreference(getString(R.string.settings_category_key_account));
-        Preference logoutNotification = accountCategory.findPreference(getString(R.string.settings_key_logout));
-        logoutNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                listener.onShowLogoutDialog();
-                return true;
-            }
-        });
-
         loginSharedPreferences = LoginSharedPreferences.newInstance();
-        logoutNotification.setEnabled(loginSharedPreferences.isLoggedIn());
-
+        if (loginSharedPreferences.isLoggedIn()) {
+            addPreferencesFromResource(R.xml.account_settings);
+            PreferenceCategory accountCategory = (PreferenceCategory) findPreference(getString(R.string.settings_category_key_account));
+            Preference logoutNotification = accountCategory.findPreference(getString(R.string.settings_key_logout));
+            logoutNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    listener.onShowLogoutDialog();
+                    return true;
+                }
+            });
+        }
     }
 
     private void addPreferenceClickListenerForSoftwareLicenses() {
@@ -92,6 +87,20 @@ public class SettingsFragment extends PreferenceFragment {
         });
     }
 
+    private void addPreferenceClickListenerForAppInvite() {
+        PreferenceCategory communityCategory = (PreferenceCategory) findPreference(getString(R.string.settings_category_key_community));
+        Preference invitePreference = communityCategory.findPreference(getString(R.string.settings_key_invite));
+        invitePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                listener.onAppInviteRequested();
+                return true;
+            }
+
+        });
+    }
+
     private void updateSummaryPreferences() {
         updateSummary(R.string.settings_key_build_version, String.format(getString(R.string.settings_value_version_number), BuildConfig.VERSION_NAME));
         updateSummary(R.string.settings_key_build_timestamp, BuildConfig.BUILD_TIME_FORMATTED);
@@ -106,12 +115,19 @@ public class SettingsFragment extends PreferenceFragment {
 
         void onShowLogoutDialog();
 
+        void onAppInviteRequested();
+
     }
 
     private static class DummyListener implements Listener {
 
         @Override
         public void onShowLogoutDialog() {
+            // no-op
+        }
+
+        @Override
+        public void onAppInviteRequested() {
             // no-op
         }
 

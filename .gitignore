@@ -28,13 +28,11 @@ gen-external-apklibs/
 tmp/
 
 # IDEA Ignores
-.idea/
 *.iml
 *.ipr
 *.iws
-.idea/
-.gradle/
-.idea/workspace.xml
+out
+.idea
 
 # Android
 local.properties
@@ -59,3 +57,37 @@ app/google-services.json
 app/build
 app-test/build
 lint-results.xml
+
+# Custom
+_site
+
+# Ant
+MANIFEST.MF
+./*.jar
+build.num
+build
+
+# ADT
+.classpath
+.project
+.settings
+local.properties
+bin
+gen
+_layouts
+proguard.cfg
+
+# OSX
+.DS_Store
+
+# Github
+gh-pages
+
+# Gradle
+.gradle
+build
+
+# Maven
+target
+release.properties
+pom.xml.*

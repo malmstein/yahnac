@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 def cfg = rootProject.ext.configuration;
 
@@ -21,6 +20,7 @@ android {
         buildConfigField "String", "BUILD_TIME_FORMATTED", "\"${instance.getTime()}\""
         buildConfigField "boolean", "ENABLE_CRASH_ANALYTICS", "!BuildConfig.DEBUG"
         buildConfigField "boolean", "ENABLE_USAGE_ANALYTICS", "!BuildConfig.DEBUG"
+        buildConfigField "boolean", "ENABLE_APP_INVITES", "!BuildConfig.DEBUG"
     }
 
     compileOptions {
@@ -58,22 +58,26 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v13:23.1.0'
-    compile 'com.android.support:design:23.1.0'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:cardview-v7:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:support-v13:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile 'com.google.android.gms:play-services-appinvite:8.4.0'
 
     compile 'com.novoda:simple-chrome-custom-tabs:0.1.0'
-
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.novoda:notils:2.2.8'
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
-    compile 'com.crashlytics.android:crashlytics:1.1.11'
-    compile 'com.novoda:notils:2.2.8'
     compile 'com.firebase:firebase-client-android:2.4.1'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.9.5'
@@ -81,4 +85,7 @@ dependencies {
     // Android Testing Support Library's runner and rules
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.android.support.test:rules:0.3'
+
 }
+
+apply plugin: 'com.google.gms.google-services'

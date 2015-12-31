@@ -2,7 +2,7 @@
 
 [![Get it on Google Play](art/play.png)][1]
 
-[![Build Status](https://travis-ci.org/malmstein/yahnac.svg?branch=develop)](https://travis-ci.org/malmstein/yahnac)
+[![Build Status](https://travis-ci.org/malmstein/yahnac.svg?branch=master)](https://travis-ci.org/malmstein/yahnac)
 
 ## Description
 
