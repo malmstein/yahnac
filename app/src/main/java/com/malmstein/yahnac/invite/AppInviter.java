@@ -1,5 +1,6 @@
 package com.malmstein.yahnac.invite;
 
+import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.data.updater.AppInviteSharedPreferences;
 
 public class AppInviter {
@@ -11,8 +12,7 @@ public class AppInviter {
     }
 
     public boolean shouldShow() {
-//        return BuildConfig.ENABLE_APP_INVITES && meetsCriteria();
-        return meetsCriteria();
+        return BuildConfig.ENABLE_APP_INVITES && meetsCriteria();
     }
 
     private boolean meetsCriteria() {
