@@ -9,7 +9,6 @@ import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 
 import com.malmstein.yahnac.R;
-import com.malmstein.yahnac.views.fonts.YahnacTextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
