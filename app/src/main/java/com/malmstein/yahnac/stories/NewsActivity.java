@@ -13,12 +13,12 @@ import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.injection.Inject;
+import com.malmstein.yahnac.invite.AppInviter;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
@@ -40,6 +40,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     private int croutonBackgroundAlpha;
     private StoriesPagerAdapter storiesPagerAdapter;
     private Subscription subscription;
+
     private GoogleApiClient googleApiClient;
 
     @Override
@@ -47,7 +48,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         setupViews();
-        setupAppInvites();
+        showAppInviteIfNecessary();
     }
 
     @Override
@@ -116,8 +117,9 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
     }
 
-    private void setupAppInvites() {
-        if (BuildConfig.ENABLE_APP_INVITES) {
+    private void showAppInviteIfNecessary() {
+        AppInviter appInviter = Inject.appInviter();
+        if (appInviter.shouldShow()) {
             setupGoogleClient();
             showAppInviteMessage();
         }
@@ -131,7 +133,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void showAppInviteMessage() {
-        Snackbar.make(headersPager, R.string.app_invite, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(headersPager, R.string.app_invite, Snackbar.LENGTH_LONG)
                 .setAction(R.string.app_invite_action, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
