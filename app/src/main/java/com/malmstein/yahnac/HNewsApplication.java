@@ -8,8 +8,8 @@ import android.os.StrictMode;
 import com.firebase.client.Firebase;
 import com.malmstein.yahnac.injection.DefaultDependenciesFactory;
 import com.malmstein.yahnac.injection.Inject;
-import com.novoda.easycustomtabs.EasyCustomTabs;
 import com.novoda.notils.logger.simple.Log;
+import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
 
 public class HNewsApplication extends Application {
 
@@ -39,7 +39,7 @@ public class HNewsApplication extends Application {
         super.onCreate();
         context = this;
         Firebase.setAndroidContext(this);
-        EasyCustomTabs.initialize(this);
+        SimpleChromeCustomTabs.initialize(this);
 
         Inject.using(new DefaultDependenciesFactory(this));
 

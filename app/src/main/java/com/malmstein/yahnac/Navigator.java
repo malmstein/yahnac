@@ -22,10 +22,10 @@ import com.malmstein.yahnac.settings.SettingsActivity;
 import com.malmstein.yahnac.stories.NewsActivity;
 import com.malmstein.yahnac.story.StoryActivity;
 import com.malmstein.yahnac.views.transitions.TransitionHelper;
-import com.novoda.easycustomtabs.EasyCustomTabs;
-import com.novoda.easycustomtabs.navigation.EasyCustomTabsIntentBuilder;
-import com.novoda.easycustomtabs.navigation.IntentCustomizer;
-import com.novoda.easycustomtabs.navigation.NavigationFallback;
+import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
+import com.novoda.simplechromecustomtabs.navigation.IntentCustomizer;
+import com.novoda.simplechromecustomtabs.navigation.NavigationFallback;
+import com.novoda.simplechromecustomtabs.navigation.SimpleChromeCustomTabsIntentBuilder;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -95,13 +95,11 @@ public class Navigator {
                     public void call(Subscriber<? super IntentCustomizer> subscriber) {
                         IntentCustomizer intentCustomizer = new IntentCustomizer() {
                             @Override
-                            public EasyCustomTabsIntentBuilder onCustomiseIntent(EasyCustomTabsIntentBuilder easyCustomTabsIntentBuilder) {
+                            public SimpleChromeCustomTabsIntentBuilder onCustomiseIntent(SimpleChromeCustomTabsIntentBuilder easyCustomTabsIntentBuilder) {
                                 return easyCustomTabsIntentBuilder.withToolbarColor(ContextCompat.getColor(activity, R.color.orange))
                                         .showingTitle()
                                         .withUrlBarHiding()
-                                        .withCloseButtonIcon(decodeCloseBitmap())
-                                        .withExitAnimations(activity, android.R.anim.slide_in_left, android.R.anim.fade_out)
-                                        .withStartAnimations(activity, android.R.anim.fade_in, android.R.anim.slide_out_right);
+                                        .withCloseButtonIcon(decodeCloseBitmap());
                             }
                         };
                         subscriber.onNext(intentCustomizer);
@@ -112,7 +110,7 @@ public class Navigator {
     }
 
     private void openCustomTabsIfPossible(final Story story, IntentCustomizer intentCustomizer) {
-        EasyCustomTabs.getInstance().withFallback(
+        SimpleChromeCustomTabs.getInstance().withFallback(
                 new NavigationFallback() {
                     @Override
                     public void onFallbackNavigateTo(Uri url) {

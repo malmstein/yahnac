@@ -5,8 +5,8 @@ ext {
             minSdk           : 16,
             targetSdk        : 23,
             compileSdk       : 23,
-            versionCode      : 21,
-            versionName      : "1.0.7"
+            versionCode: 22,
+            versionName: "1.1.0"
     ]
 }
 
