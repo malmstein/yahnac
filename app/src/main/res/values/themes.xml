@@ -39,7 +39,7 @@
     <item name="dialogOrientation">vertical</item>
     <item name="dialogTitleWidth">match_parent</item>
     <item name="dialogContentWidth">match_parent</item>
-    <item name="colorAccent">@color/black</item>
+    <item name="colorAccent">@color/dark_orange</item>
   </style>
 
   <style name="Theme.HNews.Login">
