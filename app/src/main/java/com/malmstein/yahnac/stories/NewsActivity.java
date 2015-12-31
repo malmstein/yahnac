@@ -133,7 +133,7 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     }
 
     private void showAppInviteMessage() {
-        Snackbar.make(headersPager, R.string.app_invite, Snackbar.LENGTH_LONG)
+        Snackbar.make(headersPager, R.string.app_invite, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.app_invite_action, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
