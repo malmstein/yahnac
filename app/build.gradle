@@ -67,12 +67,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.google.android.gms:play-services-appinvite:8.4.0'
 
-    compile 'com.novoda:simple-chrome-custom-tabs:0.0.1'
+    compile 'com.novoda:simple-chrome-custom-tabs:0.1.0'
     compile 'com.novoda:notils:2.2.8'
 
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'org.jsoup:jsoup:1.8.1'
-    compile 'com.firebase:firebase-client-android:2.2.1'
+    compile 'com.firebase:firebase-client-android:2.4.1'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {

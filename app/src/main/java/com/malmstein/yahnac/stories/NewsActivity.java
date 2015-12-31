@@ -24,8 +24,8 @@ import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.views.drawer.NavigationDrawerHeader;
-import com.novoda.easycustomtabs.EasyCustomTabs;
 import com.novoda.notils.caster.Views;
+import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
 
 import rx.Observer;
 import rx.Subscription;
@@ -155,14 +155,14 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     protected void onResume() {
         super.onResume();
-        EasyCustomTabs.getInstance().connectTo(this);
+        SimpleChromeCustomTabs.getInstance().connectTo(this);
         refreshHeader();
         trackCurrentPage();
     }
 
     @Override
     public void onPause() {
-        EasyCustomTabs.getInstance().disconnectFrom(this);
+        SimpleChromeCustomTabs.getInstance().disconnectFrom(this);
         super.onPause();
     }
 
