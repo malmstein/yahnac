@@ -3,44 +3,52 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.malmstein.yahnac.HNewsNavigationDrawerActivity;
 import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.data.DataPersister;
 import com.malmstein.yahnac.data.Provider;
 import com.malmstein.yahnac.injection.Inject;
+import com.malmstein.yahnac.invite.AppInviter;
 import com.malmstein.yahnac.model.OperationResponse;
 import com.malmstein.yahnac.model.Story;
 import com.malmstein.yahnac.views.SnackBarView;
 import com.malmstein.yahnac.views.drawer.ActionBarDrawerListener;
 import com.malmstein.yahnac.views.drawer.NavigationDrawerHeader;
-import com.novoda.easycustomtabs.EasyCustomTabs;
 import com.novoda.notils.caster.Views;
+import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
 
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener {
+public class NewsActivity extends HNewsNavigationDrawerActivity implements StoryListener, ActionBarDrawerListener.Listener, NavigationDrawerHeader.Listener, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int REQUEST_INVITE = 0;
     private ViewPager headersPager;
-
     private SnackBarView snackbarView;
     private int croutonAnimationDuration;
     private int croutonBackgroundAlpha;
-
     private StoriesPagerAdapter storiesPagerAdapter;
     private Subscription subscription;
+
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
         setupViews();
+        showAppInviteIfNecessary();
     }
 
     @Override
@@ -48,6 +56,16 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         super.onNewIntent(intent);
         refreshHeader();
         setupViews();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_app_invite_complete));
+            }
+        }
     }
 
     private void setupViews() {
@@ -99,17 +117,52 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
         croutonAnimationDuration = getResources().getInteger(R.integer.feed_crouton_animation_duration);
     }
 
+    private void showAppInviteIfNecessary() {
+        AppInviter appInviter = Inject.appInviter();
+        if (appInviter.shouldShow()) {
+            setupGoogleClient();
+            showAppInviteMessage();
+        }
+    }
+
+    private void setupGoogleClient() {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(AppInvite.API)
+                .enableAutoManage(this, this)
+                .build();
+    }
+
+    private void showAppInviteMessage() {
+        Snackbar.make(headersPager, R.string.app_invite, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.app_invite_action, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onInviteClicked();
+                    }
+                }).show();
+    }
+
+    private void onInviteClicked() {
+        Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_app_invite_started));
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                .setMessage(getString(R.string.invitation_message))
+                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                .setCallToActionText(getString(R.string.invitation_cta))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        EasyCustomTabs.getInstance().connectTo(this);
+        SimpleChromeCustomTabs.getInstance().connectTo(this);
         refreshHeader();
         trackCurrentPage();
     }
 
     @Override
     public void onPause() {
-        EasyCustomTabs.getInstance().disconnectFrom(this);
+        SimpleChromeCustomTabs.getInstance().disconnectFrom(this);
         super.onPause();
     }
 
@@ -313,6 +366,11 @@ public class NewsActivity extends HNewsNavigationDrawerActivity implements Story
     @Override
     public void onLoginClicked() {
         navigate().toLogin(Views.findById(this, R.id.view_drawer_header));
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Snackbar.make(headersPager, R.string.google_play_services_error, Snackbar.LENGTH_SHORT).show();
     }
 
     public class StoryTabSelectedListener implements TabLayout.OnTabSelectedListener {

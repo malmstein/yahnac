@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_invite">Like Yahnac? Invite your friends to give it a go</string>
+  <string name="app_invite_action">Invite</string>
+
+  <string name="invitation_custom_image">https://raw.githubusercontent.com/malmstein/yahnac/master/art/feature_graphic.png</string>
+  <string name="invitation_title">Invite your friends to use Yahnac</string>
+  <string name="invitation_message">This is a great Hacker News client, give it a try!</string>
+  <string name="invitation_cta">Install!</string>
+  <string name="invitation_subject">Try this great app!</string>
+
+  <string name="google_play_services_error">Google Play Services Error</string>
+
+</resources>

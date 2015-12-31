@@ -5,11 +5,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
 import com.malmstein.yahnac.injection.DefaultDependenciesFactory;
 import com.malmstein.yahnac.injection.Inject;
-import com.novoda.easycustomtabs.EasyCustomTabs;
 import com.novoda.notils.logger.simple.Log;
+import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
+
+import io.fabric.sdk.android.Fabric;
 
 public class HNewsApplication extends Application {
 
@@ -37,9 +40,10 @@ public class HNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         context = this;
         Firebase.setAndroidContext(this);
-        EasyCustomTabs.initialize(this);
+        SimpleChromeCustomTabs.initialize(this);
 
         Inject.using(new DefaultDependenciesFactory(this));
 
@@ -55,7 +59,6 @@ public class HNewsApplication extends Application {
                 Log.TAG = LOG_TAG;
                 Log.STACK_DEPTH = 6;
                 StrictModeManager.initializeStrictMode(newVmPolicyBuilder(), newThreadPolicyBuilder());
-                Inject.crashAnalytics().startTracking(getApplicationContext());
                 if (BuildConfig.ENABLE_USAGE_ANALYTICS) {
                     Inject.usageAnalytics().initTracker(getApplicationContext());
                 }

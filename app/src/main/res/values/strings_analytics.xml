@@ -33,5 +33,9 @@
   <string name="analytics_event_view_external_url_feed">View external url from Feed</string>
   <string name="analytics_event_view_external_url_bookmarks">View external url from Bookmarks</string>
   <string name="analytics_event_vote">Vote story</string>
+  <string name="analytics_event_app_invite_complete">App Invite Complete</string>
+  <string name="analytics_event_app_invite_settings_complete">App Invite Complete from Settings</string>
+  <string name="analytics_event_app_invite_started">App Invite Started</string>
+  <string name="analytics_event_app_invite_settings_started">App Invite Started from Settings</string>
 
 </resources>

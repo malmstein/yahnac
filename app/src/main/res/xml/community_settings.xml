@@ -10,6 +10,10 @@
       android:key="@string/settings_key_community"
       android:title="@string/settings_title_community" />
 
+    <Preference
+      android:key="@string/settings_key_invite"
+      android:title="@string/settings_title_invite" />
+
   </PreferenceCategory>
 
 </PreferenceScreen>
