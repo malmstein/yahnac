@@ -8,10 +8,10 @@
     {
       "client_info": {
         "mobilesdk_app_id": "[YOUR_PROJECT_ID]",
-        "client_id": "[YOUR_PROJECT_CLIENT_ID]",
+        "client_id": "android:com.malmstein.yahnac",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "[YOUR_PROJECT_PACKAGE_NAME]"
+          "package_name": "com.malmstein.yahnac"
         }
       },
       "oauth_client": [
@@ -19,7 +19,7 @@
           "client_id": "[YOUR_CLIENT_ID]",
           "client_type": 1,
           "android_info": {
-            "package_name": "[YOUR_PROJECT_NAME]",
+            "package_name": "com.malmstein.yahnac",
             "certificate_hash": "[YOUR_PROJECT_CERTIFICATE_HASH]"
           }
         }
