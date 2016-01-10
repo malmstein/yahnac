@@ -1,84 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  style="@style/HNews.Card"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content">
+  <data>
 
-  <LinearLayout
-    style="@style/HNews.FeedItem"
+    <variable
+      name="viewModel"
+      type="com.malmstein.yahnac.StoryViewModel" />
+  </data>
+
+  <android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    style="@style/HNews.Card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/article_card_root"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-      android:id="@+id/article_text_root"
+      android:id="@+id/article_card_root"
+      style="@style/HNews.FeedItem"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:padding="@dimen/default_padding">
-
-      <com.malmstein.yahnac.views.fonts.YahnacTextView
-        style="@style/HNews.Subhead"
-        android:id="@+id/article_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        tools:text="This is the article title" />
+      android:layout_height="match_parent"
+      android:orientation="vertical">
 
       <LinearLayout
+        android:id="@+id/article_text_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:paddingTop="@dimen/card_content_padding">
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <com.malmstein.yahnac.views.fonts.YahnacTextView
+          android:id="@+id/article_title"
+          style="@style/HNews.Subhead"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColor="@color/black"
+          tools:text="This is the article title" />
 
         <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="horizontal">
+          android:layout_gravity="bottom"
+          android:orientation="horizontal"
+          android:paddingTop="@dimen/card_content_padding">
 
-          <com.malmstein.yahnac.views.fonts.YahnacTextView
-            style="@style/HNews.Body1"
-            android:id="@+id/article_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey"
-            tools:text="1h ago" />
-
-          <com.malmstein.yahnac.views.fonts.YahnacTextView
-            style="@style/HNews.Body1"
-            android:id="@+id/article_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey"
-            android:paddingLeft="@dimen/card_content_padding"
-            tools:text="user" />
-
-          <com.malmstein.yahnac.views.fonts.YahnacTextView
-            style="@style/HNews.Body1"
-            android:id="@+id/article_score"
+          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/grey"
-            tools:text="12 points" />
+            android:orientation="horizontal">
+
+            <com.malmstein.yahnac.views.fonts.YahnacTextView
+              android:id="@+id/article_time"
+              style="@style/HNews.Body1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/grey"
+              tools:text="1h ago" />
+
+            <com.malmstein.yahnac.views.fonts.YahnacTextView
+              android:id="@+id/article_user"
+              style="@style/HNews.Body1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/card_content_padding"
+              android:textColor="@color/grey"
+              tools:text="user" />
+
+            <com.malmstein.yahnac.views.fonts.YahnacTextView
+              android:id="@+id/article_score"
+              style="@style/HNews.Body1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="end"
+              android:textColor="@color/grey"
+              tools:text="12 points" />
+
+          </LinearLayout>
 
         </LinearLayout>
 
       </LinearLayout>
 
+      <include
+        layout="@layout/view_story_item_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     </LinearLayout>
 
-    <include
-      layout="@layout/view_story_item_footer"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+  </android.support.v7.widget.CardView>
 
-  </LinearLayout>
-
-</android.support.v7.widget.CardView>
-
+</layout>
 
