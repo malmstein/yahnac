@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_id": "[YOUR_PROJECT_ID]",
+    "project_number": "[YOUR_PROJECT_NUMBER]",
+    "name": "[YOUR_PROJECT_NAME]"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "[YOUR_PROJECT_ID]",
+        "client_id": "android:com.malmstein.yahnac",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.malmstein.yahnac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "[YOUR_CLIENT_ID]",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malmstein.yahnac",
+            "certificate_hash": "[YOUR_PROJECT_CERTIFICATE_HASH]"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "[YOUR_PROJECT_ANALYTICS_ID]"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
