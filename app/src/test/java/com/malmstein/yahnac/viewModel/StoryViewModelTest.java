@@ -1,13 +1,12 @@
 package com.malmstein.yahnac.viewModel;
 
+import com.malmstein.yahnac.model.Story;
+
 import org.junit.Before;
 
-/**
- * User: malmstein
- * Date: 10/01/2016
- * Time: 19:03
- */
 public class StoryViewModelTest {
+
+    private Story story;
 
     @Before
     public void setUp() {
