@@ -21,6 +21,11 @@
     <item name="colorAccent">@color/white</item>
   </style>
 
+    <style name="Theme.HNews.Collapsing" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:actionBarItemBackground">?attr/selectableItemBackground</item>
+        <item name="actionBarItemBackground">?attr/selectableItemBackground</item>
+    </style>
+
   <style name="Theme.HNews.News">
     <item name="dialogOrientation">vertical</item>
     <item name="dialogTitleWidth">match_parent</item>
