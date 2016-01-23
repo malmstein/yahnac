@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.HNews.Login">
+        <item name="android:windowSharedElementExitTransition">@transition/login_enter</item>
+    </style>
+
+    <style name="Theme.HNews.News">
+        <item name="android:windowSharedElementEnterTransition">@transition/login_enter</item>
+    </style>
+</resources>
