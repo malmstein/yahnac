@@ -18,6 +18,11 @@
     <item name="windowActionBarOverlay">true</item>
   </style>
 
+  <style name="HNews.AppBar.Collapsing" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:actionBarItemBackground">?attr/selectableItemBackground</item>
+    <item name="actionBarItemBackground">?attr/selectableItemBackground</item>
+  </style>
+
   <style name="HNews.AppBar" parent="Widget.AppCompat.Toolbar">
     <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
