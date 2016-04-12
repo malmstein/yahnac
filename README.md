@@ -25,7 +25,7 @@ Unfortunately, the API is not ready yet fetching comments properly so the soluti
 
 ## Tests
 
-Yahnac has tests around the parsing of Stories and Comments. You can execute them by using the new Unit Testing functionality addedd to Android Studio.
+Yahnac has tests around the parsing of Stories and Comments. You can execute them by using the new Unit Testing functionality added to Android Studio.
 You can learn more about [testing](http://developer.android.com/tools/testing/testing_android.html) and [how to run them](http://tools.android.com/tech-docs/unit-testing-support)
 
 ## Links
