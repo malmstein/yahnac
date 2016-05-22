@@ -20,7 +20,11 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
+<<<<<<< Updated upstream
         classpath 'com.google.gms:google-services:2.1.0'
+=======
+        classpath 'com.google.gms:google-services:2.0.0-alpha3'
+>>>>>>> Stashed changes
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
