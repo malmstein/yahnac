@@ -56,7 +56,6 @@ public class LoginActivity extends HNewsActivity implements LoginView.Listener {
 
     @Override
     public void onSignIn(final String username, String password) {
-        Inject.usageAnalytics().trackEvent(getString(R.string.analytics_event_login));
         showProgress();
         Provider provider = Inject.provider();
         subscription = provider
@@ -78,6 +77,7 @@ public class LoginActivity extends HNewsActivity implements LoginView.Listener {
                     @Override
                     public void onNext(Login.Status status) {
                         if (status == Login.Status.SUCCESSFUL) {
+                            Inject.usageAnalytics().trackLogin(username);
                             showSuccess(username);
                             navigate().toNews();
                         } else {
