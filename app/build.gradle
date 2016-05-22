@@ -59,17 +59,15 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v13:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:support-v13:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 
     compile 'com.google.firebase:firebase-core:9.0.0'
     compile 'com.google.firebase:firebase-crash:9.0.0'
-
-    compile 'com.google.android.gms:play-services-analytics:9.0.0'
-    compile 'com.google.android.gms:play-services-appinvite:9.0.0'
+    compile 'com.google.firebase:firebase-invites:9.0.0'
 
     compile 'com.novoda:simple-chrome-custom-tabs:0.1.0'
     compile 'com.novoda:notils:2.2.8'
