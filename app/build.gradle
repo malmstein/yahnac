@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 def cfg = rootProject.ext.configuration;
 
@@ -65,11 +64,10 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
 
-    compile 'com.google.firebase:firebase-core:9.0.0'
-    compile 'com.google.firebase:firebase-crash:9.0.0'
-    compile 'com.google.firebase:firebase-invites:9.0.0'
-
-    compile 'com.google.android.gms:play-services-analytics:9.0.0'
+    compile 'com.google.firebase:firebase-core:9.0.2'
+    compile 'com.google.firebase:firebase-crash:9.0.2'
+    compile 'com.google.firebase:firebase-invites:9.0.2'
+    compile 'com.google.android.gms:play-services-analytics:9.0.2'
 
     compile 'com.novoda:simple-chrome-custom-tabs:0.1.0'
     compile 'com.novoda:notils:2.2.8'

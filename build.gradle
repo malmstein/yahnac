@@ -21,7 +21,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -29,9 +28,6 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
         maven {
             url "http://dl.bintray.com/novoda/maven"
         }
