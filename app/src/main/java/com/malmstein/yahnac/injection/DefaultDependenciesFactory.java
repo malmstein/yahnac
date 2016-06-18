@@ -3,7 +3,6 @@ package com.malmstein.yahnac.injection;
 import android.content.Context;
 
 import com.malmstein.yahnac.analytics.CrashAnalytics;
-import com.malmstein.yahnac.analytics.CrashlyticsAnalytics;
 import com.malmstein.yahnac.analytics.FirebaseAnalytics;
 import com.malmstein.yahnac.analytics.UsageAnalytics;
 import com.malmstein.yahnac.data.ConnectionProvider;

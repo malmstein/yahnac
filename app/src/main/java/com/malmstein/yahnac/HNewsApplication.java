@@ -5,14 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
-import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
 import com.malmstein.yahnac.injection.DefaultDependenciesFactory;
 import com.malmstein.yahnac.injection.Inject;
 import com.novoda.notils.logger.simple.Log;
 import com.novoda.simplechromecustomtabs.SimpleChromeCustomTabs;
-
-import io.fabric.sdk.android.Fabric;
 
 public class HNewsApplication extends Application {
 
@@ -40,7 +37,6 @@ public class HNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         context = this;
         Firebase.setAndroidContext(this);
         SimpleChromeCustomTabs.initialize(this);
