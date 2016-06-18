@@ -3,7 +3,7 @@ package com.malmstein.yahnac.injection;
 import android.content.Context;
 
 import com.malmstein.yahnac.analytics.CrashAnalytics;
-import com.malmstein.yahnac.analytics.CrashlyticsAnalytics;
+import com.malmstein.yahnac.analytics.FirebaseAnalytics;
 import com.malmstein.yahnac.analytics.UsageAnalytics;
 import com.malmstein.yahnac.data.ConnectionProvider;
 import com.malmstein.yahnac.data.DataPersister;
@@ -30,7 +30,7 @@ public class DefaultDependenciesFactory implements DependenciesFactory {
 
     @Override
     public CrashAnalytics createCrashAnalytics() {
-        return new CrashlyticsAnalytics();
+        return new FirebaseAnalytics();
     }
 
     @Override
