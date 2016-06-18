@@ -55,6 +55,7 @@ android {
         abortOnError false
     }
 
+    buildToolsVersion '23.0.3'
 }
 
 dependencies {

@@ -5,8 +5,8 @@ ext {
             minSdk           : 16,
             targetSdk        : 23,
             compileSdk       : 23,
-            versionCode      : 24,
-            versionName      : "1.2.0"
+            versionCode      : 25,
+            versionName      : "1.2.1"
     ]
 }
 
@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0-alpha3'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }

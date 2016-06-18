@@ -1,92 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <data>
-
-    <variable
-      name="viewModel"
-      type="com.malmstein.yahnac.StoryViewModel" />
-  </data>
-
-  <android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/HNews.Card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
     <LinearLayout
-      android:id="@+id/article_card_root"
-      style="@style/HNews.FeedItem"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
-
-      <LinearLayout
-        android:id="@+id/article_text_root"
+        style="@style/HNews.FeedItem"
+        android:id="@+id/article_card_root"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/default_padding">
-
-        <com.malmstein.yahnac.views.fonts.YahnacTextView
-          android:id="@+id/article_title"
-          style="@style/HNews.Subhead"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textColor="@color/black"
-          tools:text="This is the article title" />
+        android:orientation="vertical">
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="bottom"
-          android:orientation="horizontal"
-          android:paddingTop="@dimen/card_content_padding">
-
-          <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/article_text_root"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/default_padding">
 
             <com.malmstein.yahnac.views.fonts.YahnacTextView
-              android:id="@+id/article_time"
-              style="@style/HNews.Body1"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textColor="@color/grey"
-              tools:text="1h ago" />
+                style="@style/HNews.Subhead"
+                android:id="@+id/article_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                tools:text="This is the article title" />
 
-            <com.malmstein.yahnac.views.fonts.YahnacTextView
-              android:id="@+id/article_user"
-              style="@style/HNews.Body1"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:paddingLeft="@dimen/card_content_padding"
-              android:textColor="@color/grey"
-              tools:text="user" />
+            <LinearLayout
+                android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/card_content_padding">
 
-            <com.malmstein.yahnac.views.fonts.YahnacTextView
-              android:id="@+id/article_score"
-              style="@style/HNews.Body1"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="end"
-              android:textColor="@color/grey"
-              tools:text="12 points" />
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
 
-          </LinearLayout>
+                    <com.malmstein.yahnac.views.fonts.YahnacTextView
+                        style="@style/HNews.Body1"
+                        android:id="@+id/article_time"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/grey"
+                        tools:text="1h ago" />
+
+                    <com.malmstein.yahnac.views.fonts.YahnacTextView
+                        style="@style/HNews.Body1"
+                        android:id="@+id/article_user"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="@dimen/card_content_padding"
+                        android:textColor="@color/grey"
+                        tools:text="user" />
+
+                    <com.malmstein.yahnac.views.fonts.YahnacTextView
+                        style="@style/HNews.Body1"
+                        android:gravity="end"
+                        android:id="@+id/article_score"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/grey"
+                        tools:text="12 points" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-      </LinearLayout>
-
-      <include
-        layout="@layout/view_story_item_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <include
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/view_story_item_footer" />
 
     </LinearLayout>
 
-  </android.support.v7.widget.CardView>
-
-</layout>
-
+</android.support.v7.widget.CardView>
