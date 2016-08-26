@@ -3,12 +3,8 @@ package com.malmstein.yahnac.analytics;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.malmstein.yahnac.BuildConfig;
-import com.malmstein.yahnac.R;
 import com.malmstein.yahnac.model.Story;
 
 public class UsageAnalytics {

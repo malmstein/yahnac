@@ -4,14 +4,14 @@ import android.content.ContentValues;
 
 import com.malmstein.yahnac.comments.parser.CommentsParser;
 
-import java.io.File;
-import java.util.Vector;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Before;
+
+import java.io.File;
+import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,9 +19,9 @@ public class CommentsParserTest {
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
 
-    private static final String TITLE_SAMPLE = "Location: Dubai, UAE<p>Remote: Yes</p><p>Willing to relocate: Yes, planning to move back to Europe in a few months (somewhere as of yet undecided, I'm originally from the UK)</p><p> Technologies: Ruby on Rails, JavaScript (Node, React, jQuery, Backbone), Erlang, PHP (Wordpress)</p><p>Résumé/CV: <a href=\"https://www.linkedin.com/profile/view?id=52691687\" rel=\"nofollow\">https://www.linkedin.com/profile/view?id=52691687</a>, <a href=\"https://github.com/lucaspiller\" rel=\"nofollow\">https://github.com/lucaspiller</a></p><p> Email: luca@stackednotion.com</p><p>I'm a full stack developer who seems to focus on maintaining legacy applications that need some love - it's not what I go out looking for, but they seem to find me! My last client project involved migrating a bunch of Rails 1 / 2 applications to new servers and upgrading Ruby / Rails versions to patch security issues. Before that I was tasked with fixing up a new Rails application, that had been built by an outsourcing team who didn't really have any clue what they were doing. I'm currently taking a sabbatical from client work to build my own products in the Wordpress space, but if something interesting comes along I'm happy to take it on!</p>";
-    private static final String AUTHOR_SAMPLE = "lucaspiller";
-    private static final String TIME_AGO_SAMPLE = "3 minutes ago";
+    private static final String TITLE_SAMPLE = "This doesn't help my impression of Digital Ocean at all (even if I am a paying customer currently). A few years ago you could impersonate Digital Ocean staff on their support pages with no effort. They grabbed the username from your email, so whatever you put in front of the @ becamse your username on the forums, visible to everyone. And the avatar came from one of those email-&gt;avatar services where you can sign up and set it to anything. So when I signed up with a username like digitalocean@mydomain.com, I ended up being called \"digitalocean\" on the support forums, and if I had wanted I could just change the avatar to the Digital Ocean logo and impersonate DO or anyone else.<p>I tried reporting it but got pretty much the same answer as this guy (though I did not get banned). Luckily they fixed it like a year later.</p><p>Great write-up, and interesting problem! I wonder if more hosting providers are vulnerable to the same problem.</p>";
+    private static final String AUTHOR_SAMPLE = "flexd";
+    private static final String TIME_AGO_SAMPLE = "3 hours ago";
     private static final String QUESTION_SAMPLE = "I'm a student developer, @pravj on GitHub. I try to follow the best possible development practice when I'm working like documentation, respecting language's style guide etc.<p>But one thing I don't like with me is that I never write tests.</p><p>Why I never followed that aspect is because I always felt that the thing that I'm writing, sounds totally OK.</p><p>One another negative point is that I don't actually get it that How to do/start this and what type of tests I should write for any given project. Maybe this is because I have never done this before.</p><p>For example recently I wrote a identicons library, Penticons[1]. It generates GitHub contribution flavored identicons. You can read the development story here[2].</p><p>Now, the thing that stopped me from writing tests was, I thought that ultimately it's a image generation library, why this thing needs any tests.</p><p>I don't want to lost my 1 point in the Joel score. Whenever I see a <i>build passing</i> label on a GitHub repository, It makes me crazy.</p><p>I'm asking here because I just love HN, I know people will suggest some awesome things here.</p><p>1. https://github.com/penticons/penticons.go</p><p>2. http://pravj.github.io/blog/penticons-the-hash-game/</p>";
     private static final String EMPTY_QUESTION_SAMPLE = "";
 
@@ -41,9 +41,9 @@ public class CommentsParserTest {
         Document askStoryComments = Jsoup.parse(askStoryCommentsFile, "UTF-8", BASE_URI);
         Document storyComments = Jsoup.parse(newsStoryCommentsFile, "UTF-8", BASE_URI);
 
-        Elements tableRows = askStoryComments.select("table tr table tr:has(table)");
+        Elements tableRows = storyComments.select("table tr table tr:has(table)");
 
-        topRowElement = tableRows.get(0).select("td:eq(0)").first();
+        topRowElement = tableRows.get(0).select("td:eq(2)").first();
         secondRowElement = tableRows.get(0).select("td:eq(0)").first();
         secondRowElement = tableRows.get(0).select("td:eq(0)").first();
         voteElement = tableRows.get(0).select("td:eq(1) a").first();
@@ -55,7 +55,7 @@ public class CommentsParserTest {
     @org.junit.Test
     public void returnsAllStoryComments() {
         Vector<ContentValues> storyComments = storyCommentsParser.parse();
-        assertEquals(10, storyComments.size());
+        assertEquals(58, storyComments.size());
     }
 
     @org.junit.Test
@@ -91,7 +91,7 @@ public class CommentsParserTest {
     @org.junit.Test
     public void returnsCommentId() {
         String commentId = storyCommentsParser.parseCommentId(topRowElement);
-        assertEquals("9997329", commentId);
+        assertEquals("12364422", commentId);
     }
 
 }
