@@ -60,7 +60,7 @@ public class CommentsParser {
     }
 
     public String parseText(Element topRowElement) {
-        Element commentSpan = topRowElement.select("span.comment > span").first();
+        Element commentSpan = topRowElement.select("div.comment > span").first();
         if (commentSpan == null) {
             return "";
         }
