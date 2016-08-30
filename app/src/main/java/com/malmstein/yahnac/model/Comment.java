@@ -1,6 +1,7 @@
 package com.malmstein.yahnac.model;
 
 import android.database.Cursor;
+import android.text.Html;
 
 import com.malmstein.yahnac.data.HNewsContract;
 
@@ -41,6 +42,26 @@ public class Comment {
 
     public String getText() {
         return text;
+    }
+
+    /**
+     * Returns displayable styled comment text.
+     */
+    public CharSequence getStyledText() {
+        // First transform the HTML String into a styled CharSequence.
+        final CharSequence styledText = Html.fromHtml(getText());
+
+        // Now remove optional trailing newline characters.
+        int end = styledText.length();
+        while (end >= 0 && styledText.charAt(end - 1) == '\n') {
+            end--;
+        }
+
+        if (end != styledText.length()) {
+            return styledText.subSequence(0, end);
+        } else {
+            return styledText;
+        }
     }
 
     public int getLevel() {
