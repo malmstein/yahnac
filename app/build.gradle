@@ -32,25 +32,16 @@ android {
         }
     }
 
-    def props = new Properties()
-    props.load(new FileInputStream(rootProject.file("signing.properties")))
-    android.signingConfigs.release.storeFile file("$rootProject.projectDir/yahnac.jks")
-    android.signingConfigs.release.storePassword props.keyStorePassword
-    android.signingConfigs.release.keyAlias props.keyAlias
-    android.signingConfigs.release.keyPassword props.keyAliasPassword
-
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
-            signingConfig signingConfigs.release
             zipAlignEnabled true
         }
         release {
             debuggable false
             jniDebuggable false
             minifyEnabled false
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
