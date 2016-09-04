@@ -2,7 +2,6 @@ package com.malmstein.yahnac.comments;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +103,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         }
 
         public void bind(final Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener, String type) {
-            text.setText(Html.fromHtml(comment.getText()));
+            text.setText(comment.getStyledText());
             text.setMovementMethod(LinkMovementMethod.getInstance());
             if (comment.isHeader() || type.equals("ask")) {
                 comment_header.setVisibility(View.GONE);
@@ -155,7 +154,7 @@ public class CommentsAdapter extends CursorRecyclerAdapter<RecyclerView.ViewHold
         }
 
         public void bind(final Comment comment, LoginSharedPreferences loginSharedPreferences, final Listener listener) {
-            text.setText(Html.fromHtml(comment.getText()));
+            text.setText(comment.getStyledText());
             text.setMovementMethod(LinkMovementMethod.getInstance());
             author.setText(comment.getBy());
             when.setText(comment.getTimeText());
