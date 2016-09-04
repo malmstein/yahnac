@@ -2,12 +2,12 @@ package com.malmstein.yahnac.comments;
 
 import com.malmstein.yahnac.comments.parser.VoteUrlParser;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
+
+import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,10 +15,10 @@ import static org.junit.Assert.assertNotNull;
 public class VoteUrlParserTest {
 
     private static final String BASE_URI = "https://news.ycombinator.com/news";
-    private static final String VOTE_URL_STORY_SAMPLE = "/vote?for=9989667&dir=up&auth=d390b2aa5f729fbf4b6c8369ebb23dbc1c32304b&goto=item%3Fid%3D9989667";
+    private static final String VOTE_URL_STORY_SAMPLE = "/vote?id=12423794&how=up&auth=cc66a84d11061fa3d32103b4ad57e64f48b0ec7a&goto=item%3Fid%3D12423794";
     private static final String VOTE_URL_ASK_STORY_SAMPLE = "/vote?for=9996335&dir=up&auth=5fff39e5a097738db1aa4077319d1daf327c3399&goto=item%3Fid%3D9996335";
 
-    private final Long SAMPLE_STORY = Long.valueOf(9989667);
+    private final Long SAMPLE_STORY = Long.valueOf(12423794);
     private final Long SAMPLE_ASK_STORY = Long.valueOf(9996335);
 
     VoteUrlParser askStoryVoteUrlParser;
