@@ -27,11 +27,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    signingConfigs {
-        release {
-        }
-    }
-
     buildTypes {
         debug {
             debuggable true
