@@ -1,7 +1,7 @@
 package com.malmstein.yahnac.views.recyclerview.decorators;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 public class FeedRecyclerItemDecoration extends RecyclerView.ItemDecoration {

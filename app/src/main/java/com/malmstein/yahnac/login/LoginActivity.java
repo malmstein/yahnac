@@ -1,7 +1,7 @@
 package com.malmstein.yahnac.login;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;

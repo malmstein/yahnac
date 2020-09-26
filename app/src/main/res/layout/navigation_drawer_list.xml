@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.NavigationView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.navigation.NavigationView xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/nav_view"
   android:layout_height="match_parent"

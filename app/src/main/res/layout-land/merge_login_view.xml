@@ -39,32 +39,32 @@
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/dialog_login_content_padding_top">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
           app:hintTextAppearance="@style/TextAppearance.AppCompat">
 
-          <android.support.v7.widget.AppCompatEditText
+          <androidx.appcompat.widget.AppCompatEditText
             style="@style/HNews.Login.EditText.Username"
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
           app:hintTextAppearance="@style/TextAppearance.AppCompat">
 
-          <android.support.v7.widget.AppCompatEditText
+          <androidx.appcompat.widget.AppCompatEditText
             style="@style/HNews.Login.EditText.Password"
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
       </LinearLayout>
 

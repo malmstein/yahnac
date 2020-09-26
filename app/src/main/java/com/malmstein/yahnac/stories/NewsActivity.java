@@ -3,10 +3,10 @@ package com.malmstein.yahnac.stories;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 
 import com.google.android.gms.appinvite.AppInvite;

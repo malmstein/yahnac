@@ -1,7 +1,7 @@
 package com.malmstein.yahnac.views.drawer;
 
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 

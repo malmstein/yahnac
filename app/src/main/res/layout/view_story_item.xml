@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/HNews.Card"
     android:layout_height="wrap_content"
@@ -79,4 +79,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

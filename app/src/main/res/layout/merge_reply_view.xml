@@ -24,20 +24,20 @@
       android:paddingBottom="@dimen/login_scrolling_content_padding_bottom"
       android:animateLayoutChanges="true">
 
-      <android.support.design.widget.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/login_scrolling_content_padding_top"
         app:hintTextAppearance="@style/TextAppearance.AppCompat">
 
-        <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+        <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
           style="@style/HNews.Comments.EditText.Reply"
           android:id="@+id/reply_comment"
           android:inputType="textMultiLine"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" />
 
-      </android.support.design.widget.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

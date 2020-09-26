@@ -4,8 +4,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 
 import com.google.android.gms.appinvite.AppInvite;

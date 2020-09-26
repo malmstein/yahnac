@@ -39,32 +39,32 @@
         android:layout_marginBottom="@dimen/login_prompt_margin_bottom"
         android:layout_marginTop="@dimen/login_scrolling_content_padding_top" />
 
-      <android.support.design.widget.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/login_scrolling_content_padding_top"
         app:hintTextAppearance="@style/TextAppearance.AppCompat">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
           style="@style/HNews.Login.EditText.Username"
           android:id="@+id/login_username"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" />
 
-      </android.support.design.widget.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
 
-      <android.support.design.widget.TextInputLayout
+      <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:hintTextAppearance="@style/TextAppearance.AppCompat">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
           style="@style/HNews.Login.EditText.Password"
           android:layout_marginTop="@dimen/default_padding"
           android:id="@+id/login_password"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" />
-      </android.support.design.widget.TextInputLayout>
+      </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

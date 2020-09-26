@@ -1,17 +1,17 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/main_content"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <android.support.design.widget.AppBarLayout
+  <com.google.android.material.appbar.AppBarLayout
     android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/HNews.AppBar.Collapsing">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
@@ -25,7 +25,7 @@
       android:layout_height="match_parent"
       app:layout_scrollFlags="scroll|enterAlways" />
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
   <com.malmstein.yahnac.comments.CommentsView
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -45,7 +45,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom" />
 
-  <android.support.design.widget.FloatingActionButton
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/story_reply_action"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
@@ -56,4 +56,4 @@
     android:clickable="true"
     app:layout_behavior="com.malmstein.yahnac.comments.ScrollAwareFABBehavior" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

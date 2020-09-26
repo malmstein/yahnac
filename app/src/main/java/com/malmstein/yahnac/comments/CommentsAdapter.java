@@ -1,7 +1,7 @@
 package com.malmstein.yahnac.comments;
 
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -16,10 +16,11 @@ buildscript {
         maven {
             url 'https://maven.fabric.io/public'
         }
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
@@ -31,5 +32,6 @@ allprojects {
         maven {
             url "http://dl.bintray.com/novoda/maven"
         }
+        google()
     }
 }

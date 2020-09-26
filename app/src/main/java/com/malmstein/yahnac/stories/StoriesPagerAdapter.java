@@ -1,7 +1,7 @@
 package com.malmstein.yahnac.stories;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.malmstein.yahnac.BuildConfig;
 import com.malmstein.yahnac.views.recyclerview.adapter.TaggedFragmentStatePagerAdapter;

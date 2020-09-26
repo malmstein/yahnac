@@ -1,6 +1,6 @@
 package com.malmstein.yahnac.comments;
 
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 
 import com.malmstein.yahnac.R;
