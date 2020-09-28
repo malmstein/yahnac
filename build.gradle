@@ -2,9 +2,9 @@ ext {
     configuration = [
             package          : "com.malmstein.yahnac",
             buildToolsVersion: "23.0.3",
-            minSdk           : 16,
-            targetSdk        : 23,
-            compileSdk       : 23,
+            minSdk           : 26,
+            targetSdk        : 29,
+            compileSdk       : 29,
             versionCode      : 27,
             versionName      : "1.3.1"
     ]
